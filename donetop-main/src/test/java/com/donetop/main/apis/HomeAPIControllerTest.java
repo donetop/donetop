@@ -1,4 +1,4 @@
-package com.donetop.main.api;
+package com.donetop.main.apis;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,14 +9,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class TestControllerTest extends BaseTest {
+class HomeAPIControllerTest extends BaseTest {
 
 	@Test
-	@DisplayName("/test 요청")
-	void test() throws Exception {
-		mockMvc.perform( get("/test") )
-			.andDo( print() )
-			.andExpect( status().isOk() );
+	@DisplayName("home 화면 정상 응답 테스트")
+	void home() throws Exception {
+		mockMvc.perform(get("/home"))
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 
 }

@@ -23,12 +23,6 @@ subprojects {
         mavenCentral()
     }
 
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
-        }
-    }
-
     compileJava {
         sourceCompatibility = 11
         targetCompatibility = 11

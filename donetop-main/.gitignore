@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### resources ###
+src/resources/static/**
+src/resources/templates/**

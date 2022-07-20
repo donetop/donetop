@@ -1,9 +1,13 @@
 plugins {
     id 'war'
+
+    //https://github.com/node-gradle/gradle-node-plugin/blob/master/docs/usage.md
+    id "com.github.node-gradle.node" version "3.4.0"
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
 
@@ -15,3 +19,20 @@ test {
 }
 
 task prepareKotlinBuildScriptModel {}
+
+node {
+    download = true
+    version = '14.17.6'
+    npmVersion = '6.14.15'
+    distBaseUrl = 'https://nodejs.org/dist'
+    npmInstallCommand = 'install'
+    workDir = file('../.gradle/nodejs')
+    npmWorkDir = file('../.gradle/npm')
+    nodeProjectDir = file('./frontend')
+}
+
+task npmBuild(type: NpmTask, dependsOn: ['npmInstall']) {
+    args = ["run", "build"]
+}
+
+processResources.dependsOn 'npmBuild'
