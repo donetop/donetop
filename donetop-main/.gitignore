@@ -33,5 +33,5 @@ build/
 .vscode/
 
 ### resources ###
-src/resources/static/**
-src/resources/templates/**
+src/main/resources/static/
+src/main/resources/templates/
