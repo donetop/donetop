@@ -1,3 +1,4 @@
 rootProject.name = 'donetop'
 include 'donetop-main'
+include 'donetop-domain'
 

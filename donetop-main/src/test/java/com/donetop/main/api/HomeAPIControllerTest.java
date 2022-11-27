@@ -1,4 +1,4 @@
-package com.donetop.main.apis;
+package com.donetop.main.api;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
