@@ -1,4 +1,3 @@
 dependencies {
-	implementation project(':donetop-dto')
 	implementation project(':donetop-enum')
 }

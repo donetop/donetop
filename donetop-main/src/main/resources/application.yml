@@ -1,3 +1,24 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 10m
+
 spring:
+  profiles:
+    default: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/donetop
+    username: root
+    password: system
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     open-in-view: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+      format-sql: false
+      show-sql: true

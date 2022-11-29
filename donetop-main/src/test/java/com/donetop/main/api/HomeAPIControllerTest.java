@@ -1,9 +1,8 @@
 package com.donetop.main.api;
 
+import com.donetop.BaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.donetop.main.BaseTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

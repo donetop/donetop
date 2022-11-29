@@ -9,7 +9,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
+
+	implementation 'com.mysql:mysql-connector-j:8.0.31'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
+
+    implementation project(':donetop-domain')
+	implementation project(':donetop-dto')
+	implementation project(':donetop-enum')
 
     runtimeOnly 'com.h2database:h2'
 }

@@ -1,4 +1,4 @@
-package com.donetop.main;
+package com.donetop;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package com.donetop.domain.entity.draft;
+package com.donetop.enums.draft;
 
 public enum DraftStatus {
 	HOLDING,
