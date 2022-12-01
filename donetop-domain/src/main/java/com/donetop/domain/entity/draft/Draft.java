@@ -29,7 +29,7 @@ public class Draft implements Serializable {
 	@Column(nullable = false, columnDefinition = "int default 0")
 	private DraftStatus draftStatus = DraftStatus.HOLDING;
 
-	@Column(length = 512)
+	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
 	private String address;
 
 	@Column(nullable = false)
@@ -39,10 +39,14 @@ public class Draft implements Serializable {
 	@Column(nullable = false, columnDefinition = "int default 0")
 	private PaymentMethod paymentMethod = PaymentMethod.CASH;
 
-	@Column(length = 1024)
+	@Column(nullable = false, columnDefinition = "varchar(1024) default ''")
 	private String memo;
 
+	@Column(nullable = false)
 	private final LocalDateTime createTime = LocalDateTime.now();
+
+	@Column(nullable = false)
+	private LocalDateTime updateTime = LocalDateTime.now();
 
 	@Builder
 	public Draft(final String customerName, final String address, final long price, final String memo) {
@@ -52,33 +56,38 @@ public class Draft implements Serializable {
 		this.memo = memo;
 	}
 
-	public Draft changeCustomerName(final String customerName) {
-		this.customerName = customerName;
+	public Draft updateCustomerName(final String customerName) {
+		if (!this.customerName.equals(customerName)) this.customerName = customerName;
 		return this;
 	}
 
-	public Draft changeDraftStatus(final DraftStatus draftStatus) {
-		this.draftStatus = draftStatus;
+	public Draft updateDraftStatus(final DraftStatus draftStatus) {
+		if (!this.draftStatus.equals(draftStatus)) this.draftStatus = draftStatus;
 		return this;
 	}
 
-	public Draft changeAddress(final String address) {
-		this.address = address;
+	public Draft updateAddress(final String address) {
+		if (!this.address.equals(address)) this.address = address;
 		return this;
 	}
 
-	public Draft changePrice(final long price) {
-		this.price = price;
+	public Draft updatePrice(final long price) {
+		if (this.price != price) this.price = price;
 		return this;
 	}
 
-	public Draft changePaymentMethod(final PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
+	public Draft updatePaymentMethod(final PaymentMethod paymentMethod) {
+		if (!this.paymentMethod.equals(paymentMethod)) this.paymentMethod = paymentMethod;
 		return this;
 	}
 
-	public Draft changeMemo(final String memo) {
-		this.memo = memo;
+	public Draft updateMemo(final String memo) {
+		if (!this.memo.equals(memo)) this.memo = memo;
+		return this;
+	}
+
+	public Draft updateUpdateTime(final LocalDateTime localDateTime) {
+		this.updateTime = localDateTime;
 		return this;
 	}
 
@@ -92,6 +101,7 @@ public class Draft implements Serializable {
 		draftDTO.setPaymentMethod(this.paymentMethod);
 		draftDTO.setMemo(this.memo);
 		draftDTO.setCreateTime(this.createTime);
+		draftDTO.setUpdateTime(this.updateTime);
 		return draftDTO;
 	}
 }

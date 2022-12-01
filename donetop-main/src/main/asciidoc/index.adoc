@@ -1,0 +1,37 @@
+= Donetop Main Application API Documentation
+:toc: top
+:toclevels: 3
+
+== Create Draft
+
+=== request fields description
+include::{snippets}/create_withValidFields_return200/request-fields.adoc[]
+=== response fields description
+include::{snippets}/create_withValidFields_return200/response-fields.adoc[]
+
+=== Test Cases
+==== create_withNullCustomerName_return400
+.request
+include::{snippets}/create_withNullCustomerName_return400/http-request.adoc[]
+.response
+include::{snippets}/create_withNullCustomerName_return400/http-response.adoc[]
+
+==== create_withEmptyCustomerName_return400
+.request
+include::{snippets}/create_withEmptyCustomerName_return400/http-request.adoc[]
+.response
+include::{snippets}/create_withEmptyCustomerName_return400/http-response.adoc[]
+
+==== create_withLessThan1000Price_return400
+.request
+include::{snippets}/create_withLessThan1000Price_return400/http-request.adoc[]
+.response
+include::{snippets}/create_withLessThan1000Price_return400/http-response.adoc[]
+
+==== create_withValidFields_return200
+.request
+include::{snippets}/create_withValidFields_return200/http-request.adoc[]
+.response
+include::{snippets}/create_withValidFields_return200/http-response.adoc[]
+
+== Update Draft

@@ -1,8 +1,6 @@
 package com.donetop.main.api.common;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.donetop.main.api.common.Response.BadRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,21 +13,13 @@ import java.util.List;
 public class CommonExceptionHandler {
     
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Error<String>> handleException(final Exception e) {
-        return ResponseEntity.badRequest().body(new Error<>(e.getMessage()));
+    public ResponseEntity<BadRequest<String>> handleException(final Exception e) {
+        return ResponseEntity.badRequest().body(BadRequest.of(e.getMessage()));
     }
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<Error<List<ObjectError>>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
-		return ResponseEntity.badRequest().body(new Error<>(e.getAllErrors()));
+	public ResponseEntity<BadRequest<List<ObjectError>>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
+		return ResponseEntity.badRequest().body(BadRequest.of(e.getAllErrors()));
 	}
-
-    @RequiredArgsConstructor
-	@Getter @Setter
-    public static class Error<INFO> {
-
-        private final INFO info;
-
-    }
 
 }

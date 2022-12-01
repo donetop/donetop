@@ -2,3 +2,11 @@ dependencies {
 	implementation project(':donetop-dto')
 	implementation project(':donetop-enum')
 }
+
+bootJar {
+	enabled = false
+}
+
+jar {
+	enabled = true
+}

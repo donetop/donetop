@@ -2,12 +2,13 @@ package com.donetop.main.service.draft;
 
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
+import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.repository.draft.DraftRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -16,19 +17,29 @@ public class DraftServiceImpl implements DraftService {
 
 	private final DraftRepository draftRepository;
 
+	private final String UNKNOWN_DRAFT_MESSAGE = "존재하지 않는 시안(id: %s)입니다.";
+
 	@Override
 	public Draft createNewDraft(final DraftCreateRequest request) {
-		Draft draft = Draft.builder()
-			.customerName(request.getCustomerName())
-			.address(request.getAddress())
-			.price(request.getPrice())
-			.memo(request.getMemo())
-			.build();
-		return draftRepository.save(draft);
+		return draftRepository.save(request.toEntity());
 	}
 
 	@Override
-	public List<Draft> getAll() {
-		return draftRepository.findAll();
+	public Draft getDraft(final long id) {
+		return draftRepository.findById(id)
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+	}
+
+	@Override
+	public Page<Draft> getDraft(final PageRequest request) {
+		return draftRepository.findAll(request);
+	}
+
+	@Override
+	public Draft updateDraft(final DraftUpdateRequest request) {
+		final long id = request.getId();
+		final Draft draft = draftRepository.findById(id)
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		return request.applyTo(draft);
 	}
 }
