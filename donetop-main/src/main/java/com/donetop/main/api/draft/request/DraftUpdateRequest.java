@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class DraftUpdateRequest extends DraftCreateRequest {
 
-	@Min(value = 1L, message = "잘못된 ID 값입니다.")
+	@Min(value = 1L, message = "0보다 큰 id 값을 사용해야합니다.")
 	private long id;
 
 	@NotNull(message = "유효하지 않은 상태값입니다.")

@@ -17,7 +17,7 @@ public class DraftServiceImpl implements DraftService {
 
 	private final DraftRepository draftRepository;
 
-	private final String UNKNOWN_DRAFT_MESSAGE = "존재하지 않는 시안(id: %s)입니다.";
+	private final String UNKNOWN_DRAFT_MESSAGE = "존재하지 않는 시안입니다. id: %s";
 
 	@Override
 	public Draft createNewDraft(final DraftCreateRequest request) {

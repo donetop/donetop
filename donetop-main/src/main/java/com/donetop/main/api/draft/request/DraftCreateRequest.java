@@ -1,35 +1,29 @@
 package com.donetop.main.api.draft.request;
 
 import com.donetop.domain.entity.draft.Draft;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter @Setter
 @NoArgsConstructor
 public class DraftCreateRequest {
 
-	@NotEmpty(message = "Customer name shouldn't be empty.")
+	@NotEmpty(message = "고객명을 입력해주세요.")
 	private String customerName;
 
-	private String address = "";
+	@NotNull(message = "주소를 입력해주세요.")
+	private String address;
 
-	@Min(value = 1000L, message = "The minimum price is 1,000.")
+	@Min(value = 1000L, message = "최소 가격은 1,000원입니다.")
 	private long price;
 
-	private String memo = "";
-
-	@Builder
-	public DraftCreateRequest(final String customerName, final String address, final long price, final String memo) {
-		this.customerName = customerName;
-		this.address = address;
-		this.price = price;
-		this.memo = memo;
-	}
+	@NotNull(message = "메모를 입력해주세요.")
+	private String memo;
 
 	public Draft toEntity() {
 		return Draft.builder()
