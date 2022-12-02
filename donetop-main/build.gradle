@@ -50,7 +50,7 @@ processResources {
 asciidoctor {
 	dependsOn test
 	sourceDir 'src/main/asciidoc'
-	outputDir 'build/asciidoc'
+	outputDir 'src/main/resources/static/asciidoc'
 	attributes 'snippets': file('build/generated-snippets/')
 }
 
