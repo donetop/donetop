@@ -9,6 +9,8 @@ import com.donetop.main.service.draft.DraftService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
+import static org.springframework.data.domain.Sort.Direction.*;
 
 @RestController
 @RequestMapping(path = ROOT)
@@ -35,7 +38,13 @@ public class DraftAPIController {
 	}
 
 	@GetMapping
-	public ResponseEntity<OK<Page<DraftDTO>>> get(@RequestBody final PageRequest request) {
+	public ResponseEntity<OK<Page<DraftDTO>>> get(@RequestParam(value = "page", defaultValue = "0") final int page,
+												  @RequestParam(value = "size", defaultValue = "20") final int size,
+												  @RequestParam(value = "direction", defaultValue = "desc") final String direction,
+												  @RequestParam(value = "property", defaultValue = "createTime") final String property) {
+		final Order order = new Order(fromString(direction), property);
+		final Sort sort = Sort.by(order);
+		final PageRequest request = PageRequest.of(page, size, sort);
 		return ResponseEntity.ok(OK.of(draftService.getDraft(request).map(Draft::toDTO)));
 	}
 

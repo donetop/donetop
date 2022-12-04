@@ -3,7 +3,7 @@ package com.donetop.main.api.draft;
 import com.donetop.BaseTest;
 import com.donetop.repository.draft.DraftRepository;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,8 +24,8 @@ public class DraftCreateTest extends BaseTest {
 	@Autowired
 	private DraftRepository draftRepository;
 
-	@AfterEach
-	void afterEach() {
+	@AfterAll
+	void afterAll() {
 		draftRepository.deleteAll();
 	}
 
@@ -54,7 +54,7 @@ public class DraftCreateTest extends BaseTest {
 	}
 
 	@Test
-	void create_withInValidFieldValues_return400() throws Exception {
+	void create_withInvalidFieldValues_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject()
 			.put("customerName", "")
@@ -73,7 +73,7 @@ public class DraftCreateTest extends BaseTest {
 			.andDo(print())
 			.andDo(
 				document(
-					"draft_create/create_withInValidFieldValues_return400",
+					"draft_create/create_withInvalidFieldValues_return400",
 					preprocessRequest(prettyPrint()),
 					preprocessResponse(prettyPrint())
 				)

@@ -1,6 +1,9 @@
-= Donetop Main Application API Documentation
+:doctype:
+:doctype: shared
 :toc: top
 :toclevels: 3
+
+= Donetop Main Application API Documentation
 
 == Create Draft
 
@@ -16,11 +19,11 @@ include::{snippets}/draft_create/create_withEmptyBody_return400/http-request.ado
 .response
 include::{snippets}/draft_create/create_withEmptyBody_return400/http-response.adoc[]
 
-==== create_withInValidFieldValues_return400
+==== create_withInvalidFieldValues_return400
 .request
-include::{snippets}/draft_create/create_withInValidFieldValues_return400/http-request.adoc[]
+include::{snippets}/draft_create/create_withInvalidFieldValues_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_create/create_withInValidFieldValues_return400/http-response.adoc[]
+include::{snippets}/draft_create/create_withInvalidFieldValues_return400/http-response.adoc[]
 
 ==== create_withValidFieldValues_return200
 .request
@@ -34,11 +37,11 @@ include::{snippets}/draft_create/create_withValidFieldValues_return200/http-resp
 === <<response fields description>>
 
 === Test Cases
-==== update_withInValidFieldValues_return400
+==== update_withInvalidFieldValues_return400
 .request
-include::{snippets}/draft_update/update_withInValidFieldValues_return400/http-request.adoc[]
+include::{snippets}/draft_update/update_withInvalidFieldValues_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_update/update_withInValidFieldValues_return400/http-response.adoc[]
+include::{snippets}/draft_update/update_withInvalidFieldValues_return400/http-response.adoc[]
 
 ==== update_withUnknownId_return400
 .request
@@ -51,3 +54,64 @@ include::{snippets}/draft_update/update_withUnknownId_return400/http-response.ad
 include::{snippets}/draft_update/update_withValidFieldValues_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_update/update_withValidFieldValues_return200/http-response.adoc[]
+
+== Get One Draft
+
+=== request url description
+/drafts/\{draft_id\}
+
+=== Test Cases
+==== getOne_withInvalidId_return400
+.request
+include::{snippets}/draft_get/getOne_withInvalidId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getOne_withInvalidId_return400/http-response.adoc[]
+
+==== getOne_withValidId_return200
+.request
+include::{snippets}/draft_get/getOne_withValidId_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getOne_withValidId_return200/http-response.adoc[]
+
+== Get Multiple Draft
+
+=== request params description
+include::{snippets}/draft_get/getMultiple_withValidParams_return200/request-parameters.adoc[]
+.response
+
+=== Test Cases
+==== getMultiple_withInvalidPageValue_return400
+.request
+include::{snippets}/draft_get/getMultiple_withInvalidPageValue_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getMultiple_withInvalidPageValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidSizeValue_return400
+.request
+include::{snippets}/draft_get/getMultiple_withInvalidSizeValue_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getMultiple_withInvalidSizeValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidDirectionValue_return400
+.request
+include::{snippets}/draft_get/getMultiple_withInvalidDirectionValue_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getMultiple_withInvalidDirectionValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidPropertyValue_return400
+.request
+include::{snippets}/draft_get/getMultiple_withInvalidPropertyValue_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getMultiple_withInvalidPropertyValue_return400/http-response.adoc[]
+
+==== getMultiple_withValidParams_return200
+.request
+include::{snippets}/draft_get/getMultiple_withValidParams_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getMultiple_withValidParams_return200/http-response.adoc[]
+
+==== getMultiple_withoutParams_return200
+.request
+include::{snippets}/draft_get/getMultiple_withoutParams_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getMultiple_withoutParams_return200/http-response.adoc[]

@@ -6,7 +6,7 @@ import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.payment.PaymentMethod;
 import com.donetop.repository.draft.DraftRepository;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,13 +26,13 @@ public class DraftUpdateTest extends BaseTest {
 	@Autowired
 	private DraftRepository draftRepository;
 
-	@AfterEach
-	void afterEach() {
+	@AfterAll
+	void afterAll() {
 		draftRepository.deleteAll();
 	}
 
 	@Test
-	void update_withInValidFieldValues_return400() throws Exception {
+	void update_withInvalidFieldValues_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject()
 			.put("id", -1)
@@ -54,7 +54,7 @@ public class DraftUpdateTest extends BaseTest {
 			.andDo(print())
 			.andDo(
 				document(
-					"draft_update/update_withInValidFieldValues_return400",
+					"draft_update/update_withInvalidFieldValues_return400",
 					preprocessRequest(prettyPrint()),
 					preprocessResponse(prettyPrint())
 				)
