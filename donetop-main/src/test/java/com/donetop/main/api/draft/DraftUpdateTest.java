@@ -6,6 +6,7 @@ import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.payment.PaymentMethod;
 import com.donetop.repository.draft.DraftRepository;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +25,11 @@ public class DraftUpdateTest extends BaseTest {
 
 	@Autowired
 	private DraftRepository draftRepository;
+
+	@AfterEach
+	void afterEach() {
+		draftRepository.deleteAll();
+	}
 
 	@Test
 	void update_withInValidFieldValues_return400() throws Exception {

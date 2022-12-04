@@ -1,8 +1,11 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.BaseTest;
+import com.donetop.repository.draft.DraftRepository;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
@@ -17,6 +20,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class DraftCreateTest extends BaseTest {
+
+	@Autowired
+	private DraftRepository draftRepository;
+
+	@AfterEach
+	void afterEach() {
+		draftRepository.deleteAll();
+	}
 
 	@Test
 	void create_withEmptyBody_return400() throws Exception {

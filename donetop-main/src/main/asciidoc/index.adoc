@@ -4,11 +4,10 @@
 
 == Create Draft
 
-[#Create-Draft-request-fields-description]
 === request fields description
-include::{snippets}/draft_create/create_withValidFields_return200/request-fields.adoc[]
+include::{snippets}/draft_create/create_withValidFieldValues_return200/request-fields.adoc[]
 === response fields description
-include::{snippets}/draft_create/create_withValidFields_return200/response-fields.adoc[]
+include::{snippets}/draft_create/create_withValidFieldValues_return200/response-fields.adoc[]
 
 === Test Cases
 ==== create_withEmptyBody_return400
