@@ -30,22 +30,22 @@ public class DraftCreateTest extends BaseTest {
 	}
 
 	@Test
-	void create_withEmptyBody_return400() throws Exception {
+	void createOne_withEmptyBody_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
 
 		// when & then
 		mockMvc.perform(
-				post(ROOT)
+				post(SINGULAR)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.reason", hasSize(4)))
+			.andExpect(jsonPath("$.reason", hasSize(5)))
 			.andDo(print())
 			.andDo(
 				document(
-					"draft_create/create_withEmptyBody_return400",
+					"draft_create/createOne_withEmptyBody_return400",
 					preprocessRequest(prettyPrint()),
 					preprocessResponse(prettyPrint())
 				)
@@ -54,26 +54,27 @@ public class DraftCreateTest extends BaseTest {
 	}
 
 	@Test
-	void create_withInvalidFieldValues_return400() throws Exception {
+	void createOne_withInvalidFieldValues_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject()
 			.put("customerName", "")
 			.put("address", JSONObject.NULL)
 			.put("price", 0)
-			.put("memo", JSONObject.NULL);
+			.put("memo", JSONObject.NULL)
+			.put("password,", "");
 
 		// when & then
 		mockMvc.perform(
-				post(ROOT)
+				post(SINGULAR)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
 			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.reason", hasSize(4)))
+			.andExpect(jsonPath("$.reason", hasSize(5)))
 			.andDo(print())
 			.andDo(
 				document(
-					"draft_create/create_withInvalidFieldValues_return400",
+					"draft_create/createOne_withInvalidFieldValues_return400",
 					preprocessRequest(prettyPrint()),
 					preprocessResponse(prettyPrint())
 				)
@@ -82,17 +83,18 @@ public class DraftCreateTest extends BaseTest {
 	}
 
 	@Test
-	void create_withValidFieldValues_return200() throws Exception {
+	void createOne_withValidFieldValues_return200() throws Exception {
 		// given
 		final JSONObject body = new JSONObject()
 			.put("customerName", "jin")
 			.put("address", "my address")
 			.put("price", 1000)
-			.put("memo", "simple test");
+			.put("memo", "simple test")
+			.put("password", "my password");
 
 		// when & then
 		mockMvc.perform(
-				post(ROOT)
+				post(SINGULAR)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
@@ -100,28 +102,20 @@ public class DraftCreateTest extends BaseTest {
 			.andDo(print())
 			.andDo(
 				document(
-					"draft_create/create_withValidFieldValues_return200",
+					"draft_create/createOne_withValidFieldValues_return200",
 					preprocessRequest(prettyPrint()),
 					preprocessResponse(prettyPrint()),
 					requestFields(
 						fieldWithPath("customerName").type(STRING).description("This field shouldn't be empty."),
 						fieldWithPath("price").type(NUMBER).description("This field should be greater or equal than 1000."),
 						fieldWithPath("address").type(STRING).description("This field shouldn't be null."),
-						fieldWithPath("memo").type(STRING).description("This field shouldn't be null.")
+						fieldWithPath("memo").type(STRING).description("This field shouldn't be null."),
+						fieldWithPath("password").type(STRING).description("This field shouldn't be empty.")
 					),
 					responseFields(
 						fieldWithPath("status").type(STRING).description("Status value."),
 						fieldWithPath("code").type(NUMBER).description("Status code."),
-						fieldWithPath("data").type(OBJECT).description("Response data."),
-						fieldWithPath("data.id").type(NUMBER).description("This is auto generated id by server."),
-						fieldWithPath("data.customerName").description("The value that is sent by client."),
-						fieldWithPath("data.draftStatus").type(STRING).description("Default value is \"HOLDING\"."),
-						fieldWithPath("data.address").type(STRING).description("The value that is sent by client."),
-						fieldWithPath("data.price").description("The value that is sent by client."),
-						fieldWithPath("data.paymentMethod").type(STRING).description("Default value is \"CASH\"."),
-						fieldWithPath("data.memo").type(STRING).description("The value that is sent by client."),
-						fieldWithPath("data.createTime").type(STRING).description("Draft create time."),
-						fieldWithPath("data.updateTime").type(STRING).description("Draft update time.")
+						fieldWithPath("data").type(NUMBER).description("This is auto generated draft id.")
 					)
 				)
 			)

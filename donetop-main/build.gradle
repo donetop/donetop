@@ -4,6 +4,7 @@ plugins {
     //https://github.com/node-gradle/gradle-node-plugin/blob/master/docs/usage.md
     id "com.github.node-gradle.node" version "3.4.0"
 
+	//https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
@@ -52,6 +53,7 @@ asciidoctor {
 	sourceDir 'src/main/asciidoc'
 	outputDir 'src/main/resources/static/asciidoc'
 	attributes 'snippets': file('build/generated-snippets/')
+	baseDirFollowsSourceDir()
 }
 
 bootJar {

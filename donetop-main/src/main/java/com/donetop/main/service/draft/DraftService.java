@@ -10,7 +10,7 @@ public interface DraftService {
 
 	Draft createNewDraft(DraftCreateRequest request);
 
-	Draft updateDraft(DraftUpdateRequest request);
+	Draft updateDraft(long id, DraftUpdateRequest request);
 
 	Draft getDraft(long id);
 

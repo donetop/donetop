@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.donetop.main.api.draft.DraftAPIController.PATH.ROOT;
+import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,7 +40,8 @@ public class DraftGetTest extends BaseTest {
 				.customerName("jin" + i)
 				.price(1000 + i)
 				.address("address" + i)
-				.memo("memo" + i).build();
+				.memo("memo" + i)
+				.password("password" + i).build();
 			drafts.add(draft);
 		}
 		draftRepository.saveAll(drafts);
@@ -57,7 +59,7 @@ public class DraftGetTest extends BaseTest {
 
 	    // when & then
 		mockMvc.perform(
-				get(String.format("%s/%d", ROOT, id))
+				get(SINGULAR + "/{id}", id)
 			)
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.reason", containsString("존재하지 않는 시안입니다.")))
@@ -79,7 +81,7 @@ public class DraftGetTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				get(String.format("%s/%d", ROOT, lastDraft.getId()))
+				get(SINGULAR + "/{id}", lastDraft.getId())
 			)
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data.customerName", is(lastDraft.getCustomerName())))
@@ -93,7 +95,24 @@ public class DraftGetTest extends BaseTest {
 				document(
 					"draft_get/getOne_withValidId_return200",
 					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessResponse(prettyPrint()),
+					pathParameters(
+						parameterWithName("id").description("Draft id.")
+					),
+					responseFields(
+						fieldWithPath("status").type(STRING).description("Status value."),
+						fieldWithPath("code").type(NUMBER).description("Status code."),
+						fieldWithPath("data").type(OBJECT).description("Response data."),
+						fieldWithPath("data.id").type(NUMBER).description("Draft id."),
+						fieldWithPath("data.customerName").description("Draft customerName."),
+						fieldWithPath("data.draftStatus").type(STRING).description("Draft status."),
+						fieldWithPath("data.address").type(STRING).description("Draft address."),
+						fieldWithPath("data.price").description("Draft price."),
+						fieldWithPath("data.paymentMethod").type(STRING).description("Draft paymentMethod."),
+						fieldWithPath("data.memo").type(STRING).description("Draft memo."),
+						fieldWithPath("data.createTime").type(STRING).description("Draft create time."),
+						fieldWithPath("data.updateTime").type(STRING).description("Draft update time.")
+					)
 				)
 			)
 		;
@@ -107,7 +126,7 @@ public class DraftGetTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				get(ROOT).params(params)
+				get(PLURAL).params(params)
 			)
 			.andExpect(status().isBadRequest())
 			.andDo(print())
@@ -129,7 +148,7 @@ public class DraftGetTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				get(ROOT).params(params)
+				get(PLURAL).params(params)
 			)
 			.andExpect(status().isBadRequest())
 			.andDo(print())
@@ -151,7 +170,7 @@ public class DraftGetTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				get(ROOT).params(params)
+				get(PLURAL).params(params)
 			)
 			.andExpect(status().isBadRequest())
 			.andDo(print())
@@ -173,7 +192,7 @@ public class DraftGetTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				get(ROOT).params(params)
+				get(PLURAL).params(params)
 			)
 			.andExpect(status().isBadRequest())
 			.andDo(print())
@@ -198,7 +217,7 @@ public class DraftGetTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				get(ROOT).params(params)
+				get(PLURAL).params(params)
 			)
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data.content", hasSize(5)))
@@ -216,6 +235,22 @@ public class DraftGetTest extends BaseTest {
 						parameterWithName("size").description("The size to retrieve. Default is 20."),
 						parameterWithName("property").description("The property for sorting. Default is \"createTime\"."),
 						parameterWithName("direction").description("The direction of property. Default is \"desc\".")
+					),
+					responseFields(
+						fieldWithPath("status").type(STRING).description("Status value."),
+						fieldWithPath("code").type(NUMBER).description("Status code."),
+						fieldWithPath("data").type(OBJECT).description("Response data."),
+						subsectionWithPath("data.content").type(ARRAY).description("Searched Drafts. See the Get One Draft response body field description for details."),
+						subsectionWithPath("data.pageable").type(OBJECT).description("Pageable information."),
+						fieldWithPath("data.last").type(BOOLEAN).description("Last information."),
+						fieldWithPath("data.totalElements").type(NUMBER).description("TotalElements information."),
+						fieldWithPath("data.totalPages").type(NUMBER).description("TotalPages information."),
+						fieldWithPath("data.size").type(NUMBER).description("Size information."),
+						fieldWithPath("data.number").type(NUMBER).description("Number information."),
+						subsectionWithPath("data.sort").type(OBJECT).description("Sort information."),
+						fieldWithPath("data.first").type(BOOLEAN).description("First information."),
+						fieldWithPath("data.numberOfElements").type(NUMBER).description("NumberOfElements information."),
+						fieldWithPath("data.empty").type(BOOLEAN).description("Empty information.")
 					)
 				)
 			)
@@ -228,7 +263,7 @@ public class DraftGetTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				get(ROOT)
+				get(PLURAL)
 			)
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data.content", hasSize(20)))

@@ -42,6 +42,9 @@ public class Draft implements Serializable {
 	@Column(nullable = false, columnDefinition = "varchar(1024) default ''")
 	private String memo;
 
+	@Column(nullable = false, columnDefinition = "varchar(1024) default ''")
+	private String password;
+
 	@Column(nullable = false)
 	private final LocalDateTime createTime = LocalDateTime.now();
 
@@ -49,11 +52,12 @@ public class Draft implements Serializable {
 	private LocalDateTime updateTime = LocalDateTime.now();
 
 	@Builder
-	public Draft(final String customerName, final String address, final long price, final String memo) {
+	public Draft(final String customerName, final String address, final long price, final String memo, final String password) {
 		this.customerName = customerName;
 		this.address = address;
 		this.price = price;
 		this.memo = memo;
+		this.password = password;
 	}
 
 	public Draft updateCustomerName(final String customerName) {
@@ -83,6 +87,11 @@ public class Draft implements Serializable {
 
 	public Draft updateMemo(final String memo) {
 		if (!this.memo.equals(memo)) this.memo = memo;
+		return this;
+	}
+
+	public Draft updatePassword(final String password) {
+		if (!this.password.equals(password)) this.password = password;
 		return this;
 	}
 

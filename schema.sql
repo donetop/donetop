@@ -2,6 +2,8 @@ show databases;
 
 use `donetop`;
 
+-- drop database if exists `donetop`;
+
 show tables;
 
 select * from `tbDraft`;

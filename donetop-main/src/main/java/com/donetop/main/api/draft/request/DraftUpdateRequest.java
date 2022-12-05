@@ -7,14 +7,27 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class DraftUpdateRequest extends DraftCreateRequest {
+public class DraftUpdateRequest {
 
-	@Min(value = 1L, message = "0보다 큰 id 값을 사용해야합니다.")
-	private long id;
+	@NotEmpty(message = "고객명을 입력해주세요.")
+	private String customerName;
+
+	@NotNull(message = "주소를 입력해주세요.")
+	private String address;
+
+	@Min(value = 1000L, message = "최소 가격은 1,000원입니다.")
+	private long price;
+
+	@NotNull(message = "메모를 입력해주세요.")
+	private String memo;
+
+	@NotEmpty(message = "비밀번호를 입력해주세요.")
+	private String password;
 
 	@NotNull(message = "유효하지 않은 상태값입니다.")
 	private DraftStatus draftStatus;
@@ -24,12 +37,13 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 
 	public Draft applyTo(final Draft draft) {
 		return draft
-			.updateCustomerName(this.getCustomerName())
-			.updateDraftStatus(this.getDraftStatus())
-			.updateAddress(this.getAddress())
-			.updatePrice(this.getPrice())
-			.updatePaymentMethod(this.getPaymentMethod())
-			.updateMemo(this.getMemo())
+			.updateCustomerName(this.customerName)
+			.updateDraftStatus(this.draftStatus)
+			.updateAddress(this.address)
+			.updatePrice(this.price)
+			.updatePaymentMethod(this.paymentMethod)
+			.updateMemo(this.memo)
+			.updatePassword(this.password)
 			.updateUpdateTime(LocalDateTime.now());
 	}
 }

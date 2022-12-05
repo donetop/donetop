@@ -17,27 +17,28 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
+import static com.donetop.main.api.draft.DraftAPIController.PATH.PLURAL;
+import static com.donetop.main.api.draft.DraftAPIController.PATH.SINGULAR;
 import static org.springframework.data.domain.Sort.Direction.*;
 
 @RestController
-@RequestMapping(path = ROOT)
 @Validated
 @RequiredArgsConstructor
 public class DraftAPIController {
 
 	public static class PATH {
-		public static final String ROOT = "/drafts";
+		public static final String PLURAL = "/drafts";
+		public static final String SINGULAR = "/draft";
 	}
 
 	private final DraftService draftService;
 
-	@PostMapping
-	public ResponseEntity<OK<DraftDTO>> create(@Valid @RequestBody final DraftCreateRequest request) {
-		return ResponseEntity.ok(OK.of(draftService.createNewDraft(request).toDTO()));
+	@PostMapping(value = SINGULAR)
+	public ResponseEntity<OK<Long>> create(@Valid @RequestBody final DraftCreateRequest request) {
+		return ResponseEntity.ok(OK.of(draftService.createNewDraft(request).getId()));
 	}
 
-	@GetMapping
+	@GetMapping(value = PLURAL)
 	public ResponseEntity<OK<Page<DraftDTO>>> get(@RequestParam(value = "page", defaultValue = "0") final int page,
 												  @RequestParam(value = "size", defaultValue = "20") final int size,
 												  @RequestParam(value = "direction", defaultValue = "desc") final String direction,
@@ -48,14 +49,15 @@ public class DraftAPIController {
 		return ResponseEntity.ok(OK.of(draftService.getDraft(request).map(Draft::toDTO)));
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping(SINGULAR + "/{id}")
 	public ResponseEntity<OK<DraftDTO>> get(@PathVariable("id") final long id) {
 		return ResponseEntity.ok(OK.of(draftService.getDraft(id).toDTO()));
 	}
 
-	@PutMapping
-	public ResponseEntity<OK<DraftDTO>> update(@Valid @RequestBody final DraftUpdateRequest request) {
-		return ResponseEntity.ok(OK.of(draftService.updateDraft(request).toDTO()));
+	@PutMapping(SINGULAR + "/{id}")
+	public ResponseEntity<OK<Long>> update(@PathVariable("id") final long id,
+										   @Valid @RequestBody final DraftUpdateRequest request) {
+		return ResponseEntity.ok(OK.of(draftService.updateDraft(id, request).getId()));
 	}
 
 }

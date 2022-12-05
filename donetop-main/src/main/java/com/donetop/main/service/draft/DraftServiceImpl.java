@@ -36,8 +36,7 @@ public class DraftServiceImpl implements DraftService {
 	}
 
 	@Override
-	public Draft updateDraft(final DraftUpdateRequest request) {
-		final long id = request.getId();
+	public Draft updateDraft(final long id, final DraftUpdateRequest request) {
 		final Draft draft = draftRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
 		return request.applyTo(draft);

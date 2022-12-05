@@ -2,7 +2,6 @@ package com.donetop.main.api.draft.request;
 
 import com.donetop.domain.entity.draft.Draft;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
@@ -10,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter @Setter
-@NoArgsConstructor
 public class DraftCreateRequest {
 
 	@NotEmpty(message = "고객명을 입력해주세요.")
@@ -25,11 +23,15 @@ public class DraftCreateRequest {
 	@NotNull(message = "메모를 입력해주세요.")
 	private String memo;
 
+	@NotEmpty(message = "비밀번호를 입력해주세요.")
+	private String password;
+
 	public Draft toEntity() {
 		return Draft.builder()
 			.customerName(this.customerName)
 			.address(this.address)
 			.price(this.price)
-			.memo(this.memo).build();
+			.memo(this.memo)
+			.password(this.password).build();
 	}
 }
