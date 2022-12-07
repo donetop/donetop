@@ -40,8 +40,9 @@ node {
     nodeProjectDir = file('./frontend')
 }
 
-task npmBuild(type: NpmTask, dependsOn: ['npmInstall']) {
-    args = ["run", "build"]
+tasks.register('npmBuild', NpmTask) {
+	dependsOn npmInstall
+	args = ["run", "build"]
 }
 
 processResources {
@@ -56,9 +57,18 @@ asciidoctor {
 	baseDirFollowsSourceDir()
 }
 
+tasks.register('copyAsciidoctorHtmls', Copy) {
+	from ("${asciidoctor.outputDir}") {
+		include "*.html"
+	}
+	destinationDir file('build/resources/main/static/asciidoc')
+}
+
 bootJar {
 	dependsOn asciidoctor
-	from ("${asciidoctor.outputDir}/index.html") {
+	dependsOn copyAsciidoctorHtmls
+	from ("${asciidoctor.outputDir}") {
+		include "*.html"
 		into '/BOOT-INF/classes/static/asciidoc'
 	}
 }

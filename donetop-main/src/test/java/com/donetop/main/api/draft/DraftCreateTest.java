@@ -46,8 +46,8 @@ public class DraftCreateTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_create/createOne_withEmptyBody_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -75,8 +75,8 @@ public class DraftCreateTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_create/createOne_withInvalidFieldValues_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -103,8 +103,8 @@ public class DraftCreateTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_create/createOne_withValidFieldValues_return200",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint()),
+					preprocessRequest(),
+					preprocessResponse(),
 					requestFields(
 						fieldWithPath("customerName").type(STRING).description("This field shouldn't be empty."),
 						fieldWithPath("price").type(NUMBER).description("This field should be greater or equal than 1000."),

@@ -17,11 +17,11 @@ import java.util.Objects;
 import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,8 +67,8 @@ public class DraftGetTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_get/getOne_withInvalidId_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -94,11 +94,8 @@ public class DraftGetTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_get/getOne_withValidId_return200",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint()),
-					pathParameters(
-						parameterWithName("id").description("Draft id.")
-					),
+					preprocessRequest(),
+					preprocessResponse(),
 					responseFields(
 						fieldWithPath("status").type(STRING).description("Status value."),
 						fieldWithPath("code").type(NUMBER).description("Status code."),
@@ -133,8 +130,8 @@ public class DraftGetTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_get/getMultiple_withInvalidPageValue_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -155,8 +152,8 @@ public class DraftGetTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_get/getMultiple_withInvalidSizeValue_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -177,8 +174,8 @@ public class DraftGetTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_get/getMultiple_withInvalidDirectionValue_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -199,8 +196,8 @@ public class DraftGetTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_get/getMultiple_withInvalidPropertyValue_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -228,8 +225,8 @@ public class DraftGetTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_get/getMultiple_withValidParams_return200",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint()),
+					preprocessRequest(),
+					preprocessResponse(),
 					requestParameters(
 						parameterWithName("page").description("The page to retrieve. Default is 0."),
 						parameterWithName("size").description("The size to retrieve. Default is 20."),
@@ -272,8 +269,8 @@ public class DraftGetTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_get/getMultiple_withoutParams_return200",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;

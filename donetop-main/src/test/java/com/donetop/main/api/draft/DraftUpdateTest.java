@@ -15,7 +15,6 @@ import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -48,7 +47,7 @@ public class DraftUpdateTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				put(SINGULAR + "/1")
+				put(SINGULAR + "/{id}", 1)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
@@ -58,8 +57,8 @@ public class DraftUpdateTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_update/updateOne_withInvalidFieldValues_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -79,7 +78,7 @@ public class DraftUpdateTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				put(SINGULAR + "/-1")
+				put(SINGULAR + "/{id}", -1)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
@@ -89,8 +88,8 @@ public class DraftUpdateTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_update/updateOne_withUnknownId_return400",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint())
+					preprocessRequest(),
+					preprocessResponse()
 				)
 			)
 		;
@@ -118,7 +117,7 @@ public class DraftUpdateTest extends BaseTest {
 
 		// when & then
 		mockMvc.perform(
-				put(SINGULAR + "/" + draft.getId())
+				put(SINGULAR + "/{id}", draft.getId())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
@@ -128,8 +127,8 @@ public class DraftUpdateTest extends BaseTest {
 			.andDo(
 				document(
 					"draft_update/updateOne_withValidFieldValues_return200",
-					preprocessRequest(prettyPrint()),
-					preprocessResponse(prettyPrint()),
+					preprocessRequest(),
+					preprocessResponse(),
 					requestFields(
 						fieldWithPath("customerName").type(STRING).description("This field shouldn't be empty."),
 						fieldWithPath("price").type(NUMBER).description("This field should be greater or equal than 1000."),
