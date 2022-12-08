@@ -1,15 +1,16 @@
 package com.donetop.main.api.draft;
 
-import com.donetop.BaseTest;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.payment.PaymentMethod;
+import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.repository.draft.DraftRepository;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
 import static org.hamcrest.Matchers.*;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DraftUpdateTest extends BaseTest {
+public class DraftUpdateTest extends IntegrationBase {
 
 	@Autowired
 	private DraftRepository draftRepository;
@@ -45,15 +46,19 @@ public class DraftUpdateTest extends BaseTest {
 			.put("memo", JSONObject.NULL)
 			.put("password", "");
 
-		// when & then
-		mockMvc.perform(
+		// when
+		final ResultActions resultActions = mockMvc.perform(
 				put(SINGULAR + "/{id}", 1)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
+			.andDo(print())
+		;
+
+		// then
+		resultActions
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.reason", hasSize(7)))
-			.andDo(print())
 			.andDo(
 				document(
 					"draft_update/updateOne_withInvalidFieldValues_return400",
@@ -76,15 +81,19 @@ public class DraftUpdateTest extends BaseTest {
 			.put("memo", "new memo")
 			.put("password", "new password");
 
-		// when & then
-		mockMvc.perform(
-				put(SINGULAR + "/{id}", -1)
+		// when
+		final ResultActions resultActions = mockMvc.perform(
+				put(SINGULAR + "/{id}", 100)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
+			.andDo(print())
+		;
+
+		// then
+		resultActions
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.reason", containsString("존재하지 않는 시안입니다.")))
-			.andDo(print())
 			.andDo(
 				document(
 					"draft_update/updateOne_withUnknownId_return400",
@@ -115,15 +124,19 @@ public class DraftUpdateTest extends BaseTest {
 			.put("memo", "new memo")
 			.put("password", "new password");
 
-		// when & then
-		mockMvc.perform(
+		// when
+		final ResultActions resultActions = mockMvc.perform(
 				put(SINGULAR + "/{id}", draft.getId())
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
+			.andDo(print())
+		;
+
+		// then
+		resultActions
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.data", is(Integer.valueOf(String.valueOf(draft.getId())))))
-			.andDo(print())
 			.andDo(
 				document(
 					"draft_update/updateOne_withValidFieldValues_return200",
@@ -141,7 +154,7 @@ public class DraftUpdateTest extends BaseTest {
 					responseFields(
 						fieldWithPath("status").type(STRING).description("Status value."),
 						fieldWithPath("code").type(NUMBER).description("Status code."),
-						fieldWithPath("data").type(NUMBER).description("This is original draft id.")
+						fieldWithPath("data").type(NUMBER).description("This is the original draft id.")
 					)
 				)
 			)

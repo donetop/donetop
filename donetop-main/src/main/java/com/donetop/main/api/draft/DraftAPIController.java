@@ -1,6 +1,5 @@
 package com.donetop.main.api.draft;
 
-import com.donetop.domain.entity.draft.Draft;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.common.Response.OK;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
@@ -35,7 +34,7 @@ public class DraftAPIController {
 
 	@PostMapping(value = SINGULAR)
 	public ResponseEntity<OK<Long>> create(@Valid @RequestBody final DraftCreateRequest request) {
-		return ResponseEntity.ok(OK.of(draftService.createNewDraft(request).getId()));
+		return ResponseEntity.ok(OK.of(draftService.createNewDraft(request)));
 	}
 
 	@GetMapping(value = PLURAL)
@@ -46,18 +45,18 @@ public class DraftAPIController {
 		final Order order = new Order(fromString(direction), property);
 		final Sort sort = Sort.by(order);
 		final PageRequest request = PageRequest.of(page, size, sort);
-		return ResponseEntity.ok(OK.of(draftService.getDraft(request).map(Draft::toDTO)));
+		return ResponseEntity.ok(OK.of(draftService.getDraft(request)));
 	}
 
 	@GetMapping(SINGULAR + "/{id}")
 	public ResponseEntity<OK<DraftDTO>> get(@PathVariable("id") final long id) {
-		return ResponseEntity.ok(OK.of(draftService.getDraft(id).toDTO()));
+		return ResponseEntity.ok(OK.of(draftService.getDraft(id)));
 	}
 
 	@PutMapping(SINGULAR + "/{id}")
 	public ResponseEntity<OK<Long>> update(@PathVariable("id") final long id,
 										   @Valid @RequestBody final DraftUpdateRequest request) {
-		return ResponseEntity.ok(OK.of(draftService.updateDraft(id, request).getId()));
+		return ResponseEntity.ok(OK.of(draftService.updateDraft(id, request)));
 	}
 
 }

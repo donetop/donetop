@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class Draft implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, updatable = false)
@@ -46,7 +46,7 @@ public class Draft implements Serializable {
 	private String password;
 
 	@Column(nullable = false)
-	private final LocalDateTime createTime = LocalDateTime.now();
+	private LocalDateTime createTime = LocalDateTime.now();
 
 	@Column(nullable = false)
 	private LocalDateTime updateTime = LocalDateTime.now();
@@ -58,6 +58,16 @@ public class Draft implements Serializable {
 		this.price = price;
 		this.memo = memo;
 		this.password = password;
+	}
+
+	// This constructor should be only used for test.
+	@Builder(builderMethodName = "testBuilder", builderClassName = "DraftTestBuilder")
+	public Draft(final String customerName, final String address, final long price, final String memo, final String password,
+				 final long id, final LocalDateTime createTime, final LocalDateTime updateTime) {
+		this(customerName, address, price, memo, password);
+		this.id = id;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
 	}
 
 	public Draft updateCustomerName(final String customerName) {

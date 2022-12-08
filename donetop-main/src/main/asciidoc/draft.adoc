@@ -93,7 +93,7 @@ include::{snippets}/draft_get/getOne_withValidId_return200/http-response.adoc[]
 === Get Multiple Draft
 
 Http Method : *GET* +
-Path : */drafts?page=0,size=20,property=createTime,direction=desc*
+Path : */drafts?page=\{int\}&size=\{int\}&property=\{draft_property\}&direction=\{asc_or_desc\}*
 
 ==== Request parameters description
 include::{snippets}/draft_get/getMultiple_withValidParams_return200/request-parameters.adoc[]

@@ -1,12 +1,13 @@
 package com.donetop.main.api.draft;
 
-import com.donetop.BaseTest;
+import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.repository.draft.DraftRepository;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
 import static org.hamcrest.Matchers.hasSize;
@@ -19,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class DraftCreateTest extends BaseTest {
+public class DraftCreateTest extends IntegrationBase {
 
 	@Autowired
 	private DraftRepository draftRepository;
@@ -34,15 +35,19 @@ public class DraftCreateTest extends BaseTest {
 		// given
 		final JSONObject body = new JSONObject();
 
-		// when & then
-		mockMvc.perform(
+		// when
+		final ResultActions resultActions = mockMvc.perform(
 				post(SINGULAR)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
+			.andDo(print())
+		;
+
+		// then
+		resultActions
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.reason", hasSize(5)))
-			.andDo(print())
 			.andDo(
 				document(
 					"draft_create/createOne_withEmptyBody_return400",
@@ -63,15 +68,19 @@ public class DraftCreateTest extends BaseTest {
 			.put("memo", JSONObject.NULL)
 			.put("password,", "");
 
-		// when & then
-		mockMvc.perform(
+		// when
+		final ResultActions resultActions = mockMvc.perform(
 				post(SINGULAR)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
+			.andDo(print())
+		;
+
+		// then
+		resultActions
 			.andExpect(status().isBadRequest())
 			.andExpect(jsonPath("$.reason", hasSize(5)))
-			.andDo(print())
 			.andDo(
 				document(
 					"draft_create/createOne_withInvalidFieldValues_return400",
@@ -92,14 +101,18 @@ public class DraftCreateTest extends BaseTest {
 			.put("memo", "simple test")
 			.put("password", "my password");
 
-		// when & then
-		mockMvc.perform(
+		// when
+		final ResultActions resultActions = mockMvc.perform(
 				post(SINGULAR)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(body.toString())
 			)
-			.andExpect(status().isOk())
 			.andDo(print())
+		;
+
+		// then
+		resultActions
+			.andExpect(status().isOk())
 			.andDo(
 				document(
 					"draft_create/createOne_withValidFieldValues_return200",
