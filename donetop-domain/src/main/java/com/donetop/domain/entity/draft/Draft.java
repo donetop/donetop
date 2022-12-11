@@ -1,5 +1,6 @@
 package com.donetop.domain.entity.draft;
 
+import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.payment.PaymentMethod;
@@ -50,6 +51,10 @@ public class Draft implements Serializable {
 
 	@Column(nullable = false)
 	private LocalDateTime updateTime = LocalDateTime.now();
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "folderId")
+	private Folder folder;
 
 	@Builder
 	public Draft(final String customerName, final String address, final long price, final String memo, final String password) {
@@ -108,6 +113,10 @@ public class Draft implements Serializable {
 	public Draft updateUpdateTime(final LocalDateTime localDateTime) {
 		this.updateTime = localDateTime;
 		return this;
+	}
+
+	public void addFolder(final Folder folder) {
+		this.folder = folder;
 	}
 
 	public DraftDTO toDTO() {

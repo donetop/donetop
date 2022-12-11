@@ -1,4 +1,9 @@
 dependencies {
+
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
+
+	runtimeOnly 'com.h2database:h2'
+
 	implementation project(':donetop-dto')
 	implementation project(':donetop-enum')
 }

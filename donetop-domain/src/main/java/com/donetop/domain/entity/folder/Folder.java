@@ -1,0 +1,46 @@
+package com.donetop.domain.entity.folder;
+
+import com.donetop.domain.entity.file.File;
+import com.donetop.enums.folder.FolderType;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Entity
+@Table(name = "tbFolder")
+@Getter
+@NoArgsConstructor
+public class Folder {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false, updatable = false)
+	private long id;
+
+	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
+	private String path;
+
+	@Enumerated(value = EnumType.STRING)
+	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
+	private FolderType folderType;
+
+	@OneToMany(mappedBy = "folder", cascade = CascadeType.REMOVE)
+	private final Set<File> files = new HashSet<>();
+
+	@Builder
+	public Folder(final String path, final FolderType folderType) {
+		this.path = path;
+		this.folderType = folderType;
+	}
+
+	public void addFile(final File... files) {
+		this.files.addAll(List.of(files));
+		for (final File file : files) file.setFolder(this);
+	}
+
+}
