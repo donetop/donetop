@@ -4,7 +4,7 @@ import com.donetop.main.api.common.Response.BadRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -20,8 +20,8 @@ public class CommonExceptionHandler {
         return ResponseEntity.badRequest().body(BadRequest.of(e.getMessage()));
     }
 
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<BadRequest<String[]>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException e) {
+	@ExceptionHandler(BindException.class)
+	public ResponseEntity<BadRequest<String[]>> handleBindException(final BindException e) {
 		final String[] defaultErrorMessages = e.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).toArray(String[]::new);
 		log.warn("Error occurred. messages : {}", Arrays.toString(defaultErrorMessages));
 		return ResponseEntity.badRequest().body(BadRequest.of(defaultErrorMessages));

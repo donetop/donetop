@@ -2,6 +2,7 @@ package com.donetop.main.service.storage;
 
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.enums.folder.FolderType;
+import com.donetop.main.common.TestFileUtil;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -12,19 +13,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.FileSystemUtils;
 
 import java.io.*;
-import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.anyCollection;
@@ -82,7 +79,7 @@ class LocalStorageServiceTest {
 	@Test
 	void save_filesAtDST_shouldExist() {
 		// given
-		final List<Resource> resources = readResources();
+		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()
 			.folderType(FolderType.DRAFT)
 			.path(dst)
@@ -98,7 +95,7 @@ class LocalStorageServiceTest {
 	@Test
 	void delete_file_shouldBeRemoved() {
 		// given
-		final List<Resource> resources = readResources();
+		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()
 			.folderType(FolderType.DRAFT)
 			.path(dst)
@@ -117,7 +114,7 @@ class LocalStorageServiceTest {
 	@Test
 	void delete_folder_shouldBeRemoved() {
 		// given
-		final List<Resource> resources = readResources();
+		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()
 			.folderType(FolderType.DRAFT)
 			.path(dst)
@@ -130,22 +127,6 @@ class LocalStorageServiceTest {
 		// then
 		assertThat(deleteResult).isTrue();
 		assertThat(Path.of(dst).toFile().exists()).isFalse();
-	}
-
-	private List<Resource> readResources() {
-		return Arrays.stream(Objects.requireNonNull(Path.of(src).toFile().listFiles()))
-			.map(file -> {
-				final String fileName = file.getName();
-				final String originalFileName = fileName.substring(0, fileName.lastIndexOf("."));
-				final String mimeType = URLConnection.guessContentTypeFromName(fileName);
-				try (InputStream inputStream = new FileInputStream(file)) {
-					return new MockMultipartFile(fileName, originalFileName, mimeType, inputStream);
-				} catch (final Exception e) {
-					throw new RuntimeException(e);
-				}
-			})
-			.map(LocalResource::new)
-			.collect(Collectors.toList());
 	}
 
 }

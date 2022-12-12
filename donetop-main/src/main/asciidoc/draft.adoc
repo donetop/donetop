@@ -12,29 +12,35 @@
 Http Method : *POST* +
 Path : */draft*
 
-==== Request body fields description
-include::{snippets}/draft_create/createOne_withValidFieldValues_return200/request-fields.adoc[]
+==== Request parameters description
+include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/request-parameters.adoc[]
 ==== Response body fields description
-include::{snippets}/draft_create/createOne_withValidFieldValues_return200/response-fields.adoc[]
+include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/response-fields.adoc[]
 
 ==== Examples
-===== createOne_withEmptyBody_return400
+===== createOne_withoutParams_return400
 .request
-include::{snippets}/draft_create/createOne_withEmptyBody_return400/http-request.adoc[]
+include::{snippets}/draft_create/createOne_withoutParams_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_create/createOne_withEmptyBody_return400/http-response.adoc[]
+include::{snippets}/draft_create/createOne_withoutParams_return400/http-response.adoc[]
 
-===== createOne_withInvalidFieldValues_return400
+===== createOne_withInvalidParams_return400
 .request
-include::{snippets}/draft_create/createOne_withInvalidFieldValues_return400/http-request.adoc[]
+include::{snippets}/draft_create/createOne_withInvalidParams_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_create/createOne_withInvalidFieldValues_return400/http-response.adoc[]
+include::{snippets}/draft_create/createOne_withInvalidParams_return400/http-response.adoc[]
 
-===== createOne_withValidFieldValues_return200
+===== createOne_withValidParamsAndWithoutFiles_return200
 .request
-include::{snippets}/draft_create/createOne_withValidFieldValues_return200/http-request.adoc[]
+include::{snippets}/draft_create/createOne_withValidParamsAndWithoutFiles_return200/http-request.adoc[]
 .response
-include::{snippets}/draft_create/createOne_withValidFieldValues_return200/http-response.adoc[]
+include::{snippets}/draft_create/createOne_withValidParamsAndWithoutFiles_return200/http-response.adoc[]
+
+===== createOne_withValidParamsAndFiles_return200
+.request
+include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/httpie-request.adoc[]
+.response
+include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/http-response.adoc[]
 
 === Update One Draft
 

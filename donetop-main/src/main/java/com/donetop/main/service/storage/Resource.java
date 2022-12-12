@@ -6,6 +6,8 @@ import com.donetop.enums.file.Extension;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
+
 @Getter
 public abstract class Resource {
 
@@ -13,20 +15,24 @@ public abstract class Resource {
 
 	protected final String originalFilename;
 
+	protected final String filenameWithoutExtension;
+
 	protected final String contentType;
 
 	protected final Extension extension;
 
 	protected Resource(final MultipartFile multipartFile) {
 		this.multipartFile = multipartFile;
-		this.originalFilename = multipartFile.getOriginalFilename();
+		this.originalFilename = Objects.requireNonNull(multipartFile.getOriginalFilename());
+		this.filenameWithoutExtension = originalFilename.contains(".") ?
+			originalFilename.substring(0, originalFilename.lastIndexOf(".")) : originalFilename;
 		this.contentType = multipartFile.getContentType();
-		this.extension = Extension.from(multipartFile.getName());
+		this.extension = Extension.from(originalFilename);
 	}
 
 	public File saveAt(final Folder folder) {
 		final File file = File.builder()
-			.name(originalFilename)
+			.name(filenameWithoutExtension)
 			.extension(extension)
 			.folder(folder)
 			.build();
