@@ -6,7 +6,6 @@ import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.main.service.draft.DraftService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,7 +20,6 @@ import static com.donetop.main.api.draft.DraftAPIController.PATH.PLURAL;
 import static com.donetop.main.api.draft.DraftAPIController.PATH.SINGULAR;
 import static org.springframework.data.domain.Sort.Direction.*;
 
-@Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +34,6 @@ public class DraftAPIController {
 
 	@PostMapping(value = SINGULAR)
 	public ResponseEntity<OK<Long>> create(@Valid final DraftCreateRequest request) {
-		log.info("file size : {}", request.getFiles().size());
 		return ResponseEntity.ok(OK.of(draftService.createNewDraft(request)));
 	}
 

@@ -1,21 +1,24 @@
 package com.donetop.main.api.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@RequiredArgsConstructor
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class Response {
 
-	private final HttpStatus status;
+	private HttpStatus status;
 
-	private final int code;
+	private int code;
 
 	@Getter
+	@NoArgsConstructor
 	public static class BadRequest<Reason> extends Response {
 
-		private final Reason reason;
+		private Reason reason;
 
 		public BadRequest(final Reason reason) {
 			super(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value());
@@ -28,9 +31,10 @@ public abstract class Response {
 	}
 
 	@Getter
+	@NoArgsConstructor
 	public static class OK<Data> extends Response {
 
-		private final Data data;
+		private Data data;
 
 		public OK(final Data data) {
 			super(HttpStatus.OK, HttpStatus.OK.value());

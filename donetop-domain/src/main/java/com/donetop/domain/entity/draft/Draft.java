@@ -7,6 +7,7 @@ import com.donetop.enums.payment.PaymentMethod;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "tbDraft")
 @Getter
+@DynamicUpdate
 @NoArgsConstructor
 public class Draft implements Serializable {
 

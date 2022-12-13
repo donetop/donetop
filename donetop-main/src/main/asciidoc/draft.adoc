@@ -36,6 +36,12 @@ include::{snippets}/draft_create/createOne_withValidParamsAndWithoutFiles_return
 .response
 include::{snippets}/draft_create/createOne_withValidParamsAndWithoutFiles_return200/http-response.adoc[]
 
+===== createOne_withValidParamsAndSizeExceedFiles_return400
+.request
+include::{snippets}/draft_create/createOne_withValidParamsAndSizeExceedFiles_return400/httpie-request.adoc[]
+.response
+include::{snippets}/draft_create/createOne_withValidParamsAndSizeExceedFiles_return400/http-response.adoc[]
+
 ===== createOne_withValidParamsAndFiles_return200
 .request
 include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/httpie-request.adoc[]

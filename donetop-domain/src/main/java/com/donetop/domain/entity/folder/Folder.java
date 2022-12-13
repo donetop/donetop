@@ -38,6 +38,13 @@ public class Folder {
 		this.folderType = folderType;
 	}
 
+	public static Folder of(final FolderType folderType, final String root, final long id) {
+		return Folder.builder()
+			.folderType(folderType)
+			.path(folderType.buildPathFrom(root, id))
+			.build();
+	}
+
 	public void addFile(final File... files) {
 		this.files.addAll(List.of(files));
 		for (final File file : files) file.setFolder(this);

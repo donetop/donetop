@@ -1,6 +1,8 @@
 package com.donetop.main.api.draft.request;
 
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.main.service.storage.LocalResource;
+import com.donetop.main.service.storage.Resource;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class DraftCreateRequest {
@@ -38,5 +41,9 @@ public class DraftCreateRequest {
 			.price(this.price)
 			.memo(this.memo)
 			.password(this.password).build();
+	}
+
+	public List<Resource> getResources() {
+		return files.stream().map(LocalResource::new).collect(Collectors.toList());
 	}
 }

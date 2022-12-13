@@ -30,7 +30,7 @@ import static org.mockito.BDDMockito.given;
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(
 	properties = {
-		"src=src/test/resources/storage/file",
+		"src=src/test/resources/storage/src",
 		"dst=src/test/resources/storage/dst"
 	}
 )

@@ -7,6 +7,10 @@ server:
 spring:
   profiles:
     default: local
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
   datasource:
     url: jdbc:mysql://localhost:3306/donetop
     username: root
@@ -23,3 +27,9 @@ spring:
         dialect: org.hibernate.dialect.MySQL5Dialect
         format_sql: false
         show_sql: true
+
+application:
+  properties:
+    base-uri: "http://localhost"
+    storage:
+      root: src/main/resources/storage

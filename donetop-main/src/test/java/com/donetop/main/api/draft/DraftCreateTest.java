@@ -1,25 +1,39 @@
 package com.donetop.main.api.draft;
 
+import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.main.common.TestFileUtil;
+import com.donetop.main.properties.ApplicationProperties.Storage;
 import com.donetop.repository.draft.DraftRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
+import static com.donetop.main.api.common.Response.*;
 import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
-import static org.hamcrest.Matchers.hasSize;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -36,12 +50,10 @@ public class DraftCreateTest extends IntegrationBase {
 	@Autowired
 	private DraftRepository draftRepository;
 
-	@Value("${storage.src}")
-	private String src;
-
 	@AfterAll
-	void afterAll() {
+	void afterAll() throws IOException {
 		draftRepository.deleteAll();
+		FileSystemUtils.deleteRecursively(Path.of(applicationProperties.getStorage().getRoot()));
 	}
 
 	@Test
@@ -123,9 +135,41 @@ public class DraftCreateTest extends IntegrationBase {
 	}
 
 	@Test
+	void createOne_withValidParamsAndSizeExceedFiles_return400() {
+		// given
+		final Storage storage = applicationProperties.getStorage();
+		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc()));
+		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("customerName", "jin");
+		params.add("address", "my address");
+		params.add("price", "1000");
+		params.add("memo", "simple test");
+		params.add("password", "my password");
+		RequestSpecification given = RestAssured.given(this.spec);
+		for (final File file : files) given.multiPart("files", file);
+		given.params(params);
+		given.filter(
+			RestAssuredRestDocumentation.document(
+				"draft_create/createOne_withValidParamsAndSizeExceedFiles_return400"
+			)
+		);
+
+		// when
+		final Response response = given.when().post(SINGULAR);
+
+		// then
+		response.then()
+			.log().body()
+			.and()
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.assertThat().body("reason", containsString("SizeLimitExceededException"));
+	}
+
+	@Test
 	void createOne_withValidParamsAndFiles_return200() throws Exception {
 		// given
-		final List<MockMultipartFile> mockMultipartFiles = TestFileUtil.readMultipartFiles(Path.of(src));
+		final Storage storage = applicationProperties.getStorage();
+		final List<MockMultipartFile> mockMultipartFiles = TestFileUtil.readMultipartFiles(Path.of(storage.getSrc()));
 		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("customerName", "jin");
 		params.add("address", "my address");
@@ -138,6 +182,7 @@ public class DraftCreateTest extends IntegrationBase {
 		for (final MockMultipartFile mockMultipartFile : mockMultipartFiles) multipart.file(mockMultipartFile);
 		final ResultActions resultActions = mockMvc.perform(
 				multipart
+					.characterEncoding(Charset.defaultCharset())
 					.contentType(MediaType.MULTIPART_FORM_DATA)
 					.params(params)
 			)
@@ -157,7 +202,7 @@ public class DraftCreateTest extends IntegrationBase {
 						parameterWithName("address").description("This parameter shouldn't be null."),
 						parameterWithName("memo").description("This parameter shouldn't be null."),
 						parameterWithName("password").description("This parameter shouldn't be empty."),
-						parameterWithName("files").optional().description("This parameter is optional.")
+						parameterWithName("files").optional().description("This parameter is optional. Each file max size is 5MB.")
 					),
 					responseFields(
 						fieldWithPath("status").type(STRING).description("Status value."),
@@ -167,6 +212,10 @@ public class DraftCreateTest extends IntegrationBase {
 				)
 			)
 		;
+		final OK<String> ok = objectMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+		final long draftId = Long.parseLong(ok.getData());
+		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(storage.getRoot(), draftId));
+		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(3);
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +27,13 @@ public class LocalStorageService implements StorageService {
 
 	@Override
 	public List<File> save(final Collection<Resource> resources, final Folder folder) {
+		try {
+			Files.createDirectories(Path.of(folder.getPath()));
+			folderRepository.save(folder);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
 		final List<File> successFiles = new ArrayList<>();
 		for (final Resource resource : resources) {
 			successFiles.add(resource.saveAt(folder));

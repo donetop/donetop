@@ -8,7 +8,7 @@ import java.security.InvalidParameterException;
 @Getter
 @RequiredArgsConstructor
 public enum FolderType {
-	DRAFT("draft/{id}"),
+	DRAFT("drafts/{id}"),
 	;
 
 	private final String path;

@@ -1,4 +1,7 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5KB
   datasource:
     url: jdbc:h2:mem:testdb/
     username: sa
@@ -15,5 +18,8 @@ spring:
         format_sql: true
         show_sql: true
 
-storage:
-  src: src/test/resources/storage/file
+application:
+  properties:
+    storage:
+      root: src/test/resources/storage/dst
+      src: src/test/resources/storage/src
