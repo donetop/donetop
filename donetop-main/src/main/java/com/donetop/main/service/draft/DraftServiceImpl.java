@@ -49,7 +49,7 @@ public class DraftServiceImpl implements DraftService {
 			final Folder newFolder = Folder.of(FolderType.DRAFT, storage.getRoot(), newDraft.getId());
 			storageService.save(resources, newFolder);
 			newDraft.addFolder(newFolder);
-			log.info("Save resources : {}", resources);
+			log.info("[createNewDraft] Save resources : {}", resources);
 		}
 		return newDraft.getId();
 	}

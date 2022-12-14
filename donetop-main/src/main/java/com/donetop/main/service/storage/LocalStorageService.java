@@ -28,8 +28,11 @@ public class LocalStorageService implements StorageService {
 	@Override
 	public List<File> save(final Collection<Resource> resources, final Folder folder) {
 		try {
-			Files.createDirectories(Path.of(folder.getPath()));
-			folderRepository.save(folder);
+			final Path folderPath = Path.of(folder.getPath());
+			if (!Files.exists(folderPath)) {
+				Files.createDirectories(folderPath);
+				folderRepository.save(folder);
+			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
