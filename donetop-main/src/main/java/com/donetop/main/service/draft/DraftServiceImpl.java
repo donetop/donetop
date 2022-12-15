@@ -3,7 +3,6 @@ package com.donetop.main.service.draft;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.draft.DraftDTO;
-import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.main.properties.ApplicationProperties;
@@ -44,13 +43,7 @@ public class DraftServiceImpl implements DraftService {
 	@Override
 	public long createNewDraft(final DraftCreateRequest request) {
 		final Draft newDraft = draftRepository.save(request.toEntity());
-		final List<Resource> resources = request.getResources();
-		if (!resources.isEmpty()) {
-			final Folder newFolder = Folder.of(FolderType.DRAFT, storage.getRoot(), newDraft.getId());
-			storageService.save(resources, newFolder);
-			newDraft.addFolder(newFolder);
-			log.info("[createNewDraft] Save resources : {}", resources);
-		}
+		saveResourcesIfExist(newDraft, request.getResources());
 		return newDraft.getId();
 	}
 
@@ -70,6 +63,16 @@ public class DraftServiceImpl implements DraftService {
 	public long updateDraft(final long id, final DraftUpdateRequest request) {
 		final Draft draft = draftRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		saveResourcesIfExist(draft, request.getResources());
 		return request.applyTo(draft).getId();
+	}
+
+	private void saveResourcesIfExist(final Draft draft, final List<Resource> resources) {
+		if (!resources.isEmpty()) {
+			final Folder folder = draft.getOrNewFolder(storage.getRoot());
+			if (folder.getId() == 0L) draft.addFolder(folder);
+			storageService.save(resources, folder);
+			log.info("Save resources : {}", resources);
+		}
 	}
 }

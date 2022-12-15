@@ -3,6 +3,7 @@ package com.donetop.main.api.draft.request;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.payment.PaymentMethod;
+import com.donetop.main.api.common.MultipartFilesRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class DraftUpdateRequest {
+public class DraftUpdateRequest extends MultipartFilesRequest {
 
 	@NotEmpty(message = "고객명을 입력해주세요.")
 	private String customerName;

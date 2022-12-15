@@ -45,9 +45,12 @@ public class Folder {
 			.build();
 	}
 
-	public void addFile(final File... files) {
+	public void add(final File... files) {
 		this.files.addAll(List.of(files));
-		for (final File file : files) file.setFolder(this);
+	}
+
+	public void deleteAllFiles() {
+		this.files.clear();
 	}
 
 }

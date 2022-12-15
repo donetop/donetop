@@ -55,7 +55,7 @@ public class DraftAPIController {
 
 	@PutMapping(SINGULAR + "/{id}")
 	public ResponseEntity<OK<Long>> update(@PathVariable("id") final long id,
-										   @Valid @RequestBody final DraftUpdateRequest request) {
+										   @Valid final DraftUpdateRequest request) {
 		return ResponseEntity.ok(OK.of(draftService.updateDraft(id, request)));
 	}
 

@@ -25,7 +25,6 @@ import org.springframework.util.MultiValueMap;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
@@ -182,7 +181,6 @@ public class DraftCreateTest extends IntegrationBase {
 		for (final MockMultipartFile mockMultipartFile : mockMultipartFiles) multipart.file(mockMultipartFile);
 		final ResultActions resultActions = mockMvc.perform(
 				multipart
-					.characterEncoding(Charset.defaultCharset())
 					.contentType(MediaType.MULTIPART_FORM_DATA)
 					.params(params)
 			)

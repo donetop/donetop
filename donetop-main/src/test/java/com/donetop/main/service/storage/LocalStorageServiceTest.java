@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.anyCollection;
@@ -64,20 +65,20 @@ class LocalStorageServiceTest {
 	}
 
 	@Test
-	void read_filesFromSRC_shouldExist() {
+	void read_filesFromSRC_shouldSuccess() {
 		// given
 
 		// when
-		final File file = Path.of(src).toFile();
+		final File directory = Path.of(src).toFile();
 
 		// then
-		assertThat(file.exists()).isTrue();
-		assertThat(file.isDirectory()).isTrue();
-		assertThat(Objects.requireNonNull(file.listFiles()).length).isEqualTo(3);
+		assertThat(directory.exists()).isTrue();
+		assertThat(directory.isDirectory()).isTrue();
+		assertThat(Objects.requireNonNull(directory.listFiles()).length).isEqualTo(3);
 	}
 
 	@Test
-	void save_filesAtDST_shouldExist() {
+	void save_SrcFilesAtDst_shouldExistFilesAtDst() {
 		// given
 		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()
@@ -89,11 +90,32 @@ class LocalStorageServiceTest {
 		localStorageService.save(resources, folder);
 
 		// then
+		assertThat(folder.getFiles().size()).isEqualTo(resources.size());
 		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(3);
 	}
 
 	@Test
-	void delete_file_shouldBeRemoved() {
+	void save_singleSrcFileMultipleTimesAtDst_shouldExistSingleFileAtDst() {
+		// given
+		final List<List<Resource>> resourcesList = TestFileUtil.readResources(Path.of(src))
+			.stream().map(List::of).collect(Collectors.toList());
+		final Folder folder = Folder.builder()
+			.folderType(FolderType.DRAFT)
+			.path(dst)
+			.build();
+
+		// when
+		localStorageService.save(resourcesList.get(0), folder);
+		localStorageService.save(resourcesList.get(1), folder);
+		localStorageService.save(resourcesList.get(2), folder);
+
+		// then
+		assertThat(folder.getFiles().size()).isEqualTo(1);
+		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(1);
+	}
+
+	@Test
+	void delete_allDstFiles_shouldExistFolderAndNotExistFiles() {
 		// given
 		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()
@@ -103,16 +125,19 @@ class LocalStorageServiceTest {
 		given(fileRepository.saveAll(anyCollection())).will(returnFirstParameter);
 
 		// when
-		final List<com.donetop.domain.entity.file.File> files = localStorageService.save(resources, folder);
-		boolean deleteResult = localStorageService.delete(files.get(0));
+		localStorageService.save(resources, folder);
+		boolean deleteResult = localStorageService.deleteAllFilesIn(folder);
 
 		// then
 		assertThat(deleteResult).isTrue();
-		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(2);
+		assertThat(folder.getFiles().size()).isEqualTo(0);
+		final File directory = Path.of(dst).toFile();
+		assertThat(directory.exists()).isTrue();
+		assertThat(Objects.requireNonNull(directory.listFiles()).length).isEqualTo(0);
 	}
 
 	@Test
-	void delete_folder_shouldBeRemoved() {
+	void delete_folder_shouldNotExistFolder() {
 		// given
 		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()

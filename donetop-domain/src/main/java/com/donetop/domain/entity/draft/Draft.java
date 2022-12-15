@@ -3,6 +3,7 @@ package com.donetop.domain.entity.draft;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.DraftStatus;
+import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.payment.PaymentMethod;
 import lombok.Builder;
 import lombok.Getter;
@@ -119,6 +120,10 @@ public class Draft implements Serializable {
 
 	public void addFolder(final Folder folder) {
 		this.folder = folder;
+	}
+
+	public Folder getOrNewFolder(final String root) {
+		return this.folder == null ? Folder.of(FolderType.DRAFT, root, this.id) : this.folder;
 	}
 
 	public DraftDTO toDTO() {

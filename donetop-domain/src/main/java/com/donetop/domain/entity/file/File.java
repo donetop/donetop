@@ -39,11 +39,7 @@ public class File {
 		this.name = name;
 		this.extension = extension;
 		this.folder = folder;
-		folder.addFile(this);
-	}
-
-	public void setFolder(final Folder folder) {
-		this.folder = folder;
+		folder.add(this);
 	}
 
 	public String getPath() {

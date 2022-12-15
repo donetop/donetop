@@ -50,33 +50,39 @@ include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/htt
 
 === Update One Draft
 
-Http Method : *POST* +
+Http Method : *PUT* +
 Path : */draft/\{draft_id\}*
 
-==== Request body fields description
-include::{snippets}/draft_update/updateOne_withValidFieldValues_return200/request-fields.adoc[]
+==== Request parameters description
+include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/request-parameters.adoc[]
 
 ==== Response body fields description
-include::{snippets}/draft_update/updateOne_withValidFieldValues_return200/response-fields.adoc[]
+include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/response-fields.adoc[]
 
 ==== Examples
-===== updateOne_withInvalidFieldValues_return400
+===== updateOne_withInvalidParams_return400
 .request
-include::{snippets}/draft_update/updateOne_withInvalidFieldValues_return400/http-request.adoc[]
+include::{snippets}/draft_update/updateOne_withInvalidParams_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_update/updateOne_withInvalidFieldValues_return400/http-response.adoc[]
+include::{snippets}/draft_update/updateOne_withInvalidParams_return400/http-response.adoc[]
 
-===== updateOne_withUnknownId_return400
+===== updateOne_withValidParamsButUnknownId_return400
 .request
-include::{snippets}/draft_update/updateOne_withUnknownId_return400/http-request.adoc[]
+include::{snippets}/draft_update/updateOne_withValidParamsButUnknownId_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_update/updateOne_withUnknownId_return400/http-response.adoc[]
+include::{snippets}/draft_update/updateOne_withValidParamsButUnknownId_return400/http-response.adoc[]
 
-===== updateOne_withValidFieldValues_return200
+===== updateOne_withValidParamsAndId_return200
 .request
-include::{snippets}/draft_update/updateOne_withValidFieldValues_return200/http-request.adoc[]
+include::{snippets}/draft_update/updateOne_withValidParamsAndId_return200/http-request.adoc[]
 .response
-include::{snippets}/draft_update/updateOne_withValidFieldValues_return200/http-response.adoc[]
+include::{snippets}/draft_update/updateOne_withValidParamsAndId_return200/http-response.adoc[]
+
+===== updateOne_withValidParamsAndFilesAndId_return200
+.request
+include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/httpie-request.adoc[]
+.response
+include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/http-response.adoc[]
 
 === Get One Draft
 

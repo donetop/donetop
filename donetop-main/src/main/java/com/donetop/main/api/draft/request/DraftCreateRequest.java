@@ -1,21 +1,16 @@
 package com.donetop.main.api.draft.request;
 
 import com.donetop.domain.entity.draft.Draft;
-import com.donetop.main.service.storage.LocalResource;
-import com.donetop.main.service.storage.Resource;
+import com.donetop.main.api.common.MultipartFilesRequest;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter @Setter
-public class DraftCreateRequest {
+public class DraftCreateRequest extends MultipartFilesRequest {
 
 	@NotEmpty(message = "고객명을 입력해주세요.")
 	private String customerName;
@@ -32,8 +27,6 @@ public class DraftCreateRequest {
 	@NotEmpty(message = "비밀번호를 입력해주세요.")
 	private String password;
 
-	private List<MultipartFile> files = new ArrayList<>();
-
 	public Draft toEntity() {
 		return Draft.builder()
 			.customerName(this.customerName)
@@ -43,7 +36,4 @@ public class DraftCreateRequest {
 			.password(this.password).build();
 	}
 
-	public List<Resource> getResources() {
-		return files.stream().map(LocalResource::new).collect(Collectors.toList());
-	}
 }

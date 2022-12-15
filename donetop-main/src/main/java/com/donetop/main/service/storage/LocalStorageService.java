@@ -26,26 +26,41 @@ public class LocalStorageService implements StorageService {
 	private final FolderRepository folderRepository;
 
 	@Override
-	public List<File> save(final Collection<Resource> resources, final Folder folder) {
-		try {
-			final Path folderPath = Path.of(folder.getPath());
-			if (!Files.exists(folderPath)) {
-				Files.createDirectories(folderPath);
-				folderRepository.save(folder);
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-
+	public void save(final Collection<Resource> resources, Folder folder) {
+		folder = saveIfNotExist(folder);
+		deleteAllFilesIn(folder);
 		final List<File> successFiles = new ArrayList<>();
 		for (final Resource resource : resources) {
 			successFiles.add(resource.saveAt(folder));
 		}
-		return fileRepository.saveAll(successFiles);
+		fileRepository.saveAll(successFiles);
 	}
 
 	@Override
-	public boolean delete(final File file) {
+	public Folder saveIfNotExist(final Folder folder) {
+		try {
+			final Path folderPath = Path.of(folder.getPath());
+			if (folder.getId() == 0L && !Files.exists(folderPath)) {
+				Files.createDirectories(folderPath);
+				return folderRepository.save(folder);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return folder;
+	}
+
+	@Override
+	public boolean deleteAllFilesIn(final Folder folder) {
+		boolean deleteAll = true;
+		for (final File file : folder.getFiles()) {
+			deleteAll &= delete(file);
+		}
+		if (deleteAll) folder.deleteAllFiles();
+		return deleteAll;
+	}
+
+	private boolean delete(final File file) {
 		final boolean result = Path.of(file.getPath()).toFile().delete();
 		if (result) fileRepository.delete(file);
 		return result;

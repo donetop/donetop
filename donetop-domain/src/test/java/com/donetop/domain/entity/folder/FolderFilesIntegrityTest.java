@@ -17,7 +17,7 @@ public class FolderFilesIntegrityTest {
 		final File file2 = File.builder().name("my file").extension(Extension.JPEG).folder(folder).build();
 
 		//when
-		folder.addFile(file1, file2);
+		folder.add(file1, file2);
 
 	    //then
 		assertThat(folder.getFiles().size()).isEqualTo(1);
