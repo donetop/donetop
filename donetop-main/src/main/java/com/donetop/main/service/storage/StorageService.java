@@ -1,6 +1,7 @@
 package com.donetop.main.service.storage;
 
 import com.donetop.domain.entity.folder.Folder;
+import org.springframework.core.io.InputStreamResource;
 
 import java.util.Collection;
 
@@ -13,4 +14,6 @@ public interface StorageService {
 	boolean deleteAllFilesIn(Folder folder);
 
 	boolean delete(Folder folder);
+
+	InputStreamResource read(String path);
 }

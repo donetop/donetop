@@ -57,6 +57,7 @@ public class Folder {
 
 	public FolderDTO toDTO() {
 		final FolderDTO folderDTO = new FolderDTO();
+		folderDTO.setId(this.id);
 		folderDTO.setPath(this.path);
 		folderDTO.setFiles(this.files.stream().map(File::toDTO).collect(Collectors.toList()));
 		return folderDTO;

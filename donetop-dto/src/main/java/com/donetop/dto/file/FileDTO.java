@@ -8,6 +8,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FileDTO {
 
+	private long id;
+
 	private String fileName;
 
 	private String path;

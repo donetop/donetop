@@ -17,3 +17,7 @@ select * from `tbFile`;
 show full columns from `tbDraft`;
 show full columns from `tbFolder`;
 show full columns from `tbFile`;
+
+show indexes from `tbDraft`;
+show indexes from `tbFolder`;
+show indexes from `tbFile`;

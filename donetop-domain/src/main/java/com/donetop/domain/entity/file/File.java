@@ -57,6 +57,7 @@ public class File {
 
 	public FileDTO toDTO() {
 		final FileDTO fileDTO = new FileDTO();
+		fileDTO.setId(this.id);
 		fileDTO.setFileName(fileNameWithExtension());
 		fileDTO.setPath(getPath());
 		return fileDTO;

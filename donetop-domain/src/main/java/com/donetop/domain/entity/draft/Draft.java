@@ -29,8 +29,8 @@ public class Draft implements Serializable {
 	@Column(nullable = false, length = 128)
 	private String customerName;
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(nullable = false, columnDefinition = "int default 0")
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
 	private DraftStatus draftStatus = DraftStatus.HOLDING;
 
 	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
@@ -39,8 +39,8 @@ public class Draft implements Serializable {
 	@Column(nullable = false)
 	private long price;
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(nullable = false, columnDefinition = "int default 0")
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
 	private PaymentMethod paymentMethod = PaymentMethod.CASH;
 
 	@Column(nullable = false, columnDefinition = "varchar(1024) default ''")

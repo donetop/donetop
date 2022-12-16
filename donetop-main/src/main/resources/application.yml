@@ -32,4 +32,4 @@ application:
   properties:
     base-uri: "http://localhost"
     storage:
-      root: src/main/resources/storage
+      root: C:/Users/DONETOP/jin/workspace/donetop/donetop-main/src/main/resources/storage

@@ -11,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class FolderDTO {
 
+	private long id;
+
 	private String path;
 
 	private List<FileDTO> files;
