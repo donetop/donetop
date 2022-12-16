@@ -12,7 +12,7 @@ public interface DraftService {
 
 	long updateDraft(long id, DraftUpdateRequest request);
 
-	DraftDTO getDraft(long id);
+	DraftDTO getDraft(long id, String password);
 
 	Page<DraftDTO> getDraft(PageRequest request);
 }

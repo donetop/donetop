@@ -87,13 +87,13 @@ include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return20
 === Get One Draft
 
 Http Method : *GET* +
-Path : */draft/\{draft_id\}*
+Path : */draft/\{draft_id\}*?password=\{string\}
 
 ==== Request parameters description
-Not exists
+include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/request-parameters.adoc[]
 
 ==== Response body fields description
-include::{snippets}/draft_get/getOne_withValidId_return200/response-fields.adoc[]
+include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/response-fields.adoc[]
 
 ==== Examples
 ===== getOne_withInvalidId_return400
@@ -102,11 +102,23 @@ include::{snippets}/draft_get/getOne_withInvalidId_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getOne_withInvalidId_return400/http-response.adoc[]
 
-===== getOne_withValidId_return200
+===== getOne_withValidIdButWrongPassword_return400
 .request
-include::{snippets}/draft_get/getOne_withValidId_return200/http-request.adoc[]
+include::{snippets}/draft_get/getOne_withValidIdButWrongPassword_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getOne_withValidId_return200/http-response.adoc[]
+include::{snippets}/draft_get/getOne_withValidIdButWrongPassword_return400/http-response.adoc[]
+
+===== getOne_withValidIdAndRightPassword_return200
+.request
+include::{snippets}/draft_get/getOne_withValidIdAndRightPassword_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getOne_withValidIdAndRightPassword_return200/http-response.adoc[]
+
+===== getOneThatHasFolder_withValidIdAndRightPassword_return200
+.request
+include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/http-response.adoc[]
 
 === Get Multiple Draft
 

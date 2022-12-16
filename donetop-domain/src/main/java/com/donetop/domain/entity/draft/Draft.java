@@ -126,7 +126,7 @@ public class Draft implements Serializable {
 		return this.folder == null ? Folder.of(FolderType.DRAFT, root, this.id) : this.folder;
 	}
 
-	public DraftDTO toDTO() {
+	public DraftDTO toDTO(final boolean includeFolder) {
 		final DraftDTO draftDTO = new DraftDTO();
 		draftDTO.setId(this.id);
 		draftDTO.setCustomerName(this.customerName);
@@ -137,6 +137,7 @@ public class Draft implements Serializable {
 		draftDTO.setMemo(this.memo);
 		draftDTO.setCreateTime(this.createTime);
 		draftDTO.setUpdateTime(this.updateTime);
+		if (includeFolder && this.folder != null) draftDTO.setFolder(this.folder.toDTO());
 		return draftDTO;
 	}
 }

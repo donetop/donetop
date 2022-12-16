@@ -1,6 +1,7 @@
 package com.donetop.domain.entity.file;
 
 import com.donetop.domain.entity.folder.Folder;
+import com.donetop.dto.file.FileDTO;
 import com.donetop.enums.file.Extension;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,6 +53,13 @@ public class File {
 
 	private String addSlashIfAbsent(final String path) {
 		return path.endsWith("/") ? path : path + "/";
+	}
+
+	public FileDTO toDTO() {
+		final FileDTO fileDTO = new FileDTO();
+		fileDTO.setFileName(fileNameWithExtension());
+		fileDTO.setPath(getPath());
+		return fileDTO;
 	}
 
 	@Override

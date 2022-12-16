@@ -49,8 +49,9 @@ public class DraftAPIController {
 	}
 
 	@GetMapping(SINGULAR + "/{id}")
-	public ResponseEntity<OK<DraftDTO>> get(@PathVariable("id") final long id) {
-		return ResponseEntity.ok(OK.of(draftService.getDraft(id)));
+	public ResponseEntity<OK<DraftDTO>> get(@PathVariable("id") final long id,
+											@RequestParam(value = "password", defaultValue = "") final String password) {
+		return ResponseEntity.ok(OK.of(draftService.getDraft(id, password)));
 	}
 
 	@PutMapping(SINGULAR + "/{id}")

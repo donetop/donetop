@@ -1,8 +1,10 @@
 package com.donetop.dto.draft;
 
+import com.donetop.dto.folder.FolderDTO;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.payment.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
@@ -11,8 +13,11 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
+
 @Getter @Setter
 @NoArgsConstructor
+@JsonInclude(NON_NULL)
 public class DraftDTO {
 
 	private long id;
@@ -36,4 +41,6 @@ public class DraftDTO {
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updateTime;
+
+	private FolderDTO folder;
 }
