@@ -25,6 +25,7 @@ dependencies {
 
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+	testImplementation 'org.apache.tika:tika-core:2.6.0'
 }
 
 test {

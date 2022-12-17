@@ -5,6 +5,7 @@ import com.donetop.enums.folder.FolderType;
 import com.donetop.main.common.TestFileUtil;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
+import org.apache.tika.Tika;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +75,26 @@ class LocalStorageServiceTest {
 		// then
 		assertThat(directory.exists()).isTrue();
 		assertThat(directory.isDirectory()).isTrue();
-		assertThat(Objects.requireNonNull(directory.listFiles()).length).isEqualTo(3);
+		assertThat(Objects.requireNonNull(directory.listFiles()).length).isEqualTo(4);
+	}
+
+	@Test
+	void read_filesFromSRC_mimeTypeShouldBeKnown() {
+		// given
+		final List<File> files = TestFileUtil.readFiles(Path.of(src));
+		Tika tika = new Tika();
+
+		// when
+		final List<String> mimeTypes = files.stream().map(file -> {
+			try {
+				return tika.detect(file);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}).collect(Collectors.toList());
+
+		// then
+		assertThat(mimeTypes.size()).isEqualTo(4);
 	}
 
 	@Test
@@ -91,7 +111,7 @@ class LocalStorageServiceTest {
 
 		// then
 		assertThat(folder.getFiles().size()).isEqualTo(resources.size());
-		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(3);
+		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(4);
 	}
 
 	@Test

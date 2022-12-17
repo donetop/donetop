@@ -2,8 +2,8 @@ package com.donetop.main.service.storage;
 
 import com.donetop.domain.entity.file.File;
 import com.donetop.domain.entity.folder.Folder;
-import com.donetop.enums.file.Extension;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
@@ -15,38 +15,25 @@ public abstract class Resource {
 
 	protected final String originalFilename;
 
-	protected final String filenameWithoutExtension;
-
-	protected final String contentType;
-
-	protected final Extension extension;
-
 	protected Resource(final MultipartFile multipartFile) {
 		this.multipartFile = multipartFile;
 		this.originalFilename = Objects.requireNonNull(multipartFile.getOriginalFilename());
-		this.filenameWithoutExtension = originalFilename.contains(".") ?
-			originalFilename.substring(0, originalFilename.lastIndexOf(".")) : originalFilename;
-		this.contentType = multipartFile.getContentType();
-		this.extension = Extension.from(originalFilename);
 	}
 
-	public File saveAt(final Folder folder) {
+	public FileSaveInfo saveAt(final Folder folder) {
 		final File file = File.builder()
-			.name(filenameWithoutExtension)
-			.extension(extension)
+			.name(this.originalFilename)
 			.folder(folder)
 			.build();
-		return save(file);
+		return new FileSaveInfo(save(file), file);
 	}
 
-	protected abstract File save(File file);
+	protected abstract boolean save(File file);
 
-	@Override
-	public String toString() {
-		return "Resource{" +
-			"originalFilename='" + originalFilename + '\'' +
-			", contentType='" + contentType + '\'' +
-			", extension=" + extension +
-			'}';
+	@Getter
+	@RequiredArgsConstructor
+	public static class FileSaveInfo {
+		private final boolean success;
+		private final File file;
 	}
 }

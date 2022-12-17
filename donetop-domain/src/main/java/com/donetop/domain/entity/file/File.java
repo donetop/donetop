@@ -2,10 +2,10 @@ package com.donetop.domain.entity.file;
 
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.file.FileDTO;
-import com.donetop.enums.file.Extension;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tika.Tika;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -13,11 +13,13 @@ import java.util.Objects;
 @Entity
 @Table(
 	name = "tbFile",
-	uniqueConstraints = @UniqueConstraint(columnNames = {"name", "extension", "folderId"})
+	uniqueConstraints = @UniqueConstraint(columnNames = {"name", "mimeType", "folderId"})
 )
 @Getter
 @NoArgsConstructor
 public class File {
+
+	private static final Tika tika = new Tika();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,28 +29,23 @@ public class File {
 	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
 	private String name;
 
-	@Enumerated(value = EnumType.STRING)
-	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
-	private Extension extension;
+	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
+	private String mimeType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "folderId", nullable = false)
 	private Folder folder;
 
 	@Builder
-	public File(final String name, final Extension extension, final Folder folder) {
+	public File(final String name, final Folder folder) {
 		this.name = name;
-		this.extension = extension;
+		this.mimeType = tika.detect(name);
 		this.folder = folder;
 		folder.add(this);
 	}
 
 	public String getPath() {
-		return addSlashIfAbsent(folder.getPath()) + fileNameWithExtension();
-	}
-
-	public String fileNameWithExtension() {
-		return name + "." + extension.toString().toLowerCase();
+		return addSlashIfAbsent(this.folder.getPath()) + this.name;
 	}
 
 	private String addSlashIfAbsent(final String path) {
@@ -58,7 +55,8 @@ public class File {
 	public FileDTO toDTO() {
 		final FileDTO fileDTO = new FileDTO();
 		fileDTO.setId(this.id);
-		fileDTO.setFileName(fileNameWithExtension());
+		fileDTO.setName(this.name);
+		fileDTO.setMimeType(this.mimeType);
 		fileDTO.setPath(getPath());
 		return fileDTO;
 	}
@@ -68,11 +66,19 @@ public class File {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		File file = (File) o;
-		return name.equals(file.name) && extension == file.extension;
+		return name.equals(file.name) && mimeType.equals(file.mimeType);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, extension);
+		return Objects.hash(name, mimeType);
+	}
+
+	@Override
+	public String toString() {
+		return "File{" +
+			"name='" + name + '\'' +
+			", mimeType='" + mimeType + '\'' +
+			'}';
 	}
 }

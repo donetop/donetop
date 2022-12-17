@@ -2,7 +2,6 @@ package com.donetop.domain.entity.draft;
 
 import com.donetop.domain.entity.file.File;
 import com.donetop.domain.entity.folder.Folder;
-import com.donetop.enums.file.Extension;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.repository.draft.DraftRepository;
 import com.donetop.repository.file.FileRepository;
@@ -73,8 +72,8 @@ public class DraftCreateTest {
 	void create_withFolderAndFiles_shouldSuccess() {
 		// given
 		final Folder folder = Folder.builder().path("/myPath").folderType(FolderType.DRAFT).build();
-		final File file1 = File.builder().name("file1").extension(Extension.JPG).folder(folder).build();
-		final File file2 = File.builder().name("file2").extension(Extension.JPG).folder(folder).build();
+		final File file1 = File.builder().name("file1.jpg").folder(folder).build();
+		final File file2 = File.builder().name("file2.png").folder(folder).build();
 		final Draft draft = Draft.builder()
 			.customerName("jin")
 			.address("my address")

@@ -9,7 +9,6 @@ import com.donetop.main.properties.ApplicationProperties;
 import com.donetop.main.service.storage.Resource;
 import com.donetop.main.service.storage.StorageService;
 import com.donetop.repository.draft.DraftRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.util.List;
 
 import static com.donetop.main.properties.ApplicationProperties.*;
 
-@Slf4j
 @Service
 @Transactional
 public class DraftServiceImpl implements DraftService {
@@ -73,7 +71,6 @@ public class DraftServiceImpl implements DraftService {
 			final Folder folder = draft.getOrNewFolder(storage.getRoot());
 			if (folder.getId() == 0L) draft.addFolder(folder);
 			storageService.save(resources, folder);
-			log.info("Save resources : {}", resources);
 		}
 	}
 }

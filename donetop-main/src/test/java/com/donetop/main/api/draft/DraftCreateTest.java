@@ -213,7 +213,7 @@ public class DraftCreateTest extends IntegrationBase {
 		final OK<String> ok = objectMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
 		final long draftId = Long.parseLong(ok.getData());
 		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(storage.getRoot(), draftId));
-		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(3);
+		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(4);
 	}
 
 }

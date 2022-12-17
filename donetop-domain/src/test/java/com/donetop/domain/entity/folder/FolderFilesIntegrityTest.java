@@ -1,7 +1,6 @@
 package com.donetop.domain.entity.folder;
 
 import com.donetop.domain.entity.file.File;
-import com.donetop.enums.file.Extension;
 import com.donetop.enums.folder.FolderType;
 import org.junit.jupiter.api.Test;
 
@@ -13,8 +12,8 @@ public class FolderFilesIntegrityTest {
 	void include_duplicatedFiles_impossible() {
 	    //given
 		final Folder folder = Folder.builder().path("/myPath").folderType(FolderType.DRAFT).build();
-		final File file1 = File.builder().name("my file").extension(Extension.JPEG).folder(folder).build();
-		final File file2 = File.builder().name("my file").extension(Extension.JPEG).folder(folder).build();
+		final File file1 = File.builder().name("my file.jpg").folder(folder).build();
+		final File file2 = File.builder().name("my file.jpg").folder(folder).build();
 
 		//when
 		folder.add(file1, file2);

@@ -1,7 +1,6 @@
 package com.donetop.domain.entity.file;
 
 import com.donetop.domain.entity.folder.Folder;
-import com.donetop.enums.file.Extension;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
@@ -29,8 +28,8 @@ public class FileCreateTest {
 	void create_withDuplicatedFiles_shouldFail() {
 		// given
 		final Folder folder = Folder.builder().path("/myPath").folderType(FolderType.DRAFT).build();
-		final File file1 = File.builder().name("my file").extension(Extension.JPG).folder(folder).build();
-		final File file2 = File.builder().name("my file").extension(Extension.JPG).folder(folder).build();
+		final File file1 = File.builder().name("my file.jpg").folder(folder).build();
+		final File file2 = File.builder().name("my file.jpg").folder(folder).build();
 
 		// when
 		folderRepository.save(folder);

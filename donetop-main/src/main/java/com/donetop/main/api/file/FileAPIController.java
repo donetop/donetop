@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URLConnection;
-
 import static com.donetop.main.api.file.FileAPIController.PATH.SINGULAR;
 
 @RestController
@@ -31,7 +29,7 @@ public class FileAPIController {
 	public ResponseEntity<InputStreamResource> get(@PathVariable("id") final long id) {
 		final FileDTO fileDTO = fileService.getFile(id);
 		return ResponseEntity.ok()
-			.contentType(MediaType.valueOf(URLConnection.guessContentTypeFromName(fileDTO.getFileName())))
+			.contentType(MediaType.valueOf(fileDTO.getMimeType()))
 			.body(storageService.read(fileDTO.getPath()));
 	}
 

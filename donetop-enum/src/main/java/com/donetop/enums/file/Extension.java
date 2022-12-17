@@ -7,6 +7,9 @@ public enum Extension {
 	JPEG,
 	JPG,
 	PNG,
+	TXT,
+	PDF,
+	XLSX,
 	UNKNOWN
 	;
 
