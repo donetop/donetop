@@ -45,7 +45,7 @@ node {
 
 tasks.register('npmBuild', NpmTask) {
 	dependsOn npmInstall
-	args = ["run", "build"]
+	args = ["run", "build-production"]
 }
 
 processResources {
