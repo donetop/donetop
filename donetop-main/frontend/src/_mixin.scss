@@ -1,0 +1,21 @@
+@import "./variables";
+
+@mixin mobile {
+  @media (max-width: #{$breakpoint-desktop - 1px}) {
+    .desktop {
+      display: none;
+    }
+
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) {
+    .mobile {
+      display: none;
+    }
+
+    @content;
+  }
+}

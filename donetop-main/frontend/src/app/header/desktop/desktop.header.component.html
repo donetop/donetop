@@ -1,0 +1,62 @@
+<div class="desktop">
+  <header class="header">
+    <div class="logo">
+      <img src="/assets/header/logo.png">
+    </div>
+    <div class="buttons">
+      <ul>
+        <li><a href=""><img src="/assets/header/login.png">로그인</a></li>
+        <li><a href=""><img src="/assets/header/member.png">회원가입</a></li>
+        <li><a href=""><img src="/assets/header/myshop.png">마이페이지</a></li>
+        <li><a href=""><img src="/assets/header/cart.png">장바구니</a></li>
+        <li><a href=""><img src="/assets/header/post.png">택배조회</a></li>
+      </ul>
+    </div>
+  </header>
+  <nav class="nav">
+    <ul>
+      <li class="first" (click)="toggleCategory()" #category_open_button>
+        <button>
+          <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+        </button>
+      </li>
+      <li>FAQ</li>
+      <li>주문하기</li>
+      <li>시안확인</li>
+      <li>이미지사이트</li>
+      <li>고객게시판</li>
+      <li>회사소개</li>
+    </ul>
+  </nav>
+  <div class="contents">
+    <button (click)="toggleCategory()" #category_close_button>
+      <fa-icon [icon]="['fas', 'xmark']"></fa-icon>
+    </button>
+    <div class="category" #category>
+      <ul>
+        <li class="group">
+          <a href="#">현수막</a>
+          <ul class="sub_group">
+            <li><a href="#">선거전문현수막</a></li>
+            <li><a href="#">게릴라현수막</a></li>
+            <li><a href="#">법정게시대</a></li>
+            <li><a href="#">족자현수막</a></li>
+            <li><a href="#">차량용현수막</a></li>
+            <li><a href="#">유포지(썬팅용)</a></li>
+            <li><a href="#">소형현수막</a></li>
+            <li><a href="#">깃발/어깨띠</a></li>
+          </ul>
+        </li>
+        <li class="group">2</li>
+        <li class="group">3</li>
+        <li class="group">4</li>
+        <li class="group">5</li>
+        <li class="group bottom">1</li>
+        <li class="group bottom">2</li>
+        <li class="group bottom">3</li>
+        <li class="group bottom">4</li>
+        <li class="group bottom">5</li>
+      </ul>
+    </div>
+  </div>
+</div>
