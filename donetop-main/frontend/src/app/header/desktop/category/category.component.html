@@ -8,27 +8,80 @@
   <div class="category" #category>
     <ul>
       <li class="group">
-        <a href="#">현수막</a>
+        <a href="#">{{ placard.name }}</a>
         <ul class="sub_group">
-          <li><a href="#">선거전문현수막</a></li>
-          <li><a href="#">게릴라현수막</a></li>
-          <li><a href="#">법정게시대</a></li>
-          <li><a href="#">족자현수막</a></li>
-          <li><a href="#">차량용현수막</a></li>
-          <li><a href="#">유포지(썬팅용)</a></li>
-          <li><a href="#">소형현수막</a></li>
-          <li><a href="#">깃발/어깨띠</a></li>
+          <li *ngFor="let item of placard.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
         </ul>
       </li>
-      <li class="group">2</li>
-      <li class="group">3</li>
-      <li class="group">4</li>
-      <li class="group">5</li>
-      <li class="group bottom">1</li>
-      <li class="group bottom">2</li>
-      <li class="group bottom">3</li>
-      <li class="group bottom">4</li>
-      <li class="group bottom">5</li>
+      <li class="group">
+        <a href="#">{{ banner.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let item of banner.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="group">
+        <a href="#">{{ eupoji.name }}</a>
+      </li>
+      <li class="group">
+        <a href="#">{{ leaflet.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let item of leaflet.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="group">
+        <a href="#">{{ card.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let item of card.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="group bottom">
+        <a href="#">{{ sticker_magnet.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let item of sticker_magnet.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="group bottom">
+        <a href="#">{{ catalog.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let item of catalog.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="group bottom">
+        <a href="#">{{ envelope.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let item of envelope.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="group bottom">
+        <a href="#">{{ form_format_receipt.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let item of form_format_receipt.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
+        </ul>
+      </li>
+      <li class="group bottom">
+        <a href="#">{{ acryl_pomax_sign.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let item of acryl_pomax_sign.items">
+            <a href="#">{{ item.name }}</a>
+          </li>
+        </ul>
+      </li>
     </ul>
   </div>
 </div>
