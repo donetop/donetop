@@ -1,0 +1,62 @@
+<div class="contents">
+  <button (click)="toggleSection()">
+    <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+  </button>
+  <section class="left" #left_section>
+    <div class="wrapper">
+      <div class="menu">
+        <div class="active" (click)="toggleMenu(true)" #category_button>카테고리</div>
+        <div (click)="toggleMenu(false)" #board_button>게시판</div>
+      </div>
+      <ul class="category active" #category>
+        <li class="group" *ngFor="let group of groups; let i = index">
+          <div class="row">
+            <div>{{ group.name }}</div>
+            <button class="active" (click)="toggleSubGroup(i)" #sub_group_active_buttons>
+              <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
+            </button>
+            <button (click)="toggleSubGroup(i)" #sub_group_disable_buttons>
+              <fa-icon [icon]="['fas', 'angle-down']"></fa-icon>
+            </button>
+          </div>
+          <ul #sub_groups>
+            <li class="sub_group" *ngFor="let item of group.items">
+              <div class="row">
+                <button><fa-icon [icon]="['fas', 'caret-right']"></fa-icon></button>
+                <div>{{ item.name }}</div>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="board" #board>
+        <li class="group">
+          <div class="row">
+            <div>FAQ</div>
+          </div>
+        </li>
+        <li class="group">
+          <div class="row">
+            <div>주문하기</div>
+          </div>
+        </li>
+        <li class="group">
+          <div class="row">
+            <div>시안확인</div>
+          </div>
+        </li>
+        <li class="group">
+          <div class="row">
+            <div>이미지사이트</div>
+          </div>
+        </li>
+        <li class="group">
+          <div class="row">
+            <div>고객게시판</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section class="right" #right_section (click)="toggleSection()"></section>
+</div>

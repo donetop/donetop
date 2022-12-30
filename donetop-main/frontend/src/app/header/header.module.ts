@@ -4,19 +4,22 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { HeaderComponent } from './header.component';
 import { DesktopHeaderComponent } from '../header/desktop/desktop.header.component';
+import { DesktopCategoryComponent } from './desktop/category/desktop.category.component';
 import { MobileHeaderComponent } from '../header/mobile/mobile.header.component';
-import { CategoryComponent } from './desktop/category/category.component';
+import { MobileCategoryComponent } from './mobile/category/mobile.category.component';
+import { MobileAccountComponent } from './mobile/account/mobile.account.component';
 
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faXmark, faUser, faAngleRight, faCaretRight, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     DesktopHeaderComponent,
+    DesktopCategoryComponent,
     MobileHeaderComponent,
-    CategoryComponent
+    MobileCategoryComponent,
+    MobileAccountComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,11 @@ export class HeaderModule {
   constructor(library: FaIconLibrary) {
     library.addIcons(
       faBars,
-      faXmark
+      faXmark,
+      faUser,
+      faAngleRight,
+      faAngleDown,
+      faCaretRight
     );
   }
 }
