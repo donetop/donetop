@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.donetop.main.api.draft.DraftAPIController.PATH.PLURAL;
-import static com.donetop.main.api.draft.DraftAPIController.PATH.SINGULAR;
+import static com.donetop.main.api.draft.DraftAPIController.Uri.*;
 import static org.springframework.data.domain.Sort.Direction.*;
 
 @Validated
@@ -25,9 +24,9 @@ import static org.springframework.data.domain.Sort.Direction.*;
 @RequiredArgsConstructor
 public class DraftAPIController {
 
-	public static class PATH {
-		public static final String PLURAL = "/drafts";
-		public static final String SINGULAR = "/draft";
+	public static class Uri {
+		public static final String PLURAL = "/api/drafts";
+		public static final String SINGULAR = "/api/draft";
 	}
 
 	private final DraftService draftService;

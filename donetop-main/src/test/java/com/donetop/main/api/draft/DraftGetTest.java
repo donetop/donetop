@@ -23,8 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.donetop.main.api.draft.DraftAPIController.PATH.PLURAL;
-import static com.donetop.main.api.draft.DraftAPIController.PATH.SINGULAR;
+import static com.donetop.main.api.draft.DraftAPIController.Uri.*;
 import static com.donetop.main.properties.ApplicationProperties.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

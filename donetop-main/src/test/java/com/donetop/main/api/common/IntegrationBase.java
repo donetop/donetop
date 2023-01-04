@@ -3,6 +3,8 @@ package com.donetop.main.api.common;
 import com.donetop.main.properties.ApplicationProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.env.Environment;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
@@ -18,6 +21,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,6 +44,9 @@ public abstract class IntegrationBase {
 	@LocalServerPort
 	protected int port;
 
+	@Autowired
+	private Environment environment;
+
 	protected MockMvc mockMvc;
 
 	protected RequestSpecification spec;
@@ -56,7 +64,7 @@ public abstract class IntegrationBase {
 			.alwaysDo(print())
 			.build();
 
-		this.spec = new RequestSpecBuilder()
+		RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder()
 			.addFilter(
 				RestAssuredRestDocumentation.documentationConfiguration(provider)
 					.operationPreprocessors()
@@ -64,8 +72,12 @@ public abstract class IntegrationBase {
 					.withResponseDefaults(prettyPrint())
 			)
 			.setBaseUri(applicationProperties.getBaseUri())
-			.setPort(port)
-			.build();
+			.setPort(port);
+
+		if (List.of(environment.getActiveProfiles()).contains("test"))
+			requestSpecBuilder.addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter()));
+
+		this.spec = requestSpecBuilder.build();
 	}
 
 }

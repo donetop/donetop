@@ -1,168 +1,166 @@
 :doctype:
 :docinfo: shared
 :toc: left
-:toclevels: 4
+:toclevels: 3
 
-= Donetop API Documentation
+= Draft API Documentation
 
-== Draft
-
-=== Create One Draft
+== Create One Draft
 
 Http Method : *POST* +
-Path : */draft*
+Uri : */api/draft*
 
-==== Request parameters description
+=== Request parameters description
 include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/request-parameters.adoc[]
-==== Response body fields description
+=== Response body fields description
 include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/response-fields.adoc[]
 
-==== Examples
-===== createOne_withoutParams_return400
+=== Examples
+==== createOne_withoutParams_return400
 .request
 include::{snippets}/draft_create/createOne_withoutParams_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_create/createOne_withoutParams_return400/http-response.adoc[]
 
-===== createOne_withInvalidParams_return400
+==== createOne_withInvalidParams_return400
 .request
 include::{snippets}/draft_create/createOne_withInvalidParams_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_create/createOne_withInvalidParams_return400/http-response.adoc[]
 
-===== createOne_withValidParamsAndWithoutFiles_return200
+==== createOne_withValidParamsAndWithoutFiles_return200
 .request
 include::{snippets}/draft_create/createOne_withValidParamsAndWithoutFiles_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_create/createOne_withValidParamsAndWithoutFiles_return200/http-response.adoc[]
 
-===== createOne_withValidParamsAndSizeExceedFiles_return400
+==== createOne_withValidParamsAndSizeExceedFiles_return400
 .request
 include::{snippets}/draft_create/createOne_withValidParamsAndSizeExceedFiles_return400/httpie-request.adoc[]
 .response
 include::{snippets}/draft_create/createOne_withValidParamsAndSizeExceedFiles_return400/http-response.adoc[]
 
-===== createOne_withValidParamsAndFiles_return200
+==== createOne_withValidParamsAndFiles_return200
 .request
 include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/httpie-request.adoc[]
 .response
 include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/http-response.adoc[]
 
-=== Update One Draft
+== Update One Draft
 
 Http Method : *PUT* +
-Path : */draft/\{draft_id\}*
+Uri : */api/draft/\{draft_id\}*
 
-==== Request parameters description
+=== Request parameters description
 include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/request-parameters.adoc[]
 
-==== Response body fields description
+=== Response body fields description
 include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/response-fields.adoc[]
 
-==== Examples
-===== updateOne_withInvalidParams_return400
+=== Examples
+==== updateOne_withInvalidParams_return400
 .request
 include::{snippets}/draft_update/updateOne_withInvalidParams_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_update/updateOne_withInvalidParams_return400/http-response.adoc[]
 
-===== updateOne_withValidParamsButUnknownId_return400
+==== updateOne_withValidParamsButUnknownId_return400
 .request
 include::{snippets}/draft_update/updateOne_withValidParamsButUnknownId_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_update/updateOne_withValidParamsButUnknownId_return400/http-response.adoc[]
 
-===== updateOne_withValidParamsAndId_return200
+==== updateOne_withValidParamsAndId_return200
 .request
 include::{snippets}/draft_update/updateOne_withValidParamsAndId_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_update/updateOne_withValidParamsAndId_return200/http-response.adoc[]
 
-===== updateOne_withValidParamsAndFilesAndId_return200
+==== updateOne_withValidParamsAndFilesAndId_return200
 .request
 include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/httpie-request.adoc[]
 .response
 include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/http-response.adoc[]
 
-=== Get One Draft
+== Get One Draft
 
 Http Method : *GET* +
-Path : */draft/\{draft_id\}*?password=\{string\}
+Uri : */api/draft/\{draft_id\}*?password=\{string\}
 
-==== Request parameters description
+=== Request parameters description
 include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/request-parameters.adoc[]
 
-==== Response body fields description
+=== Response body fields description
 include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/response-fields.adoc[]
 
-==== Examples
-===== getOne_withInvalidId_return400
+=== Examples
+==== getOne_withInvalidId_return400
 .request
 include::{snippets}/draft_get/getOne_withInvalidId_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getOne_withInvalidId_return400/http-response.adoc[]
 
-===== getOne_withValidIdButWrongPassword_return400
+==== getOne_withValidIdButWrongPassword_return400
 .request
 include::{snippets}/draft_get/getOne_withValidIdButWrongPassword_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getOne_withValidIdButWrongPassword_return400/http-response.adoc[]
 
-===== getOne_withValidIdAndRightPassword_return200
+==== getOne_withValidIdAndRightPassword_return200
 .request
 include::{snippets}/draft_get/getOne_withValidIdAndRightPassword_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getOne_withValidIdAndRightPassword_return200/http-response.adoc[]
 
-===== getOneThatHasFolder_withValidIdAndRightPassword_return200
+==== getOneThatHasFolder_withValidIdAndRightPassword_return200
 .request
 include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/http-response.adoc[]
 
-=== Get Multiple Draft
+== Get Multiple Draft
 
 Http Method : *GET* +
-Path : */drafts?page=\{int\}&size=\{int\}&property=\{draft_property\}&direction=\{asc_or_desc\}*
+Uri : */api/drafts?page=\{int\}&size=\{int\}&property=\{draft_property\}&direction=\{asc_or_desc\}*
 
-==== Request parameters description
+=== Request parameters description
 include::{snippets}/draft_get/getMultiple_withValidParams_return200/request-parameters.adoc[]
 
-==== Response body fields description
+=== Response body fields description
 include::{snippets}/draft_get/getMultiple_withValidParams_return200/response-fields.adoc[]
 
-==== Examples
-===== getMultiple_withInvalidPageValue_return400
+=== Examples
+==== getMultiple_withInvalidPageValue_return400
 .request
 include::{snippets}/draft_get/getMultiple_withInvalidPageValue_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getMultiple_withInvalidPageValue_return400/http-response.adoc[]
 
-===== getMultiple_withInvalidSizeValue_return400
+==== getMultiple_withInvalidSizeValue_return400
 .request
 include::{snippets}/draft_get/getMultiple_withInvalidSizeValue_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getMultiple_withInvalidSizeValue_return400/http-response.adoc[]
 
-===== getMultiple_withInvalidDirectionValue_return400
+==== getMultiple_withInvalidDirectionValue_return400
 .request
 include::{snippets}/draft_get/getMultiple_withInvalidDirectionValue_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getMultiple_withInvalidDirectionValue_return400/http-response.adoc[]
 
-===== getMultiple_withInvalidPropertyValue_return400
+==== getMultiple_withInvalidPropertyValue_return400
 .request
 include::{snippets}/draft_get/getMultiple_withInvalidPropertyValue_return400/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getMultiple_withInvalidPropertyValue_return400/http-response.adoc[]
 
-===== getMultiple_withValidParams_return200
+==== getMultiple_withValidParams_return200
 .request
 include::{snippets}/draft_get/getMultiple_withValidParams_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_get/getMultiple_withValidParams_return200/http-response.adoc[]
 
-===== getMultiple_withoutParams_return200
+==== getMultiple_withoutParams_return200
 .request
 include::{snippets}/draft_get/getMultiple_withoutParams_return200/http-request.adoc[]
 .response

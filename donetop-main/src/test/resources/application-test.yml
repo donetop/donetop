@@ -23,3 +23,10 @@ application:
     storage:
       root: src/test/resources/storage/dst
       src: src/test/resources/storage/src
+
+logging:
+  level:
+    org.springframework:
+      security: DEBUG
+    com.donetop.main.api:
+      authentication: DEBUG

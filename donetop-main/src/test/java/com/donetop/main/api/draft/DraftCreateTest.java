@@ -30,12 +30,11 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.donetop.main.api.common.Response.*;
-import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
+import static com.donetop.main.api.draft.DraftAPIController.Uri.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpMethod.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -158,10 +157,8 @@ public class DraftCreateTest extends IntegrationBase {
 
 		// then
 		response.then()
-			.log().body()
-			.and()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.assertThat().body("reason", containsString("SizeLimitExceededException"));
+			.body("reason", containsString("SizeLimitExceededException"));
 	}
 
 	@Test
@@ -192,8 +189,6 @@ public class DraftCreateTest extends IntegrationBase {
 			.andDo(
 				document(
 					"draft_create/createOne_withValidParamsAndFiles_return200",
-					preprocessRequest(),
-					preprocessResponse(),
 					requestParameters(
 						parameterWithName("customerName").description("This parameter shouldn't be empty."),
 						parameterWithName("price").description("This parameter should be greater or equal than 1000."),

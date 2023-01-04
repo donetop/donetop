@@ -26,7 +26,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
-import static com.donetop.main.api.draft.DraftAPIController.PATH.*;
+import static com.donetop.main.api.draft.DraftAPIController.Uri.*;
 import static com.donetop.main.properties.ApplicationProperties.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
