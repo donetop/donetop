@@ -2,11 +2,11 @@ import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Group, groups } from 'src/app/domain/category';
 
 @Component({
-  selector: 'app-desktop-category',
-  templateUrl: './desktop.category.component.html',
-  styleUrls: ['./desktop.category.component.scss']
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.scss']
 })
-export class DesktopCategoryComponent {
+export class CategoryComponent {
 
   groups: Group[] = groups;
   showCategory: boolean = false;
