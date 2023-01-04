@@ -32,7 +32,7 @@ public class FormLoginService implements UserDetailsService {
 		User user = (username.contains("@") ? userRepository.findByEmail(username) : userRepository.findByName(username))
 			.orElseThrow(() -> new UsernameNotFoundException(loginFailMessage));
 
-		Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoleType().getRole()));
+		Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoleType().name()));
 
 		return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
 	}

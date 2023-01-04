@@ -13,13 +13,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
 
 import static com.donetop.main.api.authentication.form.FormAPIController.Uri.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.*;
 
 public class FormAuthenticationTest extends IntegrationBase {
 
@@ -46,7 +46,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
-			RestAssuredRestDocumentation.document(
+			document(
 				"form_authentication/authentication_withEmptyBody_return400"
 			)
 		);
@@ -69,7 +69,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		body.put("passworddd", "password");
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
-			RestAssuredRestDocumentation.document(
+			document(
 				"form_authentication/authentication_withIncorrectFields_return400"
 			)
 		);
@@ -93,7 +93,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		body.put("password", JSONObject.NULL);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
-			RestAssuredRestDocumentation.document(
+			document(
 				"form_authentication/authentication_withNullValues_return400"
 			)
 		);
@@ -117,7 +117,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		body.put("password", "");
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
-			RestAssuredRestDocumentation.document(
+			document(
 				"form_authentication/authentication_withEmptyValues_return400"
 			)
 		);
@@ -141,7 +141,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		body.put("password", "unknown");
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
-			RestAssuredRestDocumentation.document(
+			document(
 				"form_authentication/authentication_withWrongUsername_return400"
 			)
 		);
@@ -166,7 +166,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		body.put("password", "unknown");
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
-			RestAssuredRestDocumentation.document(
+			document(
 				"form_authentication/authentication_withWrongPassword_return400"
 			)
 		);
@@ -191,7 +191,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		body.put("password", "my password");
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
-			RestAssuredRestDocumentation.document(
+			document(
 				"form_authentication/authentication_withValidInfo_return200",
 				requestFields(
 					fieldWithPath("username").type(STRING).description("This is username for login."),

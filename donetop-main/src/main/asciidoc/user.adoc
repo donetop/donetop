@@ -1,0 +1,29 @@
+:doctype:
+:docinfo: shared
+:toc: left
+:toclevels: 3
+
+= User API Documentation
+
+== Create User
+
+Http Method : *POST* +
+Uri : */api/user*
+
+=== Request body fields description
+include::{snippets}/user_create/create_withValidValues_return200/request-fields.adoc[]
+=== Response body fields description
+include::{snippets}/user_create/create_withValidValues_return200/response-fields.adoc[]
+
+=== Examples
+==== create_withNullAndEmptyValues_return400
+.request
+include::{snippets}/user_create/create_withNullAndEmptyValues_return400/http-request.adoc[]
+.response
+include::{snippets}/user_create/create_withNullAndEmptyValues_return400/http-response.adoc[]
+
+==== create_withValidValues_return200
+.request
+include::{snippets}/user_create/create_withValidValues_return200/http-request.adoc[]
+.response
+include::{snippets}/user_create/create_withValidValues_return200/http-response.adoc[]

@@ -11,6 +11,7 @@ select * from `tbDraft`;
 select * from `tbFolder`;
 select * from `tbFile`;
 
+-- drop table if exists `tbUser`;
 -- drop table if exists `tbDraft`;
 -- drop table if exists `tbFolder`;
 -- drop table if exists `tbFile`;

@@ -64,6 +64,7 @@ public class FormAuthenticationFilter extends AbstractAuthenticationProcessingFi
 		@Override
 		public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
 											final Authentication authentication) throws IOException {
+			log.debug("auth : {}", authentication);
 			OK<String> ok = OK.of(authentication.getName());
 			response.setStatus(ok.getCode());
 			response.setCharacterEncoding(StandardCharsets.UTF_8.toString());

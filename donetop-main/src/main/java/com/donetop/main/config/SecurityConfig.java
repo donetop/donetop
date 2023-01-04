@@ -1,10 +1,12 @@
 package com.donetop.main.config;
 
+import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.authentication.form.FormAPIController;
 import com.donetop.main.api.authentication.form.FormAuthenticationFilter;
 import com.donetop.main.api.authentication.form.FormAuthenticationFilter.SimpleAuthenticationFailureHandler;
 import com.donetop.main.api.authentication.form.FormAuthenticationFilter.SimpleAuthenticationSuccessHandler;
 import com.donetop.main.api.draft.DraftAPIController;
+import com.donetop.main.api.user.UserAPIController;
 import com.donetop.main.service.authentication.FormLoginService;
 import com.donetop.main.view.ViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String[] PUBLIC = new String[] {
 		ViewController.Uri.ROOT, ViewController.Uri.HOME, ViewController.Uri.LOGIN,
 		FormAPIController.Uri.AUTHENTICATION, FormAPIController.Uri.LOGOUT,
+		UserAPIController.Uri.PLURAL,
 		DraftAPIController.Uri.SINGULAR, DraftAPIController.Uri.PLURAL
 	};
 
@@ -38,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.authorizeRequests()
 				.antMatchers(PUBLIC).permitAll()
+				.antMatchers("/**/*.html").hasAuthority(RoleType.ADMIN.name())
 				.anyRequest().authenticated()
 			.and()
 				.addFilterAt(formAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
