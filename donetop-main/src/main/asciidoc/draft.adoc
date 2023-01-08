@@ -10,8 +10,8 @@
 Http Method : *POST* +
 Uri : */api/draft*
 
-=== Request parameters description
-include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/request-parameters.adoc[]
+=== Request parts description
+include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/request-parts.adoc[]
 === Response body fields description
 include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/response-fields.adoc[]
 

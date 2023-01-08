@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		ViewController.Uri.ROOT, ViewController.Uri.HOME, ViewController.Uri.LOGIN,
 		FormAPIController.Uri.AUTHENTICATION, FormAPIController.Uri.LOGOUT,
 		UserAPIController.Uri.PLURAL,
-		DraftAPIController.Uri.SINGULAR, DraftAPIController.Uri.PLURAL
+		DraftAPIController.Uri.SINGULAR + "/**", DraftAPIController.Uri.PLURAL + "/**"
 	};
 
 	private final ObjectMapper objectMapper;

@@ -13,35 +13,26 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.util.FileSystemUtils;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
-import static com.donetop.main.api.common.Response.*;
-import static com.donetop.main.api.draft.DraftAPIController.Uri.*;
+import static com.donetop.main.api.common.Response.OK;
+import static com.donetop.main.api.draft.DraftAPIController.Uri.SINGULAR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.http.HttpMethod.*;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.JsonFieldType.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.partWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
+import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class DraftCreateTest extends IntegrationBase {
 
@@ -55,81 +46,70 @@ public class DraftCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createOne_withoutParams_return400() throws Exception {
+	void createOne_withoutParams_return400() {
 		// given
-		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		final RequestSpecification given = RestAssured.given(this.spec);
+		given.filter(
+			document(
+				"draft_create/createOne_withoutParams_return400"
+			)
+		);
 
 		// when
-		final ResultActions resultActions = mockMvc.perform(
-				multipart(POST, URI.create(SINGULAR))
-					.contentType(MediaType.MULTIPART_FORM_DATA)
-					.params(params)
-			)
-		;
+		final Response response = given.when()
+			.post(SINGULAR);
 
 		// then
-		resultActions
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.reason", hasSize(5)))
-			.andDo(
-				document("draft_create/createOne_withoutParams_return400")
-			)
-		;
+		response.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.body("reason", hasSize(5));
 	}
 
 	@Test
-	void createOne_withInvalidParams_return400() throws Exception {
+	void createOne_withInvalidParams_return400() {
 		// given
-		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("customerName", "");
-		params.add("address", null);
-		params.add("price", "0");
-		params.add("memo", null);
-		params.add("password", "");
+		final RequestSpecification given = RestAssured.given(this.spec);
+		given.filter(
+			document(
+				"draft_create/createOne_withInvalidParams_return400"
+			)
+		);
 
 		// when
-		final ResultActions resultActions = mockMvc.perform(
-				multipart(POST, URI.create(SINGULAR))
-					.contentType(MediaType.MULTIPART_FORM_DATA)
-					.params(params)
-			)
-		;
+		final Response response = given.when()
+			.multiPart("customerName", "")
+			.multiPart("price", 0)
+			.multiPart("password", "")
+			.post(SINGULAR);
 
 		// then
-		resultActions
-			.andExpect(status().isBadRequest())
-			.andExpect(jsonPath("$.reason", hasSize(5)))
-			.andDo(
-				document("draft_create/createOne_withInvalidParams_return400")
-			)
-		;
+		response.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.body("reason", hasSize(5));
 	}
 
 	@Test
-	void createOne_withValidParamsAndWithoutFiles_return200() throws Exception {
+	void createOne_withValidParamsAndWithoutFiles_return200() {
 		// given
-		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("customerName", "jin");
-		params.add("address", "my address");
-		params.add("price", "1000");
-		params.add("memo", "simple test");
-		params.add("password", "my password");
+		final RequestSpecification given = RestAssured.given(this.spec);
+		given.filter(
+			document(
+				"draft_create/createOne_withValidParamsAndWithoutFiles_return200"
+			)
+		);
 
 		// when
-		final ResultActions resultActions = mockMvc.perform(
-				multipart(POST, URI.create(SINGULAR))
-					.contentType(MediaType.MULTIPART_FORM_DATA)
-					.params(params)
-			)
-		;
+		final Response response = given.when()
+			.multiPart("customerName", "jin")
+			.multiPart("address", "my address")
+			.multiPart("price", 1000)
+			.multiPart("memo", "simple test")
+			.multiPart("password", "my password")
+			.post(SINGULAR);
 
 		// then
-		resultActions
-			.andExpect(status().isOk())
-			.andDo(
-				document("draft_create/createOne_withValidParamsAndWithoutFiles_return200")
-			)
-		;
+		response.then()
+			.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -137,23 +117,22 @@ public class DraftCreateTest extends IntegrationBase {
 		// given
 		final Storage storage = applicationProperties.getStorage();
 		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc()));
-		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("customerName", "jin");
-		params.add("address", "my address");
-		params.add("price", "1000");
-		params.add("memo", "simple test");
-		params.add("password", "my password");
-		RequestSpecification given = RestAssured.given(this.spec);
+		final RequestSpecification given = RestAssured.given(this.spec);
 		for (final File file : files) given.multiPart("files", file);
-		given.params(params);
 		given.filter(
-			RestAssuredRestDocumentation.document(
+			document(
 				"draft_create/createOne_withValidParamsAndSizeExceedFiles_return400"
 			)
 		);
 
 		// when
-		final Response response = given.when().post(SINGULAR);
+		final Response response = given.when()
+			.multiPart("customerName", "jin")
+			.multiPart("address", "my address")
+			.multiPart("price", 1000)
+			.multiPart("memo", "simple test")
+			.multiPart("password", "my password")
+			.post(SINGULAR);
 
 		// then
 		response.then()
@@ -165,50 +144,43 @@ public class DraftCreateTest extends IntegrationBase {
 	void createOne_withValidParamsAndFiles_return200() throws Exception {
 		// given
 		final Storage storage = applicationProperties.getStorage();
-		final List<MockMultipartFile> mockMultipartFiles = TestFileUtil.readMultipartFiles(Path.of(storage.getSrc()));
-		final MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("customerName", "jin");
-		params.add("address", "my address");
-		params.add("price", "1000");
-		params.add("memo", "simple test");
-		params.add("password", "my password");
-
-		// when
-		MockMultipartHttpServletRequestBuilder multipart = multipart(POST, URI.create(SINGULAR));
-		for (final MockMultipartFile mockMultipartFile : mockMultipartFiles) multipart.file(mockMultipartFile);
-		final ResultActions resultActions = mockMvc.perform(
-				multipart
-					.contentType(MediaType.MULTIPART_FORM_DATA)
-					.params(params)
-			)
-		;
-
-		// then
-		resultActions
-			.andExpect(status().isOk())
-			.andDo(
-				document(
-					"draft_create/createOne_withValidParamsAndFiles_return200",
-					requestParameters(
-						parameterWithName("customerName").description("This parameter shouldn't be empty."),
-						parameterWithName("price").description("This parameter should be greater or equal than 1000."),
-						parameterWithName("address").description("This parameter shouldn't be null."),
-						parameterWithName("memo").description("This parameter shouldn't be null."),
-						parameterWithName("password").description("This parameter shouldn't be empty."),
-						parameterWithName("files").optional().description("This parameter is optional. Each file max size is 5MB.")
-					),
-					responseFields(
-						fieldWithPath("status").type(STRING).description("Status value."),
-						fieldWithPath("code").type(NUMBER).description("Status code."),
-						fieldWithPath("data").type(NUMBER).description("This is auto generated draft id.")
-					)
+		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
+		final RequestSpecification given = RestAssured.given(this.spec);
+		for (final File file : files) given.multiPart("files", file);
+		given.filter(
+			document(
+				"draft_create/createOne_withValidParamsAndFiles_return200",
+				requestParts(
+					partWithName("customerName").description("This parameter shouldn't be empty."),
+					partWithName("price").description("This parameter should be greater or equal than 1000."),
+					partWithName("address").description("This parameter shouldn't be null."),
+					partWithName("memo").description("This parameter shouldn't be null."),
+					partWithName("password").description("This parameter shouldn't be empty."),
+					partWithName("files").description("This parameter can be empty. Each file's max size is 5MB.")
+				),
+				responseFields(
+					fieldWithPath("status").type(STRING).description("Status value."),
+					fieldWithPath("code").type(NUMBER).description("Status code."),
+					fieldWithPath("data").type(NUMBER).description("This is auto generated draft id.")
 				)
 			)
-		;
-		final OK<String> ok = objectMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), new TypeReference<>(){});
+		);
+
+		// when
+		final Response response = given.when()
+			.multiPart("customerName", "jin")
+			.multiPart("address", "my address")
+			.multiPart("price", 1000)
+			.multiPart("memo", "simple test")
+			.multiPart("password", "my password")
+			.post(SINGULAR);
+
+		// then
+		response.then().statusCode(HttpStatus.OK.value());
+		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
 		final long draftId = Long.parseLong(ok.getData());
 		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(storage.getRoot(), draftId));
-		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(4);
+		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(2);
 	}
 
 }
