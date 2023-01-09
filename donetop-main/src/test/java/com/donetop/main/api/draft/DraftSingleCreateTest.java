@@ -34,7 +34,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.partWith
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-public class DraftCreateTest extends IntegrationBase {
+public class DraftSingleCreateTest extends IntegrationBase {
 
 	@Autowired
 	private DraftRepository draftRepository;
@@ -46,12 +46,12 @@ public class DraftCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createOne_withoutParams_return400() {
+	void createSingle_withoutParams_return400() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_create/createOne_withoutParams_return400"
+				"draft_single_create/createSingle_withoutParams_return400"
 			)
 		);
 
@@ -66,12 +66,12 @@ public class DraftCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createOne_withInvalidParams_return400() {
+	void createSingle_withInvalidParams_return400() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_create/createOne_withInvalidParams_return400"
+				"draft_single_create/createSingle_withInvalidParams_return400"
 			)
 		);
 
@@ -89,12 +89,12 @@ public class DraftCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createOne_withValidParamsAndWithoutFiles_return200() {
+	void createSingle_withValidParamsAndWithoutFiles_return200() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_create/createOne_withValidParamsAndWithoutFiles_return200"
+				"draft_single_create/createSingle_withValidParamsAndWithoutFiles_return200"
 			)
 		);
 
@@ -113,7 +113,7 @@ public class DraftCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createOne_withValidParamsAndSizeExceedFiles_return400() {
+	void createSingle_withValidParamsAndSizeExceedFiles_return400() {
 		// given
 		final Storage storage = applicationProperties.getStorage();
 		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc()));
@@ -121,7 +121,7 @@ public class DraftCreateTest extends IntegrationBase {
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
 			document(
-				"draft_create/createOne_withValidParamsAndSizeExceedFiles_return400"
+				"draft_single_create/createSingle_withValidParamsAndSizeExceedFiles_return400"
 			)
 		);
 
@@ -141,7 +141,7 @@ public class DraftCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createOne_withValidParamsAndFiles_return200() throws Exception {
+	void createSingle_withValidParamsAndFiles_return200() throws Exception {
 		// given
 		final Storage storage = applicationProperties.getStorage();
 		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
@@ -149,7 +149,7 @@ public class DraftCreateTest extends IntegrationBase {
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
 			document(
-				"draft_create/createOne_withValidParamsAndFiles_return200",
+				"draft_single_create/createSingle_withValidParamsAndFiles_return200",
 				requestParts(
 					partWithName("customerName").description("This parameter shouldn't be empty."),
 					partWithName("price").description("This parameter should be greater or equal than 1000."),
@@ -161,7 +161,7 @@ public class DraftCreateTest extends IntegrationBase {
 				responseFields(
 					fieldWithPath("status").type(STRING).description("Status value."),
 					fieldWithPath("code").type(NUMBER).description("Status code."),
-					fieldWithPath("data").type(NUMBER).description("This is auto generated draft id.")
+					fieldWithPath("data").type(NUMBER).description("This is the auto generated draft id.")
 				)
 			)
 		);

@@ -15,17 +15,12 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.env.Environment;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.restassured3.RestAssuredRestDocumentation;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
@@ -47,22 +42,22 @@ public abstract class IntegrationBase {
 	@Autowired
 	private Environment environment;
 
-	protected MockMvc mockMvc;
+//	protected MockMvc mockMvc;
 
 	protected RequestSpecification spec;
 
 	@BeforeEach
-	void beforeEach(final WebApplicationContext ctx, final RestDocumentationContextProvider provider) {
-		this.mockMvc = MockMvcBuilders
-			.webAppContextSetup(ctx)
-			.apply(
-				MockMvcRestDocumentation.documentationConfiguration(provider)
-					.operationPreprocessors()
-					.withRequestDefaults(prettyPrint())
-					.withResponseDefaults(prettyPrint())
-			)
-			.alwaysDo(print())
-			.build();
+	void beforeEach(final RestDocumentationContextProvider provider) {
+//		this.mockMvc = MockMvcBuilders
+//			.webAppContextSetup(ctx)
+//			.apply(
+//				MockMvcRestDocumentation.documentationConfiguration(provider)
+//					.operationPreprocessors()
+//					.withRequestDefaults(prettyPrint())
+//					.withResponseDefaults(prettyPrint())
+//			)
+//			.alwaysDo(print())
+//			.build();
 
 		RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder()
 			.addFilter(

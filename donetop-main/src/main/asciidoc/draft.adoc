@@ -5,163 +5,163 @@
 
 = Draft API Documentation
 
-== Create One Draft
+== Draft Single Create
 
 Http Method : *POST* +
 Uri : */api/draft*
 
 === Request parts description
-include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/request-parts.adoc[]
+include::{snippets}/draft_single_create/createSingle_withValidParamsAndFiles_return200/request-parts.adoc[]
 === Response body fields description
-include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/response-fields.adoc[]
+include::{snippets}/draft_single_create/createSingle_withValidParamsAndFiles_return200/response-fields.adoc[]
 
 === Examples
-==== createOne_withoutParams_return400
+==== createSingle_withoutParams_return400
 .request
-include::{snippets}/draft_create/createOne_withoutParams_return400/http-request.adoc[]
+include::{snippets}/draft_single_create/createSingle_withoutParams_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_create/createOne_withoutParams_return400/http-response.adoc[]
+include::{snippets}/draft_single_create/createSingle_withoutParams_return400/http-response.adoc[]
 
-==== createOne_withInvalidParams_return400
+==== createSingle_withInvalidParams_return400
 .request
-include::{snippets}/draft_create/createOne_withInvalidParams_return400/http-request.adoc[]
+include::{snippets}/draft_single_create/createSingle_withInvalidParams_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_create/createOne_withInvalidParams_return400/http-response.adoc[]
+include::{snippets}/draft_single_create/createSingle_withInvalidParams_return400/http-response.adoc[]
 
-==== createOne_withValidParamsAndWithoutFiles_return200
+==== createSingle_withValidParamsAndWithoutFiles_return200
 .request
-include::{snippets}/draft_create/createOne_withValidParamsAndWithoutFiles_return200/http-request.adoc[]
+include::{snippets}/draft_single_create/createSingle_withValidParamsAndWithoutFiles_return200/http-request.adoc[]
 .response
-include::{snippets}/draft_create/createOne_withValidParamsAndWithoutFiles_return200/http-response.adoc[]
+include::{snippets}/draft_single_create/createSingle_withValidParamsAndWithoutFiles_return200/http-response.adoc[]
 
-==== createOne_withValidParamsAndSizeExceedFiles_return400
+==== createSingle_withValidParamsAndSizeExceedFiles_return400
 .request
-include::{snippets}/draft_create/createOne_withValidParamsAndSizeExceedFiles_return400/httpie-request.adoc[]
+include::{snippets}/draft_single_create/createSingle_withValidParamsAndSizeExceedFiles_return400/httpie-request.adoc[]
 .response
-include::{snippets}/draft_create/createOne_withValidParamsAndSizeExceedFiles_return400/http-response.adoc[]
+include::{snippets}/draft_single_create/createSingle_withValidParamsAndSizeExceedFiles_return400/http-response.adoc[]
 
-==== createOne_withValidParamsAndFiles_return200
+==== createSingle_withValidParamsAndFiles_return200
 .request
-include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/httpie-request.adoc[]
+include::{snippets}/draft_single_create/createSingle_withValidParamsAndFiles_return200/httpie-request.adoc[]
 .response
-include::{snippets}/draft_create/createOne_withValidParamsAndFiles_return200/http-response.adoc[]
+include::{snippets}/draft_single_create/createSingle_withValidParamsAndFiles_return200/http-response.adoc[]
 
-== Update One Draft
+== Draft Single Update
 
 Http Method : *PUT* +
 Uri : */api/draft/\{draft_id\}*
 
-=== Request parameters description
-include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/request-parameters.adoc[]
+=== Request parts description
+include::{snippets}/draft_single_update/updateSingle_withValidParamsAndFilesAndId_return200/request-parts.adoc[]
 
 === Response body fields description
-include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/response-fields.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withValidParamsAndFilesAndId_return200/response-fields.adoc[]
 
 === Examples
-==== updateOne_withInvalidParams_return400
+==== updateSingle_withInvalidParams_return400
 .request
-include::{snippets}/draft_update/updateOne_withInvalidParams_return400/http-request.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withInvalidParams_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_update/updateOne_withInvalidParams_return400/http-response.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withInvalidParams_return400/http-response.adoc[]
 
-==== updateOne_withValidParamsButUnknownId_return400
+==== updateSingle_withValidParamsButUnknownId_return400
 .request
-include::{snippets}/draft_update/updateOne_withValidParamsButUnknownId_return400/http-request.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withValidParamsButUnknownId_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_update/updateOne_withValidParamsButUnknownId_return400/http-response.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withValidParamsButUnknownId_return400/http-response.adoc[]
 
-==== updateOne_withValidParamsAndId_return200
+==== updateSingle_withValidParamsAndId_return200
 .request
-include::{snippets}/draft_update/updateOne_withValidParamsAndId_return200/http-request.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withValidParamsAndId_return200/http-request.adoc[]
 .response
-include::{snippets}/draft_update/updateOne_withValidParamsAndId_return200/http-response.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withValidParamsAndId_return200/http-response.adoc[]
 
-==== updateOne_withValidParamsAndFilesAndId_return200
+==== updateSingle_withValidParamsAndFilesAndId_return200
 .request
-include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/httpie-request.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withValidParamsAndFilesAndId_return200/httpie-request.adoc[]
 .response
-include::{snippets}/draft_update/updateOne_withValidParamsAndFilesAndId_return200/http-response.adoc[]
+include::{snippets}/draft_single_update/updateSingle_withValidParamsAndFilesAndId_return200/http-response.adoc[]
 
-== Get One Draft
+== Draft Single Get
 
 Http Method : *GET* +
 Uri : */api/draft/\{draft_id\}*?password=\{string\}
 
 === Request parameters description
-include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/request-parameters.adoc[]
+include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/request-parameters.adoc[]
 
 === Response body fields description
-include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/response-fields.adoc[]
+include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/response-fields.adoc[]
 
 === Examples
-==== getOne_withInvalidId_return400
+==== getSingle_withInvalidId_return400
 .request
-include::{snippets}/draft_get/getOne_withInvalidId_return400/http-request.adoc[]
+include::{snippets}/draft_single_get/getSingle_withInvalidId_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getOne_withInvalidId_return400/http-response.adoc[]
+include::{snippets}/draft_single_get/getSingle_withInvalidId_return400/http-response.adoc[]
 
-==== getOne_withValidIdButWrongPassword_return400
+==== getSingle_withValidIdButWrongPassword_return400
 .request
-include::{snippets}/draft_get/getOne_withValidIdButWrongPassword_return400/http-request.adoc[]
+include::{snippets}/draft_single_get/getSingle_withValidIdButWrongPassword_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getOne_withValidIdButWrongPassword_return400/http-response.adoc[]
+include::{snippets}/draft_single_get/getSingle_withValidIdButWrongPassword_return400/http-response.adoc[]
 
-==== getOne_withValidIdAndRightPassword_return200
+==== getSingle_withValidIdAndRightPassword_return200
 .request
-include::{snippets}/draft_get/getOne_withValidIdAndRightPassword_return200/http-request.adoc[]
+include::{snippets}/draft_single_get/getSingle_withValidIdAndRightPassword_return200/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getOne_withValidIdAndRightPassword_return200/http-response.adoc[]
+include::{snippets}/draft_single_get/getSingle_withValidIdAndRightPassword_return200/http-response.adoc[]
 
-==== getOneThatHasFolder_withValidIdAndRightPassword_return200
+==== getSingleThatHasFolder_withValidIdAndRightPassword_return200
 .request
-include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/http-request.adoc[]
+include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getOneThatHasFolder_withValidIdAndRightPassword_return200/http-response.adoc[]
+include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/http-response.adoc[]
 
-== Get Multiple Draft
+== Draft Multiple Get
 
 Http Method : *GET* +
 Uri : */api/drafts?page=\{int\}&size=\{int\}&property=\{draft_property\}&direction=\{asc_or_desc\}*
 
 === Request parameters description
-include::{snippets}/draft_get/getMultiple_withValidParams_return200/request-parameters.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/request-parameters.adoc[]
 
 === Response body fields description
-include::{snippets}/draft_get/getMultiple_withValidParams_return200/response-fields.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/response-fields.adoc[]
 
 === Examples
 ==== getMultiple_withInvalidPageValue_return400
 .request
-include::{snippets}/draft_get/getMultiple_withInvalidPageValue_return400/http-request.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidPageValue_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getMultiple_withInvalidPageValue_return400/http-response.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidPageValue_return400/http-response.adoc[]
 
 ==== getMultiple_withInvalidSizeValue_return400
 .request
-include::{snippets}/draft_get/getMultiple_withInvalidSizeValue_return400/http-request.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidSizeValue_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getMultiple_withInvalidSizeValue_return400/http-response.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidSizeValue_return400/http-response.adoc[]
 
 ==== getMultiple_withInvalidDirectionValue_return400
 .request
-include::{snippets}/draft_get/getMultiple_withInvalidDirectionValue_return400/http-request.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidDirectionValue_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getMultiple_withInvalidDirectionValue_return400/http-response.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidDirectionValue_return400/http-response.adoc[]
 
 ==== getMultiple_withInvalidPropertyValue_return400
 .request
-include::{snippets}/draft_get/getMultiple_withInvalidPropertyValue_return400/http-request.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidPropertyValue_return400/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getMultiple_withInvalidPropertyValue_return400/http-response.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidPropertyValue_return400/http-response.adoc[]
 
 ==== getMultiple_withValidParams_return200
 .request
-include::{snippets}/draft_get/getMultiple_withValidParams_return200/http-request.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getMultiple_withValidParams_return200/http-response.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/http-response.adoc[]
 
 ==== getMultiple_withoutParams_return200
 .request
-include::{snippets}/draft_get/getMultiple_withoutParams_return200/http-request.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withoutParams_return200/http-request.adoc[]
 .response
-include::{snippets}/draft_get/getMultiple_withoutParams_return200/http-response.adoc[]
+include::{snippets}/draft_multiple_get/getMultiple_withoutParams_return200/http-response.adoc[]
