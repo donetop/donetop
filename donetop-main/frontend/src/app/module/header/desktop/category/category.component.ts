@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
-import { Group, groups } from 'src/app/domain/category';
+import { Category, categories } from 'src/app/store/model/category';
 
 @Component({
   selector: 'app-category',
@@ -8,7 +8,7 @@ import { Group, groups } from 'src/app/domain/category';
 })
 export class CategoryComponent {
 
-  groups: Group[] = groups;
+  categories: Category[] = categories;
   showCategory: boolean = false;
   @ViewChild('category_open_button', { static: true }) categoryOpenButton!: ElementRef;
   @ViewChild('category_close_button', { static: true }) categoryCloseButton!: ElementRef;

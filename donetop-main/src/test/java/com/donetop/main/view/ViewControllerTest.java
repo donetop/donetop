@@ -1,10 +1,14 @@
 package com.donetop.main.view;
 
+import com.donetop.main.api.form.handler.LoginFailureHandler;
+import com.donetop.main.api.form.handler.LoginSuccessHandler;
+import com.donetop.main.api.form.handler.LogoutSuccessHandler;
 import com.donetop.main.service.authentication.FormLoginService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,8 +26,17 @@ class ViewControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@MockBean
-	private FormLoginService formLoginService;
+	@TestConfiguration
+	public static class TestConfig {
+		@MockBean
+		private FormLoginService formLoginService;
+		@MockBean
+		private LoginSuccessHandler loginSuccessHandler;
+		@MockBean
+		private LoginFailureHandler loginFailureHandler;
+		@MockBean
+		private LogoutSuccessHandler logoutSuccessHandler;
+	}
 
 	@Test
 	void view() throws Exception {

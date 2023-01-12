@@ -9,9 +9,9 @@
         <div (click)="toggleMenu(false)" #board_button>게시판</div>
       </div>
       <ul class="category active" #category>
-        <li class="group" *ngFor="let group of groups; let i = index">
+        <li class="group" *ngFor="let category of categories; let i = index">
           <div class="row">
-            <div>{{ group.name }}</div>
+            <div>{{ category.name }}</div>
             <button class="active" (click)="toggleSubGroup(i)" #sub_group_active_buttons>
               <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
             </button>
@@ -20,7 +20,7 @@
             </button>
           </div>
           <ul #sub_groups>
-            <li class="sub_group" *ngFor="let item of group.items">
+            <li class="sub_group" *ngFor="let item of category.items">
               <div class="row">
                 <button><fa-icon [icon]="['fas', 'caret-right']"></fa-icon></button>
                 <div>{{ item.name }}</div>

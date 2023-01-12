@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { Group, groups } from 'src/app/domain/category';
+import { Category, categories } from 'src/app/store/model/category';
 
 @Component({
   selector: 'app-category',
@@ -8,7 +8,7 @@ import { Group, groups } from 'src/app/domain/category';
 })
 export class CategoryComponent {
 
-  groups: Group[] = groups;
+  categories: Category[] = categories;
   showSection: boolean = false;
   @ViewChild('left_section') leftSection!: ElementRef;
   @ViewChild('right_section') rightSection!: ElementRef;

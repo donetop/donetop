@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { UserService } from '../../service/user.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-desktop',

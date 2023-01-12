@@ -32,6 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		DraftAPIController.Uri.SINGULAR + "/**", DraftAPIController.Uri.PLURAL + "/**"
 	};
 
+	private static final String[] STATIC_RESOURCES = new String[] {
+		"/**/*.js", "/**/*.css",
+		"/**/*.png", "/**/*.jpg", "/**/*.jpeg", "favicon.ico",
+		"/**/*.woff", "/**/*.woff2", "/**/*.svg", "/**/*.eot"
+	};
+
 	private final ObjectMapper objectMapper;
 
 	private final FormLoginService formLoginService;
@@ -47,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeRequests()
+				.antMatchers(STATIC_RESOURCES).permitAll()
 				.antMatchers(PUBLIC).permitAll()
 				.antMatchers("/**/*.html").hasAuthority(RoleType.ADMIN.name())
 				.anyRequest().authenticated()
