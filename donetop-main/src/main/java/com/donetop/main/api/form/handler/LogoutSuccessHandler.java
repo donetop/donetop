@@ -1,0 +1,36 @@
+package com.donetop.main.api.form.handler;
+
+import com.donetop.main.api.common.Response;
+import com.donetop.main.api.common.Response.BadRequest;
+import com.donetop.main.api.common.Response.OK;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class LogoutSuccessHandler implements org.springframework.security.web.authentication.logout.LogoutSuccessHandler {
+
+	private final ObjectMapper objectMapper;
+
+	@Override
+	public void onLogoutSuccess(final HttpServletRequest request, final HttpServletResponse response,
+								final Authentication authentication) throws IOException {
+		log.debug("logout. auth : {}", authentication);
+		Response resp = authentication == null ? BadRequest.of("There's no valid authentication info.") : OK.of("logout");
+		response.setStatus(resp.getCode());
+		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+		response.setContentType(APPLICATION_JSON_VALUE);
+		objectMapper.writeValue(response.getWriter(), resp);
+	}
+}

@@ -5,11 +5,14 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  font-size: 13px;
   font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
 }
 
 a {
   text-decoration: none;
+  color: #000;
+  cursor: pointer;
 }
 
 ul {
@@ -28,4 +31,17 @@ button {
   padding: 0;
   font-size: 1em;
   cursor: pointer;
+  font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
+}
+
+input {
+  font-size: 1em;
+  transition: all 0.30s ease-in-out;
+  outline: none;
+  font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
+
+  &:focus {
+    box-shadow: 0 0 5px #9ed4ff;
+    border: 1px solid #558ab7 !important;
+  }
 }

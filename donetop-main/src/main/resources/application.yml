@@ -37,4 +37,4 @@ application:
 logging:
   level:
     com.donetop.main.api:
-      authentication: DEBUG
+      form: DEBUG

@@ -1,4 +1,4 @@
-package com.donetop.main.api.authentication.form;
+package com.donetop.main.api.form;
 
 import com.donetop.domain.entity.user.User;
 import com.donetop.main.api.common.IntegrationBase;
@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import static com.donetop.main.api.authentication.form.FormAPIController.Uri.*;
+import static com.donetop.main.api.form.FormAPIController.Uri.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.*;
 
-public class FormAuthenticationTest extends IntegrationBase {
+public class FormLoginTest extends IntegrationBase {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -42,19 +42,19 @@ public class FormAuthenticationTest extends IntegrationBase {
 	}
 
 	@Test
-	void authentication_withEmptyBody_return400() {
+	void login_withEmptyBody_return400() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"form_authentication/authentication_withEmptyBody_return400"
+				"form_login/login_withEmptyBody_return400"
 			)
 		);
 
 		// when
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
-			.post(AUTHENTICATION);
+			.post(LOGIN);
 
 		// then
 		response.then()
@@ -62,7 +62,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 	}
 
 	@Test
-	void authentication_withIncorrectFields_return400() throws Exception {
+	void login_withIncorrectFields_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
 		body.put("usernamee", "jin");
@@ -70,7 +70,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"form_authentication/authentication_withIncorrectFields_return400"
+				"form_login/login_withIncorrectFields_return400"
 			)
 		);
 
@@ -78,7 +78,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
-			.post(AUTHENTICATION);
+			.post(LOGIN);
 
 		// then
 		response.then()
@@ -86,7 +86,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 	}
 
 	@Test
-	void authentication_withNullValues_return400() throws Exception {
+	void login_withNullValues_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
 		body.put("username", JSONObject.NULL);
@@ -94,7 +94,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"form_authentication/authentication_withNullValues_return400"
+				"form_login/login_withNullValues_return400"
 			)
 		);
 
@@ -102,7 +102,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
-			.post(AUTHENTICATION);
+			.post(LOGIN);
 
 		// then
 		response.then()
@@ -110,7 +110,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 	}
 
 	@Test
-	void authentication_withEmptyValues_return400() throws Exception {
+	void login_withEmptyValues_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
 		body.put("username", "");
@@ -118,7 +118,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"form_authentication/authentication_withEmptyValues_return400"
+				"form_login/login_withEmptyValues_return400"
 			)
 		);
 
@@ -126,7 +126,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
-			.post(AUTHENTICATION);
+			.post(LOGIN);
 
 		// then
 		response.then()
@@ -134,7 +134,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 	}
 
 	@Test
-	void authentication_withWrongUsername_return400() throws Exception {
+	void login_withWrongUsername_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
 		body.put("username", "unknown");
@@ -142,7 +142,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"form_authentication/authentication_withWrongUsername_return400"
+				"form_login/login_withWrongUsername_return400"
 			)
 		);
 
@@ -150,7 +150,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
-			.post(AUTHENTICATION);
+			.post(LOGIN);
 
 		// then
 		response.then()
@@ -159,7 +159,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 	}
 
 	@Test
-	void authentication_withWrongPassword_return400() throws Exception {
+	void login_withWrongPassword_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
 		body.put("username", "jin");
@@ -167,7 +167,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"form_authentication/authentication_withWrongPassword_return400"
+				"form_login/login_withWrongPassword_return400"
 			)
 		);
 
@@ -175,7 +175,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
-			.post(AUTHENTICATION);
+			.post(LOGIN);
 
 		// then
 		response.then()
@@ -184,7 +184,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 	}
 
 	@Test
-	void authentication_withValidInfo_return200() throws Exception {
+	void login_withValidInfo_return200() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
 		body.put("username", "jin");
@@ -192,7 +192,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"form_authentication/authentication_withValidInfo_return200",
+				"form_login/login_withValidInfo_return200",
 				requestFields(
 					fieldWithPath("username").type(STRING).description("This is username for login."),
 					fieldWithPath("password").type(STRING).description("This is password for login.")
@@ -209,7 +209,7 @@ public class FormAuthenticationTest extends IntegrationBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
-			.post(AUTHENTICATION);
+			.post(LOGIN);
 
 		// then
 		response.then()

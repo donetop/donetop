@@ -4,11 +4,12 @@
   </div>
   <div class="buttons">
     <ul>
-      <li><a href=""><img src="/assets/header/login.png">로그인</a></li>
-      <li><a href=""><img src="/assets/header/member.png">회원가입</a></li>
-      <li><a href=""><img src="/assets/header/myshop.png">마이페이지</a></li>
-      <li><a href=""><img src="/assets/header/cart.png">장바구니</a></li>
-      <li><a href=""><img src="/assets/header/post.png">택배조회</a></li>
+      <li *ngIf="user"><a href="#"><fa-icon [icon]="['fas', 'user']"></fa-icon>{{ user.name }}님</a></li>
+      <li *ngIf="user"><a (click)="logout()"><fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>로그아웃</a></li>
+      <li *ngIf="!user"><a [routerLink]="['/login']"><fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>로그인</a></li>
+      <li><a [routerLink]="['/']"><fa-icon [icon]="['fas', 'file-signature']"></fa-icon>회원가입</a></li>
+      <li><a [routerLink]="['/']"><fa-icon [icon]="['fas', 'cart-shopping']"></fa-icon>장바구니</a></li>
+      <li><a [routerLink]="['/']"><fa-icon [icon]="['fas', 'truck']"></fa-icon>택배조회</a></li>
     </ul>
   </div>
 </header>
