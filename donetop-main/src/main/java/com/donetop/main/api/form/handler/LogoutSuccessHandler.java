@@ -26,8 +26,8 @@ public class LogoutSuccessHandler implements org.springframework.security.web.au
 	@Override
 	public void onLogoutSuccess(final HttpServletRequest request, final HttpServletResponse response,
 								final Authentication authentication) throws IOException {
-		log.debug("logout. auth : {}", authentication);
-		Response resp = authentication == null ? BadRequest.of("There's no valid authentication info.") : OK.of("logout");
+		log.debug("Logout success. auth : {}", authentication);
+		Response resp = authentication == null ? BadRequest.of("유효한 세션 정보가 없습니다.") : OK.of("로그아웃");
 		response.setStatus(resp.getCode());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		response.setContentType(APPLICATION_JSON_VALUE);

@@ -1,4 +1,4 @@
-package com.donetop.main.service.authentication;
+package com.donetop.main.service.form;
 
 import com.donetop.domain.entity.user.User;
 import com.donetop.repository.user.UserRepository;
@@ -17,7 +17,7 @@ import java.util.Set;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class FormLoginService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final UserRepository userRepository;
 

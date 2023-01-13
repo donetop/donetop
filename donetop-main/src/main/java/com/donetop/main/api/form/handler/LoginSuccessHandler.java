@@ -25,7 +25,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response,
 										final Authentication authentication) throws IOException {
-		log.debug("Authentication success. auth : {}", authentication);
+		log.debug("Login success. auth : {}", authentication);
 		Response.OK<String> ok = Response.OK.of(authentication.getName());
 		response.setStatus(ok.getCode());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/store/model/user.model';
 
@@ -11,8 +10,11 @@ import { User } from 'src/app/store/model/user.model';
 export class DesktopComponent {
   public user: User | undefined;
 
-  constructor(private store: Store<{ user: User }>, private userService: UserService) {
-    store.select('user').subscribe(user => this.user = user);
+  constructor(private userService: UserService) {
+    this.userService.getUserInfo().subscribe({
+      next: response => this.user = response.data,
+      error: ({error}) => console.log(error.reason)
+    });
   }
 
   logout() {

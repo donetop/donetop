@@ -49,7 +49,7 @@ public class UserCreateTest extends IntegrationBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
-			.post(PLURAL);
+			.post(SINGULAR);
 
 		// then
 		response.then()
@@ -86,7 +86,7 @@ public class UserCreateTest extends IntegrationBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
-			.post(PLURAL);
+			.post(SINGULAR);
 
 		// then
 		response.then()

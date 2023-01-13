@@ -1,5 +1,6 @@
 package com.donetop.domain.entity.user;
 
+import com.donetop.dto.user.UserDTO;
 import com.donetop.enums.user.RoleType;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,5 +57,15 @@ public class User {
 	public User updatePassword(final String password) {
 		this.password = password;
 		return this;
+	}
+
+	public UserDTO toDTO() {
+		final UserDTO userDTO = new UserDTO();
+		userDTO.setId(this.id);
+		userDTO.setEmail(this.email);
+		userDTO.setName(this.name);
+		userDTO.setRoleType(this.roleType);
+		userDTO.setCreateTime(this.createTime);
+		return userDTO;
 	}
 }

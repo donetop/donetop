@@ -1,5 +1,6 @@
 package com.donetop.main.service.user;
 
+import com.donetop.dto.user.UserDTO;
 import com.donetop.main.api.user.request.UserCreateRequest;
 import com.donetop.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,4 +19,10 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(request.toEntity()).getId();
 	}
 
+	@Override
+	public UserDTO findUserBy(final String username) {
+		return userRepository.findByEmail(username)
+			.or(() -> userRepository.findByName(username))
+			.orElseThrow(() -> new IllegalStateException("유효한 유저 정보가 없습니다.")).toDTO();
+	}
 }
