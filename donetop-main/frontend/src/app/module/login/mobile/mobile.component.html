@@ -1,1 +1,20 @@
-<p>mobile works!</p>
+<div class="wrapper">
+  <div class="title">
+    <h1>로그인</h1>
+  </div>
+  <div class="form">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+      <input type="text" name="username" maxlength="20" placeholder="아이디" autocomplete="off" ngModel required #username="ngModel">
+      <input type="password" name="password" maxlength="20" placeholder="비밀번호" autocomplete="off" ngModel required #password="ngModel">
+      <div class="auto_login">
+        <input type="checkbox">
+        <label>자동로그인</label>
+      </div>
+      <button>로그인</button>
+    </form>
+  </div>
+  <div class="functions">
+    <a href="#">아이디/비밀번호 찾기</a>
+    <a href="#">회원 가입</a>
+  </div>
+</div>

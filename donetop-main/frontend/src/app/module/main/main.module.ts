@@ -8,7 +8,7 @@ import { HeaderModule } from '../header/header.module';
 import { MainComponent } from './main.component';
 import { FooterComponent } from '../footer/footer.component';
 
-// import { userReducer } from '../../store/reducer/user.reducer';
+import { userReducer } from '../../store/reducer/user.reducer';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { FooterComponent } from '../footer/footer.component';
   ],
   imports: [
     CommonModule,
-    // StoreModule.forRoot({ user: userReducer }),
+    StoreModule.forRoot({ user: userReducer }),
     HttpClientModule,
     MainRoutingModule,
     HeaderModule

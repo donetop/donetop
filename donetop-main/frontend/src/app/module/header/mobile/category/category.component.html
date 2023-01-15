@@ -10,12 +10,12 @@
       </div>
       <ul class="category active" #category>
         <li class="group" *ngFor="let category of categories; let i = index">
-          <div class="row">
+          <div class="row" (click)="toggleSubGroup(i)">
             <div>{{ category.name }}</div>
-            <button class="active" (click)="toggleSubGroup(i)" #sub_group_active_buttons>
+            <button class="active" #sub_group_active_buttons>
               <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
             </button>
-            <button (click)="toggleSubGroup(i)" #sub_group_disable_buttons>
+            <button #sub_group_disable_buttons>
               <fa-icon [icon]="['fas', 'angle-down']"></fa-icon>
             </button>
           </div>

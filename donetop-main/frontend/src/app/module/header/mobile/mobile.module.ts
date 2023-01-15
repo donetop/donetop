@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { MobileComponent } from './mobile.component';
@@ -17,6 +18,7 @@ import { faBars, faUser, faAngleRight, faCaretRight, faAngleDown } from '@fortaw
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FontAwesomeModule
   ],
   exports: [

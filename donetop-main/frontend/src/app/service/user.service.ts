@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Response } from '../http';
 import { User } from '../store/model/user.model';
+import { Store } from '@ngrx/store';
+import { UserUnloadAction } from '../store/action/user.action';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class UserService {
   private formLogoutUri: string = '/api/form/logout'
   private userUri: string = '/api/user'
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(private httpClient: HttpClient, private router: Router, private store: Store) {}
 
   login(data: object) {
     this.httpClient.post<Response<string>>(this.formLoginUri, data)
@@ -31,7 +33,7 @@ export class UserService {
       .subscribe({
         next: (response) => {
           console.log(`logout success.`);
-          window.location.reload();
+          this.store.dispatch(new UserUnloadAction());
         },
         error: ({error}) => alert(error.reason)
       });

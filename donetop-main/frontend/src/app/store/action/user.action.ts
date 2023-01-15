@@ -2,17 +2,17 @@ import { Action } from "@ngrx/store";
 import { User } from "../model/user.model";
 
 export enum UserActionType {
-  LOGIN = '[User] login.',
-  LOGOUT = '[User] logout.',
+  LOAD = '[User] load.',
+  UNLOAD = '[User] unload.',
 }
 
-export class LoginAction implements Action {
-  readonly type = UserActionType.LOGIN;
+export class UserLoadAction implements Action {
+  readonly type = UserActionType.LOAD;
   constructor(public user: User) {}
 }
 
-export class LogoutAction implements Action {
-  readonly type = UserActionType.LOGOUT;
+export class UserUnloadAction implements Action {
+  readonly type = UserActionType.UNLOAD;
 }
 
-export type UserAction = LoginAction | LogoutAction;
+export type UserAction = UserLoadAction | UserUnloadAction;

@@ -5,9 +5,9 @@ const initialState: User | undefined = undefined;
 
 export function userReducer(state: User | undefined = initialState, action: UserAction) {
   switch (action.type) {
-    case UserActionType.LOGIN:
+    case UserActionType.LOAD:
       return action.user;
-    case UserActionType.LOGOUT:
+    case UserActionType.UNLOAD:
       return undefined;
     default:
       return state;

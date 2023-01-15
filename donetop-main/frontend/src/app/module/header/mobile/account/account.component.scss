@@ -7,4 +7,67 @@
     font-size: 20px;
     color: black;
   }
+
+  section {
+    &.left {
+      background-color: black;
+      opacity: 0;
+      visibility: hidden;
+      width: 40%;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      transition: 200ms;
+
+      &.active {
+        opacity: 30%;
+        visibility: visible;
+        transition: 200ms;
+      }
+    }
+
+    &.right {
+      overflow-y: scroll;
+      background-color: white;
+      width: 60%;
+      height: 100vh;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      z-index: 100;
+      right: -100%;
+      transition: 200ms;
+
+      &.active {
+        right: 0;
+        transition: 200ms;
+      }
+    }
+  }
+
+  div.wrapper {
+    margin: 15px;
+
+    > div {
+      border-bottom: 1px solid #e5e5e5;
+      padding: 15px 0;
+      cursor: pointer;
+
+      &.name {
+        font-size: 1.2em;
+        padding: 20px 0;
+      }
+
+      &:hover {
+        background-color: #c9c5c5;
+      }
+
+      > fa-icon {
+        margin-right: 5px;
+      }
+    }
+
+  }
 }
