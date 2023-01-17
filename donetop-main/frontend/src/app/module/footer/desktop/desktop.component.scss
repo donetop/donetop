@@ -1,0 +1,231 @@
+footer {
+  display: flex;
+  flex-direction: column;
+
+  > div.container {
+    width: 1200px;
+    margin: 80px auto;
+
+    > section.top {
+      display: flex;
+      justify-content: center;
+
+      > div.time {
+        width: 570px;
+        height: 120px;
+        background: #49c8c3;
+        color: #fff;
+        padding: 30px;
+        display: flex;
+
+        > div {
+          width: 50%;
+
+          &.left {
+            border-right: 1px solid #26afaa;
+
+            > h1 {
+              font-size: 20px;
+              font-weight: 500;
+              margin-bottom: 20px;
+            }
+
+            > p {
+              font-size: 32px;
+              font-weight: 600;
+              line-height: 35px;
+            }
+          }
+
+          &.right {
+            padding-left: 30px;
+
+            > div {
+              font-size: 16px;
+            }
+
+            > a {
+              display: block;
+              width: 180px;
+              line-height: 35px;
+              background: #333;
+              color: #fff;
+              text-align: center;
+              font-size: 14px;
+              margin-top: 10px;
+              transition: all 0.3s ease-in-out;
+
+              &:hover {
+                background: #fff;
+                color: #333;
+              }
+            }
+          }
+        }
+
+      }
+
+      > img, > a {
+        width: 285px;
+        height: 180px;
+        margin: 0 0 0 30px;
+      }
+    }
+
+    > section.bottom {
+      margin: 30px 0 0;
+      width: 1140px;
+      height: 140px;
+      padding: 30px;
+      background: url("/assets/footer/banner_bg.jpg") no-repeat;
+      text-align: center;
+      color: #fff;
+
+      > h3 {
+        font-size: 25px;
+        font-weight: 500;
+
+        > span {
+          color: #a9ff4d;
+        }
+      }
+
+      > p {
+        font-size: 15px;
+        line-height: 22px;
+        margin: 5px 0 10px 0;
+      }
+
+      > a {
+        display: inline-block;
+        width: 180px;
+        line-height: 35px;
+        border: 1px solid #fff;
+        color: #fff;
+        font-size: 14px;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background: #fff;
+          color: #333;
+        }
+      }
+    }
+  }
+
+  > section {
+    min-width: 1200px;
+    border-top: 1px solid #e5e5e5;
+
+    > div.top {
+      margin: 0 auto;
+      width: 1200px;
+      padding: 50px 0;
+      display: flex;
+
+      > div {
+        border-right: 1px solid #e5e5e5;
+        flex-grow: 1;
+
+        &.info {
+          > img {
+            margin-bottom: 20px;
+          }
+
+          > div.container > span {
+            display: inline-block;
+            font-size: 13px;
+            color: #888;
+            margin-right: 10px;
+            line-height: 20px;
+          }
+        }
+
+        &.bank {
+          padding-left: 30px;
+
+          > h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+          }
+
+          > span {
+            display: block;
+            font-size: 15px;
+            line-height: 24px;
+            font-weight: 500;
+            color: #333;
+
+            > img {
+              margin-right: 10px;
+            }
+          }
+
+          > p {
+            font-size: 13px;
+            color: #555;
+            margin-top: 22px
+          }
+        }
+
+        &.cs {
+          padding-left: 30px;
+
+          > h2 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+          }
+
+          > p {
+            font-size: 15px;
+            line-height: 24px;
+            color: #666;
+          }
+
+          > span {
+            color: #f24c18;
+            font-size: 12px;
+          }
+
+        }
+      }
+    }
+
+    > div.bottom {
+      background: #eee;
+      height: 50px;
+
+      > div.container {
+        display: flex;
+        justify-content: space-between;
+        width: 1200px;
+        margin: 0 auto;
+
+        > ul {
+          line-height: 50px;
+          display: flex;
+
+          > li {
+            margin-right: 15px;
+            font-size: 13px;
+            flex-grow: 1;
+
+            > a {
+              color: #aaa;
+            }
+          }
+        }
+
+        > p {
+          line-height: 50px;
+          color: #aaa;
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}

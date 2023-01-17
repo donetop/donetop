@@ -1,7 +1,24 @@
-.footer {
-    position: relative;
-    margin: 0 auto;
-    height: 120px;
-    width: 1200px;
-    zoom: 1;
+@import "src/mixin";
+
+@include mobile;
+@include desktop;
+
+button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  line-height: 50px;
+  color: #fff;
+  text-align: center;
+  font-size: 15px;
+  z-index: 90;
+  background: #333;
+
+  > fa-icon {
+    font-size: 1.3em;
+  }
 }

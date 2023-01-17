@@ -1,3 +1,5 @@
-<footer class="footer">
-    <p>Here is footer</p>
-</footer>
+<app-desktop class="desktop"></app-desktop>
+<app-mobile class="mobile"></app-mobile>
+<button *ngIf="showScrollToTopButton" (click)="scrollToTop()">
+  <fa-icon [icon]="['fas', 'circle-arrow-up']"></fa-icon>
+</button>
