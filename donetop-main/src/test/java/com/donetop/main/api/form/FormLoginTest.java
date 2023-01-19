@@ -16,8 +16,7 @@ import org.springframework.http.HttpStatus;
 
 import static com.donetop.main.api.form.FormAPIController.Uri.*;
 import static org.hamcrest.Matchers.containsString;
-import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.*;
 
@@ -195,7 +194,8 @@ public class FormLoginTest extends IntegrationBase {
 				"form_login/login_withValidInfo_return200",
 				requestFields(
 					fieldWithPath("username").type(STRING).description("This is username for login."),
-					fieldWithPath("password").type(STRING).description("This is password for login.")
+					fieldWithPath("password").type(STRING).description("This is password for login."),
+					fieldWithPath("autoLogin").type(BOOLEAN).optional().description("This indicates autoLogin. The default value is false.")
 				),
 				responseFields(
 					fieldWithPath("status").type(STRING).description("Status value."),

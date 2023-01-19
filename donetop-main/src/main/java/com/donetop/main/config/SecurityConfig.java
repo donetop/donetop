@@ -3,7 +3,8 @@ package com.donetop.main.config;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.draft.DraftAPIController;
 import com.donetop.main.api.form.FormAPIController;
-import com.donetop.main.api.form.LoginFilter;
+import com.donetop.main.api.form.filter.ContentCachingRequestFilter;
+import com.donetop.main.api.form.filter.LoginFilter;
 import com.donetop.main.api.form.handler.LoginFailureHandler;
 import com.donetop.main.api.form.handler.LoginSuccessHandler;
 import com.donetop.main.api.form.handler.LogoutSuccessHandler;
@@ -11,7 +12,9 @@ import com.donetop.main.api.user.UserAPIController;
 import com.donetop.main.view.ViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +23,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -59,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 			.and()
 				.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(contentCachingRequestFilter(), LoginFilter.class)
 				.formLogin()
 				.loginPage(ViewController.Uri.LOGIN)
 			.and()
@@ -70,12 +75,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
+	@Profile(value = "local")
+	public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+		return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
+	}
+
+	@Bean
 	public LoginFilter loginFilter() throws Exception {
 		LoginFilter loginFilter = new LoginFilter(objectMapper);
 		loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
 		loginFilter.setAuthenticationFailureHandler(loginFailureHandler);
 		loginFilter.setAuthenticationManager(authenticationManagerBean());
 		return loginFilter;
+	}
+
+	@Bean
+	public ContentCachingRequestFilter contentCachingRequestFilter() {
+		return new ContentCachingRequestFilter();
 	}
 
 	@Bean

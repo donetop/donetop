@@ -1,14 +1,12 @@
-package com.donetop.main.api.form;
+package com.donetop.main.api.form.filter;
 
 import com.donetop.main.api.form.FormAPIController.Uri;
+import com.donetop.main.api.form.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -45,23 +43,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 			throw new InsufficientAuthenticationException("유저이름 및 비밀번호를 모두 입력해주세요.");
 		}
 
-		return this.getAuthenticationManager().authenticate(loginRequest.toToken());
+		return this.getAuthenticationManager().authenticate(loginRequest.toUsernamePasswordAuthenticationToken());
 	}
 
-	@Getter
-	@Setter
-	private static class LoginRequest {
-
-		private String username;
-		private String password;
-
-		public boolean isEmpty() {
-			return !StringUtils.hasLength(username) || !StringUtils.hasLength(password);
-		}
-
-		public UsernamePasswordAuthenticationToken toToken() {
-			return new UsernamePasswordAuthenticationToken(this.username, this.password);
-		}
-
-	}
 }

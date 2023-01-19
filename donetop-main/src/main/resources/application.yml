@@ -31,10 +31,11 @@ spring:
 application:
   properties:
     base-uri: "http://localhost"
+    custom-max-inactive-interval: 31536000 # 1년
     storage:
       root: C:/Users/DONETOP/jin/workspace/donetop/donetop-main/src/main/resources/storage
 
 logging:
   level:
-    com.donetop.main.api:
-      form: DEBUG
+    com.donetop.main.api.form: DEBUG
+    org.springframework.security.web.session: DEBUG

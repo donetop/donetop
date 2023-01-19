@@ -5,6 +5,7 @@ import { Response } from '../http';
 import { User } from '../store/model/user.model';
 import { Store } from '@ngrx/store';
 import { UserUnloadAction } from '../store/action/user.action';
+import { NgForm } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,18 @@ export class UserService {
 
   constructor(private httpClient: HttpClient, private router: Router, private store: Store) {}
 
-  login(data: object) {
-    this.httpClient.post<Response<string>>(this.formLoginUri, data)
+  login(form: NgForm) {
+    if (form.controls['username'].invalid) {
+      alert("아이디를 입력해주세요.");
+      return;
+    }
+
+    if (form.controls['password'].invalid) {
+      alert("비밀번호 입력해주세요.");
+      return;
+    }
+
+    this.httpClient.post<Response<string>>(this.formLoginUri, form.value)
       .subscribe({
         next: (response) => {
           console.log(`login success. user info : ${response.data}`);
