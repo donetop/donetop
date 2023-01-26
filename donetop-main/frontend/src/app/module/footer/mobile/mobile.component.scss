@@ -1,19 +1,22 @@
+$min-width: 350px;
+
 footer {
   display: flex;
   flex-direction: column;
 
   > div.time {
-    height: 90px;
+    min-width: 250px;
     background: #49c8c3;
     color: #fff;
     padding: 20px;
     display: flex;
 
     > div {
-      width: 50%;
+      flex-grow: 1;
 
       &.left {
         border-right: 1px solid #26afaa;
+        padding: 0 15px 0 0;
 
         > h1 {
           font-size: 20px;
@@ -29,7 +32,7 @@ footer {
       }
 
       &.right {
-        padding-left: 15px;
+        padding: 0 0 0 15px;
 
         > div {
           font-size: 14px;
@@ -55,15 +58,39 @@ footer {
 
   }
 
+  @media (max-width: 400px) {
+    > div.time {
+      flex-direction: column;
+
+      > div.left {
+        border-right: none;
+        border-bottom: 1px solid #26afaa;
+        padding: 0 0 15px 0;
+      }
+
+      > div.right {
+        padding: 15px 0 0 0;
+      }
+    }
+  }
+
   > div.image {
+    min-width: #{$min-width};
     display: flex;
 
     > img {
-      width: 50%;
+      flex-grow: 1;
+    }
+  }
+
+  @media (max-width: 570px) {
+    > div.image {
+      flex-direction: column;
     }
   }
 
   > div.notice {
+    min-width: #{$min-width};
     height: 120px;
     padding: 10px;
     background: #003a81;
@@ -102,6 +129,7 @@ footer {
   }
 
   > div.bank {
+    min-width: #{$min-width};
     margin: 10px;
     border-bottom: 1px solid #e5e5e5;
 
@@ -132,6 +160,7 @@ footer {
   }
 
   > div.cs {
+    min-width: #{$min-width};
     margin: 0 10px 10px 10px;
 
     > h2 {
@@ -154,6 +183,7 @@ footer {
   }
 
   > div.info {
+    min-width: #{$min-width};
     background: #efefef;
     padding: 10px;
     display: flex;
