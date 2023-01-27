@@ -35,14 +35,28 @@ button {
   font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
 }
 
-input {
+input, textarea {
   font-size: 1em;
   transition: all 0.30s ease-in-out;
   outline: none;
   font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
+  vertical-align: middle;
 
   &:focus {
     box-shadow: 0 0 5px #9ed4ff;
     border: 1px solid #558ab7 !important;
   }
 }
+
+label, select {
+  font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
+  vertical-align: middle;
+}
+
+.required {
+  background-image: url("/assets/require.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: right top !important;
+}
+
+

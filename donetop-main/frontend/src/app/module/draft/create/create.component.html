@@ -1,0 +1,70 @@
+<app-title [title]="'주문하기'"></app-title>
+<div class="container">
+  <form #draftCreateForm="ngForm" novalidate>
+    <div class="fast-estimate">
+      <div class="title">빠른견적</div>
+      <div class="area">
+        <div class="column">
+          <label for="password">비밀번호</label>
+          <input type="password" class="required" id="password" name="password" placeholder="비밀번호를 입력해주세요." autocomplete="off" ngModel required #password="ngModel">
+        </div>
+        <div class="column">
+          <label for="category">품목선택</label>
+          <select id="category" name="category" [(ngModel)]='categoryModel'>
+            <option *ngFor="let category of this.categories" [value]="category.name">{{ category.name }}</option>
+          </select>
+        </div>
+        <div class="column">
+          <label for="memo">견적내용</label>
+          <textarea id="memo" name="memo" rows="10" ngModel #memo="ngModel"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="personal-info">
+      <div class="title">연락처</div>
+      <div class="area">
+        <div class="column">
+          <label for="company">회사</label>
+          <input type="text" id="company" name="company" autocomplete="off" ngModel #company="ngModel">
+        </div>
+        <div class="column">
+          <label for="name">이름</label>
+          <input type="text" class="required" id="name" name="name" placeholder="이름을 입력해주세요." autocomplete="off" ngModel required #name="ngModel">
+        </div>
+        <div class="column">
+          <label for="email">이메일</label>
+          <input type="email" class="required" id="email" name="email" placeholder="이메일을 입력해주세요." autocomplete="off" ngModel required #email="ngModel">
+        </div>
+        <div class="column">
+          <label for="phone1">연락처</label>
+            <input type="tel" class="required" id="phone1" name="phone1" placeholder="3자를 입력해주세요." autocomplete="off" ngModel required #phone="ngModel" (keypress)="onlyNumberKey($event)" [maxlength]="3">&nbsp;-&nbsp;
+            <input type="tel" class="required" id="phone2" name="phone2" placeholder="4자를 입력해주세요." autocomplete="off" ngModel required #phone="ngModel" (keypress)="onlyNumberKey($event)" [maxlength]="4">&nbsp;-&nbsp;
+            <input type="tel" class="required" id="phone3" name="phone3" placeholder="4자를 입력해주세요." autocomplete="off" ngModel required #phone="ngModel" (keypress)="onlyNumberKey($event)" [maxlength]="4">
+        </div>
+      </div>
+    </div>
+    <div class="area">
+      <div class="file">
+        <label for="file1"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
+        <input type="file" id="file1" name="file1" ngModel #file1="ngModel">
+      </div>
+      <div class="file">
+        <label for="file2"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
+        <input type="file" id="file2" name="file2" ngModel #file2="ngModel">
+      </div>
+      <div class="file">
+        <label for="file3"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
+        <input type="file" id="file3" name="file3" ngModel #file3="ngModel">
+      </div>
+    </div>
+    <div class="personal-info-policy">
+
+    </div>
+    <div class="prevent-automatic-registration">
+
+    </div>
+    <div class="buttons">
+
+    </div>
+  </form>
+</div>
