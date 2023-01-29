@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
-import { Category, categories } from 'src/app/store/model/category';
+import { Category, categories } from 'src/app/store/model/category.model';
 
 @Component({
   selector: 'app-category',

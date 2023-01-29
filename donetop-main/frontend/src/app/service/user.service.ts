@@ -21,11 +21,13 @@ export class UserService {
   login(form: NgForm) {
     if (form.controls['username'].invalid) {
       alert("아이디를 입력해주세요.");
+      document.getElementsByName('username').forEach(e => e.focus());
       return;
     }
 
     if (form.controls['password'].invalid) {
       alert("비밀번호 입력해주세요.");
+      document.getElementsByName('password').forEach(e => e.focus());
       return;
     }
 
