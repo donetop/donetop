@@ -48,47 +48,59 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 	}
 
 	@Test
-	void updateSingle_withInvalidParams_return400() {
+	void updateSingle_withInvalidPartValues_return400() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_single_update/updateSingle_withInvalidParams_return400"
+				"draft_single_update/updateSingle_withInvalidPartValues_return400"
 			)
 		);
 
 		// when
 		final Response response = given.when()
 			.multiPart("customerName", "")
-			.multiPart("price", 100)
+			.multiPart("companyName", "")
+			.multiPart("email", "")
+			.multiPart("category", "")
+			.multiPart("phoneNumber", "")
+			.multiPart("address", "")
+			.multiPart("memo", "")
 			.multiPart("password", "")
+			.multiPart("paymentMethod", "asdsdsadsa")
+			.multiPart("price", 100)
+			.multiPart("draftStatus", "fdfdfe")
 			.put(SINGULAR + "/{id}", 1);
 
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(7));
+			.body("reason", hasSize(9));
 	}
 
 	@Test
-	void updateSingle_withValidParamsButUnknownId_return400() {
+	void updateSingle_withValidPartValuesButUnknownId_return400() {
 	    // given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_single_update/updateSingle_withValidParamsButUnknownId_return400"
+				"draft_single_update/updateSingle_withValidPartValuesButUnknownId_return400"
 			)
 		);
 
 		// when
 		final Response response = given.when()
-			.multiPart("customerName", "mun")
-			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
-			.multiPart("address", "new address")
+			.multiPart("customerName", "jin")
+			.multiPart("companyName", "my company")
+			.multiPart("email", "jin@test.com")
+			.multiPart("category", "my category")
+			.multiPart("phoneNumber", "010-0000-0000")
+			.multiPart("address", "my address")
+			.multiPart("memo", "my memo")
+			.multiPart("password", "my password")
+			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)
-			.multiPart("paymentMethod", PaymentMethod.CHECK_CARD.toString())
-			.multiPart("memo", "new memo")
-			.multiPart("password", "new password")
+			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
 			.put(SINGULAR + "/{id}", 100);
 
 		// then
@@ -98,32 +110,37 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 	}
 
 	@Test
-	void updateSingle_withValidParamsAndId_return200() {
+	void updateSingle_withValidPartValuesAndId_return200() {
 		// given
-		Draft draft = Draft.builder()
+		Draft draft = new Draft().toBuilder()
 			.customerName("jin")
-			.price(2000)
+			.email("jin@test.com")
+			.category("category")
+			.phoneNumber("010-0000-0000")
 			.address("address")
-			.memo("memo")
 			.password("password").build();
 		draftRepository.save(draft);
 		assert draft.getId() != 0L;
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_single_update/updateSingle_withValidParamsAndId_return200"
+				"draft_single_update/updateSingle_withValidPartValuesAndId_return200"
 			)
 		);
 
 		// when
 		final Response response = given.when()
-			.multiPart("customerName", "mun")
-			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
-			.multiPart("address", "new address")
+			.multiPart("customerName", "jin")
+			.multiPart("companyName", "my company")
+			.multiPart("email", "jin@test.com")
+			.multiPart("category", "my category")
+			.multiPart("phoneNumber", "010-0000-0000")
+			.multiPart("address", "my address")
+			.multiPart("memo", "my memo")
+			.multiPart("password", "my password")
+			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)
-			.multiPart("paymentMethod", PaymentMethod.CHECK_CARD.toString())
-			.multiPart("memo", "new memo")
-			.multiPart("password", "new password")
+			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
 			.put(SINGULAR + "/{id}", draft.getId());
 
 		// then
@@ -133,13 +150,14 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 	}
 
 	@Test
-	void updateSingle_withValidParamsAndFilesAndId_return200() throws Exception {
+	void updateSingle_withValidPartValuesAndFilesAndId_return200() throws Exception {
 		// given
-		Draft draft = Draft.builder()
+		Draft draft = new Draft().toBuilder()
 			.customerName("jin")
-			.price(2000)
+			.email("jin@test.com")
+			.category("category")
+			.phoneNumber("010-0000-0000")
 			.address("address")
-			.memo("memo")
 			.password("password").build();
 		draftRepository.save(draft);
 		assert draft.getId() != 0L;
@@ -149,16 +167,20 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
 			document(
-				"draft_single_update/updateSingle_withValidParamsAndFilesAndId_return200",
+				"draft_single_update/updateSingle_withValidPartValuesAndFilesAndId_return200",
 				requestParts(
-					partWithName("customerName").description("This field shouldn't be empty."),
-					partWithName("price").description("This field should be greater or equal than 1000."),
-					partWithName("address").description("This field shouldn't be null."),
-					partWithName("memo").description("This field shouldn't be null."),
-					partWithName("password").description("This field shouldn't be empty."),
-					partWithName("draftStatus").description("This field shouldn't be null."),
-					partWithName("paymentMethod").description("This field shouldn't be null."),
-					partWithName("files").optional().description("This parameter can be empty. Each file's max size is 5MB.")
+					partWithName("customerName").description("The value shouldn't be empty."),
+					partWithName("companyName").description("The value can be empty."),
+					partWithName("email").description("The value shouldn't be empty."),
+					partWithName("category").description("The value shouldn't be empty."),
+					partWithName("phoneNumber").description("The value shouldn't be empty."),
+					partWithName("address").description("The value shouldn't be empty."),
+					partWithName("memo").description("The value can be empty."),
+					partWithName("password").description("The value shouldn't be empty."),
+					partWithName("paymentMethod").description("The value should be one of [CASH, CREDIT_CARD]."),
+					partWithName("files").description("The value can be empty. Each file's max size is 5MB."),
+					partWithName("price").description("The value should be greater or equal than 1000."),
+					partWithName("draftStatus").description("The value should be one of [HOLDING, WORKING, CHECK_REQUEST, PRINT_REQUEST, COMPLETED].")
 				),
 				responseFields(
 					fieldWithPath("status").type(STRING).description("Status value."),
@@ -170,13 +192,17 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 
 		// when
 		final Response response = given.when()
-			.multiPart("customerName", "mun")
-			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
-			.multiPart("address", "new address")
+			.multiPart("customerName", "jin")
+			.multiPart("companyName", "my company")
+			.multiPart("email", "jin@test.com")
+			.multiPart("category", "my category")
+			.multiPart("phoneNumber", "010-0000-0000")
+			.multiPart("address", "my address")
+			.multiPart("memo", "my memo")
+			.multiPart("password", "my password")
+			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)
-			.multiPart("paymentMethod", PaymentMethod.CHECK_CARD.toString())
-			.multiPart("memo", "new memo")
-			.multiPart("password", "new password")
+			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
 			.put(SINGULAR + "/{id}", draft.getId());
 
 		// then

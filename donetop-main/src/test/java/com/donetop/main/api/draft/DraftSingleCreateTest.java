@@ -1,6 +1,7 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.enums.folder.FolderType;
+import com.donetop.enums.payment.PaymentMethod;
 import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.main.common.TestFileUtil;
 import com.donetop.main.properties.ApplicationProperties.Storage;
@@ -46,12 +47,12 @@ public class DraftSingleCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createSingle_withoutParams_return400() {
+	void createSingle_withoutParts_return400() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_single_create/createSingle_withoutParams_return400"
+				"draft_single_create/createSingle_withoutParts_return400"
 			)
 		);
 
@@ -62,49 +63,59 @@ public class DraftSingleCreateTest extends IntegrationBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(5));
+			.body("reason", hasSize(9));
 	}
 
 	@Test
-	void createSingle_withInvalidParams_return400() {
+	void createSingle_withInvalidPartValues_return400() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_single_create/createSingle_withInvalidParams_return400"
+				"draft_single_create/createSingle_withInvalidPartValues_return400"
 			)
 		);
 
 		// when
 		final Response response = given.when()
 			.multiPart("customerName", "")
-			.multiPart("price", 0)
+			.multiPart("companyName", "")
+			.multiPart("email", "")
+			.multiPart("category", "")
+			.multiPart("phoneNumber", "")
+			.multiPart("address", "")
+			.multiPart("memo", "")
 			.multiPart("password", "")
+			.multiPart("paymentMethod", "asdsdsadsa")
 			.post(SINGULAR);
 
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(5));
+			.body("reason", hasSize(7));
 	}
 
 	@Test
-	void createSingle_withValidParamsAndWithoutFiles_return200() {
+	void createSingle_withValidPartValues_return200() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"draft_single_create/createSingle_withValidParamsAndWithoutFiles_return200"
+				"draft_single_create/createSingle_withValidPartValues_return200"
 			)
 		);
 
 		// when
 		final Response response = given.when()
 			.multiPart("customerName", "jin")
+			.multiPart("companyName", "my company")
+			.multiPart("email", "jin@test.com")
+			.multiPart("category", "my category")
+			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
-			.multiPart("price", 1000)
-			.multiPart("memo", "simple test")
+			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
+			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
 			.post(SINGULAR);
 
 		// then
@@ -113,7 +124,7 @@ public class DraftSingleCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createSingle_withValidParamsAndSizeExceedFiles_return400() {
+	void createSingle_withValidPartValuesAndSizeExceedFiles_return400() {
 		// given
 		final Storage storage = applicationProperties.getStorage();
 		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc()));
@@ -121,17 +132,21 @@ public class DraftSingleCreateTest extends IntegrationBase {
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
 			document(
-				"draft_single_create/createSingle_withValidParamsAndSizeExceedFiles_return400"
+				"draft_single_create/createSingle_withValidPartValuesAndSizeExceedFiles_return400"
 			)
 		);
 
 		// when
 		final Response response = given.when()
 			.multiPart("customerName", "jin")
+			.multiPart("companyName", "my company")
+			.multiPart("email", "jin@test.com")
+			.multiPart("category", "my category")
+			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
-			.multiPart("price", 1000)
-			.multiPart("memo", "simple test")
+			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
+			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
 			.post(SINGULAR);
 
 		// then
@@ -141,7 +156,7 @@ public class DraftSingleCreateTest extends IntegrationBase {
 	}
 
 	@Test
-	void createSingle_withValidParamsAndFiles_return200() throws Exception {
+	void createSingle_withValidPartValuesAndFiles_return200() throws Exception {
 		// given
 		final Storage storage = applicationProperties.getStorage();
 		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
@@ -149,14 +164,18 @@ public class DraftSingleCreateTest extends IntegrationBase {
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
 			document(
-				"draft_single_create/createSingle_withValidParamsAndFiles_return200",
+				"draft_single_create/createSingle_withValidPartValuesAndFiles_return200",
 				requestParts(
-					partWithName("customerName").description("This parameter shouldn't be empty."),
-					partWithName("price").description("This parameter should be greater or equal than 1000."),
-					partWithName("address").description("This parameter shouldn't be null."),
-					partWithName("memo").description("This parameter shouldn't be null."),
-					partWithName("password").description("This parameter shouldn't be empty."),
-					partWithName("files").description("This parameter can be empty. Each file's max size is 5MB.")
+					partWithName("customerName").description("The value shouldn't be empty."),
+					partWithName("companyName").description("The value can be empty."),
+					partWithName("email").description("The value shouldn't be empty."),
+					partWithName("category").description("The value shouldn't be empty."),
+					partWithName("phoneNumber").description("The value shouldn't be empty."),
+					partWithName("address").description("The value shouldn't be empty."),
+					partWithName("memo").description("The value can be empty."),
+					partWithName("password").description("The value shouldn't be empty."),
+					partWithName("paymentMethod").description("The value should be one of [CASH, CREDIT_CARD]."),
+					partWithName("files").description("The value can be empty. Each file's max size is 5MB.")
 				),
 				responseFields(
 					fieldWithPath("status").type(STRING).description("Status value."),
@@ -169,10 +188,14 @@ public class DraftSingleCreateTest extends IntegrationBase {
 		// when
 		final Response response = given.when()
 			.multiPart("customerName", "jin")
+			.multiPart("companyName", "my company")
+			.multiPart("email", "jin@test.com")
+			.multiPart("category", "my category")
+			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
-			.multiPart("price", 1000)
-			.multiPart("memo", "simple test")
+			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
+			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
 			.post(SINGULAR);
 
 		// then

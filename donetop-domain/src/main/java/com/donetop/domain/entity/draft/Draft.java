@@ -5,6 +5,7 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.payment.PaymentMethod;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +17,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbDraft")
-@Getter
 @DynamicUpdate
+@Getter
+@Builder(toBuilder = true)
 @NoArgsConstructor
+@AllArgsConstructor
 public class Draft implements Serializable {
 
 	@Id
@@ -26,32 +29,50 @@ public class Draft implements Serializable {
 	@Column(nullable = false, updatable = false)
 	private long id;
 
-	@Column(nullable = false, length = 128)
+	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
 	private String customerName;
 
+	@Builder.Default
+	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
+	private String companyName = "";
+
+	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
+	private String email;
+
+	@Column(nullable = false, columnDefinition = "varchar(15) default ''")
+	private String phoneNumber;
+
+	@Column(nullable = false, columnDefinition = "varchar(64) default ''")
+	private String category;
+
+	@Builder.Default
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(50) default ''")
 	private DraftStatus draftStatus = DraftStatus.HOLDING;
 
-	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(256) default ''")
 	private String address;
 
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "bigint(20) default 0")
 	private long price;
 
+	@Builder.Default
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(50) default ''")
 	private PaymentMethod paymentMethod = PaymentMethod.CASH;
 
-	@Column(nullable = false, columnDefinition = "varchar(1024) default ''")
-	private String memo;
+	@Builder.Default
+	@Column(nullable = false, columnDefinition = "varchar(3000) default ''")
+	private String memo = "";
 
-	@Column(nullable = false, columnDefinition = "varchar(1024) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
 	private String password;
 
+	@Builder.Default
 	@Column(nullable = false)
 	private LocalDateTime createTime = LocalDateTime.now();
 
+	@Builder.Default
 	@Column(nullable = false)
 	private LocalDateTime updateTime = LocalDateTime.now();
 
@@ -59,61 +80,62 @@ public class Draft implements Serializable {
 	@JoinColumn(name = "folderId")
 	private Folder folder;
 
-	@Builder
-	public Draft(final String customerName, final String address, final long price, final String memo, final String password) {
-		this.customerName = customerName;
-		this.address = address;
-		this.price = price;
-		this.memo = memo;
-		this.password = password;
-	}
-
-	// This constructor should be only used for test.
-	@Builder(builderMethodName = "testBuilder", builderClassName = "DraftTestBuilder")
-	public Draft(final String customerName, final String address, final long price, final String memo, final String password,
-				 final long id, final LocalDateTime createTime, final LocalDateTime updateTime) {
-		this(customerName, address, price, memo, password);
-		this.id = id;
-		this.createTime = createTime;
-		this.updateTime = updateTime;
-	}
-
 	public Draft updateCustomerName(final String customerName) {
-		if (!this.customerName.equals(customerName)) this.customerName = customerName;
+		this.customerName = customerName;
+		return this;
+	}
+
+	public Draft updateCompanyName(final String companyName) {
+		this.companyName = companyName;
+		return this;
+	}
+
+	public Draft updateEmail(final String email) {
+		this.email = email;
+		return this;
+	}
+
+	public Draft updatePhoneNumber(final String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+		return this;
+	}
+
+	public Draft updateCategory(final String category) {
+		this.category = category;
 		return this;
 	}
 
 	public Draft updateDraftStatus(final DraftStatus draftStatus) {
-		if (!this.draftStatus.equals(draftStatus)) this.draftStatus = draftStatus;
+		this.draftStatus = draftStatus;
 		return this;
 	}
 
 	public Draft updateAddress(final String address) {
-		if (!this.address.equals(address)) this.address = address;
+		this.address = address;
 		return this;
 	}
 
 	public Draft updatePrice(final long price) {
-		if (this.price != price) this.price = price;
+		this.price = price;
 		return this;
 	}
 
 	public Draft updatePaymentMethod(final PaymentMethod paymentMethod) {
-		if (!this.paymentMethod.equals(paymentMethod)) this.paymentMethod = paymentMethod;
+		this.paymentMethod = paymentMethod;
 		return this;
 	}
 
 	public Draft updateMemo(final String memo) {
-		if (!this.memo.equals(memo)) this.memo = memo;
+		this.memo = memo;
 		return this;
 	}
 
 	public Draft updatePassword(final String password) {
-		if (!this.password.equals(password)) this.password = password;
+		this.password = password;
 		return this;
 	}
 
-	public Draft updateUpdateTime(final LocalDateTime localDateTime) {
+	public Draft setUpdateTime(final LocalDateTime localDateTime) {
 		this.updateTime = localDateTime;
 		return this;
 	}
@@ -127,16 +149,20 @@ public class Draft implements Serializable {
 	}
 
 	public DraftDTO toDTO(final boolean includeFolder) {
-		final DraftDTO draftDTO = new DraftDTO();
-		draftDTO.setId(this.id);
-		draftDTO.setCustomerName(this.customerName);
-		draftDTO.setDraftStatus(this.draftStatus);
-		draftDTO.setAddress(this.address);
-		draftDTO.setPrice(this.price);
-		draftDTO.setPaymentMethod(this.paymentMethod);
-		draftDTO.setMemo(this.memo);
-		draftDTO.setCreateTime(this.createTime);
-		draftDTO.setUpdateTime(this.updateTime);
+		final DraftDTO draftDTO = DraftDTO.builder()
+			.id(this.id)
+			.customerName(this.customerName)
+			.companyName(this.companyName)
+			.email(this.email)
+			.phoneNumber(this.phoneNumber)
+			.category(this.category)
+			.draftStatus(this.draftStatus)
+			.address(this.address)
+			.price(this.price)
+			.paymentMethod(this.paymentMethod)
+			.memo(this.memo)
+			.createTime(this.createTime)
+			.updateTime(this.updateTime).build();
 		if (includeFolder && this.folder != null) draftDTO.setFolder(this.folder.toDTO());
 		return draftDTO;
 	}

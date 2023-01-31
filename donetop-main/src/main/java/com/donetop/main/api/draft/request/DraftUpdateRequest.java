@@ -3,48 +3,35 @@ package com.donetop.main.api.draft.request;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.payment.PaymentMethod;
-import com.donetop.main.api.common.MultipartFilesRequest;
+import com.donetop.enums.validation.ValueOfEnum;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class DraftUpdateRequest extends MultipartFilesRequest {
-
-	@NotEmpty(message = "고객명을 입력해주세요.")
-	private String customerName;
-
-	@NotNull(message = "주소를 입력해주세요.")
-	private String address;
+public class DraftUpdateRequest extends DraftCreateRequest {
 
 	@Min(value = 1000L, message = "최소 가격은 1,000원입니다.")
 	private long price;
 
-	@NotNull(message = "메모를 입력해주세요.")
-	private String memo;
-
-	@NotEmpty(message = "비밀번호를 입력해주세요.")
-	private String password;
-
-	@NotNull(message = "유효하지 않은 상태값입니다.")
-	private DraftStatus draftStatus;
-
-	@NotNull(message = "유효하지 않은 결제 방법입니다.")
-	private PaymentMethod paymentMethod;
+	@ValueOfEnum(enumClass = DraftStatus.class, message = "유효하지 않은 상태값입니다.")
+	private String draftStatus;
 
 	public Draft applyTo(final Draft draft) {
 		return draft
-			.updateCustomerName(this.customerName)
-			.updateDraftStatus(this.draftStatus)
-			.updateAddress(this.address)
-			.updatePrice(this.price)
-			.updatePaymentMethod(this.paymentMethod)
-			.updateMemo(this.memo)
-			.updatePassword(this.password)
-			.updateUpdateTime(LocalDateTime.now());
+			.updateCustomerName(getCustomerName())
+			.updateCompanyName(getCompanyName())
+			.updateEmail(getEmail())
+			.updatePhoneNumber(getPhoneNumber())
+			.updateCategory(getCategory())
+			.updateDraftStatus(DraftStatus.of(this.draftStatus))
+			.updateAddress(getAddress())
+			.updatePrice(getPrice())
+			.updatePaymentMethod(PaymentMethod.of(getPaymentMethod()))
+			.updateMemo(getMemo())
+			.updatePassword(getPassword())
+			.setUpdateTime(LocalDateTime.now());
 	}
 }

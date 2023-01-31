@@ -69,8 +69,12 @@ public class DraftSingleGetTest extends IntegrationBase {
 	void getSingle_withValidIdButWrongPassword_return400() {
 		// given
 		final LocalDateTime now = LocalDateTime.now();
-		final Draft draft = Draft.testBuilder()
+		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
+			.companyName("jin's company")
+			.email("jin@test.com")
+			.category("category")
+			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)
 			.memo("get test")
@@ -100,8 +104,12 @@ public class DraftSingleGetTest extends IntegrationBase {
 	void getSingle_withValidIdAndRightPassword_return200() {
 		// given
 		final LocalDateTime now = LocalDateTime.now();
-		final Draft draft = Draft.testBuilder()
+		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
+			.companyName("jin's company")
+			.email("jin@test.com")
+			.category("category")
+			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)
 			.memo("get test")
@@ -138,8 +146,12 @@ public class DraftSingleGetTest extends IntegrationBase {
 		final Storage storage = applicationProperties.getStorage();
 		final List<Resource> resources = TestFileUtil.readResources(Path.of(storage.getSrc()));
 		final LocalDateTime now = LocalDateTime.now();
-		final Draft draft = Draft.testBuilder()
+		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
+			.companyName("jin's company")
+			.email("jin@test.com")
+			.category("category")
+			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)
 			.memo("get test")
@@ -164,6 +176,10 @@ public class DraftSingleGetTest extends IntegrationBase {
 					fieldWithPath("data").type(OBJECT).description("Response data."),
 					fieldWithPath("data.id").type(NUMBER).description("Draft id."),
 					fieldWithPath("data.customerName").description("Draft customerName."),
+					fieldWithPath("data.companyName").description("Draft companyName."),
+					fieldWithPath("data.email").description("Draft email."),
+					fieldWithPath("data.phoneNumber").description("Draft phoneNumber."),
+					fieldWithPath("data.category").description("Draft category."),
 					fieldWithPath("data.draftStatus").type(STRING).description("Draft status."),
 					fieldWithPath("data.address").type(STRING).description("Draft address."),
 					fieldWithPath("data.price").description("Draft price."),

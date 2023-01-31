@@ -38,8 +38,12 @@ public class DraftMultipleGetTest extends IntegrationBase {
 	void beforeAll() {
 		LocalDateTime now = LocalDateTime.now();
 		for (int i = 0; i < 100; i++) {
-			Draft draft = Draft.testBuilder()
+			Draft draft = new Draft().toBuilder()
 				.customerName("jin" + i)
+				.companyName("jin's company")
+				.email("jin@test.com")
+				.category("category")
+				.phoneNumber("010-0000-0000")
 				.price(1000 + i)
 				.address("address" + i)
 				.memo("memo" + i)

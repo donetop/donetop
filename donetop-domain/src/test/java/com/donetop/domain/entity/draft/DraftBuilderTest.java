@@ -2,29 +2,18 @@ package com.donetop.domain.entity.draft;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class DraftBuilderTest {
 
 	@Test
-	void createDraft_withBuilder_shouldHaveValues() {
-	    // given & when
-		final Draft draft = Draft.builder()
-			.customerName("jin")
-			.address("my address")
-			.price(1000)
-			.memo("simple test")
-			.password("my password").build();
+	void buildDraft_withoutValues_shouldHaveDefaultValues() {
+		// given & when
+		final Draft draft = new Draft().toBuilder().build();
 
 		// then
-		assertThat(draft.getId()).isEqualTo(0L);
-		assertThat(draft.getCustomerName()).isNotEmpty();
-		assertThat(draft.getAddress()).isNotEmpty();
-		assertThat(draft.getPrice()).isGreaterThan(0L);
-		assertThat(draft.getMemo()).isNotEmpty();
-		assertThat(draft.getPassword()).isNotEmpty();
+		assertThat(draft.getCompanyName()).isEmpty();
+		assertThat(draft.getMemo()).isEmpty();
 		assertThat(draft.getDraftStatus()).isNotNull();
 		assertThat(draft.getPaymentMethod()).isNotNull();
 		assertThat(draft.getCreateTime()).isNotNull();
@@ -32,30 +21,33 @@ public class DraftBuilderTest {
 	}
 
 	@Test
-	void createDraft_withTestBuilder_shouldHaveValues() {
+	void buildDraft_withValues_shouldHaveThoseValuesAndDefaultValues() {
 	    // given & when
-		final LocalDateTime now = LocalDateTime.now();
-		final Draft draft = Draft.testBuilder()
-			.id(1L)
+		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
+			.companyName("jin company")
+			.email("my email")
+			.phoneNumber("000-0000-0000")
+			.category("category")
 			.address("my address")
-			.price(1000)
 			.memo("simple test")
-			.password("my password")
-			.createTime(now)
-			.updateTime(now).build();
+			.password("my password").build();
 
 		// then
-		assertThat(draft.getId()).isEqualTo(1L);
+		assertThat(draft.getId()).isEqualTo(0L);
 		assertThat(draft.getCustomerName()).isNotEmpty();
+		assertThat(draft.getCompanyName()).isNotEmpty();
+		assertThat(draft.getEmail()).isNotEmpty();
+		assertThat(draft.getPhoneNumber()).isNotEmpty();
+		assertThat(draft.getCategory()).isNotEmpty();
 		assertThat(draft.getAddress()).isNotEmpty();
-		assertThat(draft.getPrice()).isGreaterThan(0L);
 		assertThat(draft.getMemo()).isNotEmpty();
 		assertThat(draft.getPassword()).isNotEmpty();
 		assertThat(draft.getDraftStatus()).isNotNull();
 		assertThat(draft.getPaymentMethod()).isNotNull();
 		assertThat(draft.getCreateTime()).isNotNull();
 		assertThat(draft.getUpdateTime()).isNotNull();
+		assertThat(draft.getFolder()).isNull();
 	}
 
 }

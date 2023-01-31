@@ -31,10 +31,12 @@ public class DraftCreateTest {
 	@Test
 	void create_withoutFolder_shouldSuccess() {
 		// given
-		final Draft draft = Draft.builder()
+		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
+			.email("my email")
+			.phoneNumber("000-0000-0000")
+			.category("category")
 			.address("my address")
-			.price(1000)
 			.memo("simple test")
 			.password("my password").build();
 
@@ -50,10 +52,12 @@ public class DraftCreateTest {
 	void create_withFolderAndWithoutFiles_shouldSuccess() {
 		// given
 		final Folder folder = Folder.builder().path("/myPath").folderType(FolderType.DRAFT).build();
-		final Draft draft = Draft.builder()
+		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
+			.email("my email")
+			.phoneNumber("000-0000-0000")
+			.category("category")
 			.address("my address")
-			.price(1000)
 			.memo("simple test")
 			.password("my password").build();
 		draft.addFolder(folder);
@@ -74,10 +78,12 @@ public class DraftCreateTest {
 		final Folder folder = Folder.builder().path("/myPath").folderType(FolderType.DRAFT).build();
 		final File file1 = File.builder().name("file1.jpg").folder(folder).build();
 		final File file2 = File.builder().name("file2.png").folder(folder).build();
-		final Draft draft = Draft.builder()
+		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
+			.email("my email")
+			.phoneNumber("000-0000-0000")
+			.category("category")
 			.address("my address")
-			.price(1000)
 			.memo("simple test")
 			.password("my password").build();
 		draft.addFolder(folder);
