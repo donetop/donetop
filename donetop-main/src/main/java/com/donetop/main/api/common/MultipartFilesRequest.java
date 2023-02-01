@@ -16,7 +16,7 @@ public class MultipartFilesRequest {
 	private List<MultipartFile> files = new ArrayList<>();
 
 	public List<Resource> getResources() {
-		return files.stream().map(LocalResource::new).collect(Collectors.toList());
+		return files.stream().map(LocalResource::new).distinct().collect(Collectors.toList());
 	}
 
 }

@@ -2,28 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Response } from '../http';
-import { NgForm } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DraftService {
 
+  private draftUri: string = '/api/draft';
+
   constructor(private httpClient: HttpClient, private router: Router) {}
 
-  create(form: NgForm) {
-    for (const id in form.controls) {
-      const control = form.controls[id];
-      if (control.invalid) {
-        const element = document.getElementById(id);
-        alert(element?.getAttribute('placeholder'));
-        element?.focus();
-        return;
-      }
-    }
-
-    const formData = new FormData();
-    console.log(form.value);
+  create(formData: FormData) {
+    this.httpClient.post<Response<number>>(this.draftUri, formData)
+      .subscribe({
+        next: (response) => {
+          console.log(`draft create success. draft id : ${response.data}`);
+          this.router.navigateByUrl('/draft/list');
+        },
+        error: ({error}) => alert(error.reason)
+      });
   }
 
 }

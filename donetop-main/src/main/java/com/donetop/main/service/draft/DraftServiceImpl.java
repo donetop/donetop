@@ -14,7 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Collection;
 
 import static com.donetop.main.properties.ApplicationProperties.*;
 
@@ -66,7 +66,7 @@ public class DraftServiceImpl implements DraftService {
 		return request.applyTo(draft).getId();
 	}
 
-	private void saveResourcesIfExist(final Draft draft, final List<Resource> resources) {
+	private void saveResourcesIfExist(final Draft draft, final Collection<Resource> resources) {
 		if (!resources.isEmpty()) {
 			final Folder folder = draft.getOrNewFolder(storage.getRoot());
 			if (folder.getId() == 0L) draft.addFolder(folder);

@@ -36,4 +36,17 @@ public abstract class Resource {
 		private final boolean success;
 		private final File file;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Resource resource = (Resource) o;
+		return originalFilename.equals(resource.originalFilename);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(originalFilename);
+	}
 }

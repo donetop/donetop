@@ -10,8 +10,14 @@
         </div>
         <div class="row">
           <label for="category">품목선택</label>
-          <select id="category" name="category" [(ngModel)]='categoryModel'>
+          <select id="category" name="category" [(ngModel)]='category'>
             <option *ngFor="let category of this.categories" [value]="category.name">{{ category.name }}</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="paymentMethod">결제수단</label>
+          <select id="paymentMethod" name="paymentMethod" [(ngModel)]='paymentMethod'>
+            <option *ngFor="let paymentMethod of this.paymentMethods" [value]="paymentMethod.en">{{ paymentMethod.ko }}</option>
           </select>
         </div>
         <div class="row">
@@ -24,12 +30,12 @@
       <div class="title">연락처</div>
       <div class="area">
         <div class="row">
-          <label for="company">회사</label>
-          <input type="text" id="company" name="company" autocomplete="off" ngModel #company="ngModel">
+          <label for="companyName">회사</label>
+          <input type="text" id="companyName" name="companyName" autocomplete="off" ngModel #company="ngModel">
         </div>
         <div class="row">
-          <label for="name">이름</label>
-          <input type="text" class="required" id="name" name="name" placeholder="이름을 입력해주세요." autocomplete="off" ngModel required #name="ngModel">
+          <label for="customerName">이름</label>
+          <input type="text" class="required" id="customerName" name="customerName" placeholder="이름을 입력해주세요." autocomplete="off" ngModel required #name="ngModel">
         </div>
         <div class="row">
           <label for="email">이메일</label>
@@ -41,27 +47,31 @@
             <input type="tel" class="required" id="phone2" name="phone2" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone2="ngModel" (keypress)="onlyNumberKey($event)" [maxlength]="4">&nbsp;-&nbsp;
             <input type="tel" class="required" id="phone3" name="phone3" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone3="ngModel" (keypress)="onlyNumberKey($event)" [maxlength]="4">
         </div>
+        <div class="row">
+          <label for="address">주소</label>
+          <input type="text" class="required address" id="address" name="address" placeholder="주소를 입력해주세요." autocomplete="off" ngModel required #address="ngModel">
+        </div>
       </div>
     </div>
     <div class="area">
       <div class="file">
         <label for="file1"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file1" name="file1" ngModel #file1="ngModel">
+        <input type="file" id="file1" name="file1" #file>
       </div>
       <div class="file">
         <label for="file2"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file2" name="file2" ngModel #file2="ngModel">
+        <input type="file" id="file2" name="file2" #file>
       </div>
       <div class="file">
         <label for="file3"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file3" name="file3" ngModel #file3="ngModel">
+        <input type="file" id="file3" name="file3" #file>
       </div>
     </div>
     <div class="personal-info-policy">
       <div class="title">개인정보처리방침</div>
       <div class="area">
         <div class="row">
-          <textarea id="policy" name="policy" rows="10" disabled>{{ policy }}</textarea>
+          <textarea id="policy" name="policy" rows="20" disabled>{{ policy }}</textarea>
         </div>
         <div class="consent">
           <label for="consent">개인정보 수집 및 이용안내에 동의합니다.</label>
@@ -70,7 +80,7 @@
         </div>
       </div>
     </div>
-    <div class="prevent-automatic-registration">
+    <!-- <div class="prevent-automatic-registration">
       <div class="row">
         <img>
         <input type="text" class="required" id="autoRegistrationPreventionNumber" name="autoRegistrationPreventionNumber"
@@ -78,13 +88,13 @@
           ngModel required #autoRegistrationPreventionNumber="ngModel" (keypress)="onlyNumberKey($event)">
       </div>
       <div class="row">
-        <button id="listen"></button>
-        <button id="reload"></button>
+        <button type="button" id="listen"></button>
+        <button type="button" id="reload"></button>
       </div>
-    </div>
+    </div> -->
     <div class="buttons">
-      <button type="button" class="cancel" [routerLink]="'/home'">취소</button>
-      <button type="submit" class="complete">작성완료</button>
+      <button type="button" class="cancel" [routerLink]="'/home'"><div>취소</div></button>
+      <button type="submit" class="complete" [disabled]="draftCreateForm.invalid"><div>작성완료</div></button>
     </div>
   </form>
 </div>
