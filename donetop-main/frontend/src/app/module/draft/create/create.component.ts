@@ -54,7 +54,7 @@ export class CreateComponent {
       this.refs
         .map(ref => ref.nativeElement.files)
         .filter(files => files.length > 0)
-        .flatMap(files => files[0])
+        .map(files => files[0])
         .forEach(file => formData.append('files', file));
       this.draftService.create(formData);
     }
