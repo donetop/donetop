@@ -10,6 +10,7 @@ div.container {
     flex-direction: column;
     margin-bottom: 50px;
     background: url("/assets/draft/info.jpg") center center no-repeat;
+    background-size: cover;
     font-size: 16px;
     color: #333;
     line-height: 28px;
@@ -142,7 +143,8 @@ div.container {
       color: #555;
       font-size: 1.083em;
       line-height: 28px;
-      min-width: 30px;
+      width: 30px;
+      height: 30px;
       text-decoration: none;
       border-radius: 3px;
       margin-right: 5px;
