@@ -7,6 +7,7 @@ import { DraftService } from 'src/app/service/draft.service';
 import { Draft } from 'src/app/store/model/draft.model';
 import { Employee, employees } from 'src/app/store/model/employee.model';
 import { Page } from 'src/app/store/model/page.model';
+import { ModalComponent, Property } from '../modal/modal.component';
 
 @Component({
   selector: 'app-list',
@@ -17,7 +18,8 @@ import { Page } from 'src/app/store/model/page.model';
     CommonModule,
     RouterModule,
     RandomEmployeePipe,
-    TitleComponent
+    TitleComponent,
+    ModalComponent
   ]
 })
 export class ListComponent {
@@ -27,6 +29,7 @@ export class ListComponent {
   pageNumberSize: number = 10;
   pageNumbers: Array<number> = [];
   employees: Employee[] = employees;
+  modalProperty: Property<number> = Property.default();
 
   constructor(private route: ActivatedRoute, private draftService: DraftService) {
     this.route.queryParams.subscribe(params => this.setUp(params));
@@ -45,6 +48,11 @@ export class ListComponent {
         },
         error: ({error}) => alert(error.reason)
       });
+  }
+
+  openModal(id: number) {
+    this.modalProperty.toggleShow();
+    this.modalProperty.id = id;
   }
 
 }

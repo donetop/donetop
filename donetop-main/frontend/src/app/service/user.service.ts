@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Response } from '../http';
+import { Response } from '../store/model/response';
 import { User } from '../store/model/user.model';
 import { Store } from '@ngrx/store';
 import { UserUnloadAction } from '../store/action/user.action';

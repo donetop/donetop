@@ -84,6 +84,9 @@ div.container {
       &.title {
         width: 50%;
         font-weight: bold;
+        > a:hover {
+          text-decoration: underline;
+        }
       }
       &.incharge {
         width: 10%;

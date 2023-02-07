@@ -97,7 +97,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("패스워드가 일치하지 않습니다."));
+			.body("reason", containsString("비밀번호가 일치하지 않습니다."));
 	}
 
 	@Test

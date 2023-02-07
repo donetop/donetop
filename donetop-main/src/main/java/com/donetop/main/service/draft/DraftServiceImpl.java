@@ -49,7 +49,7 @@ public class DraftServiceImpl implements DraftService {
 	public DraftDTO getDraft(final long id, final String password) {
 		final Draft draft = draftRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
-		if (!draft.getPassword().equals(password)) throw new IllegalStateException("패스워드가 일치하지 않습니다.");
+		if (!draft.getPassword().equals(password)) throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
 		return draft.toDTO(true);
 	}
 

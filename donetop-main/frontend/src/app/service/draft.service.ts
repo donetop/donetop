@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Response } from '../http';
+import { Response } from '../store/model/response';
 import { Page } from '../store/model/page.model';
 import { Draft } from '../store/model/draft.model';
 
@@ -28,6 +28,10 @@ export class DraftService {
 
   list(page: number) {
     return this.httpClient.get<Response<Page<Draft>>>(`${this.draftsUri}?page=${page}`);
+  }
+
+  get(id: number, password: string) {
+    return this.httpClient.get<Response<Draft>>(`${this.draftUri}/${id}?password=${password}`);
   }
 
 }

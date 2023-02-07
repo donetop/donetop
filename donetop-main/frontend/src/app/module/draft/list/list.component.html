@@ -23,7 +23,7 @@
     <div class="row" *ngFor="let draft of page.content">
       <div class="checkbox"><input type="checkbox" name="check"></div>
       <div class="number">{{ draft.id }}</div>
-      <div class="title">{{ draft.customerName }}님 시안입니다.</div>
+      <div class="title"><a (click)="openModal(draft.id)">{{ draft.customerName }}님 시안입니다.</a></div>
       <div class="incharge">{{ employees | randomEmployee }}</div>
       <div class="phoneNumber">{{ draft.phoneNumber }}</div>
       <div class="customerName">{{ draft.customerName }}</div>
@@ -44,3 +44,4 @@
     <a class="page-button end" *ngIf="!page.last" [routerLink]="'/draft/list'" [queryParams]="{ page: page.totalPages - 1 }"></a>
   </div>
 </div>
+<app-modal [(property)]="modalProperty"></app-modal>
