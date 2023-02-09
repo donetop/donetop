@@ -31,7 +31,7 @@ public class CommonExceptionHandler {
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	public ResponseEntity<BadRequest<String>> handleMaxUploadSizeExceededException(final MaxUploadSizeExceededException e) {
 		log.warn("[handleMaxUploadSizeExceededException] Error occurred. message : {}", e.getMessage());
-		return ResponseEntity.badRequest().body(BadRequest.of(e.getMessage()));
+		return ResponseEntity.badRequest().body(BadRequest.of("파일 크기가 허용 가능한 범위를 초과했습니다. (파일당 최대 5MB)"));
 	}
 
 }

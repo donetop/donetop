@@ -51,6 +51,10 @@
           <label for="address">주소</label>
           <input type="text" class="required address" id="address" name="address" placeholder="주소를 입력해주세요." autocomplete="off" required [(ngModel)]='address' (click)="searchAddress()">
         </div>
+        <div class="row" *ngIf="address.length > 0">
+          <label for="detailAddress">상세 주소</label>
+          <input type="text" class="required address" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해주세요." autocomplete="off" ngModel required #detailAddress="ngModel">
+        </div>
       </div>
     </div>
     <div class="area">

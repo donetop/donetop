@@ -152,7 +152,7 @@ public class DraftSingleCreateTest extends IntegrationBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("SizeLimitExceededException"));
+			.body("reason", containsString("5MB"));
 	}
 
 	@Test
