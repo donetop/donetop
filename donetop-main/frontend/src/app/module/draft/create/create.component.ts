@@ -10,6 +10,8 @@ import { categories, Category } from 'src/app/store/model/category.model';
 import { PaymentMethod, paymentMethods } from 'src/app/store/model/paymentMethod.model';
 import { policy } from './policy';
 
+declare const daum: any;
+
 @Component({
   selector: 'app-create',
   standalone: true,
@@ -29,6 +31,7 @@ export class CreateComponent {
   paymentMethods: PaymentMethod[] = paymentMethods;
   paymentMethod = this.paymentMethods[0].en;
   policy: string = policy;
+  address: string = '';
   @ViewChildren('file') refs!: QueryList<ElementRef>;
 
   constructor(private library: FaIconLibrary, private draftService: DraftService) {
@@ -37,6 +40,17 @@ export class CreateComponent {
 
   onlyNumberKey(event: any) {
     return /^([0-9])$/.test(event.key);
+  }
+
+  searchAddress() {
+    if (this.address.length > 0) return;
+    const component = this;
+    new daum.Postcode({
+      oncomplete: function (data: daum.PostcodeData) {
+        component.address = data.address;
+        document.body.click();
+      }
+    }).open();
   }
 
   onSubmit(form: NgForm) {

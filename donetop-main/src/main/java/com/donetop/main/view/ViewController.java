@@ -12,9 +12,10 @@ public class ViewController {
 		public static final String ROOT = "/";
 		public static final String HOME = "/home";
 		public static final String LOGIN = "/login";
+		public static final String DRAFT = "/draft/**";
 	}
 
-	@GetMapping(value = {ROOT, HOME, LOGIN})
+	@GetMapping(value = {ROOT, HOME, LOGIN, DRAFT})
 	public String view() {
 		return "index";
 	}

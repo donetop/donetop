@@ -31,7 +31,9 @@
               "src/styles.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/daum/postcode.v2.js"
+            ]
           },
           "configurations": {
             "production": {

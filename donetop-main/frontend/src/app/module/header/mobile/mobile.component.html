@@ -1,6 +1,6 @@
 <nav class="nav">
   <ul>
-    <li><div>빠른견적</div></li>
+    <li><div><a [routerLink]="'/draft/create'">빠른견적</a></div></li>
     <li><div>전화문의</div></li>
     <li><div><a [routerLink]="'/draft/list'" [queryParams]="{ page: 0 }">시안확인</a></div></li>
   </ul>
@@ -8,7 +8,7 @@
 <header class="header">
   <app-category></app-category>
   <div class="logo">
-    <a href="#">
+    <a [routerLink]="'/home'">
       <img src="/assets/header/logo.png" [width]="70" [height]="60">
     </a>
   </div>
