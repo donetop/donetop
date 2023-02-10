@@ -1,14 +1,14 @@
 <nav class="nav">
   <ul>
-    <li><div><a [routerLink]="'/draft/create'">빠른견적</a></div></li>
+    <li><div><a [routerLink]="routeName.DRAFT_CREATE">빠른견적</a></div></li>
     <li><div>전화문의</div></li>
-    <li><div><a [routerLink]="'/draft/list'" [queryParams]="{ page: 0 }">시안확인</a></div></li>
+    <li><div><a [routerLink]="routeName.DRAFT_LIST" [queryParams]="{ page: 0 }">시안확인</a></div></li>
   </ul>
 </nav>
 <header class="header">
   <app-category></app-category>
   <div class="logo">
-    <a [routerLink]="'/home'">
+    <a [routerLink]="routeName.HOME">
       <img src="/assets/header/logo.png" [width]="70" [height]="60">
     </a>
   </div>

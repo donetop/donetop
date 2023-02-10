@@ -1,5 +1,5 @@
 <div class="contents">
-  <button *ngIf="!user" [routerLink]="['/login']">
+  <button *ngIf="!user" [routerLink]="routeName.LOGIN">
     <fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>
   </button>
   <div *ngIf="user">

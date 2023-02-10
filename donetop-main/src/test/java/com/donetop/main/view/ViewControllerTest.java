@@ -43,9 +43,6 @@ class ViewControllerTest {
 		mockMvc.perform(get(ROOT))
 			.andDo(print())
 			.andExpect(status().isOk());
-		mockMvc.perform(get(HOME))
-			.andDo(print())
-			.andExpect(status().isOk());
 		mockMvc.perform(get(LOGIN))
 			.andDo(print())
 			.andExpect(status().isOk());

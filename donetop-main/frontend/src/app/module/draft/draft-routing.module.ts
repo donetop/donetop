@@ -4,6 +4,9 @@ import { DraftService } from 'src/app/service/draft.service';
 import { CreateComponent } from './create/create.component';
 import { DetailComponent } from './detail/detail.component';
 import { ListComponent } from './list/list.component';
+import { RouteName } from 'src/app/store/model/routeName.model';
+
+const DRAFT_CHILDREN = RouteName.INSTANCE.DRAFT_CHILDREN;
 
 const routes: Routes = [
   {
@@ -12,9 +15,9 @@ const routes: Routes = [
       DraftService
     ],
     children: [
-      { path: 'create', component: CreateComponent },
-      { path: 'list', component: ListComponent },
-      { path: 'detail', component: DetailComponent },
+      { path: DRAFT_CHILDREN.CREATE, component: CreateComponent },
+      { path: DRAFT_CHILDREN.LIST, component: ListComponent },
+      { path: DRAFT_CHILDREN.DETAIL, component: DetailComponent },
     ]
   },
 ];

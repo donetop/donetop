@@ -30,7 +30,7 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC = new String[] {
-		ViewController.Uri.ROOT, ViewController.Uri.HOME, ViewController.Uri.LOGIN, ViewController.Uri.DRAFT,
+		ViewController.Uri.ROOT, ViewController.Uri.VIEW,
 		FormAPIController.Uri.LOGIN, FormAPIController.Uri.LOGOUT,
 		UserAPIController.Uri.SINGULAR,
 		DraftAPIController.Uri.SINGULAR + "/**", DraftAPIController.Uri.PLURAL + "/**"

@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserService } from 'src/app/service/user.service';
+import { RouteName } from 'src/app/store/model/routeName.model';
 import { User } from 'src/app/store/model/user.model';
 
 @Component({
@@ -14,7 +15,7 @@ export class AccountComponent {
   @ViewChild('left_section') leftSection!: ElementRef;
   @ViewChild('right_section') rightSection!: ElementRef;
 
-  constructor(private store: Store<{ user: User }>, private userService: UserService) {
+  constructor(private store: Store<{ user: User }>, private userService: UserService, protected routeName: RouteName) {
     store.select('user').subscribe(user => this.user = user);
   }
 

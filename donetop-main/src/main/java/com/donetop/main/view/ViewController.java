@@ -10,12 +10,11 @@ public class ViewController {
 
 	public static class Uri {
 		public static final String ROOT = "/";
-		public static final String HOME = "/home";
-		public static final String LOGIN = "/login";
-		public static final String DRAFT = "/draft/**";
+		public static final String VIEW = "/view/**";
+		public static final String LOGIN = "/view/login";
 	}
 
-	@GetMapping(value = {ROOT, HOME, LOGIN, DRAFT})
+	@GetMapping(value = {ROOT, VIEW, LOGIN})
 	public String view() {
 		return "index";
 	}

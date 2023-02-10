@@ -3,6 +3,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DraftService } from 'src/app/service/draft.service';
+import { RouteName } from 'src/app/store/model/routeName.model';
 
 @Component({
   selector: 'app-modal',
@@ -19,7 +20,7 @@ export class ModalComponent {
   @Input() property: Property<number> = Property.default();
   @Output() propertyChange = new EventEmitter<Property<number>>();
 
-  constructor(private eRef: ElementRef, private router: Router, private draftService: DraftService) {}
+  constructor(private eRef: ElementRef, private router: Router, private draftService: DraftService, private routeName: RouteName) {}
 
   @HostListener('document:click', ['$event'])
   click(event: PointerEvent) {
@@ -43,7 +44,7 @@ export class ModalComponent {
     this.draftService.get(id, password)
       .subscribe({
         next: (response) => {
-          this.router.navigate(['/draft/detail'], { queryParams: { id, password } });
+          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, password } });
         },
         error: ({error}) => alert(error.reason)
       });

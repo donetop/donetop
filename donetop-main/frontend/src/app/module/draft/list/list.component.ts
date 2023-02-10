@@ -7,6 +7,7 @@ import { DraftService } from 'src/app/service/draft.service';
 import { Draft } from 'src/app/store/model/draft.model';
 import { Employee, employees } from 'src/app/store/model/employee.model';
 import { Page } from 'src/app/store/model/page.model';
+import { RouteName } from 'src/app/store/model/routeName.model';
 import { ModalComponent, Property } from '../modal/modal.component';
 
 @Component({
@@ -30,8 +31,9 @@ export class ListComponent {
   pageNumbers: Array<number> = [];
   employees: Employee[] = employees;
   modalProperty: Property<number> = Property.default();
+  DRAFT_LIST: string = `/${this.routeName.DRAFT_LIST}`;
 
-  constructor(private route: ActivatedRoute, private draftService: DraftService) {
+  constructor(private route: ActivatedRoute, private draftService: DraftService, protected routeName: RouteName) {
     this.route.queryParams.subscribe(params => this.setUp(params));
   }
 

@@ -1,15 +1,15 @@
 <header class="header">
   <div class="logo">
-    <a [routerLink]="'/home'"><img src="/assets/header/logo.png"></a>
+    <a [routerLink]="routeName.HOME"><img src="/assets/header/logo.png"></a>
   </div>
   <div class="buttons">
     <ul>
       <li *ngIf="user"><a href="#"><fa-icon [icon]="['fas', 'user']"></fa-icon>{{ user.name }}님</a></li>
       <li *ngIf="user"><a (click)="logout()"><fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>로그아웃</a></li>
-      <li *ngIf="!user"><a [routerLink]="['/login']"><fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>로그인</a></li>
-      <li><a [routerLink]="['/']"><fa-icon [icon]="['fas', 'file-signature']"></fa-icon>회원가입</a></li>
-      <li><a [routerLink]="['/']"><fa-icon [icon]="['fas', 'cart-shopping']"></fa-icon>장바구니</a></li>
-      <li><a [routerLink]="['/']"><fa-icon [icon]="['fas', 'truck']"></fa-icon>택배조회</a></li>
+      <li *ngIf="!user"><a [routerLink]="routeName.LOGIN"><fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>로그인</a></li>
+      <li><a [routerLink]="routeName.ROOT"><fa-icon [icon]="['fas', 'file-signature']"></fa-icon>회원가입</a></li>
+      <li><a [routerLink]="routeName.ROOT"><fa-icon [icon]="['fas', 'cart-shopping']"></fa-icon>장바구니</a></li>
+      <li><a [routerLink]="routeName.ROOT"><fa-icon [icon]="['fas', 'truck']"></fa-icon>택배조회</a></li>
     </ul>
   </div>
 </header>
@@ -17,8 +17,8 @@
   <ul>
     <li class="first"></li>
     <li>FAQ</li>
-    <li><a [routerLink]="'/draft/create'">주문하기</a></li>
-    <li><a [routerLink]="'/draft/list'" [queryParams]="{ page: 0 }">시안확인</a></li>
+    <li><a [routerLink]="routeName.DRAFT_CREATE">주문하기</a></li>
+    <li><a [routerLink]="routeName.DRAFT_LIST" [queryParams]="{ page: 0 }">시안확인</a></li>
     <li>이미지사이트</li>
     <li>고객게시판</li>
     <li>회사소개</li>

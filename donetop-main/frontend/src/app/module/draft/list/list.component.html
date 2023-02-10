@@ -31,17 +31,17 @@
     </div>
   </div>
   <div class="page-buttons" *ngIf="page">
-    <a class="page-button first" *ngIf="!page.first" [routerLink]="'/draft/list'" [queryParams]="{ page: 0 }"></a>
-    <a class="page-button prev" *ngIf="pageNumber > 0" [routerLink]="'/draft/list'" [queryParams]="{ page: pageNumber - 1 }"></a>
+    <a class="page-button first" *ngIf="!page.first" [routerLink]="DRAFT_LIST" [queryParams]="{ page: 0 }"></a>
+    <a class="page-button prev" *ngIf="pageNumber > 0" [routerLink]="DRAFT_LIST" [queryParams]="{ page: pageNumber - 1 }"></a>
     <a class="page-button"
       [class.active]="number == pageNumber"
-      [routerLink]="'/draft/list'"
+      [routerLink]="DRAFT_LIST"
       [queryParams]="{ page: number }"
       *ngFor="let number of pageNumbers">
       {{ number + 1 }}
     </a>
-    <a class="page-button next" *ngIf="pageNumber < page.totalPages - 1" [routerLink]="'/draft/list'" [queryParams]="{ page: pageNumber + 1 }"></a>
-    <a class="page-button end" *ngIf="!page.last" [routerLink]="'/draft/list'" [queryParams]="{ page: page.totalPages - 1 }"></a>
+    <a class="page-button next" *ngIf="pageNumber < page.totalPages - 1" [routerLink]="DRAFT_LIST" [queryParams]="{ page: pageNumber + 1 }"></a>
+    <a class="page-button end" *ngIf="!page.last" [routerLink]="DRAFT_LIST" [queryParams]="{ page: page.totalPages - 1 }"></a>
   </div>
 </div>
 <app-modal [(property)]="modalProperty"></app-modal>

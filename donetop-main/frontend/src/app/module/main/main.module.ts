@@ -9,6 +9,7 @@ import { FooterModule } from '../footer/footer.module';
 import { MainComponent } from './main.component';
 
 import { userReducer } from '../../store/reducer/user.reducer';
+import { RouteName } from 'src/app/store/model/routeName.model';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,9 @@ import { userReducer } from '../../store/reducer/user.reducer';
     MainRoutingModule,
     HeaderModule,
     FooterModule
+  ],
+  providers: [
+    { provide: RouteName, useValue: RouteName.INSTANCE }
   ],
   exports: [
     MainComponent
