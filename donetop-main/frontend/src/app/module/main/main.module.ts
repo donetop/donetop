@@ -10,6 +10,8 @@ import { MainComponent } from './main.component';
 
 import { userReducer } from '../../store/reducer/user.reducer';
 import { RouteName } from 'src/app/store/model/routeName.model';
+import { CryptoService } from 'src/app/service/crypto.service';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { RouteName } from 'src/app/store/model/routeName.model';
     FooterModule
   ],
   providers: [
-    { provide: RouteName, useValue: RouteName.INSTANCE }
+    { provide: RouteName, useValue: RouteName.INSTANCE },
+    { provide: CryptoService, useClass: environment.cryptoService }
   ],
   exports: [
     MainComponent

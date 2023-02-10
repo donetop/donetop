@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { RouteName } from 'src/app/store/model/routeName.model';
 
@@ -20,7 +21,11 @@ export class ModalComponent {
   @Input() property: Property<number> = Property.default();
   @Output() propertyChange = new EventEmitter<Property<number>>();
 
-  constructor(private eRef: ElementRef, private router: Router, private draftService: DraftService, private routeName: RouteName) {}
+  constructor(
+    private eRef: ElementRef, private router: Router,
+    private draftService: DraftService, private routeName: RouteName,
+    private cryptoService: CryptoService
+  ) {}
 
   @HostListener('document:click', ['$event'])
   click(event: PointerEvent) {
@@ -40,7 +45,7 @@ export class ModalComponent {
 
   onSubmit(form: NgForm) {
     const id = this.property.id;
-    const password = form.controls['password'].value;
+    const password = this.cryptoService.encrypt(form.controls['password'].value);
     this.draftService.get(id, password)
       .subscribe({
         next: (response) => {

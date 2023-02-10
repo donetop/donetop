@@ -33,6 +33,9 @@
             ],
             "scripts": [
               "src/assets/daum/postcode.v2.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "crypto-js"
             ]
           },
           "configurations": {
@@ -62,6 +65,12 @@
                 "input": "src/index.html",
                 "output": "index.html"
               },
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,

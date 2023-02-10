@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] STATIC_RESOURCES = new String[] {
 		"/**/*.js", "/**/*.css", "/**/*.gif",
-		"/**/*.png", "/**/*.jpg", "/**/*.jpeg", "favicon.ico",
+		"/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/favicon.ico",
 		"/**/*.woff", "/**/*.woff2", "/**/*.svg", "/**/*.eot"
 	};
 

@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { TitleComponent } from 'src/app/component/title/title.component';
+import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { categories, Category } from 'src/app/store/model/category.model';
 import { PaymentMethod, paymentMethods } from 'src/app/store/model/paymentMethod.model';
@@ -34,7 +35,7 @@ export class CreateComponent {
   address: string = '';
   @ViewChildren('file') refs!: QueryList<ElementRef>;
 
-  constructor(private library: FaIconLibrary, private draftService: DraftService) {
+  constructor(private library: FaIconLibrary, private draftService: DraftService, private cryptoService: CryptoService) {
     this.library.addIcons(faDownload);
   }
 
@@ -56,7 +57,7 @@ export class CreateComponent {
   onSubmit(form: NgForm) {
     if (confirm('정말로 주문하시겠습니까?')) {
       const formData = new FormData();
-      formData.append('password', form.controls['password'].value);
+      formData.append('password', this.cryptoService.encrypt(form.controls['password'].value));
       formData.append('category', form.controls['category'].value);
       formData.append('paymentMethod', form.controls['paymentMethod'].value);
       formData.append('memo', form.controls['memo'].value);
