@@ -5,6 +5,7 @@ import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.User;
 
 public interface DraftService {
 
@@ -12,7 +13,7 @@ public interface DraftService {
 
 	long updateDraft(long id, DraftUpdateRequest request);
 
-	DraftDTO getDraft(long id, String password);
+	DraftDTO getDraft(long id, String password, User user);
 
 	Page<DraftDTO> getDraft(PageRequest request);
 }

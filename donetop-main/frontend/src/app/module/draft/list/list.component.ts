@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { TitleComponent } from 'src/app/component/title/title.component';
-import { RandomEmployeePipe } from 'src/app/pipe/random-employee.pipe';
+import { InChargeNamePipe } from 'src/app/pipe/inchargename.pipe';
 import { DraftService } from 'src/app/service/draft.service';
 import { Draft } from 'src/app/store/model/draft.model';
-import { Employee, employees } from 'src/app/store/model/employee.model';
 import { Page } from 'src/app/store/model/page.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
+import { User, isAdmin } from 'src/app/store/model/user.model';
 import { ModalComponent, Property } from '../modal/modal.component';
 
 @Component({
@@ -18,7 +19,7 @@ import { ModalComponent, Property } from '../modal/modal.component';
   imports: [
     CommonModule,
     RouterModule,
-    RandomEmployeePipe,
+    InChargeNamePipe,
     TitleComponent,
     ModalComponent
   ]
@@ -29,12 +30,19 @@ export class ListComponent {
   pageNumber: number = 0;
   pageNumberSize: number = 10;
   pageNumbers: Array<number> = [];
-  employees: Employee[] = employees;
+  index: Array<number> = [];
+  pageCount: number = 10;
   modalProperty: Property<number> = Property.default();
   DRAFT_LIST: string = `/${this.routeName.DRAFT_LIST}`;
+  isAdmin: boolean = false;
 
-  constructor(private route: ActivatedRoute, private draftService: DraftService, protected routeName: RouteName) {
+  constructor(
+    private route: ActivatedRoute, private draftService: DraftService,
+    protected routeName: RouteName, private router: Router,
+    private store: Store<{ user: User }>
+  ) {
     this.route.queryParams.subscribe(params => this.setUp(params));
+    this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
   }
 
   setUp(params: any) {
@@ -47,14 +55,26 @@ export class ListComponent {
             .fill(0)
             .map((v, i) => i)
             .filter(pageNumber => Math.floor(this.pageNumber / this.pageNumberSize) == Math.floor(pageNumber / this.pageNumberSize));
+          const startIndex = this.page.totalElements - (this.pageNumber * this.page.size);
+          this.index = new Array(this.page.numberOfElements).fill(0).map((v, i) => startIndex - i);
         },
         error: ({error}) => alert(error.reason)
       });
   }
 
   openModal(id: number) {
+    if (this.isAdmin) {
+      this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, p: '' } });
+    }
     this.modalProperty.toggleShow();
     this.modalProperty.id = id;
   }
 
+  forwardPage() {
+    return this.pageNumbers[0] + this.pageCount;
+  }
+
+  backwardPage() {
+    return this.pageNumbers[0] - 1;
+  }
 }

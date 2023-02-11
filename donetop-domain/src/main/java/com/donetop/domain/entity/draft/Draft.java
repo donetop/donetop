@@ -36,6 +36,10 @@ public class Draft implements Serializable {
 	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
 	private String companyName = "";
 
+	@Builder.Default
+	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
+	private String inChargeName = "";
+
 	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
 	private String email;
 
@@ -87,6 +91,11 @@ public class Draft implements Serializable {
 
 	public Draft updateCompanyName(final String companyName) {
 		this.companyName = companyName;
+		return this;
+	}
+
+	public Draft updateInChargeName(final String inChargeName) {
+		this.inChargeName = inChargeName;
 		return this;
 	}
 
@@ -153,6 +162,7 @@ public class Draft implements Serializable {
 			.id(this.id)
 			.customerName(this.customerName)
 			.companyName(this.companyName)
+			.inChargeName(this.inChargeName)
 			.email(this.email)
 			.phoneNumber(this.phoneNumber)
 			.category(this.category)

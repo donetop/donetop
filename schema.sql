@@ -16,6 +16,8 @@ select * from `tbFile`;
 -- drop table if exists `tbFolder`;
 -- drop table if exists `tbFile`;
 
+-- alter table `tbDraft` modify column `password` varchar(512) not null default '';
+
 show full columns from `tbUser`;
 show full columns from `tbDraft`;
 show full columns from `tbFolder`;

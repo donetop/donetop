@@ -2,14 +2,20 @@ package com.donetop.main.api.draft;
 
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.Folder;
+import com.donetop.domain.entity.user.User;
+import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.main.common.TestFileUtil;
 import com.donetop.main.service.storage.Resource;
 import com.donetop.main.service.storage.StorageService;
 import com.donetop.repository.draft.DraftRepository;
+import com.donetop.repository.user.UserRepository;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +26,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static com.donetop.main.api.draft.DraftAPIController.Uri.*;
+import static com.donetop.main.api.form.FormAPIController.Uri.LOGIN;
 import static com.donetop.main.properties.ApplicationProperties.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
@@ -38,9 +46,13 @@ public class DraftSingleGetTest extends IntegrationBase {
 	@Autowired
 	private StorageService storageService;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@AfterAll
 	void afterAll() throws IOException {
 		draftRepository.deleteAll();
+		userRepository.deleteAll();
 		FileSystemUtils.deleteRecursively(Path.of(applicationProperties.getStorage().getRoot()));
 	}
 
@@ -141,6 +153,58 @@ public class DraftSingleGetTest extends IntegrationBase {
 	}
 
 	@Test
+	void getSingleByAdmin_withValidId_return200() throws Exception {
+		// given
+		final LocalDateTime now = LocalDateTime.now();
+		final Draft draft = new Draft().toBuilder()
+			.customerName("jin")
+			.companyName("jin's company")
+			.email("jin@test.com")
+			.category("category")
+			.phoneNumber("010-0000-0000")
+			.address("my address")
+			.price(10000L)
+			.memo("get test")
+			.password("my password")
+			.createTime(now)
+			.updateTime(now).build();
+		draftRepository.save(draft);
+		User admin = User.builder()
+			.email("jin@test.com")
+			.name("jin")
+			.password("password").build().updateRoleType(RoleType.ADMIN);
+		userRepository.save(admin);
+		final JSONObject loginBody = new JSONObject();
+		loginBody.put("username", "jin");
+		loginBody.put("password", "password");
+		final Map<String, String> cookies = RestAssured.given(this.spec).when()
+			.contentType(ContentType.JSON)
+			.body(loginBody.toString())
+			.post(LOGIN).cookies();
+		final RequestSpecification given = RestAssured.given(this.spec);
+		given.filter(
+			document(
+				"draft_single_get/getSingleByAdmin_withValidId_return200"
+			)
+		);
+
+		// when
+		final Response response = given.when()
+			.cookies(cookies)
+			.get(SINGULAR + "/{id}", draft.getId());
+
+		// then
+		response.then()
+			.statusCode(HttpStatus.OK.value())
+			.body("data.customerName", is(draft.getCustomerName()))
+			.body("data.draftStatus", is(draft.getDraftStatus().toString()))
+			.body("data.address", is(draft.getAddress()))
+			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
+			.body("data.paymentMethod", is(draft.getPaymentMethod().toString()))
+			.body("data.memo", is(draft.getMemo()));
+	}
+
+	@Test
 	void getSingleThatHasFolder_withValidIdAndRightPassword_return200() {
 		// given
 		final Storage storage = applicationProperties.getStorage();
@@ -149,6 +213,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
 			.companyName("jin's company")
+			.inChargeName("hak")
 			.email("jin@test.com")
 			.category("category")
 			.phoneNumber("010-0000-0000")
@@ -177,6 +242,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 					fieldWithPath("data.id").type(NUMBER).description("Draft id."),
 					fieldWithPath("data.customerName").description("Draft customerName."),
 					fieldWithPath("data.companyName").description("Draft companyName."),
+					fieldWithPath("data.inChargeName").description("Draft inChargeName."),
 					fieldWithPath("data.email").description("Draft email."),
 					fieldWithPath("data.phoneNumber").description("Draft phoneNumber."),
 					fieldWithPath("data.category").description("Draft category."),

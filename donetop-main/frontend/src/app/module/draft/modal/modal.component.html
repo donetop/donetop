@@ -4,16 +4,16 @@
       <h1><div>고객님 시안입니다</div></h1>
       <div>
         <div>
-          <span>주문시 입력하신</span>
+          <span>비밀번호는 고객님의</span>
           <br>
-          비밀번호를 입력해주세요.
+          휴대폰번호 뒤 4자리 숫자입니다.
         </div>
       </div>
     </div>
     <div class="bottom">
       <form #passwordForm="ngForm" (ngSubmit)="onSubmit(passwordForm)" novalidate>
         <input type="password" name="password" maxlength="20" placeholder="비밀번호" autocomplete="off" ngModel required #password="ngModel">
-        <button [disabled]="passwordForm.invalid">확인</button>
+        <button type="button" (click)="onSubmit(passwordForm)" [disabled]="passwordForm.invalid">확인</button>
       </form>
     </div>
   </div>

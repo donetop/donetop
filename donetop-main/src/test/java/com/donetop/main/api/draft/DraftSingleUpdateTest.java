@@ -61,6 +61,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 		final Response response = given.when()
 			.multiPart("customerName", "")
 			.multiPart("companyName", "")
+			.multiPart("inChargeName", "")
 			.multiPart("email", "")
 			.multiPart("category", "")
 			.multiPart("phoneNumber", "")
@@ -92,6 +93,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 		final Response response = given.when()
 			.multiPart("customerName", "jin")
 			.multiPart("companyName", "my company")
+			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
 			.multiPart("category", "my category")
 			.multiPart("phoneNumber", "010-0000-0000")
@@ -132,6 +134,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 		final Response response = given.when()
 			.multiPart("customerName", "jin")
 			.multiPart("companyName", "my company")
+			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
 			.multiPart("category", "my category")
 			.multiPart("phoneNumber", "010-0000-0000")
@@ -171,6 +174,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 				requestParts(
 					partWithName("customerName").description("The value shouldn't be empty."),
 					partWithName("companyName").description("The value can be empty."),
+					partWithName("inChargeName").description("The value can be empty."),
 					partWithName("email").description("The value shouldn't be empty."),
 					partWithName("category").description("The value shouldn't be empty."),
 					partWithName("phoneNumber").description("The value shouldn't be empty."),
@@ -194,6 +198,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 		final Response response = given.when()
 			.multiPart("customerName", "jin")
 			.multiPart("companyName", "my company")
+			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
 			.multiPart("category", "my category")
 			.multiPart("phoneNumber", "010-0000-0000")

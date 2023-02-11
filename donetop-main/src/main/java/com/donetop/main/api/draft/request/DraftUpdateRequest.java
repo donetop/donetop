@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter @Setter
@@ -19,10 +20,14 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 	@ValueOfEnum(enumClass = DraftStatus.class, message = "유효하지 않은 상태값입니다.")
 	private String draftStatus;
 
+	@NotNull(message = "담당자 이름을 입력해주세요.")
+	private String inChargeName;
+
 	public Draft applyTo(final Draft draft) {
 		return draft
 			.updateCustomerName(getCustomerName())
 			.updateCompanyName(getCompanyName())
+			.updateInChargeName(this.inChargeName)
 			.updateEmail(getEmail())
 			.updatePhoneNumber(getPhoneNumber())
 			.updateCategory(getCategory())

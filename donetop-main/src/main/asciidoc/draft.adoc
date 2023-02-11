@@ -112,6 +112,12 @@ include::{snippets}/draft_single_get/getSingle_withValidIdAndRightPassword_retur
 .response
 include::{snippets}/draft_single_get/getSingle_withValidIdAndRightPassword_return200/http-response.adoc[]
 
+==== getSingleByAdmin_withValidId_return200
+.request
+include::{snippets}/draft_single_get/getSingleByAdmin_withValidId_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_get/getSingleByAdmin_withValidId_return200/http-response.adoc[]
+
 ==== getSingleThatHasFolder_withValidIdAndRightPassword_return200
 .request
 include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/http-request.adoc[]

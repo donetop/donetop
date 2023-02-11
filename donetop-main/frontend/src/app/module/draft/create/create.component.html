@@ -5,10 +5,6 @@
       <div class="title">빠른견적</div>
       <div class="area">
         <div class="row">
-          <label for="password">비밀번호</label>
-          <input type="password" class="required" id="password" name="password" maxlength="20" placeholder="비밀번호를 입력해주세요." autocomplete="off" ngModel required #password="ngModel">
-        </div>
-        <div class="row">
           <label for="category">품목선택</label>
           <select id="category" name="category" [(ngModel)]='category'>
             <option *ngFor="let category of this.categories" [value]="category.name">{{ category.name }}</option>

@@ -8,9 +8,11 @@ import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.main.properties.ApplicationProperties;
 import com.donetop.main.service.storage.Resource;
 import com.donetop.main.service.storage.StorageService;
+import com.donetop.main.service.user.UserService;
 import com.donetop.repository.draft.DraftRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +30,16 @@ public class DraftServiceImpl implements DraftService {
 
 	private final DraftRepository draftRepository;
 
+	private final UserService userService;
+
 	public DraftServiceImpl(final ApplicationProperties applicationProperties,
 							final StorageService storageService,
-							final DraftRepository draftRepository) {
+							final DraftRepository draftRepository,
+							final UserService userService) {
 		this.storage = applicationProperties.getStorage();
 		this.storageService = storageService;
 		this.draftRepository = draftRepository;
+		this.userService = userService;
 	}
 
 	private final String UNKNOWN_DRAFT_MESSAGE = "존재하지 않는 시안입니다. id: %s";
@@ -46,9 +52,10 @@ public class DraftServiceImpl implements DraftService {
 	}
 
 	@Override
-	public DraftDTO getDraft(final long id, final String password) {
+	public DraftDTO getDraft(final long id, final String password, final User user) {
 		final Draft draft = draftRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		if (user != null && userService.findUserBy(user.getUsername()).isAdmin()) return draft.toDTO(true);
 		if (!draft.getPassword().equals(password)) throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
 		return draft.toDTO(true);
 	}

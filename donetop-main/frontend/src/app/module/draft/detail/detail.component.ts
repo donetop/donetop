@@ -23,7 +23,7 @@ export class DetailComponent {
 
   setUp(params: any) {
     const id = params['id'];
-    const password = params['password'];
+    const password = params['p'];
     this.draftService.get(id, password)
       .subscribe({
         next: (response) => this.draft = response.data,

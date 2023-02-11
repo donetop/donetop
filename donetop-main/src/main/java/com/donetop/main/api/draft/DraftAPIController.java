@@ -4,6 +4,7 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.common.Response.OK;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
+import com.donetop.main.api.user.session.Session;
 import com.donetop.main.service.draft.DraftService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,8 +51,9 @@ public class DraftAPIController {
 
 	@GetMapping(SINGULAR + "/{id}")
 	public ResponseEntity<OK<DraftDTO>> get(@PathVariable("id") final long id,
-											@RequestParam(value = "password", defaultValue = "") final String password) {
-		return ResponseEntity.ok(OK.of(draftService.getDraft(id, password)));
+											@RequestParam(value = "password", defaultValue = "") final String password,
+											@Session final User user) {
+		return ResponseEntity.ok(OK.of(draftService.getDraft(id, password, user)));
 	}
 
 	@PutMapping(SINGULAR + "/{id}")

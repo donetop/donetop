@@ -49,7 +49,7 @@ export class ModalComponent {
     this.draftService.get(id, password)
       .subscribe({
         next: (response) => {
-          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, password } });
+          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, p: password } });
         },
         error: ({error}) => alert(error.reason)
       });

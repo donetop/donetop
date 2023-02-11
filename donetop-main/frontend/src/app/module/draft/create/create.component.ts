@@ -50,6 +50,7 @@ export class CreateComponent {
       oncomplete: function (data: daum.PostcodeData) {
         component.address = data.address;
         document.body.click();
+        document.getElementById('detailAddress')?.focus();
       }
     }).open();
   }
@@ -57,7 +58,7 @@ export class CreateComponent {
   onSubmit(form: NgForm) {
     if (confirm('정말로 주문하시겠습니까?')) {
       const formData = new FormData();
-      formData.append('password', this.cryptoService.encrypt(form.controls['password'].value));
+      formData.append('password', this.cryptoService.encrypt(form.controls['phone3'].value));
       formData.append('category', form.controls['category'].value);
       formData.append('paymentMethod', form.controls['paymentMethod'].value);
       formData.append('memo', form.controls['memo'].value);

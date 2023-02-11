@@ -23,4 +23,8 @@ public class UserDTO {
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime createTime;
+
+	public boolean isAdmin() {
+		return this.roleType == RoleType.ADMIN;
+	}
 }

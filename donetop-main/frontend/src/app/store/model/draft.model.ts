@@ -2,6 +2,7 @@ export interface Draft {
   id: number
   customerName: string
   companyName: string
+  inChargeName: string
   email: string
   phoneNumber: string
   category: string

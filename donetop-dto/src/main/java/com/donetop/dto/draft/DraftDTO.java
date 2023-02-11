@@ -26,6 +26,8 @@ public class DraftDTO {
 
 	private String companyName;
 
+	private String inChargeName;
+
 	private String email;
 
 	private String phoneNumber;

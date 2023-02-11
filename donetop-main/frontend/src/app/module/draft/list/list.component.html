@@ -14,25 +14,29 @@
       <div class="checkbox"><input type="checkbox" name="check"></div>
       <div class="number">번호</div>
       <div class="title">제목</div>
-      <div class="incharge">담당자</div>
-      <div class="phoneNumber">연락처</div>
-      <div class="customerName">고객명</div>
-      <div class="createTime">등록일</div>
+      <div class="sub-row">
+        <div class="inCharge">담당자</div>
+        <div class="phoneNumber" *ngIf="isAdmin">연락처</div>
+        <div class="customerName">고객명</div>
+        <div class="createTime">등록일</div>
+      </div>
     </div>
     <div class="empty" *ngIf="page.empty">데이터가 없습니다.</div>
-    <div class="row" *ngFor="let draft of page.content">
+    <div class="row" *ngFor="let draft of page.content; let i = index">
       <div class="checkbox"><input type="checkbox" name="check"></div>
-      <div class="number">{{ draft.id }}</div>
+      <div class="number">{{ index[i] }}</div>
       <div class="title"><a (click)="openModal(draft.id)">{{ draft.customerName }}님 시안입니다.</a></div>
-      <div class="incharge">{{ employees | randomEmployee }}</div>
-      <div class="phoneNumber">{{ draft.phoneNumber }}</div>
-      <div class="customerName">{{ draft.customerName }}</div>
-      <div class="createTime">{{ draft.createTime | date: "yyyy/MM/dd HH:mm" }}</div>
+      <div class="sub-row">
+        <div class="inCharge">{{ draft.inChargeName | inChargeNamePipe }}</div>
+        <div class="phoneNumber" *ngIf="isAdmin">{{ draft.phoneNumber }}</div>
+        <div class="customerName">{{ draft.customerName }}</div>
+        <div class="createTime">{{ draft.createTime | date: "yyyy-MM-dd" }}</div>
+      </div>
     </div>
   </div>
   <div class="page-buttons" *ngIf="page">
     <a class="page-button first" *ngIf="!page.first" [routerLink]="DRAFT_LIST" [queryParams]="{ page: 0 }"></a>
-    <a class="page-button prev" *ngIf="pageNumber > 0" [routerLink]="DRAFT_LIST" [queryParams]="{ page: pageNumber - 1 }"></a>
+    <a class="page-button prev" *ngIf="this.pageNumbers[0] !== 0" [routerLink]="DRAFT_LIST" [queryParams]="{ page: backwardPage() }"></a>
     <a class="page-button"
       [class.active]="number == pageNumber"
       [routerLink]="DRAFT_LIST"
@@ -40,7 +44,7 @@
       *ngFor="let number of pageNumbers">
       {{ number + 1 }}
     </a>
-    <a class="page-button next" *ngIf="pageNumber < page.totalPages - 1" [routerLink]="DRAFT_LIST" [queryParams]="{ page: pageNumber + 1 }"></a>
+    <a class="page-button next" *ngIf="this.pageNumbers[this.pageNumbers.length - 1] !== page.totalPages - 1" [routerLink]="DRAFT_LIST" [queryParams]="{ page: forwardPage() }"></a>
     <a class="page-button end" *ngIf="!page.last" [routerLink]="DRAFT_LIST" [queryParams]="{ page: page.totalPages - 1 }"></a>
   </div>
 </div>

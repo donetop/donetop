@@ -88,17 +88,42 @@ div.container {
           text-decoration: underline;
         }
       }
-      &.incharge {
-        width: 10%;
-      }
-      &.phoneNumber {
-        width: 10%;
-      }
-      &.customerName {
-        width: 10%;
-      }
-      &.createTime {
-        width: 10%;
+      &.sub-row {
+        display: flex;
+        width: 40%;
+
+        > div {
+          &.inCharge {
+            width: 33%;
+          }
+          &.phoneNumber {
+            width: 33%;
+          }
+          &.customerName {
+            width: 34%;
+          }
+          &.createTime {
+            width: 33%;
+          }
+
+          @media (max-width: 750px) {
+            &.inCharge {
+              display: none;
+              width: 0;
+            }
+            &.phoneNumber {
+              display: none;
+              width: 0;
+            }
+            &.customerName {
+              width: 100%;
+            }
+            &.createTime {
+              display: none;
+              width: 0;
+            }
+          }
+        }
       }
 
       @media (max-width: 750px) {
@@ -111,20 +136,8 @@ div.container {
         &.title {
           width: 55%;
         }
-        &.incharge {
-          display: none;
-          width: 0;
-        }
-        &.phoneNumber {
-          display: none;
-          width: 0;
-        }
-        &.customerName {
+        &.sub-row {
           width: 15%;
-        }
-        &.createTime {
-          display: none;
-          width: 0;
         }
       }
     }
