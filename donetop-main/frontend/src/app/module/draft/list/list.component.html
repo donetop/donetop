@@ -36,7 +36,7 @@
   </div>
   <div class="page-buttons" *ngIf="page">
     <a class="page-button first" *ngIf="!page.first" [routerLink]="DRAFT_LIST" [queryParams]="{ page: 0 }"></a>
-    <a class="page-button prev" *ngIf="this.pageNumbers[0] !== 0" [routerLink]="DRAFT_LIST" [queryParams]="{ page: backwardPage() }"></a>
+    <a class="page-button prev" *ngIf="hasPrev()" [routerLink]="DRAFT_LIST" [queryParams]="{ page: backwardPage() }"></a>
     <a class="page-button"
       [class.active]="number == pageNumber"
       [routerLink]="DRAFT_LIST"
@@ -44,7 +44,7 @@
       *ngFor="let number of pageNumbers">
       {{ number + 1 }}
     </a>
-    <a class="page-button next" *ngIf="this.pageNumbers[this.pageNumbers.length - 1] !== page.totalPages - 1" [routerLink]="DRAFT_LIST" [queryParams]="{ page: forwardPage() }"></a>
+    <a class="page-button next" *ngIf="hasNext()" [routerLink]="DRAFT_LIST" [queryParams]="{ page: forwardPage() }"></a>
     <a class="page-button end" *ngIf="!page.last" [routerLink]="DRAFT_LIST" [queryParams]="{ page: page.totalPages - 1 }"></a>
   </div>
 </div>

@@ -70,6 +70,15 @@ export class ListComponent {
     this.modalProperty.id = id;
   }
 
+  hasPrev() {
+    return this.pageNumbers.length > 0 && this.pageNumbers[0] !== 0;
+  }
+
+  hasNext() {
+    if (!this.page) return false;
+    return this.pageNumbers.length > 0 && this.pageNumbers[this.pageNumbers.length - 1] !== this.page.totalPages - 1;
+  }
+
   forwardPage() {
     return this.pageNumbers[0] + this.pageCount;
   }
