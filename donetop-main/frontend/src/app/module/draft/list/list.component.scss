@@ -93,34 +93,15 @@ div.container {
         width: 40%;
 
         > div {
-          &.inCharge {
-            width: 33%;
-          }
-          &.phoneNumber {
-            width: 33%;
-          }
-          &.customerName {
-            width: 34%;
-          }
-          &.createTime {
-            width: 33%;
-          }
+          flex-basis: 100%;
 
           @media (max-width: 750px) {
-            &.inCharge {
-              display: none;
-              width: 0;
-            }
-            &.phoneNumber {
+            &.inCharge, &.phoneNumber, &.createTime {
               display: none;
               width: 0;
             }
             &.customerName {
               width: 100%;
-            }
-            &.createTime {
-              display: none;
-              width: 0;
             }
           }
         }
