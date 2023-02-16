@@ -7,13 +7,13 @@
         <div class="row">
           <label for="category">품목선택</label>
           <select id="category" name="category" [(ngModel)]='category'>
-            <option *ngFor="let category of this.categories" [value]="category.name">{{ category.name }}</option>
+            <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.value }}</option>
           </select>
         </div>
         <div class="row">
           <label for="paymentMethod">결제수단</label>
           <select id="paymentMethod" name="paymentMethod" [(ngModel)]='paymentMethod'>
-            <option *ngFor="let paymentMethod of this.paymentMethods" [value]="paymentMethod.en">{{ paymentMethod.ko }}</option>
+            <option *ngFor="let paymentMethod of paymentMethodArray" [value]="paymentMethod.name">{{ paymentMethod.value }}</option>
           </select>
         </div>
         <div class="row">

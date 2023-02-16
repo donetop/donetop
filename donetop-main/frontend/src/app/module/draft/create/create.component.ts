@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -7,8 +7,8 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { TitleComponent } from 'src/app/component/title/title.component';
 import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
-import { categories, Category } from 'src/app/store/model/category.model';
-import { PaymentMethod, paymentMethods } from 'src/app/store/model/paymentMethod.model';
+import { EnumService } from 'src/app/service/enum.service';
+import { Category, Enum } from 'src/app/store/model/category.model';
 import { policy } from './policy';
 
 declare const daum: any;
@@ -26,17 +26,27 @@ declare const daum: any;
     TitleComponent
   ]
 })
-export class CreateComponent {
-  categories: Category[] = categories;
-  category = this.categories[0].name;
-  paymentMethods: PaymentMethod[] = paymentMethods;
-  paymentMethod = this.paymentMethods[0].en;
+export class CreateComponent implements OnInit {
+  categoryArray!: Category[];
+  category!: string;
+  paymentMethodArray!: Enum[];
+  paymentMethod!: string;
   policy: string = policy;
   address: string = '';
   @ViewChildren('file') refs!: QueryList<ElementRef>;
 
-  constructor(private library: FaIconLibrary, private draftService: DraftService, private cryptoService: CryptoService) {
+  constructor(
+    private library: FaIconLibrary, private draftService: DraftService,
+    private cryptoService: CryptoService, protected enumService: EnumService
+  ) {
     this.library.addIcons(faDownload);
+  }
+
+  async ngOnInit() {
+    this.categoryArray = await this.enumService.categoryArray();
+    this.category = this.categoryArray[0].name;
+    this.paymentMethodArray = await this.enumService.paymentMethodArray();
+    this.paymentMethod = this.paymentMethodArray[0].name;
   }
 
   onlyNumberKey(event: any) {

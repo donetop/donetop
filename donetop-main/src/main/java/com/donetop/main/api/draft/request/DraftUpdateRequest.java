@@ -1,9 +1,10 @@
 package com.donetop.main.api.draft.request;
 
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.DraftStatus;
-import com.donetop.enums.payment.PaymentMethod;
-import com.donetop.enums.validation.ValueOfEnum;
+import com.donetop.enums.draft.PaymentMethod;
+import com.donetop.enums.validation.NameOfEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,7 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 	@Min(value = 1000L, message = "최소 가격은 1,000원입니다.")
 	private long price;
 
-	@ValueOfEnum(enumClass = DraftStatus.class, message = "유효하지 않은 상태값입니다.")
+	@NameOfEnum(enumClass = DraftStatus.class, message = "유효하지 않은 상태값입니다.")
 	private String draftStatus;
 
 	@NotNull(message = "담당자 이름을 입력해주세요.")
@@ -30,7 +31,7 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 			.updateInChargeName(this.inChargeName)
 			.updateEmail(getEmail())
 			.updatePhoneNumber(getPhoneNumber())
-			.updateCategory(getCategory())
+			.updateCategory(Category.of(getCategory()))
 			.updateDraftStatus(DraftStatus.of(this.draftStatus))
 			.updateAddress(getAddress())
 			.updatePrice(getPrice())

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TitleComponent } from 'src/app/component/title/title.component';
 import { DraftService } from 'src/app/service/draft.service';
 import { Draft } from 'src/app/store/model/draft.model';
 
@@ -10,7 +11,8 @@ import { Draft } from 'src/app/store/model/draft.model';
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
   imports: [
-    CommonModule
+    CommonModule,
+    TitleComponent
   ]
 })
 export class DetailComponent {

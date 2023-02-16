@@ -2,9 +2,10 @@ package com.donetop.domain.entity.draft;
 
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.draft.DraftDTO;
+import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.folder.FolderType;
-import com.donetop.enums.payment.PaymentMethod;
+import com.donetop.enums.draft.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,8 +47,9 @@ public class Draft implements Serializable {
 	@Column(nullable = false, columnDefinition = "varchar(15) default ''")
 	private String phoneNumber;
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, columnDefinition = "varchar(64) default ''")
-	private String category;
+	private Category category;
 
 	@Builder.Default
 	@Enumerated(EnumType.STRING)
@@ -109,7 +111,7 @@ public class Draft implements Serializable {
 		return this;
 	}
 
-	public Draft updateCategory(final String category) {
+	public Draft updateCategory(final Category category) {
 		this.category = category;
 		return this;
 	}
@@ -165,11 +167,11 @@ public class Draft implements Serializable {
 			.inChargeName(this.inChargeName)
 			.email(this.email)
 			.phoneNumber(this.phoneNumber)
-			.category(this.category)
-			.draftStatus(this.draftStatus)
+			.category(this.category.value())
+			.draftStatus(this.draftStatus.value())
 			.address(this.address)
 			.price(this.price)
-			.paymentMethod(this.paymentMethod)
+			.paymentMethod(this.paymentMethod.value())
 			.memo(this.memo)
 			.createTime(this.createTime)
 			.updateTime(this.updateTime).build();

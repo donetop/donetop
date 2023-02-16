@@ -2,6 +2,8 @@ package com.donetop.main.config;
 
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.draft.DraftAPIController;
+import com.donetop.main.api.enums.EnumAPIController;
+import com.donetop.main.api.file.FileAPIController;
 import com.donetop.main.api.form.FormAPIController;
 import com.donetop.main.api.form.filter.ContentCachingRequestFilter;
 import com.donetop.main.api.form.filter.LoginFilter;
@@ -33,7 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		ViewController.Uri.ROOT, ViewController.Uri.VIEW,
 		FormAPIController.Uri.LOGIN, FormAPIController.Uri.LOGOUT,
 		UserAPIController.Uri.SINGULAR,
-		DraftAPIController.Uri.SINGULAR + "/**", DraftAPIController.Uri.PLURAL + "/**"
+		DraftAPIController.Uri.SINGULAR + "/**", DraftAPIController.Uri.PLURAL + "/**",
+		FileAPIController.Uri.SINGULAR + "/**",
+		EnumAPIController.Uri.ROOT + "/**"
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {

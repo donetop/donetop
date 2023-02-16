@@ -1,6 +1,7 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.enums.draft.Category;
 import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.repository.draft.DraftRepository;
 import io.restassured.RestAssured;
@@ -42,7 +43,7 @@ public class DraftMultipleGetTest extends IntegrationBase {
 				.customerName("jin" + i)
 				.companyName("jin's company")
 				.email("jin@test.com")
-				.category("category")
+				.category(Category.HYEONSUMAK)
 				.phoneNumber("010-0000-0000")
 				.price(1000 + i)
 				.address("address" + i)

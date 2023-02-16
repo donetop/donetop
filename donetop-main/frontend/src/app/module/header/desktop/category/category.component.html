@@ -8,10 +8,10 @@
   <div class="category" #category>
     <ul>
       <li class="group" *ngFor="let category of categories; let i = index" [ngClass]="i >= 5 ? 'bottom' : ''">
-        <a href="#">{{ category.name }}</a>
+        <a href="#">{{ category.value }}</a>
         <ul class="sub_group">
           <li *ngFor="let item of category.items">
-            <a href="#">{{ item.name }}</a>
+            <a href="#">{{ item.value }}</a>
           </li>
         </ul>
       </li>

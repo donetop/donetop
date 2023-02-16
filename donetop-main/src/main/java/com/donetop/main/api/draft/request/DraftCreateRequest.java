@@ -1,8 +1,9 @@
 package com.donetop.main.api.draft.request;
 
 import com.donetop.domain.entity.draft.Draft;
-import com.donetop.enums.payment.PaymentMethod;
-import com.donetop.enums.validation.ValueOfEnum;
+import com.donetop.enums.draft.Category;
+import com.donetop.enums.draft.PaymentMethod;
+import com.donetop.enums.validation.NameOfEnum;
 import com.donetop.main.api.common.MultipartFilesRequest;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 	@NotEmpty(message = "이메일을 입력해주세요.")
 	private String email;
 
-	@NotEmpty(message = "카테고리를 선택해주세요.")
+	@NameOfEnum(enumClass = Category.class, message = "유효하지 않은 카테고리입니다.")
 	private String category;
 
 	@NotEmpty(message = "연락처를 입력해주세요.")
@@ -36,7 +37,7 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 	@NotEmpty(message = "비밀번호를 입력해주세요.")
 	private String password;
 
-	@ValueOfEnum(enumClass = PaymentMethod.class, message = "유효하지 않은 결제 방법입니다.")
+	@NameOfEnum(enumClass = PaymentMethod.class, message = "유효하지 않은 결제 방법입니다.")
 	private String paymentMethod;
 
 	public Draft toEntity() {
@@ -45,7 +46,7 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 			.companyName(this.companyName)
 			.email(this.email)
 			.phoneNumber(this.phoneNumber)
-			.category(this.category)
+			.category(Category.of(this.category))
 			.address(this.address)
 			.memo(this.memo)
 			.password(this.password)

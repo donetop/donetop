@@ -1,5 +1,48 @@
-<div class="detail" *ngIf="draft">
-  id : {{ draft.id }}
-  createTime : {{ draft.createTime }}
-  updateTime : {{ draft.updateTime }}
+<app-title [title]="'시안확인'"></app-title>
+<div class="container">
+  <div class="info">
+    <div>
+      <p>주문자와 입금자가 다를때는 꼭 연락바랍니다.</p>
+      <p>입금자 확인이 안되면 모든 진행이 안됩니다.</p>
+      <p>다음날 꼭 택배를 받으실 분은 평일 오후 5시~토요일 정오까지 배송조회를 꼭 하십시요.</p>
+      <p>주문시 입력하셨던 전화번호 뒷 4자리 시안확인, 출력요청, 결제는 비밀번호를 입력하셔야 확인 가능합니다.</p>
+      <p>출력요청하시고 입금하면 바로 출력되며 출력한 제품에 대해서는 오타나 크기, 마감방법 등 모든 수정은 불가능하며 반품/환불은 안됩니다.</p>
+    </div>
+  </div>
+  <div class="detail" *ngIf="draft">
+    <p class="title">{{ draft.customerName }} 님 시안입니다.</p>
+    <div class="contents">
+      <div class="row">
+        <span>고&nbsp;&nbsp;객&nbsp;&nbsp;명</span>&nbsp;:&nbsp;
+        <span>{{ draft.customerName }}</span>
+      </div>
+      <div class="row">
+        <span>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</span>&nbsp;:&nbsp;
+        <span>{{ draft.draftStatus }}</span>
+      </div>
+      <div class="row">
+        <span>날&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;짜</span>&nbsp;:&nbsp;
+        <span>{{ draft.createTime }}</span>
+      </div>
+      <div class="row">
+        <span>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</span>&nbsp;:&nbsp;
+        <span>{{ draft.address }}</span>
+      </div>
+      <div class="row">
+        <span>최종금액</span>&nbsp;:&nbsp;
+        <span>{{ draft.price }}원</span>
+      </div>
+      <div class="row">
+        <span>결제방법</span>&nbsp;:&nbsp;
+        <span>{{ draft.paymentMethod }}</span>
+      </div>
+    </div>
+    <div class="images" *ngIf="draft.folder">
+      <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of draft.folder.files">
+    </div>
+  </div>
+  <div class="buttons"></div>
+  <div class="notice">
+    <img src="/assets/draft/notice.jpg" alt="이미지가 없습니다.">
+  </div>
 </div>

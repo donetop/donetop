@@ -16,7 +16,7 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public FileDTO getFile(final long id) {
 		return fileRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException("File not found. id : " + id))
+			.orElseThrow(() -> new IllegalStateException("유효한 파일이 없습니다. id : " + id))
 			.toDTO();
 	}
 }

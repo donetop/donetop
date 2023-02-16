@@ -1,7 +1,8 @@
 package com.donetop.main.api.draft;
 
+import com.donetop.enums.draft.Category;
 import com.donetop.enums.folder.FolderType;
-import com.donetop.enums.payment.PaymentMethod;
+import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.main.common.TestFileUtil;
 import com.donetop.main.properties.ApplicationProperties.Storage;
@@ -110,7 +111,7 @@ public class DraftSingleCreateTest extends IntegrationBase {
 			.multiPart("customerName", "jin")
 			.multiPart("companyName", "my company")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", "my category")
+			.multiPart("category", Category.BAENEO.toString())
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")
@@ -190,7 +191,7 @@ public class DraftSingleCreateTest extends IntegrationBase {
 			.multiPart("customerName", "jin")
 			.multiPart("companyName", "my company")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", "my category")
+			.multiPart("category", Category.BAENEO.toString())
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")

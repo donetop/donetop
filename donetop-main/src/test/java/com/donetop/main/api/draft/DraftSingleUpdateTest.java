@@ -1,9 +1,10 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.folder.FolderType;
-import com.donetop.enums.payment.PaymentMethod;
+import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.main.api.common.Response.OK;
 import com.donetop.main.common.TestFileUtil;
@@ -95,7 +96,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 			.multiPart("companyName", "my company")
 			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", "my category")
+			.multiPart("category", Category.BONGTU.toString())
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")
@@ -117,7 +118,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 		Draft draft = new Draft().toBuilder()
 			.customerName("jin")
 			.email("jin@test.com")
-			.category("category")
+			.category(Category.BAENEO)
 			.phoneNumber("010-0000-0000")
 			.address("address")
 			.password("password").build();
@@ -136,7 +137,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 			.multiPart("companyName", "my company")
 			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", "my category")
+			.multiPart("category", Category.BONGTU.toString())
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")
@@ -158,7 +159,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 		Draft draft = new Draft().toBuilder()
 			.customerName("jin")
 			.email("jin@test.com")
-			.category("category")
+			.category(Category.BAENEO)
 			.phoneNumber("010-0000-0000")
 			.address("address")
 			.password("password").build();
@@ -200,7 +201,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 			.multiPart("companyName", "my company")
 			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", "my category")
+			.multiPart("category", Category.BONGTU.toString())
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")

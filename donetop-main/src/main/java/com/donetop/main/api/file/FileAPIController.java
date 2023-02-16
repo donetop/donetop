@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.donetop.main.api.file.FileAPIController.PATH.SINGULAR;
+import static com.donetop.main.api.file.FileAPIController.Uri.SINGULAR;
 
 @RestController
 @RequiredArgsConstructor
 public class FileAPIController {
 
-	public static class PATH {
-		public static final String SINGULAR = "/file";
+	public static class Uri {
+		public static final String SINGULAR = "/api/file";
 	}
 
 	private final FileService fileService;

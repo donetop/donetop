@@ -1,14 +1,15 @@
-import { Component, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { Category, categories } from 'src/app/store/model/category.model';
+import { Component, ElementRef, ViewChild, ViewChildren, QueryList, OnInit } from '@angular/core';
+import { EnumService } from 'src/app/service/enum.service';
+import { Category } from 'src/app/store/model/category.model';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit {
 
-  categories: Category[] = categories;
+  categories!: Category[];
   showSection: boolean = false;
   @ViewChild('left_section') leftSection!: ElementRef;
   @ViewChild('right_section') rightSection!: ElementRef;
@@ -19,6 +20,12 @@ export class CategoryComponent {
   @ViewChildren('sub_group_active_buttons') subGroupActiveButtons!: QueryList<ElementRef>;
   @ViewChildren('sub_group_disable_buttons') subGroupDisableButtons!: QueryList<ElementRef>;
   @ViewChildren('sub_groups') subGroups!: QueryList<ElementRef>;
+
+  constructor(private enumService: EnumService) {}
+
+  async ngOnInit() {
+    this.categories = await this.enumService.categoryArray();
+  }
 
   toggleSection() {
     this.showSection = !this.showSection;

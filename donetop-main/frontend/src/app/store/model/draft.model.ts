@@ -1,3 +1,5 @@
+import { Folder } from "./folder.model"
+
 export interface Draft {
   id: number
   customerName: string
@@ -13,4 +15,5 @@ export interface Draft {
   memo: string
   createTime: Date
   updateTime: Date
+  folder: Folder | undefined
 }

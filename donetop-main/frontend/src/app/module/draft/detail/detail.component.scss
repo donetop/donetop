@@ -1,0 +1,83 @@
+div.container {
+  margin: 80px auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  > div.info {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+    background: url("/assets/draft/info.jpg") center center no-repeat;
+    background-size: cover;
+    font-size: 16px;
+    color: #333;
+    line-height: 28px;
+    border: 1px solid #ccc;
+    min-width: 250px;
+    max-width: 1200px;
+
+    > div {
+      padding: 30px;
+
+      > p::before {
+        content: '!';
+        display: inline-block;
+        width: 16px;
+        line-height: 16px;
+        border-radius: 10px;
+        background: #35515e;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        margin: 0 8px 0 0;
+      }
+    }
+  }
+
+  > div.detail {
+    width: 65%;
+    min-width: 250px;
+
+    > p.title {
+      font-size: 25px;
+      border-top: 2px solid #222;
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    > div.contents {
+      padding: 10px;
+      font-size: 15px;
+      margin: 0 0 20px;
+      border-bottom: 1px solid #ddd;
+      color: #666;
+
+      > div.row {
+        margin: 3px 0;
+      }
+    }
+
+    > div.images {
+      margin: 10px 0;
+
+      > img {
+        max-width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  > div.notice {
+    width: 65%;
+    min-width: 250px;
+
+    > img {
+      max-width: 100%;
+    }
+  }
+}

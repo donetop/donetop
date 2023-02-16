@@ -3,6 +3,7 @@ package com.donetop.main.api.draft;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.entity.user.User;
+import com.donetop.enums.draft.Category;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.IntegrationBase;
 import com.donetop.main.common.TestFileUtil;
@@ -12,7 +13,6 @@ import com.donetop.repository.draft.DraftRepository;
 import com.donetop.repository.user.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
@@ -85,7 +85,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 			.customerName("jin")
 			.companyName("jin's company")
 			.email("jin@test.com")
-			.category("category")
+			.category(Category.BAENEO)
 			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)
@@ -120,7 +120,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 			.customerName("jin")
 			.companyName("jin's company")
 			.email("jin@test.com")
-			.category("category")
+			.category(Category.BAENEO)
 			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)
@@ -145,10 +145,11 @@ public class DraftSingleGetTest extends IntegrationBase {
 		response.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
-			.body("data.draftStatus", is(draft.getDraftStatus().toString()))
+			.body("data.draftStatus", is(draft.getDraftStatus().value()))
+			.body("data.category", is(draft.getCategory().value()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
-			.body("data.paymentMethod", is(draft.getPaymentMethod().toString()))
+			.body("data.paymentMethod", is(draft.getPaymentMethod().value()))
 			.body("data.memo", is(draft.getMemo()));
 	}
 
@@ -160,7 +161,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 			.customerName("jin")
 			.companyName("jin's company")
 			.email("jin@test.com")
-			.category("category")
+			.category(Category.BAENEO)
 			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)
@@ -197,10 +198,11 @@ public class DraftSingleGetTest extends IntegrationBase {
 		response.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
-			.body("data.draftStatus", is(draft.getDraftStatus().toString()))
+			.body("data.draftStatus", is(draft.getDraftStatus().value()))
+			.body("data.category", is(draft.getCategory().value()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
-			.body("data.paymentMethod", is(draft.getPaymentMethod().toString()))
+			.body("data.paymentMethod", is(draft.getPaymentMethod().value()))
 			.body("data.memo", is(draft.getMemo()));
 	}
 
@@ -215,7 +217,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 			.companyName("jin's company")
 			.inChargeName("hak")
 			.email("jin@test.com")
-			.category("category")
+			.category(Category.BAENEO)
 			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)
@@ -268,10 +270,11 @@ public class DraftSingleGetTest extends IntegrationBase {
 		response.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
-			.body("data.draftStatus", is(draft.getDraftStatus().toString()))
+			.body("data.draftStatus", is(draft.getDraftStatus().value()))
+			.body("data.category", is(draft.getCategory().value()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
-			.body("data.paymentMethod", is(draft.getPaymentMethod().toString()))
+			.body("data.paymentMethod", is(draft.getPaymentMethod().value()))
 			.body("data.memo", is(draft.getMemo()))
 			.body("data.folder.files", hasSize(4));
 	}

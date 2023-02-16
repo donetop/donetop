@@ -1,20 +1,25 @@
-import { Component, ElementRef, ViewChild, HostListener } from '@angular/core';
-import { Category, categories } from 'src/app/store/model/category.model';
+import { Component, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
+import { EnumService } from 'src/app/service/enum.service';
+import { Category } from 'src/app/store/model/category.model';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit {
 
-  categories: Category[] = categories;
+  categories!: Category[];
   showCategory: boolean = false;
   @ViewChild('category_open_button', { static: true }) categoryOpenButton!: ElementRef;
   @ViewChild('category_close_button', { static: true }) categoryCloseButton!: ElementRef;
   @ViewChild('category', { static: true }) category!: ElementRef;
 
-  constructor(private eRef: ElementRef) {}
+  constructor(private eRef: ElementRef, private enumService: EnumService) {}
+
+  async ngOnInit() {
+    this.categories = await this.enumService.categoryArray();
+  }
 
   toggleCategory() {
     this.showCategory = !this.showCategory;

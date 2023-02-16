@@ -7,12 +7,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public enum DraftStatus {
-	HOLDING("대기중"),
-	WORKING("시안작업중"),
-	CHECK_REQUEST("시안확인요청"),
-	PRINT_REQUEST("인쇄요청"),
-	COMPLETED("출고완료"),
+public enum PaymentMethod {
+	CASH("현금결제"),
+	CREDIT_CARD("신용카드"),
 	;
 
 	private final String value;
@@ -25,14 +22,14 @@ public enum DraftStatus {
 		return new EnumDTO(this.name(), this.value);
 	}
 
-	public static DraftStatus of(final String name) {
-		for (final DraftStatus draftStatus : values()) {
-			if (draftStatus.name().equals(name)) return draftStatus;
+	public static PaymentMethod of(final String name) {
+		for (final PaymentMethod paymentMethod : values()) {
+			if (paymentMethod.name().equals(name)) return paymentMethod;
 		}
 		throw new IllegalArgumentException("There's no valid enum name for " + name);
 	}
 
 	public static List<EnumDTO> dtoList() {
-		return Stream.of(values()).map(DraftStatus::toDTO).collect(Collectors.toList());
+		return Stream.of(values()).map(PaymentMethod::toDTO).collect(Collectors.toList());
 	}
 }
