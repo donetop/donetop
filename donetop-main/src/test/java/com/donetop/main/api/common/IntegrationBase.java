@@ -40,25 +40,12 @@ public abstract class IntegrationBase {
 	protected int port;
 
 	@Autowired
-	private Environment environment;
-
-//	protected MockMvc mockMvc;
+	protected Environment environment;
 
 	protected RequestSpecification spec;
 
 	@BeforeEach
 	void beforeEach(final RestDocumentationContextProvider provider) {
-//		this.mockMvc = MockMvcBuilders
-//			.webAppContextSetup(ctx)
-//			.apply(
-//				MockMvcRestDocumentation.documentationConfiguration(provider)
-//					.operationPreprocessors()
-//					.withRequestDefaults(prettyPrint())
-//					.withResponseDefaults(prettyPrint())
-//			)
-//			.alwaysDo(print())
-//			.build();
-
 		RequestSpecBuilder requestSpecBuilder = new RequestSpecBuilder()
 			.addFilter(
 				RestAssuredRestDocumentation.documentationConfiguration(provider)

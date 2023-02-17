@@ -35,4 +35,8 @@ export class DraftService {
     return this.httpClient.get<Response<Draft>>(`${this.draftUri}/${id}?password=${password}`);
   }
 
+  delete(id: number) {
+    return this.httpClient.delete<Response<number>>(`${this.draftUri}/${id}`);
+  }
+
 }

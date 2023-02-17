@@ -1,9 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCreditCard } from '@fortawesome/free-regular-svg-icons';
+import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import { TitleComponent } from 'src/app/component/title/title.component';
 import { DraftService } from 'src/app/service/draft.service';
 import { Draft } from 'src/app/store/model/draft.model';
+import { RouteName } from 'src/app/store/model/routeName.model';
+import { isAdmin, User } from 'src/app/store/model/user.model';
 
 @Component({
   selector: 'app-detail',
@@ -12,15 +18,23 @@ import { Draft } from 'src/app/store/model/draft.model';
   styleUrls: ['./detail.component.scss'],
   imports: [
     CommonModule,
-    TitleComponent
+    TitleComponent,
+    FontAwesomeModule
   ]
 })
 export class DetailComponent {
 
   draft: Draft | undefined;
+  isAdmin: boolean = false;
 
-  constructor(private route: ActivatedRoute, private draftService: DraftService) {
+  constructor(
+    private route: ActivatedRoute, private draftService: DraftService,
+    private store: Store<{ user: User }>, private library: FaIconLibrary,
+    private router: Router, private routeName: RouteName
+  ) {
+    this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard);
     this.route.queryParams.subscribe(params => this.setUp(params));
+    this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
   }
 
   setUp(params: any) {
@@ -31,6 +45,16 @@ export class DetailComponent {
         next: (response) => this.draft = response.data,
         error: ({error}) => alert(error.reason)
       });
+  }
+
+  delete() {
+    if (this.draft && confirm('정말로 삭제하시겠습니까?')) {
+      this.draftService.delete(this.draft.id)
+        .subscribe({
+          next: (response) => this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: { page: 0 } }),
+          error: ({error}) => alert(error.reason)
+        })
+    }
   }
 
 }

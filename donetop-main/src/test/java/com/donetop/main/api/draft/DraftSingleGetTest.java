@@ -1,36 +1,22 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.domain.entity.draft.Draft;
-import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.entity.user.User;
-import com.donetop.enums.draft.Category;
 import com.donetop.enums.user.RoleType;
-import com.donetop.main.api.common.IntegrationBase;
-import com.donetop.main.common.TestFileUtil;
-import com.donetop.main.service.storage.Resource;
+import com.donetop.main.api.common.DraftBase;
 import com.donetop.main.service.storage.StorageService;
 import com.donetop.repository.draft.DraftRepository;
 import com.donetop.repository.user.UserRepository;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.FileSystemUtils;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
-import static com.donetop.main.api.draft.DraftAPIController.Uri.*;
-import static com.donetop.main.api.form.FormAPIController.Uri.LOGIN;
-import static com.donetop.main.properties.ApplicationProperties.*;
+import static com.donetop.main.api.draft.DraftAPIController.Uri.SINGULAR;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -38,22 +24,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-public class DraftSingleGetTest extends IntegrationBase {
+public class DraftSingleGetTest extends DraftBase {
 
 	@Autowired
-	private DraftRepository draftRepository;
-
-	@Autowired
-	private StorageService storageService;
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@AfterAll
-	void afterAll() throws IOException {
-		draftRepository.deleteAll();
-		userRepository.deleteAll();
-		FileSystemUtils.deleteRecursively(Path.of(applicationProperties.getStorage().getRoot()));
+	public DraftSingleGetTest(final DraftRepository draftRepository,
+							  final StorageService storageService,
+							  final UserRepository userRepository) {
+		super(draftRepository, storageService, userRepository);
 	}
 
 	@Test
@@ -80,20 +57,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 	@Test
 	void getSingle_withValidIdButWrongPassword_return400() {
 		// given
-		final LocalDateTime now = LocalDateTime.now();
-		final Draft draft = new Draft().toBuilder()
-			.customerName("jin")
-			.companyName("jin's company")
-			.email("jin@test.com")
-			.category(Category.BAENEO)
-			.phoneNumber("010-0000-0000")
-			.address("my address")
-			.price(10000L)
-			.memo("get test")
-			.password("my password")
-			.createTime(now)
-			.updateTime(now).build();
-		draftRepository.save(draft);
+		final Draft draft = saveSingleDraftWithoutFiles();
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
@@ -115,20 +79,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 	@Test
 	void getSingle_withValidIdAndRightPassword_return200() {
 		// given
-		final LocalDateTime now = LocalDateTime.now();
-		final Draft draft = new Draft().toBuilder()
-			.customerName("jin")
-			.companyName("jin's company")
-			.email("jin@test.com")
-			.category(Category.BAENEO)
-			.phoneNumber("010-0000-0000")
-			.address("my address")
-			.price(10000L)
-			.memo("get test")
-			.password("my password")
-			.createTime(now)
-			.updateTime(now).build();
-		draftRepository.save(draft);
+		final Draft draft = saveSingleDraftWithoutFiles();
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
@@ -156,32 +107,9 @@ public class DraftSingleGetTest extends IntegrationBase {
 	@Test
 	void getSingleByAdmin_withValidId_return200() throws Exception {
 		// given
-		final LocalDateTime now = LocalDateTime.now();
-		final Draft draft = new Draft().toBuilder()
-			.customerName("jin")
-			.companyName("jin's company")
-			.email("jin@test.com")
-			.category(Category.BAENEO)
-			.phoneNumber("010-0000-0000")
-			.address("my address")
-			.price(10000L)
-			.memo("get test")
-			.password("my password")
-			.createTime(now)
-			.updateTime(now).build();
-		draftRepository.save(draft);
-		User admin = User.builder()
-			.email("jin@test.com")
-			.name("jin")
-			.password("password").build().updateRoleType(RoleType.ADMIN);
-		userRepository.save(admin);
-		final JSONObject loginBody = new JSONObject();
-		loginBody.put("username", "jin");
-		loginBody.put("password", "password");
-		final Map<String, String> cookies = RestAssured.given(this.spec).when()
-			.contentType(ContentType.JSON)
-			.body(loginBody.toString())
-			.post(LOGIN).cookies();
+		final Draft draft = saveSingleDraftWithoutFiles();
+		final User admin = saveUser("admin", RoleType.ADMIN);
+		final Map<String, String> cookies = doLoginWith(admin).cookies();
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
@@ -209,27 +137,7 @@ public class DraftSingleGetTest extends IntegrationBase {
 	@Test
 	void getSingleThatHasFolder_withValidIdAndRightPassword_return200() {
 		// given
-		final Storage storage = applicationProperties.getStorage();
-		final List<Resource> resources = TestFileUtil.readResources(Path.of(storage.getSrc()));
-		final LocalDateTime now = LocalDateTime.now();
-		final Draft draft = new Draft().toBuilder()
-			.customerName("jin")
-			.companyName("jin's company")
-			.inChargeName("hak")
-			.email("jin@test.com")
-			.category(Category.BAENEO)
-			.phoneNumber("010-0000-0000")
-			.address("my address")
-			.price(10000L)
-			.memo("get test")
-			.password("my password")
-			.createTime(now)
-			.updateTime(now).build();
-		draftRepository.save(draft);
-		Folder folder = draft.getOrNewFolder(storage.getRoot());
-		storageService.save(resources, folder);
-		draft.addFolder(folder);
-		draftRepository.save(draft);
+		final Draft draft = saveSingleDraftWithFiles();
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(

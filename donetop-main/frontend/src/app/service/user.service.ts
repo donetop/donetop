@@ -47,6 +47,7 @@ export class UserService {
         next: (response) => {
           console.log(`logout success.`);
           this.store.dispatch(new UserUnloadAction());
+          this.router.navigateByUrl('/');
         },
         error: ({error}) => alert(error.reason)
       });

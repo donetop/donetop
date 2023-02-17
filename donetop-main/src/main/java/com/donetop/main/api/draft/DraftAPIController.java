@@ -1,6 +1,8 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.dto.draft.DraftDTO;
+import com.donetop.main.api.common.Response;
+import com.donetop.main.api.common.Response.BadRequest;
 import com.donetop.main.api.common.Response.OK;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
@@ -60,6 +62,13 @@ public class DraftAPIController {
 	public ResponseEntity<OK<Long>> update(@PathVariable("id") final long id,
 										   @Valid final DraftUpdateRequest request) {
 		return ResponseEntity.ok(OK.of(draftService.updateDraft(id, request)));
+	}
+
+	@DeleteMapping(SINGULAR + "/{id}")
+	public ResponseEntity<Response> delete(@PathVariable("id") final long id,
+										   @Session final User user) {
+		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of("유효한 세션 정보가 없습니다."));
+		return ResponseEntity.ok(OK.of(draftService.deleteDraft(id, user)));
 	}
 
 }

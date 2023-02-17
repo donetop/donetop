@@ -3,24 +3,23 @@ package com.donetop.main.api.draft;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.DraftStatus;
-import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.draft.PaymentMethod;
-import com.donetop.main.api.common.IntegrationBase;
+import com.donetop.enums.folder.FolderType;
+import com.donetop.main.api.common.DraftBase;
 import com.donetop.main.api.common.Response.OK;
 import com.donetop.main.common.TestFileUtil;
+import com.donetop.main.service.storage.StorageService;
 import com.donetop.repository.draft.DraftRepository;
+import com.donetop.repository.user.UserRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
@@ -37,15 +36,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.partWith
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-public class DraftSingleUpdateTest extends IntegrationBase {
+public class DraftSingleUpdateTest extends DraftBase {
 
 	@Autowired
-	private DraftRepository draftRepository;
-
-	@AfterAll
-	void afterAll() throws IOException {
-		draftRepository.deleteAll();
-		FileSystemUtils.deleteRecursively(Path.of(applicationProperties.getStorage().getRoot()));
+	public DraftSingleUpdateTest(final DraftRepository draftRepository,
+								 final StorageService storageService,
+								 final UserRepository userRepository) {
+		super(draftRepository, storageService, userRepository);
 	}
 
 	@Test
@@ -115,15 +112,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 	@Test
 	void updateSingle_withValidPartValuesAndId_return200() {
 		// given
-		Draft draft = new Draft().toBuilder()
-			.customerName("jin")
-			.email("jin@test.com")
-			.category(Category.BAENEO)
-			.phoneNumber("010-0000-0000")
-			.address("address")
-			.password("password").build();
-		draftRepository.save(draft);
-		assert draft.getId() != 0L;
+		final Draft draft = saveSingleDraftWithoutFiles();
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
@@ -156,15 +145,7 @@ public class DraftSingleUpdateTest extends IntegrationBase {
 	@Test
 	void updateSingle_withValidPartValuesAndFilesAndId_return200() throws Exception {
 		// given
-		Draft draft = new Draft().toBuilder()
-			.customerName("jin")
-			.email("jin@test.com")
-			.category(Category.BAENEO)
-			.phoneNumber("010-0000-0000")
-			.address("address")
-			.password("password").build();
-		draftRepository.save(draft);
-		assert draft.getId() != 0L;
+		final Draft draft = saveSingleDraftWithoutFiles();
 		final Storage storage = applicationProperties.getStorage();
 		final List<java.io.File> files = TestFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
 		final RequestSpecification given = RestAssured.given(this.spec);

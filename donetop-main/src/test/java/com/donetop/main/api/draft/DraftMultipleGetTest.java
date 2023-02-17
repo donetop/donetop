@@ -1,65 +1,38 @@
 package com.donetop.main.api.draft;
 
-import com.donetop.domain.entity.draft.Draft;
-import com.donetop.enums.draft.Category;
-import com.donetop.main.api.common.IntegrationBase;
+import com.donetop.main.api.common.DraftBase;
+import com.donetop.main.service.storage.StorageService;
 import com.donetop.repository.draft.DraftRepository;
+import com.donetop.repository.user.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.donetop.main.api.draft.DraftAPIController.Uri.PLURAL;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
-import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-public class DraftMultipleGetTest extends IntegrationBase {
+public class DraftMultipleGetTest extends DraftBase {
 
 	@Autowired
-	private DraftRepository draftRepository;
-
-	private final List<Draft> drafts = new ArrayList<>();
+	public DraftMultipleGetTest(final DraftRepository draftRepository,
+							    final StorageService storageService,
+							    final UserRepository userRepository) {
+		super(draftRepository, storageService, userRepository);
+	}
 
 	@BeforeAll
 	void beforeAll() {
-		LocalDateTime now = LocalDateTime.now();
-		for (int i = 0; i < 100; i++) {
-			Draft draft = new Draft().toBuilder()
-				.customerName("jin" + i)
-				.companyName("jin's company")
-				.email("jin@test.com")
-				.category(Category.HYEONSUMAK)
-				.phoneNumber("010-0000-0000")
-				.price(1000 + i)
-				.address("address" + i)
-				.memo("memo" + i)
-				.password("password" + i)
-				.createTime(now)
-				.updateTime(now).build();
-			drafts.add(draft);
-			now = now.plusDays(1L);
-		}
-		draftRepository.saveAll(drafts);
-	}
-
-	@AfterAll
-	void afterAll() {
-		draftRepository.deleteAll();
+		saveMultipleDraftWithoutFiles();
 	}
 
 	@Test

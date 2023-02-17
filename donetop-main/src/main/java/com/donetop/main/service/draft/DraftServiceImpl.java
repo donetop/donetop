@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import static com.donetop.main.properties.ApplicationProperties.*;
 
@@ -71,6 +72,18 @@ public class DraftServiceImpl implements DraftService {
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
 		saveResourcesIfExist(draft, request.getResources());
 		return request.applyTo(draft).getId();
+	}
+
+	@Override
+	public long deleteDraft(final long id, final User user) {
+		final Draft draft = draftRepository.findById(id)
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
+			throw new IllegalStateException("허용되지 않은 요청입니다.");
+		final Folder folder = draft.getFolder();
+		if (folder != null) storageService.delete(folder);
+		draftRepository.delete(draft);
+		return id;
 	}
 
 	private void saveResourcesIfExist(final Draft draft, final Collection<Resource> resources) {

@@ -82,7 +82,7 @@ public class Draft implements Serializable {
 	@Column(nullable = false)
 	private LocalDateTime updateTime = LocalDateTime.now();
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "folderId")
 	private Folder folder;
 

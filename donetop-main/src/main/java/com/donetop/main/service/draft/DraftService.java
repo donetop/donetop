@@ -16,4 +16,6 @@ public interface DraftService {
 	DraftDTO getDraft(long id, String password, User user);
 
 	Page<DraftDTO> getDraft(PageRequest request);
+
+	long deleteDraft(long id, User user);
 }

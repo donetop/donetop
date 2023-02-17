@@ -124,6 +124,42 @@ include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightP
 .response
 include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/http-response.adoc[]
 
+== Draft Single Delete
+
+Http Method : *DELETE* +
+Uri : /api/draft/\{draft_id\}
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/draft_single_delete/deleteSingle_byAdminUser_return200/response-fields.adoc[]
+
+=== Examples
+==== deleteSingle_withoutSession_return400
+.request
+include::{snippets}/draft_single_delete/deleteSingle_withoutSession_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_delete/deleteSingle_withoutSession_return400/http-response.adoc[]
+
+==== deleteSingle_withUnknownId_return400
+.request
+include::{snippets}/draft_single_delete/deleteSingle_withUnknownId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_delete/deleteSingle_withUnknownId_return400/http-response.adoc[]
+
+==== deleteSingle_byNormalUser_return400
+.request
+include::{snippets}/draft_single_delete/deleteSingle_byNormalUser_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_delete/deleteSingle_byNormalUser_return400/http-response.adoc[]
+
+==== deleteSingle_byAdminUser_return200
+.request
+include::{snippets}/draft_single_delete/deleteSingle_byAdminUser_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_delete/deleteSingle_byAdminUser_return200/http-response.adoc[]
+
 == Draft Multiple Get
 
 Http Method : *GET* +
