@@ -16,6 +16,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileSystemUtils;
 
 import java.io.IOException;
@@ -28,19 +29,14 @@ import static com.donetop.main.api.form.FormAPIController.Uri.LOGIN;
 
 public class DraftBase extends IntegrationBase {
 
+	@Autowired
 	protected DraftRepository draftRepository;
 
+	@Autowired
 	protected StorageService storageService;
 
+	@Autowired
 	protected UserRepository userRepository;
-
-	public DraftBase(final DraftRepository draftRepository,
-					 final StorageService storageService,
-					 final UserRepository userRepository) {
-		this.draftRepository = draftRepository;
-		this.storageService = storageService;
-		this.userRepository = userRepository;
-	}
 
 	@AfterAll
 	void afterAll() throws IOException {

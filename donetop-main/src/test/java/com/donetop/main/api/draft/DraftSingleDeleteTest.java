@@ -6,15 +6,12 @@ import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.main.api.common.Response.OK;
-import com.donetop.main.service.storage.StorageService;
-import com.donetop.repository.draft.DraftRepository;
-import com.donetop.repository.user.UserRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.nio.file.Path;
@@ -31,16 +28,15 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 public class DraftSingleDeleteTest extends DraftBase {
 
-	@Autowired
-	public DraftSingleDeleteTest(final DraftRepository draftRepository,
-							     final StorageService storageService,
-							     final UserRepository userRepository) {
-		super(draftRepository, storageService, userRepository);
+	private User jin;
+
+	private User admin;
+
+	@BeforeAll
+	void beforeAll() {
+		jin = saveUser("jin", RoleType.NORMAL);
+		admin = saveUser("admin", RoleType.ADMIN);
 	}
-
-	final User jin = saveUser("jin", RoleType.NORMAL);
-
-	final User admin = saveUser("admin", RoleType.ADMIN);
 
 	@Test
 	void deleteSingle_withoutSession_return400() {

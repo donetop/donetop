@@ -4,14 +4,10 @@ import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.user.User;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.DraftBase;
-import com.donetop.main.service.storage.StorageService;
-import com.donetop.repository.draft.DraftRepository;
-import com.donetop.repository.user.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.util.Map;
@@ -25,13 +21,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class DraftSingleGetTest extends DraftBase {
-
-	@Autowired
-	public DraftSingleGetTest(final DraftRepository draftRepository,
-							  final StorageService storageService,
-							  final UserRepository userRepository) {
-		super(draftRepository, storageService, userRepository);
-	}
 
 	@Test
 	void getSingle_withInvalidId_return400() {

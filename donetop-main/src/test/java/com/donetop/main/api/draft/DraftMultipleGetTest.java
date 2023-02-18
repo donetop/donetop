@@ -1,15 +1,11 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.main.api.common.DraftBase;
-import com.donetop.main.service.storage.StorageService;
-import com.donetop.repository.draft.DraftRepository;
-import com.donetop.repository.user.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import static com.donetop.main.api.draft.DraftAPIController.Uri.PLURAL;
@@ -22,13 +18,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class DraftMultipleGetTest extends DraftBase {
-
-	@Autowired
-	public DraftMultipleGetTest(final DraftRepository draftRepository,
-							    final StorageService storageService,
-							    final UserRepository userRepository) {
-		super(draftRepository, storageService, userRepository);
-	}
 
 	@BeforeAll
 	void beforeAll() {

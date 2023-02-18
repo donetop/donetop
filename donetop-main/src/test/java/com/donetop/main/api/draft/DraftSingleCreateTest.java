@@ -1,20 +1,16 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.enums.draft.Category;
-import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.draft.PaymentMethod;
+import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.main.common.TestFileUtil;
 import com.donetop.main.properties.ApplicationProperties.Storage;
-import com.donetop.main.service.storage.StorageService;
-import com.donetop.repository.draft.DraftRepository;
-import com.donetop.repository.user.UserRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.io.File;
@@ -36,13 +32,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class DraftSingleCreateTest extends DraftBase {
-
-	@Autowired
-	public DraftSingleCreateTest(final DraftRepository draftRepository,
-								 final StorageService storageService,
-								 final UserRepository userRepository) {
-		super(draftRepository, storageService, userRepository);
-	}
 
 	@Test
 	void createSingle_withoutParts_return400() {
