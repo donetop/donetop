@@ -11,7 +11,7 @@ export class RouteName {
   public readonly DRAFT = `${prefix}/draft`;
 
   public readonly DRAFT_CHILDREN = {
-    CREATE: `create`, LIST: `list`, DETAIL: `detail`
+    CREATE: `create`, LIST: `list`, DETAIL: `detail`, UPDATE: `update`
   }
 
   public readonly DRAFT_CREATE = `${this.DRAFT}/${this.DRAFT_CHILDREN.CREATE}`;
@@ -19,6 +19,8 @@ export class RouteName {
   public readonly DRAFT_LIST = `${this.DRAFT}/${this.DRAFT_CHILDREN.LIST}`;
 
   public readonly DRAFT_DETAIL = `${this.DRAFT}/${this.DRAFT_CHILDREN.DETAIL}`;
+
+  public readonly DRAFT_UPDATE = `${this.DRAFT}/${this.DRAFT_CHILDREN.UPDATE}`;
 
   public readonly FALL_BACK = `**`;
 

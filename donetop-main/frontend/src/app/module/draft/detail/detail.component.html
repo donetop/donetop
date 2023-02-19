@@ -36,6 +36,10 @@
         <span>결제방법</span>&nbsp;:&nbsp;
         <span>{{ draft.paymentMethod }}</span>
       </div>
+      <div class="row">
+        <span>메모</span><br>
+        <textarea id="memo" name="memo" rows="10" disabled>{{ draft.memo }}</textarea>
+      </div>
     </div>
     <div class="images" *ngIf="draft.folder">
       <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of draft.folder.files">
@@ -43,7 +47,7 @@
   </div>
   <div class="buttons">
     <div class="admin" *ngIf="isAdmin">
-      <button type="button"><fa-icon [icon]="['fas', 'pen-to-square']"></fa-icon>&nbsp;수정</button>
+      <button type="button" (click)="update()"><fa-icon [icon]="['fas', 'pen-to-square']"></fa-icon>&nbsp;수정</button>
       <button type="button" (click)="delete()"><fa-icon [icon]="['fas', 'trash-can']"></fa-icon>&nbsp;삭제</button>
     </div>
     <div class="public">

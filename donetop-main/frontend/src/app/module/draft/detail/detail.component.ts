@@ -26,6 +26,8 @@ export class DetailComponent {
 
   draft: Draft | undefined;
   isAdmin: boolean = false;
+  id: number = 0;
+  password: string = '';
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
@@ -38,13 +40,17 @@ export class DetailComponent {
   }
 
   setUp(params: any) {
-    const id = params['id'];
-    const password = params['p'];
-    this.draftService.get(id, password)
+    this.id = parseInt(params['id']);
+    this.password = params['p'];
+    this.draftService.get(this.id, this.password)
       .subscribe({
         next: (response) => this.draft = response.data,
         error: ({error}) => alert(error.reason)
       });
+  }
+
+  update() {
+    this.router.navigate([this.routeName.DRAFT_UPDATE], { queryParams: { id: this.id, p: this.password } });
   }
 
   delete() {

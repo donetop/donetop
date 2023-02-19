@@ -59,6 +59,17 @@ div.container {
 
       > div.row {
         margin: 3px 0;
+
+        > textarea {
+          width: 50%;
+          resize: none;
+        }
+
+        @media (max-width: 1000px) {
+          > textarea {
+            width: 100%;
+          }
+        }
       }
     }
 
@@ -119,7 +130,9 @@ div.container {
     margin-top: 10px;
 
     > img {
+      display: block;
       max-width: 100%;
+      margin: 0 auto;
     }
   }
 }

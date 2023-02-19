@@ -1,1 +1,27 @@
-<p>update works!</p>
+<app-title [title]="'시안수정'"></app-title>
+<div class="container">
+  <form #draftUpdateForm="ngForm" (ngSubmit)="onSubmit(draftUpdateForm)" novalidate>
+    <div class="area" *ngIf="draft">
+      <div class="row">
+        <label for="category">품목선택</label>
+        <select id="category" name="category" [(ngModel)]='draft.category'>
+          <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.value }}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="paymentMethod">결제수단</label>
+        <select id="paymentMethod" name="paymentMethod" [(ngModel)]='draft.paymentMethod'>
+          <option *ngFor="let paymentMethod of paymentMethodArray" [value]="paymentMethod.name">{{ paymentMethod.value }}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="memo">견적내용</label>
+        <textarea id="memo" name="memo" rows="10" [(ngModel)]='draft.memo'></textarea>
+      </div>
+    </div>
+    <div class="buttons">
+      <button type="button" class="cancel" [routerLink]="'/' + routeName.DRAFT_DETAIL" [queryParams]="{ id, p: password }"><div>취소</div></button>
+      <button type="submit" class="complete" [disabled]="draftUpdateForm.invalid"><div>수정완료</div></button>
+    </div>
+  </form>
+</div>

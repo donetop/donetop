@@ -9,6 +9,7 @@ import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { EnumService } from 'src/app/service/enum.service';
 import { Category, Enum } from 'src/app/store/model/category.model';
+import { RouteName } from 'src/app/store/model/routeName.model';
 import { policy } from './policy';
 
 declare const daum: any;
@@ -37,7 +38,8 @@ export class CreateComponent implements OnInit {
 
   constructor(
     private library: FaIconLibrary, private draftService: DraftService,
-    private cryptoService: CryptoService, protected enumService: EnumService
+    private cryptoService: CryptoService, private enumService: EnumService,
+    protected routeName: RouteName
   ) {
     this.library.addIcons(faDownload);
   }
