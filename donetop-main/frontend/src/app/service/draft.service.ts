@@ -27,6 +27,17 @@ export class DraftService {
       });
   }
 
+  update(id: number, password: string, formData: FormData) {
+    this.httpClient.put<Response<number>>(`${this.draftUri}/${id}`, formData)
+      .subscribe({
+        next: (response) => {
+          console.log(`draft update success. draft id : ${response.data}`);
+          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, p: password } });
+        },
+        error: ({error}) => alert(error.reason)
+      });
+  }
+
   list(page: number) {
     return this.httpClient.get<Response<Page<Draft>>>(`${this.draftsUri}?page=${page}`);
   }

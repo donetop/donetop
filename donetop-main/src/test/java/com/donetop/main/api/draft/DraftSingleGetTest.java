@@ -85,11 +85,11 @@ public class DraftSingleGetTest extends DraftBase {
 		response.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
-			.body("data.draftStatus", is(draft.getDraftStatus().value()))
-			.body("data.category", is(draft.getCategory().value()))
+			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
+			.body("data.category.name", is(draft.getCategory().name()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
-			.body("data.paymentMethod", is(draft.getPaymentMethod().value()))
+			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
 			.body("data.memo", is(draft.getMemo()));
 	}
 
@@ -115,11 +115,11 @@ public class DraftSingleGetTest extends DraftBase {
 		response.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
-			.body("data.draftStatus", is(draft.getDraftStatus().value()))
-			.body("data.category", is(draft.getCategory().value()))
+			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
+			.body("data.category.name", is(draft.getCategory().name()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
-			.body("data.paymentMethod", is(draft.getPaymentMethod().value()))
+			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
 			.body("data.memo", is(draft.getMemo()));
 	}
 
@@ -139,16 +139,23 @@ public class DraftSingleGetTest extends DraftBase {
 					fieldWithPath("code").type(NUMBER).description("Status code."),
 					fieldWithPath("data").type(OBJECT).description("Response data."),
 					fieldWithPath("data.id").type(NUMBER).description("Draft id."),
-					fieldWithPath("data.customerName").description("Draft customerName."),
-					fieldWithPath("data.companyName").description("Draft companyName."),
-					fieldWithPath("data.inChargeName").description("Draft inChargeName."),
-					fieldWithPath("data.email").description("Draft email."),
-					fieldWithPath("data.phoneNumber").description("Draft phoneNumber."),
-					fieldWithPath("data.category").description("Draft category."),
-					fieldWithPath("data.draftStatus").type(STRING).description("Draft status."),
+					fieldWithPath("data.customerName").type(STRING).description("Draft customerName."),
+					fieldWithPath("data.companyName").type(STRING).description("Draft companyName."),
+					fieldWithPath("data.inChargeName").type(STRING).description("Draft inChargeName."),
+					fieldWithPath("data.email").type(STRING).description("Draft email."),
+					fieldWithPath("data.phoneNumber").type(STRING).description("Draft phoneNumber."),
+					fieldWithPath("data.category").type(OBJECT).description("Draft category."),
+					fieldWithPath("data.category.name").type(STRING).description("Draft category name."),
+					fieldWithPath("data.category.value").type(STRING).description("Draft category value."),
+					subsectionWithPath("data.category.items").type(ARRAY).description("Draft category items."),
+					fieldWithPath("data.draftStatus").type(OBJECT).description("Draft status."),
+					fieldWithPath("data.draftStatus.name").type(STRING).description("Draft status name."),
+					fieldWithPath("data.draftStatus.value").type(STRING).description("Draft status value."),
 					fieldWithPath("data.address").type(STRING).description("Draft address."),
-					fieldWithPath("data.price").description("Draft price."),
-					fieldWithPath("data.paymentMethod").type(STRING).description("Draft paymentMethod."),
+					fieldWithPath("data.price").type(NUMBER).description("Draft price."),
+					fieldWithPath("data.paymentMethod").type(OBJECT).description("Draft paymentMethod."),
+					fieldWithPath("data.paymentMethod.name").type(STRING).description("Draft paymentMethod name."),
+					fieldWithPath("data.paymentMethod.value").type(STRING).description("Draft paymentMethod value."),
 					fieldWithPath("data.memo").type(STRING).description("Draft memo."),
 					fieldWithPath("data.createTime").type(STRING).description("Draft create time."),
 					fieldWithPath("data.updateTime").type(STRING).description("Draft update time."),
@@ -167,11 +174,11 @@ public class DraftSingleGetTest extends DraftBase {
 		response.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
-			.body("data.draftStatus", is(draft.getDraftStatus().value()))
-			.body("data.category", is(draft.getCategory().value()))
+			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
+			.body("data.category.name", is(draft.getCategory().name()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
-			.body("data.paymentMethod", is(draft.getPaymentMethod().value()))
+			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
 			.body("data.memo", is(draft.getMemo()))
 			.body("data.folder.files", hasSize(4));
 	}

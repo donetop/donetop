@@ -1,6 +1,8 @@
 package com.donetop.dto.draft;
 
 import com.donetop.dto.folder.FolderDTO;
+import com.donetop.enums.draft.Category.CategoryDTO;
+import com.donetop.enums.draft.EnumDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -30,15 +32,15 @@ public class DraftDTO {
 
 	private String phoneNumber;
 
-	private String category;
+	private CategoryDTO category;
 
-	private String draftStatus;
+	private EnumDTO draftStatus;
 
 	private String address;
 
 	private long price;
 
-	private String paymentMethod;
+	private EnumDTO paymentMethod;
 
 	private String memo;
 

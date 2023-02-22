@@ -103,7 +103,7 @@ public class DraftBase extends IntegrationBase {
 			.createTime(now)
 			.updateTime(now).build();
 		draftRepository.save(draft);
-		Folder folder = draft.getOrNewFolder(storage.getRoot());
+		Folder folder = storageService.saveIfNotExist(draft.getOrNewFolder(storage.getRoot()));
 		storageService.save(resources, folder);
 		draft.addFolder(folder);
 		return draftRepository.save(draft);

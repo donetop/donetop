@@ -55,6 +55,10 @@ public class Folder {
 		this.files.clear();
 	}
 
+	public boolean isNew() {
+		return this.id == 0L;
+	}
+
 	public FolderDTO toDTO() {
 		final FolderDTO folderDTO = new FolderDTO();
 		folderDTO.setId(this.id);

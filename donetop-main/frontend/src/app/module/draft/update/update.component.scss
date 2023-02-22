@@ -59,6 +59,45 @@ div.container {
         flex-grow: 1;
       }
     }
+
+    > fa-icon {
+      font-size: 2rem;
+      cursor: pointer;
+      width: fit-content;
+      margin: 0 auto;
+    }
+  }
+
+  div.file {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+
+    > label {
+      border-radius: 3px 0 0 3px;
+      height: 38px;
+      line-height: 38px;
+      width: 40px;
+      background: #eee;
+      text-align: center;
+      color: #888;
+    }
+
+    > input {
+      padding: 7px 0 5px 0;
+      margin-left: 10px;
+      flex-grow: 1;
+    }
+
+    > a {
+      align-self: center;
+      margin-right: 5px;
+    }
+  }
+
+  div.hidden {
+    display: none;
   }
 
   div.buttons {

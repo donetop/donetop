@@ -15,9 +15,9 @@ import org.springframework.util.FileSystemUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,25 +31,24 @@ public class LocalStorageService implements StorageService {
 	private final FolderRepository folderRepository;
 
 	@Override
-	public void save(final Collection<Resource> resources, Folder folder) {
-		folder = saveIfNotExist(folder);
-		deleteAllFilesIn(folder);
-		final List<FileSaveInfo> infoList = new ArrayList<>();
-		for (final Resource resource : resources) {
-			infoList.add(resource.saveAt(folder));
-		}
-		final List<File> successFiles = infoList.stream()
+	public void save(final Collection<Resource> resources, final Folder folder) {
+		final boolean deleteSuccess = deleteAllFilesIn(Objects.requireNonNull(folder));
+		log.info("File delete success : {}", deleteSuccess);
+		if (!deleteSuccess) return;
+		fileRepository.flush();
+		final List<File> saveSuccessFiles = Objects.requireNonNull(resources).stream()
+			.map(resource -> resource.saveAt(folder))
 			.filter(FileSaveInfo::isSuccess)
 			.map(FileSaveInfo::getFile)
 			.collect(Collectors.toList());
-		log.info("Save success files : {}", successFiles);
-		fileRepository.saveAll(successFiles);
+		log.info("Save success files : {}", saveSuccessFiles);
+		fileRepository.saveAll(saveSuccessFiles);
 	}
 
 	@Override
 	public Folder saveIfNotExist(final Folder folder) {
 		try {
-			final Path folderPath = Path.of(folder.getPath());
+			final Path folderPath = Path.of(Objects.requireNonNull(folder).getPath());
 			if (folder.getId() == 0L && !Files.exists(folderPath)) {
 				Files.createDirectories(folderPath);
 				return folderRepository.save(folder);
@@ -63,7 +62,7 @@ public class LocalStorageService implements StorageService {
 	@Override
 	public boolean deleteAllFilesIn(final Folder folder) {
 		boolean deleteAll = true;
-		for (final File file : folder.getFiles()) {
+		for (final File file : Objects.requireNonNull(folder).getFiles()) {
 			deleteAll &= delete(file);
 		}
 		if (deleteAll) folder.deleteAllFiles();
@@ -71,7 +70,7 @@ public class LocalStorageService implements StorageService {
 	}
 
 	private boolean delete(final File file) {
-		final boolean result = Path.of(file.getPath()).toFile().delete();
+		final boolean result = Path.of(Objects.requireNonNull(file).getPath()).toFile().delete();
 		if (result) fileRepository.delete(file);
 		return result;
 	}
@@ -80,7 +79,7 @@ public class LocalStorageService implements StorageService {
 	public boolean delete(final Folder folder) {
 		final boolean result;
 		try {
-			result = FileSystemUtils.deleteRecursively(Path.of(folder.getPath()));
+			result = FileSystemUtils.deleteRecursively(Path.of(Objects.requireNonNull(folder).getPath()));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -91,7 +90,7 @@ public class LocalStorageService implements StorageService {
 	@Override
 	public InputStreamResource read(final String path) {
 		try {
-			return new InputStreamResource(Files.newInputStream(Path.of(path)));
+			return new InputStreamResource(Files.newInputStream(Path.of(Objects.requireNonNull(path))));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

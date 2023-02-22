@@ -39,9 +39,9 @@
         </div>
         <div class="row">
           <label for="phone1">연락처</label>
-            <input type="tel" class="required" id="phone1" name="phone1" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone1="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="3">&nbsp;-&nbsp;
-            <input type="tel" class="required" id="phone2" name="phone2" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone2="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">&nbsp;-&nbsp;
-            <input type="tel" class="required" id="phone3" name="phone3" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone3="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">
+          <input type="tel" class="required" id="phone1" name="phone1" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone1="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="3">&nbsp;-&nbsp;
+          <input type="tel" class="required" id="phone2" name="phone2" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone2="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">&nbsp;-&nbsp;
+          <input type="tel" class="required" id="phone3" name="phone3" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone3="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">
         </div>
         <div class="row">
           <label for="address">주소</label>
@@ -56,15 +56,15 @@
     <div class="area">
       <div class="file">
         <label for="file1"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file1" name="file1" #file>
+        <input type="file" id="file1" name="file1" accept="image/*" #file>
       </div>
       <div class="file">
         <label for="file2"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file2" name="file2" #file>
+        <input type="file" id="file2" name="file2" accept="image/*" #file>
       </div>
       <div class="file">
         <label for="file3"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file3" name="file3" #file>
+        <input type="file" id="file3" name="file3" accept="image/*" #file>
       </div>
     </div>
     <div class="personal-info-policy">

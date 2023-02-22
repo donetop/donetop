@@ -48,7 +48,7 @@ public class DraftServiceImpl implements DraftService {
 	@Override
 	public long createNewDraft(final DraftCreateRequest request) {
 		final Draft newDraft = draftRepository.save(request.toEntity());
-		saveResourcesIfExist(newDraft, request.getResources());
+		saveResources(newDraft, request.getResources());
 		return newDraft.getId();
 	}
 
@@ -70,7 +70,7 @@ public class DraftServiceImpl implements DraftService {
 	public long updateDraft(final long id, final DraftUpdateRequest request) {
 		final Draft draft = draftRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
-		saveResourcesIfExist(draft, request.getResources());
+		saveResources(draft, request.getResources());
 		return request.applyTo(draft).getId();
 	}
 
@@ -86,11 +86,11 @@ public class DraftServiceImpl implements DraftService {
 		return id;
 	}
 
-	private void saveResourcesIfExist(final Draft draft, final Collection<Resource> resources) {
-		if (!resources.isEmpty()) {
-			final Folder folder = draft.getOrNewFolder(storage.getRoot());
-			if (folder.getId() == 0L) draft.addFolder(folder);
-			storageService.save(resources, folder);
-		}
+	private void saveResources(final Draft draft, final Collection<Resource> resources) {
+		final Folder folder = draft.getOrNewFolder(storage.getRoot());
+		if (folder.isNew() && resources.isEmpty()) return;
+		storageService.saveIfNotExist(folder);
+		draft.addFolder(folder);
+		storageService.save(resources, folder);
 	}
 }
