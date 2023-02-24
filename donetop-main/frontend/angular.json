@@ -62,7 +62,7 @@
             "development": {
               "outputPath": "dist",
               "index": {
-                "input": "src/index.html",
+                "input": "src/index.development.html",
                 "output": "index.html"
               },
               "fileReplacements": [

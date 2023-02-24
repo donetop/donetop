@@ -120,6 +120,11 @@ div.container {
         &:last-child {
           margin-right: 0;
         }
+
+        &:disabled {
+          background: #565d9c;
+          cursor: default;
+        }
       }
     }
   }

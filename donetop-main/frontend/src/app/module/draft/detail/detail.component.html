@@ -51,10 +51,31 @@
       <button type="button" (click)="delete()"><fa-icon [icon]="['fas', 'trash-can']"></fa-icon>&nbsp;삭제</button>
     </div>
     <div class="public">
-      <button type="button"><fa-icon [icon]="['far', 'credit-card']"></fa-icon>&nbsp;카드결제</button>
+      <button type="button" [disabled]="!isPayable()" (click)="pay()"><fa-icon [icon]="['far', 'credit-card']"></fa-icon>&nbsp;카드결제</button>
     </div>
   </div>
   <div class="notice">
     <img src="/assets/draft/notice.jpg" alt="이미지가 없습니다.">
   </div>
+  <form name="draft_order_form" #draft_order_form *ngIf="orderRequestParameter">
+    <!-- 주문정보 세팅 -->
+    <input type="hidden" name="ordr_idxx" [value]="orderRequestParameter.ordr_idxx">
+    <input type="hidden" name="good_name" [value]="orderRequestParameter.good_name">
+    <input type="hidden" name="good_mny" [value]="orderRequestParameter.good_mny">
+    <input type="hidden" name="buyr_name" [value]="orderRequestParameter.buyr_name">
+    <input type="hidden" name="buyr_mail" [value]="orderRequestParameter.buyr_mail">
+    <!-- 신용카드 -->
+    <input type="hidden" name="pay_method" [value]="orderRequestParameter.pay_method">
+    <!-- 가맹점 정보 설정-->
+    <input type="hidden" name="site_cd" [value]="orderRequestParameter.site_cd">
+    <input type="hidden" name="site_name" [value]="orderRequestParameter.site_name">
+    <!-- 인증데이터 처리-->
+    <input type="hidden" name="res_cd" value=""/>
+    <input type="hidden" name="res_msg" value=""/>
+    <input type="hidden" name="enc_info" value=""/>
+    <input type="hidden" name="enc_data" value=""/>
+    <input type="hidden" name="ret_pay_method" value=""/>
+    <input type="hidden" name="tran_cd" value=""/>
+    <input type="hidden" name="use_pay_method" value=""/>
+  </form>
 </div>
