@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RouteName } from 'src/app/store/model/routeName.model';
 
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from 'src/app/component/home/home.component';
 
 const INSTANCE = RouteName.INSTANCE;
 
