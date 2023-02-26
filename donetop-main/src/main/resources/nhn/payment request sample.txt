@@ -1,0 +1,18 @@
+{
+	buyr_mail: "jin@test.com"
+	buyr_name: "jin312"
+	enc_data: "2pr5TNOHUM8JOCK0rrjRKyq5Tzv4YnT2b7dnlX0ACceGSfJorHTQ.J0UXyyXlJA08tn9m-zZ1ykvSE-guUZCyTOW.OdC5kdluDP99lnbKyTbod1yeJShg.7ltd.8iYEYdESRoem.Lc.maxNwXdzgDAZD4ZYfnUAUv0aqD.9rdf9dwRrwSatYTis1ri2ShcnIurQbIbt4-RZgeuYnSTka0GwIHvbUDTLdYzWu8k2f99Vmw8jhV2.tLbmGQEYV9eEBEnHIoLN9621EBWGScMf3ADeR45LJivo4MX6xnQPX2DkR8zEG.-UGGVgwSjYLlbN0DavBkMORQ792B4tALlvgvZ6SGjwDA3.Dsnw6-lLERYFJ53EkbTTe3RAM.jDuvhDzuFIO0JgEeFKS.HCa16jSr1aTqzONQxIswjyHf3q7mF8XpZrNgT0c5FJRjnkapDXeA64MK6FHUmrqW-D7mfIP0uu7YGrsMl7j5VeYbVN8WdPWGT1Npia-QZnv9z29xIzHjglLPMWoo4VcdJqOc1y1XGf-tN1muclKWe4yh5jCpTaEAMDDVOgUkgu53fhuWfIlLuFSG0dIbXblGOaWDBD1C5XAQP2zvisDDrCYvA93tTqB82ny8zdLT4ywYDu7bycJhyUZr-jkfAqAbOjQMbJhSJRMZXm5xBSaRJmR2Vy5pWaY0hneWELq7e1g363Rlv1SnioEGP5Afs-BSEskNxTFlYE-KLEH3MWAqaJJgA5yrq2Z_"
+	enc_info: "3tEt5p0M0mmq3HuZ.pOA-oE8pBw1arke9VXEAZP7IFbHviohqU7AdKCXF6va0IONDmAepFfBaERtYb1el9qVxVkMIU.zTLTWi9TPENBG06cIzr02MtYjNDc64ujlxeELlgXZqKaIohPsZzBOKrCgLO-cpbXC3NiHto1IocQ-fgeeNkdA3cqfwANNQ6aq.x5O3cCkkKBmJ0B__"
+	good_mny: "1312"
+	good_name: "디원탑 시안(314)"
+	ordr_chk: "DRAFT-314-TEST|1312"
+	ordr_idxx: "DRAFT-314-TEST"
+	pay_method: "100000000000"
+	res_cd: "0000"
+	res_msg: "성공"
+	ret_pay_method: "card"
+	site_cd: "T0000"
+	site_name: "DONETOP"
+	tran_cd: "00100000"
+	use_pay_method: "100000000000"
+}

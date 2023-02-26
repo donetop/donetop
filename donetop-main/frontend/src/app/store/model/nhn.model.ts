@@ -18,7 +18,7 @@ interface OrderRequestParameterFrom<T> {
 export const OrderRequestParameterFrom: OrderRequestParameterFrom<Draft> = draft => {
   return {
     'site_cd': 'T0000',
-    'ordr_idxx': `DRAFT${draft.id}TEST`,
+    'ordr_idxx': `DRAFT-${draft.id}-TEST`,
     'pay_method': '100000000000',
     'good_name': `디원탑 시안(${draft.id})`,
     'good_mny': `${draft.price}`,

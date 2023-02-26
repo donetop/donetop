@@ -34,6 +34,9 @@ application:
     custom-max-inactive-interval: 31536000 # 1년
     storage:
       root: C:/Users/DONETOP/jin/workspace/donetop/donetop-main/src/main/resources/storage
+    payment:
+      nhn:
+        target-url: https://stg-spl.kcp.co.kr/gw/enc/v1/payment
 
 logging:
   level:

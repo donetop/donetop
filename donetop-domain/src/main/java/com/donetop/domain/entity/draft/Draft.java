@@ -1,11 +1,13 @@
 package com.donetop.domain.entity.draft;
 
 import com.donetop.domain.entity.folder.Folder;
+import com.donetop.domain.entity.payment.PaymentInfo;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.draft.PaymentMethod;
+import com.donetop.enums.payment.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -86,6 +88,10 @@ public class Draft implements Serializable {
 	@JoinColumn(name = "folderId")
 	private Folder folder;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "paymentInfoId")
+	private PaymentInfo paymentInfo;
+
 	public Draft updateCustomerName(final String customerName) {
 		this.customerName = customerName;
 		return this;
@@ -155,11 +161,19 @@ public class Draft implements Serializable {
 		this.folder = folder;
 	}
 
+	public void addPaymentInfo(final PaymentInfo paymentInfo) {
+		this.paymentInfo = paymentInfo;
+	}
+
 	public Folder getOrNewFolder(final String root) {
 		return this.folder == null ? Folder.of(FolderType.DRAFT, root, this.id) : this.folder;
 	}
 
-	public DraftDTO toDTO(final boolean includeFolder) {
+	public PaymentInfo getOrNewPaymentInfo() {
+		return this.paymentInfo == null ? PaymentInfo.of(PaymentStatus.PAID) : this.paymentInfo;
+	}
+
+	public DraftDTO toDTO(final boolean includeSubObjectInfo) {
 		final DraftDTO draftDTO = DraftDTO.builder()
 			.id(this.id)
 			.customerName(this.customerName)
@@ -175,7 +189,10 @@ public class Draft implements Serializable {
 			.memo(this.memo)
 			.createTime(this.createTime)
 			.updateTime(this.updateTime).build();
-		if (includeFolder && this.folder != null) draftDTO.setFolder(this.folder.toDTO());
+		if (includeSubObjectInfo) {
+			draftDTO.setFolder(this.folder == null ? null : this.folder.toDTO());
+			draftDTO.setPaymentInfo(this.paymentInfo == null ? null : this.paymentInfo.toDTO());
+		}
 		return draftDTO;
 	}
 }

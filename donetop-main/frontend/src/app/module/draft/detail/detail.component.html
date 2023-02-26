@@ -57,7 +57,7 @@
   <div class="notice">
     <img src="/assets/draft/notice.jpg" alt="이미지가 없습니다.">
   </div>
-  <form name="draft_order_form" #draft_order_form *ngIf="orderRequestParameter">
+  <form name="draft_order_form" method="post" action="api/payment/nhn" #draft_order_form *ngIf="orderRequestParameter">
     <!-- 주문정보 세팅 -->
     <input type="hidden" name="ordr_idxx" [value]="orderRequestParameter.ordr_idxx">
     <input type="hidden" name="good_name" [value]="orderRequestParameter.good_name">
@@ -77,5 +77,6 @@
     <input type="hidden" name="ret_pay_method" value=""/>
     <input type="hidden" name="tran_cd" value=""/>
     <input type="hidden" name="use_pay_method" value=""/>
+    <input type="hidden" name="ordr_chk" value=""/>
   </form>
 </div>

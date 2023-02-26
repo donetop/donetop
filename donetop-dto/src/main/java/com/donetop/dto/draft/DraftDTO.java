@@ -1,6 +1,7 @@
 package com.donetop.dto.draft;
 
 import com.donetop.dto.folder.FolderDTO;
+import com.donetop.dto.payment.PaymentInfoDTO;
 import com.donetop.enums.draft.Category.CategoryDTO;
 import com.donetop.enums.draft.EnumDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -53,4 +54,6 @@ public class DraftDTO {
 	private LocalDateTime updateTime;
 
 	private FolderDTO folder;
+
+	private PaymentInfoDTO paymentInfo;
 }

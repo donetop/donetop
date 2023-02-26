@@ -77,7 +77,9 @@ export class DetailComponent {
 
   isPayable() {
     if (!this.draft) return false;
-    return this.draft.price > 0;
+    if (this.draft.price <= 0) return false;
+    if (this.draft.paymentMethod.name !== 'CREDIT_CARD') return false;
+    return true;
   }
 
 }
