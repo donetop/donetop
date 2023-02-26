@@ -89,8 +89,8 @@ public class NHNPaymentService {
 	}
 
 	private NHNPaymentDetail savePaymentHistory(final String rawData) {
-		final NHNPaymentDetail nhnPaymentReceipt = (NHNPaymentDetail) PGType.NHN.detail(rawData);
-		final Long draftId = Long.valueOf(nhnPaymentReceipt.getOrder_no().split("-")[1]);
+		final NHNPaymentDetail nhnPaymentDetail = (NHNPaymentDetail) PGType.NHN.detail(rawData);
+		final Long draftId = Long.valueOf(nhnPaymentDetail.getOrder_no().split("-")[1]);
 		final Draft draft = draftRepository.findById(draftId)
 			.orElseThrow(() -> new IllegalStateException("결제 정보 저장을 위한 유효한 시안이 없습니다."));
 		final PaymentInfo paymentInfo = draft.getOrNewPaymentInfo();
@@ -103,7 +103,7 @@ public class NHNPaymentService {
 			.rawData(rawData)
 			.paymentInfo(paymentInfo).build();
 		paymentHistoryRepository.save(paymentHistory);
-		return nhnPaymentReceipt;
+		return nhnPaymentDetail;
 	}
 
 }
