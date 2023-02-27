@@ -51,7 +51,8 @@
       <button type="button" (click)="delete()"><fa-icon [icon]="['fas', 'trash-can']"></fa-icon>&nbsp;삭제</button>
     </div>
     <div class="public">
-      <button type="button" [disabled]="!isPayable()" (click)="pay()"><fa-icon [icon]="['far', 'credit-card']"></fa-icon>&nbsp;카드결제</button>
+      <button type="button" *ngIf="isPayable()" (click)="pay()"><fa-icon [icon]="['far', 'credit-card']"></fa-icon>&nbsp;카드결제</button>
+      <button type="button" *ngIf="isPaid()" (click)="openModal()"><fa-icon [icon]="['fas', 'receipt']"></fa-icon>&nbsp;영수증</button>
     </div>
   </div>
   <div class="notice">
@@ -80,3 +81,40 @@
     <input type="hidden" name="ordr_chk" value=""/>
   </form>
 </div>
+<app-modal [(property)]="modalProperty">
+  <h3 class="title">영수증</h3>
+  <div class="contents" *ngIf="paymentHistory">
+    <div class="row">
+      <div class="key"><div>주문번호</div></div>
+      <div class="value"><div>{{ paymentHistory.detail['order_no'] }}</div></div>
+    </div>
+    <div class="row">
+      <div class="key"><div>거래번호</div></div>
+      <div class="value"><div>{{ paymentHistory.detail['tno'] }}</div></div>
+    </div>
+    <div class="row">
+      <div class="key"><div>거래날짜</div></div>
+      <div class="value"><div>{{ paymentHistory.createTime }}</div></div>
+    </div>
+    <div class="row">
+      <div class="key"><div>카드명</div></div>
+      <div class="value"><div>{{ paymentHistory.detail['card_name'] }}</div></div>
+    </div>
+    <div class="row">
+      <div class="key"><div>카드번호</div></div>
+      <div class="value"><div>{{ paymentHistory.detail['card_no'] }}</div></div>
+    </div>
+    <div class="row">
+      <div class="key"><div>가격(원)</div></div>
+      <div class="value"><div>{{ paymentHistory.detail['amount'] }}</div></div>
+    </div>
+    <div class="row">
+      <div class="key"><div>상태</div></div>
+      <div class="value"><div>{{ paymentHistory.detail['res_msg'] }}</div></div>
+    </div>
+  </div>
+  <div class="buttons">
+    <button type="button">인쇄</button>
+    <button type="button" (click)="closeModal()">닫기</button>
+  </div>
+</app-modal>

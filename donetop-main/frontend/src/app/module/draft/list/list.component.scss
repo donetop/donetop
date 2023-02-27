@@ -181,3 +181,83 @@ div.container {
   }
 
 }
+
+app-modal {
+  div {
+    &.top {
+      height: 50%;
+      border-bottom: 1px solid #e9e9e9;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      > h1 {
+        height: 40%;
+        display: flex;
+        align-items: flex-end;
+
+        > div {
+          width: 100%;
+        }
+      }
+
+      > div {
+        height: 60%;
+        font-size: 1.083em;
+        line-height: 1.4em;
+        color: #656565;
+        display: flex;
+        align-items: center;
+
+        > div {
+          width: 100%;
+
+          > span {
+            color: #2db6e9;
+          }
+        }
+      }
+    }
+
+    &.bottom {
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      > form {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+
+        > input[type=password] {
+          height: 28px;
+          border: 1px solid #ccc;
+          padding: 5px;
+          border-radius: 3px;
+          margin: 0 0 10px;
+        }
+
+        > button {
+          background: #d50c0c;
+          color: #fff;
+          border: 0;
+          height: 45px;
+          font-weight: bold;
+          font-size: 1.25em;
+          border-radius: 3px;
+          margin-bottom: 20px;
+
+          &:hover {
+            background: #fd0f0f;
+          }
+
+          &:disabled {
+            cursor: default;
+            background-color: #992222;
+          }
+        }
+      }
+    }
+  }
+}

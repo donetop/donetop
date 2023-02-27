@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TitleComponent } from 'src/app/component/title/title.component';
 import { InChargeNamePipe } from 'src/app/pipe/inchargename.pipe';
+import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { Draft } from 'src/app/store/model/draft.model';
 import { Page } from 'src/app/store/model/page.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { User, isAdmin } from 'src/app/store/model/user.model';
-import { ModalComponent, Property } from '../modal/modal.component';
+import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
 
 @Component({
   selector: 'app-list',
@@ -21,7 +23,8 @@ import { ModalComponent, Property } from '../modal/modal.component';
     RouterModule,
     InChargeNamePipe,
     TitleComponent,
-    ModalComponent
+    ModalComponent,
+    FormsModule
   ]
 })
 export class ListComponent {
@@ -32,14 +35,14 @@ export class ListComponent {
   pageNumbers: Array<number> = [];
   index: Array<number> = [];
   pageCount: number = 10;
-  modalProperty: Property<number> = Property.default();
+  modalProperty: Property = Property.default();
   DRAFT_LIST: string = `/${this.routeName.DRAFT_LIST}`;
   isAdmin: boolean = false;
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
     protected routeName: RouteName, private router: Router,
-    private store: Store<{ user: User }>
+    private store: Store<{ user: User }>, private cryptoService: CryptoService
   ) {
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
@@ -62,12 +65,25 @@ export class ListComponent {
       });
   }
 
-  openModal(id: number) {
+  openModal(id: number, passwordForm: NgForm) {
     if (this.isAdmin) {
       this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, p: '' } });
     }
     this.modalProperty.toggleShow();
-    this.modalProperty.id = id;
+    this.modalProperty.resetFunc = () => passwordForm.resetForm();
+    this.modalProperty.data = { id };
+  }
+
+  onSubmitModal(form: NgForm) {
+    const id = this.modalProperty.data['id'];
+    const password = this.cryptoService.encrypt(form.controls['password'].value);
+    this.draftService.get(id, password)
+      .subscribe({
+        next: (response) => {
+          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, p: password } });
+        },
+        error: ({error}) => alert(error.reason)
+      });
   }
 
   hasPrev() {

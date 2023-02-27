@@ -3,12 +3,14 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons';
-import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faReceipt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
+import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
 import { TitleComponent } from 'src/app/component/title/title.component';
 import { DraftService } from 'src/app/service/draft.service';
 import { Draft } from 'src/app/store/model/draft.model';
 import { OrderRequestParameter, OrderRequestParameterFrom } from 'src/app/store/model/nhn.model';
+import { PaymentHistory } from 'src/app/store/model/payment.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { isAdmin, User } from 'src/app/store/model/user.model';
 
@@ -21,8 +23,9 @@ declare const KCP_Pay_Execute: Function;
   styleUrls: ['./detail.component.scss'],
   imports: [
     CommonModule,
+    FontAwesomeModule,
     TitleComponent,
-    FontAwesomeModule
+    ModalComponent
   ]
 })
 export class DetailComponent {
@@ -33,13 +36,15 @@ export class DetailComponent {
   isAdmin: boolean = false;
   id: number = 0;
   password: string = '';
+  modalProperty: Property = Property.default();
+  paymentHistory: PaymentHistory | undefined;
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
     private store: Store<{ user: User }>, private library: FaIconLibrary,
     private router: Router, private routeName: RouteName
   ) {
-    this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard);
+    this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard, faReceipt);
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
   }
@@ -51,6 +56,7 @@ export class DetailComponent {
       .subscribe({
         next: (response) => {
           this.draft = response.data;
+          this.paymentHistory = this.draft.paymentInfo?.lastHistory;
           this.orderRequestParameter = OrderRequestParameterFrom(this.draft);
         },
         error: ({error}) => alert(error.reason)
@@ -79,7 +85,21 @@ export class DetailComponent {
     if (!this.draft) return false;
     if (this.draft.price <= 0) return false;
     if (this.draft.paymentMethod.name !== 'CREDIT_CARD') return false;
+    if (this.draft.paymentInfo && this.draft.paymentInfo.paymentStatus === 'PAID') return false;
     return true;
+  }
+
+  isPaid() {
+    if (!this.draft) return false;
+    return this.draft.paymentInfo && this.draft.paymentInfo.paymentStatus === 'PAID';
+  }
+
+  openModal() {
+    this.modalProperty.toggleShow();
+  }
+
+  closeModal() {
+    this.modalProperty.toggleShow();
   }
 
 }

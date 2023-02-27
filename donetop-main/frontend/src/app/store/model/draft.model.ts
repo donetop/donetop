@@ -1,5 +1,6 @@
 import { Category, Enum } from "./category.model"
 import { Folder } from "./folder.model"
+import { PaymentInfo } from "./payment.model"
 
 export interface Draft {
   id: number
@@ -17,4 +18,5 @@ export interface Draft {
   createTime: Date
   updateTime: Date
   folder: Folder | undefined
+  paymentInfo: PaymentInfo | undefined
 }
