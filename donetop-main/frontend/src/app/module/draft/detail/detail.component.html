@@ -85,36 +85,20 @@
   <h3 class="title">영수증</h3>
   <div class="contents" *ngIf="paymentHistory">
     <div class="row">
-      <div class="key"><div>주문번호</div></div>
-      <div class="value"><div>{{ paymentHistory.detail['order_no'] }}</div></div>
+      <div class="key"><div>고객명</div></div>
+      <div class="value"><div>{{ draft?.customerName }}</div></div>
     </div>
-    <div class="row">
-      <div class="key"><div>거래번호</div></div>
-      <div class="value"><div>{{ paymentHistory.detail['tno'] }}</div></div>
+    <div class="row" *ngFor="let entry of modalObject | keyvalue">
+      <div class="key"><div>{{ entry.key }}</div></div>
+      <div class="value"><div>{{ paymentHistory.detail[entry.value] }}</div></div>
     </div>
     <div class="row">
       <div class="key"><div>거래날짜</div></div>
       <div class="value"><div>{{ paymentHistory.createTime }}</div></div>
     </div>
-    <div class="row">
-      <div class="key"><div>카드명</div></div>
-      <div class="value"><div>{{ paymentHistory.detail['card_name'] }}</div></div>
-    </div>
-    <div class="row">
-      <div class="key"><div>카드번호</div></div>
-      <div class="value"><div>{{ paymentHistory.detail['card_no'] }}</div></div>
-    </div>
-    <div class="row">
-      <div class="key"><div>가격(원)</div></div>
-      <div class="value"><div>{{ paymentHistory.detail['amount'] }}</div></div>
-    </div>
-    <div class="row">
-      <div class="key"><div>상태</div></div>
-      <div class="value"><div>{{ paymentHistory.detail['res_msg'] }}</div></div>
-    </div>
   </div>
   <div class="buttons">
-    <button type="button">인쇄</button>
+    <button type="button" (click)="print()">인쇄</button>
     <button type="button" (click)="closeModal()">닫기</button>
   </div>
 </app-modal>

@@ -35,7 +35,9 @@
               "src/assets/daum/postcode.v2.js"
             ],
             "allowedCommonJsDependencies": [
-              "crypto-js"
+              "crypto-js",
+              "core-js",
+              "raf", "rgbcolor", "dompurify", "html2canvas"
             ]
           },
           "configurations": {
