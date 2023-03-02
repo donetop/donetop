@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCirclePlus, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TitleComponent } from 'src/app/component/title/title.component';
 import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
@@ -34,8 +34,8 @@ export class UpdateComponent implements OnInit {
   id: number = 0;
   password: string = '';
   nextIndex: number = 0;
-  maxIndex: number = 5;
-  indexArray: Array<number> = new Array(this.maxIndex).fill(0).map((v, i) => i);
+  maxSize: number = 5;
+  indexArray: Array<number> = new Array(this.maxSize).fill(0).map((v, i) => i);
   @ViewChildren('file') refs!: QueryList<ElementRef>;
 
   constructor(
@@ -43,7 +43,7 @@ export class UpdateComponent implements OnInit {
     private enumService: EnumService, protected routeName: RouteName,
     private library: FaIconLibrary, private cryptoService: CryptoService
   ) {
-    this.library.addIcons(faDownload, faCirclePlus);
+    this.library.addIcons(faDownload, faCirclePlus, faXmark);
     this.route.queryParams.subscribe(params => this.setUp(params));
   }
 

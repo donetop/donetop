@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TitleComponent } from 'src/app/component/title/title.component';
 import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
@@ -34,6 +34,8 @@ export class CreateComponent implements OnInit {
   paymentMethod!: string;
   policy: string = policy;
   address: string = '';
+  maxSize: number = 3;
+  indexArray: Array<number> = new Array(this.maxSize).fill(0).map((v, i) => i);
   @ViewChildren('file') refs!: QueryList<ElementRef>;
 
   constructor(
@@ -41,7 +43,7 @@ export class CreateComponent implements OnInit {
     private cryptoService: CryptoService, private enumService: EnumService,
     protected routeName: RouteName
   ) {
-    this.library.addIcons(faDownload);
+    this.library.addIcons(faDownload, faXmark);
   }
 
   async ngOnInit() {
@@ -53,6 +55,11 @@ export class CreateComponent implements OnInit {
 
   onlyNumberKey(event: any) {
     return /^([0-9])$/.test(event.key);
+  }
+
+  deleteFile(index: number) {
+    const fileInput = this.refs.get(index)?.nativeElement;
+    fileInput.value = '';
   }
 
   searchAddress() {

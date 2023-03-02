@@ -41,6 +41,7 @@ input, textarea {
   outline: none;
   font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
   vertical-align: middle;
+  min-width: 50px;
 
   &:focus {
     box-shadow: 0 0 5px #9ed4ff;

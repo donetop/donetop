@@ -59,9 +59,9 @@
       <div class="file hidden" *ngFor="let i of indexArray">
         <label [htmlFor]="'file' + i"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
         <input type="file" [id]="'file' + i" [name]="'file' + i" accept="image/*" #file>
-        <a (click)="deleteFile(i)">파일 삭제</a>
+        <label (click)="deleteFile(i)"><fa-icon [icon]="['fas', 'xmark']"></fa-icon></label>
       </div>
-      <fa-icon *ngIf="nextIndex < maxIndex" (click)="showFileInput()" [icon]="['fas', 'circle-plus']"></fa-icon>
+      <fa-icon *ngIf="nextIndex < maxSize" (click)="showFileInput()" [icon]="['fas', 'circle-plus']"></fa-icon>
     </div>
     <div class="buttons">
       <button type="button" class="cancel" [routerLink]="'/' + routeName.DRAFT_DETAIL" [queryParams]="{ id, p: password }"><div>취소</div></button>

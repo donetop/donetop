@@ -1,97 +1,72 @@
 <app-title [title]="'주문하기'"></app-title>
 <div class="container">
   <form #draftCreateForm="ngForm" (ngSubmit)="onSubmit(draftCreateForm)" novalidate>
-    <div class="fast-estimate">
-      <div class="title">빠른견적</div>
-      <div class="area">
-        <div class="row">
-          <label for="category">품목선택</label>
-          <select id="category" name="category" [(ngModel)]='category'>
-            <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.value }}</option>
-          </select>
-        </div>
-        <div class="row">
-          <label for="paymentMethod">결제수단</label>
-          <select id="paymentMethod" name="paymentMethod" [(ngModel)]='paymentMethod'>
-            <option *ngFor="let paymentMethod of paymentMethodArray" [value]="paymentMethod.name">{{ paymentMethod.value }}</option>
-          </select>
-        </div>
-        <div class="row">
-          <label for="memo">견적내용</label>
-          <textarea id="memo" name="memo" rows="10" ngModel #memo="ngModel"></textarea>
-        </div>
+    <div class="title">빠른견적</div>
+    <div class="area">
+      <div class="row">
+        <label for="category">품목선택</label>
+        <select id="category" name="category" [(ngModel)]='category'>
+          <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.value }}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="paymentMethod">결제수단</label>
+        <select id="paymentMethod" name="paymentMethod" [(ngModel)]='paymentMethod'>
+          <option *ngFor="let paymentMethod of paymentMethodArray" [value]="paymentMethod.name">{{ paymentMethod.value }}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="memo">견적내용</label>
+        <textarea id="memo" name="memo" rows="10" ngModel #memo="ngModel"></textarea>
       </div>
     </div>
-    <div class="personal-info">
-      <div class="title">연락처</div>
-      <div class="area">
-        <div class="row">
-          <label for="companyName">회사</label>
-          <input type="text" id="companyName" name="companyName" autocomplete="off" ngModel #company="ngModel">
-        </div>
-        <div class="row">
-          <label for="customerName">이름</label>
-          <input type="text" class="required" id="customerName" name="customerName" placeholder="이름을 입력해주세요." autocomplete="off" ngModel required #name="ngModel">
-        </div>
-        <div class="row">
-          <label for="email">이메일</label>
-          <input type="email" class="required" id="email" name="email" placeholder="이메일을 입력해주세요." autocomplete="off" ngModel required #email="ngModel">
-        </div>
-        <div class="row">
-          <label for="phone1">연락처</label>
-          <input type="tel" class="required" id="phone1" name="phone1" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone1="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="3">&nbsp;-&nbsp;
-          <input type="tel" class="required" id="phone2" name="phone2" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone2="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">&nbsp;-&nbsp;
-          <input type="tel" class="required" id="phone3" name="phone3" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone3="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">
-        </div>
-        <div class="row">
-          <label for="address">주소</label>
-          <input type="text" class="required address" id="address" name="address" placeholder="주소를 입력해주세요." autocomplete="off" required [(ngModel)]='address' (click)="searchAddress()">
-        </div>
-        <div class="row" *ngIf="address.length > 0">
-          <label for="detailAddress">상세 주소</label>
-          <input type="text" class="required address" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해주세요." autocomplete="off" ngModel required #detailAddress="ngModel">
-        </div>
+    <div class="title">연락처</div>
+    <div class="area">
+      <div class="row">
+        <label for="companyName">회사</label>
+        <input type="text" id="companyName" name="companyName" autocomplete="off" ngModel #company="ngModel">
+      </div>
+      <div class="row">
+        <label for="customerName">이름</label>
+        <input type="text" class="required" id="customerName" name="customerName" placeholder="이름을 입력해주세요." autocomplete="off" ngModel required #name="ngModel">
+      </div>
+      <div class="row">
+        <label for="email">이메일</label>
+        <input type="email" class="required" id="email" name="email" placeholder="이메일을 입력해주세요." autocomplete="off" ngModel required #email="ngModel">
+      </div>
+      <div class="row">
+        <label for="phone1">연락처</label>
+        <input type="tel" class="required" id="phone1" name="phone1" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone1="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="3">&nbsp;-&nbsp;
+        <input type="tel" class="required" id="phone2" name="phone2" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone2="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">&nbsp;-&nbsp;
+        <input type="tel" class="required" id="phone3" name="phone3" placeholder="연락처를 입력해주세요." autocomplete="off" ngModel required #phone3="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">
+      </div>
+      <div class="row">
+        <label for="address">주소</label>
+        <input type="text" class="required address" id="address" name="address" placeholder="주소를 입력해주세요." autocomplete="off" required [(ngModel)]='address' (click)="searchAddress()">
+      </div>
+      <div class="row" *ngIf="address.length > 0">
+        <label for="detailAddress">상세 주소</label>
+        <input type="text" class="required address" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해주세요." autocomplete="off" ngModel required #detailAddress="ngModel">
       </div>
     </div>
     <div class="area">
-      <div class="file">
-        <label for="file1"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file1" name="file1" accept="image/*" #file>
-      </div>
-      <div class="file">
-        <label for="file2"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file2" name="file2" accept="image/*" #file>
-      </div>
-      <div class="file">
-        <label for="file3"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" id="file3" name="file3" accept="image/*" #file>
+      <div class="file" *ngFor="let i of indexArray">
+        <label [htmlFor]="'file' + i"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
+        <input type="file" [id]="'file' + i" [name]="'file' + i" accept="image/*" #file>
+        <label (click)="deleteFile(i)"><fa-icon [icon]="['fas', 'xmark']"></fa-icon></label>
       </div>
     </div>
-    <div class="personal-info-policy">
-      <div class="title">개인정보처리방침</div>
-      <div class="area">
-        <div class="row">
-          <textarea id="policy" name="policy" rows="20" disabled>{{ policy }}</textarea>
-        </div>
-        <div class="consent">
-          <label for="consent">개인정보 수집 및 이용안내에 동의합니다.</label>
-          <input type="checkbox" id="consent" name="consent" placeholder="개인정보 수집 및 이용안내에 동의해주세요."
-            required ngModel #consent="ngModel">
-        </div>
+    <div class="title">개인정보처리방침</div>
+    <div class="area">
+      <div class="row">
+        <textarea id="policy" name="policy" rows="20" disabled>{{ policy }}</textarea>
+      </div>
+      <div class="consent">
+        <label for="consent">개인정보 수집 및 이용안내에 동의합니다.</label>
+        <input type="checkbox" id="consent" name="consent" placeholder="개인정보 수집 및 이용안내에 동의해주세요."
+          required ngModel #consent="ngModel">
       </div>
     </div>
-    <!-- <div class="prevent-automatic-registration">
-      <div class="row">
-        <img>
-        <input type="text" class="required" id="autoRegistrationPreventionNumber" name="autoRegistrationPreventionNumber"
-          placeholder="자동등록방지 숫자를 입력하세요." autocomplete="off"
-          ngModel required #autoRegistrationPreventionNumber="ngModel" (keypress)="onlyNumberKey($event)">
-      </div>
-      <div class="row">
-        <button type="button" id="listen"></button>
-        <button type="button" id="reload"></button>
-      </div>
-    </div> -->
     <div class="buttons">
       <button type="button" class="cancel" [routerLink]="routeName.HOME"><div>취소</div></button>
       <button type="submit" class="complete" [disabled]="draftCreateForm.invalid"><div>작성완료</div></button>
