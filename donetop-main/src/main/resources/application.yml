@@ -37,6 +37,7 @@ application:
     payment:
       nhn:
         target-url: https://stg-spl.kcp.co.kr/gw/enc/v1/payment
+        trade-register-url: https://stg-spl.kcp.co.kr/std/tradeReg/register
 
 logging:
   level:

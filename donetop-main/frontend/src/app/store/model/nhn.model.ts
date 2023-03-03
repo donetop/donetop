@@ -1,6 +1,6 @@
 import { Draft } from "./draft.model"
 
-export interface OrderRequestParameter {
+export interface OrderRequest {
   site_cd: string
   ordr_idxx: string
   pay_method: string
@@ -11,19 +11,47 @@ export interface OrderRequestParameter {
   buyr_mail: string
 }
 
-interface OrderRequestParameterFrom<T> {
-  (t: T): OrderRequestParameter;
+export interface TradeRegisterRequest {
+  site_cd: string
+  ordr_idxx: string
+  good_mny: string
+  pay_method: string
+  good_name: string
+  Ret_URL: string
+  escw_used: string
+  user_agent: string
 }
 
-export const OrderRequestParameterFrom: OrderRequestParameterFrom<Draft> = draft => {
+interface OrderRequestFrom<T> {
+  (t: T): OrderRequest;
+}
+
+interface TradeRegisterFrom<T> {
+  (t: T): TradeRegisterRequest
+}
+
+export const OrderRequestFromDraft: OrderRequestFrom<Draft> = draft => {
   return {
     'site_cd': 'T0000',
     'ordr_idxx': `DRAFT-${draft.id}-TEST`,
     'pay_method': '100000000000',
-    'good_name': `디원탑 시안(${draft.id})`,
+    'good_name': `DONETOP DRAFT(${draft.id})`,
     'good_mny': `${draft.price}`,
     'site_name': 'DONETOP',
     'buyr_name': draft.customerName,
     'buyr_mail': draft.email
+  }
+}
+
+export const TradeRegisterRequestFromDraft: TradeRegisterFrom<Draft> = draft => {
+  return {
+    'site_cd': 'T0000',
+    'ordr_idxx': `DRAFT-${draft.id}-TEST`,
+    'good_mny': `${draft.price}`,
+    'pay_method': 'CARD',
+    'good_name': `DONETOP DRAFT(${draft.id})`,
+    'Ret_URL': `http://192.168.219.189:8080/api/nhn/page/return`,
+    'escw_used': 'N',
+    'user_agent': window.navigator.userAgent
   }
 }

@@ -50,6 +50,9 @@ public class ApplicationProperties {
 			@NotEmpty
 			private String targetURL;
 
+			@NotEmpty
+			private String tradeRegisterURL;
+
 		}
 
 	}

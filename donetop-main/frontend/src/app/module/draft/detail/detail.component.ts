@@ -9,14 +9,16 @@ import { ModalComponent, Property } from 'src/app/component/modal/modal.componen
 import { TitleComponent } from 'src/app/component/title/title.component';
 import { DraftService } from 'src/app/service/draft.service';
 import { Draft } from 'src/app/store/model/draft.model';
-import { OrderRequestParameter, OrderRequestParameterFrom } from 'src/app/store/model/nhn.model';
+import { OrderRequest, OrderRequestFromDraft, TradeRegisterRequestFromDraft, TradeRegisterRequest } from 'src/app/store/model/nhn.model';
 import { PaymentHistory } from 'src/app/store/model/payment.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { isAdmin, User } from 'src/app/store/model/user.model';
 import jsPDF from 'jspdf';
 import { malgun } from './font';
 
+declare const call_pay_form: Function;
 declare const KCP_Pay_Execute: Function;
+declare const trade_register: Function;
 
 @Component({
   selector: 'app-detail',
@@ -33,8 +35,10 @@ declare const KCP_Pay_Execute: Function;
 export class DetailComponent {
 
   draft: Draft | undefined;
-  orderRequestParameter: OrderRequestParameter | undefined;
+  orderRequest: OrderRequest | undefined;
+  tradeRegisterRequest: TradeRegisterRequest | undefined;
   @ViewChild('draft_order_form') draftOrderForm!: ElementRef;
+  @ViewChild('mobile_order_form') mobileOrderForm!: ElementRef;
   isAdmin: boolean = false;
   id: number = 0;
   password: string = '';
@@ -48,6 +52,7 @@ export class DetailComponent {
     '상태': 'res_msg'
   }
   paymentHistory: PaymentHistory | undefined;
+  isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent);
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
@@ -67,7 +72,8 @@ export class DetailComponent {
         next: (response) => {
           this.draft = response.data;
           this.paymentHistory = this.draft.paymentInfo?.lastHistory;
-          this.orderRequestParameter = OrderRequestParameterFrom(this.draft);
+          this.orderRequest = OrderRequestFromDraft(this.draft);
+          this.tradeRegisterRequest = TradeRegisterRequestFromDraft(this.draft);
         },
         error: ({error}) => alert(error.reason)
       });
@@ -87,8 +93,19 @@ export class DetailComponent {
     }
   }
 
-  pay() {
-    KCP_Pay_Execute(this.draftOrderForm.nativeElement);
+  async pay() {
+    if (this.isMobile) {
+      const response = await trade_register(this.tradeRegisterRequest);
+      if (response.code === 200) {
+        const form = this.mobileOrderForm.nativeElement;
+        form.elements['approval_key'].value = response.data.approvalKey;
+        form.elements['traceNo'].value = response.data.traceNo;
+        form.elements['PayUrl'].value = response.data.PayUrl;
+        call_pay_form();
+      }
+    } else {
+      KCP_Pay_Execute(this.draftOrderForm.nativeElement);
+    }
   }
 
   isPayable() {

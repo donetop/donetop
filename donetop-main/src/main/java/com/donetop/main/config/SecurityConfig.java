@@ -10,7 +10,7 @@ import com.donetop.main.api.form.filter.LoginFilter;
 import com.donetop.main.api.form.handler.LoginFailureHandler;
 import com.donetop.main.api.form.handler.LoginSuccessHandler;
 import com.donetop.main.api.form.handler.LogoutSuccessHandler;
-import com.donetop.main.api.payment.PaymentAPIController;
+import com.donetop.main.api.nhn.NHNAPIController;
 import com.donetop.main.api.user.UserAPIController;
 import com.donetop.main.view.ViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		DraftAPIController.Uri.SINGULAR + "/**", DraftAPIController.Uri.PLURAL + "/**",
 		FileAPIController.Uri.SINGULAR + "/**",
 		EnumAPIController.Uri.ROOT + "/**",
-		PaymentAPIController.Uri.SINGULAR + "/**"
+		NHNAPIController.Uri.NHN + "/**"
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {
