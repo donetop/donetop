@@ -1,3 +1,4 @@
+import { environment } from "src/environments/environment"
 import { Draft } from "./draft.model"
 
 export interface OrderRequest {
@@ -50,7 +51,7 @@ export const TradeRegisterRequestFromDraft: TradeRegisterFrom<Draft> = draft => 
     'good_mny': `${draft.price}`,
     'pay_method': 'CARD',
     'good_name': `DONETOP DRAFT(${draft.id})`,
-    'Ret_URL': `http://192.168.219.189:8080/api/nhn/page/return`,
+    'Ret_URL': environment.nhn.Ret_URL,
     'escw_used': 'N',
     'user_agent': window.navigator.userAgent
   }

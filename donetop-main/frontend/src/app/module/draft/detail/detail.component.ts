@@ -37,7 +37,7 @@ export class DetailComponent {
   draft: Draft | undefined;
   orderRequest: OrderRequest | undefined;
   tradeRegisterRequest: TradeRegisterRequest | undefined;
-  @ViewChild('draft_order_form') draftOrderForm!: ElementRef;
+  @ViewChild('pc_order_form') pcOrderForm!: ElementRef;
   @ViewChild('mobile_order_form') mobileOrderForm!: ElementRef;
   isAdmin: boolean = false;
   id: number = 0;
@@ -53,6 +53,7 @@ export class DetailComponent {
   }
   paymentHistory: PaymentHistory | undefined;
   isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent);
+  mobile_opt_param1 = `${location.pathname}${location.search}`;
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
@@ -104,7 +105,7 @@ export class DetailComponent {
         call_pay_form();
       }
     } else {
-      KCP_Pay_Execute(this.draftOrderForm.nativeElement);
+      KCP_Pay_Execute(this.pcOrderForm.nativeElement);
     }
   }
 
