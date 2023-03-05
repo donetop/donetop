@@ -1,5 +1,6 @@
 package com.donetop.domain.entity.draft;
 
+import com.donetop.enums.draft.Category;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -28,7 +29,7 @@ public class DraftBuilderTest {
 			.companyName("jin company")
 			.email("my email")
 			.phoneNumber("000-0000-0000")
-			.category("category")
+			.category(Category.BAENEO)
 			.address("my address")
 			.memo("simple test")
 			.password("my password").build();
@@ -39,7 +40,7 @@ public class DraftBuilderTest {
 		assertThat(draft.getCompanyName()).isNotEmpty();
 		assertThat(draft.getEmail()).isNotEmpty();
 		assertThat(draft.getPhoneNumber()).isNotEmpty();
-		assertThat(draft.getCategory()).isNotEmpty();
+		assertThat(draft.getCategory()).isNotNull();
 		assertThat(draft.getAddress()).isNotEmpty();
 		assertThat(draft.getMemo()).isNotEmpty();
 		assertThat(draft.getPassword()).isNotEmpty();

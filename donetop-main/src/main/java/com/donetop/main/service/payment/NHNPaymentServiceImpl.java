@@ -13,7 +13,9 @@ import com.donetop.main.properties.ApplicationProperties.Payment.NHN;
 import com.donetop.repository.draft.DraftRepository;
 import com.donetop.repository.payment.PaymentHistoryRepository;
 import com.donetop.repository.payment.PaymentInfoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,11 +35,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Slf4j
 @Service
 @Transactional
 public class NHNPaymentServiceImpl implements NHNPaymentService {
 
-	private static final String kcp_cert_info;
+	private final String kcp_cert_info;
 
 	private final NHN nhn;
 
@@ -48,17 +52,23 @@ public class NHNPaymentServiceImpl implements NHNPaymentService {
 	public NHNPaymentServiceImpl(final ApplicationProperties applicationProperties,
 								 final DraftRepository draftRepository,
 								 final PaymentInfoRepository paymentInfoRepository,
-								 final PaymentHistoryRepository paymentHistoryRepository) {
+								 final PaymentHistoryRepository paymentHistoryRepository,
+								 final Environment environment) {
 		this.nhn = applicationProperties.getPayment().getNhn();
 		this.draftRepository = draftRepository;
 		this.paymentInfoRepository = paymentInfoRepository;
 		this.paymentHistoryRepository = paymentHistoryRepository;
+		this.kcp_cert_info = getNHNCertInfo(environment);
 	}
 
-	static {
+	private String getNHNCertInfo(final Environment environment) {
 		try {
-			final Path path = Paths.get(new ClassPathResource("nhn/splCert.pem").getURI());
-			kcp_cert_info = String.join("", Files.readAllLines(path));
+			final String[] activeProfiles = environment.getActiveProfiles();
+			final String[] profiles = activeProfiles.length == 0 ? environment.getDefaultProfiles() : activeProfiles;
+			final String certPath = "local".equals(profiles[0]) ? "nhn/splCert.pem" : "nhn/2662035.p12";
+			log.info("NHN cert file path : {}", certPath);
+			final Path path = Paths.get(new ClassPathResource(certPath).getURI());
+			return String.join("", Files.readAllLines(path, StandardCharsets.ISO_8859_1));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

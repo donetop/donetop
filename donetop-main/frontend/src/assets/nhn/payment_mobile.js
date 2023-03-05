@@ -19,7 +19,6 @@ function call_pay_form() {
     alert("연동시 Ret_URL을 반드시 설정하셔야 됩니다.");
     return false;
   } else {
-    alert(mobile_order_form.Ret_URL.value);
     mobile_order_form.submit();
   }
 }

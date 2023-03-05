@@ -2,6 +2,7 @@ package com.donetop.domain.entity.draft;
 
 import com.donetop.domain.entity.file.File;
 import com.donetop.domain.entity.folder.Folder;
+import com.donetop.enums.draft.Category;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.repository.draft.DraftRepository;
 import com.donetop.repository.file.FileRepository;
@@ -35,7 +36,7 @@ public class DraftCreateTest {
 			.customerName("jin")
 			.email("my email")
 			.phoneNumber("000-0000-0000")
-			.category("category")
+			.category(Category.BAENEO)
 			.address("my address")
 			.memo("simple test")
 			.password("my password").build();
@@ -56,7 +57,7 @@ public class DraftCreateTest {
 			.customerName("jin")
 			.email("my email")
 			.phoneNumber("000-0000-0000")
-			.category("category")
+			.category(Category.BAENEO)
 			.address("my address")
 			.memo("simple test")
 			.password("my password").build();
@@ -82,7 +83,7 @@ public class DraftCreateTest {
 			.customerName("jin")
 			.email("my email")
 			.phoneNumber("000-0000-0000")
-			.category("category")
+			.category(Category.BAENEO)
 			.address("my address")
 			.memo("simple test")
 			.password("my password").build();

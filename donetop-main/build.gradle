@@ -35,6 +35,15 @@ test {
     useJUnitPlatform()
 }
 
+sourceSets {
+	main {
+		resources {
+			srcDir 'src/main/resources'
+			srcDir 'src/main/resources-production'
+		}
+	}
+}
+
 node {
     download = true
     version = '14.20.0'
@@ -46,12 +55,24 @@ node {
     nodeProjectDir = file('./frontend')
 }
 
+tasks.register('copySubmoduleFiles', Copy) {
+	copy {
+		from fileTree("../donetop-secret").include("*.p12")
+		into "src/main/resources-production/nhn"
+	}
+	copy {
+		from fileTree("../donetop-secret").include("*.ts")
+		into "frontend/src/environments"
+	}
+}
+
 tasks.register('npmBuild', NpmTask) {
 	dependsOn npmInstall
 	args = ["run", "build-production"]
 }
 
 processResources {
+	dependsOn copySubmoduleFiles
 	dependsOn npmBuild
 }
 

@@ -33,7 +33,7 @@ interface TradeRegisterFrom<T> {
 
 export const OrderRequestFromDraft: OrderRequestFrom<Draft> = draft => {
   return {
-    'site_cd': 'T0000',
+    'site_cd': environment.nhn.site_cd,
     'ordr_idxx': `DRAFT-${draft.id}-TEST`,
     'pay_method': '100000000000',
     'good_name': `DONETOP DRAFT(${draft.id})`,
@@ -46,7 +46,7 @@ export const OrderRequestFromDraft: OrderRequestFrom<Draft> = draft => {
 
 export const TradeRegisterRequestFromDraft: TradeRegisterFrom<Draft> = draft => {
   return {
-    'site_cd': 'T0000',
+    'site_cd': environment.nhn.site_cd,
     'ordr_idxx': `DRAFT-${draft.id}-TEST`,
     'good_mny': `${draft.price}`,
     'pay_method': 'CARD',
