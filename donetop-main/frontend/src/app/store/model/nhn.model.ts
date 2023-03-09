@@ -1,4 +1,4 @@
-import { environment } from "src/environments/environment"
+import { environment } from "src/environments/environment.development"
 import { Draft } from "./draft.model"
 
 export interface OrderRequest {
@@ -34,7 +34,7 @@ interface TradeRegisterFrom<T> {
 export const OrderRequestFromDraft: OrderRequestFrom<Draft> = draft => {
   return {
     'site_cd': environment.nhn.site_cd,
-    'ordr_idxx': `DRAFT-${draft.id}-TEST`,
+    'ordr_idxx': environment.nhn.ordr_idxx(draft),
     'pay_method': '100000000000',
     'good_name': `DONETOP DRAFT(${draft.id})`,
     'good_mny': `${draft.price}`,
@@ -47,7 +47,7 @@ export const OrderRequestFromDraft: OrderRequestFrom<Draft> = draft => {
 export const TradeRegisterRequestFromDraft: TradeRegisterFrom<Draft> = draft => {
   return {
     'site_cd': environment.nhn.site_cd,
-    'ordr_idxx': `DRAFT-${draft.id}-TEST`,
+    'ordr_idxx': environment.nhn.ordr_idxx(draft),
     'good_mny': `${draft.price}`,
     'pay_method': 'CARD',
     'good_name': `DONETOP DRAFT(${draft.id})`,

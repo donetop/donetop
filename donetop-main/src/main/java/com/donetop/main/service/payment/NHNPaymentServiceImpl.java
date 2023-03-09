@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -65,10 +64,10 @@ public class NHNPaymentServiceImpl implements NHNPaymentService {
 		try {
 			final String[] activeProfiles = environment.getActiveProfiles();
 			final String[] profiles = activeProfiles.length == 0 ? environment.getDefaultProfiles() : activeProfiles;
-			final String certPath = "local".equals(profiles[0]) ? "nhn/splCert.pem" : "nhn/2662035.p12";
+			final String certPath = "production".equals(profiles[0]) ? "nhn/KCP_AUTH_SR9RN_CERT.pem" : "nhn/splCert.pem";
 			log.info("NHN cert file path : {}", certPath);
 			final Path path = Paths.get(new ClassPathResource(certPath).getURI());
-			return String.join("", Files.readAllLines(path, StandardCharsets.ISO_8859_1));
+			return String.join("", Files.readAllLines(path));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

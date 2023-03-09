@@ -57,7 +57,7 @@ node {
 
 tasks.register('copySubmoduleFiles', Copy) {
 	copy {
-		from fileTree("../donetop-secret").include("*.p12")
+		from fileTree("../donetop-secret").include("*.pem")
 		into "src/main/resources-production/nhn"
 	}
 	copy {

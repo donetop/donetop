@@ -1,0 +1,6 @@
+application:
+  properties:
+    payment:
+      nhn:
+        target-url: https://spl.kcp.co.kr/gw/enc/v1/payment
+        trade-register-url: https://spl.kcp.co.kr/std/tradeReg/register

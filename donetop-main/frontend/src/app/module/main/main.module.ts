@@ -11,7 +11,7 @@ import { MainComponent } from './main.component';
 import { userReducer } from '../../store/reducer/user.reducer';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { CryptoService } from 'src/app/service/crypto.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.development';
 
 @NgModule({
   declarations: [
