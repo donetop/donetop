@@ -1,7 +1,6 @@
 package com.donetop.main.api.draft.request;
 
 import com.donetop.domain.entity.draft.Draft;
-import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.validation.NameOfEnum;
@@ -31,7 +30,7 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 			.updateInChargeName(this.inChargeName)
 			.updateEmail(getEmail())
 			.updatePhoneNumber(getPhoneNumber())
-			.updateCategory(Category.of(getCategory()))
+			.updateCategoryName(getCategoryName())
 			.updateDraftStatus(DraftStatus.of(this.draftStatus))
 			.updateAddress(getAddress())
 			.updatePrice(getPrice())

@@ -3,9 +3,9 @@
   <form #draftUpdateForm="ngForm" (ngSubmit)="onSubmit(draftUpdateForm)" novalidate>
     <div class="area" *ngIf="draft">
       <div class="row">
-        <label for="category">품목선택</label>
-        <select id="category" name="category" [(ngModel)]='draft.category.name'>
-          <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.value }}</option>
+        <label for="categoryName">품목선택</label>
+        <select id="categoryName" name="categoryName" [(ngModel)]='draft.categoryName'>
+          <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.name }}</option>
         </select>
       </div>
       <div class="row">

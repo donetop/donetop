@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
-import { EnumService } from 'src/app/service/enum.service';
+import { CategoryService } from 'src/app/service/category.service';
 import { Category } from 'src/app/store/model/category.model';
 
 @Component({
@@ -9,16 +9,16 @@ import { Category } from 'src/app/store/model/category.model';
 })
 export class CategoryComponent implements OnInit {
 
-  categories!: Category[];
+  categories!: Array<Category>;
   showCategory: boolean = false;
   @ViewChild('category_open_button', { static: true }) categoryOpenButton!: ElementRef;
   @ViewChild('category_close_button', { static: true }) categoryCloseButton!: ElementRef;
   @ViewChild('category', { static: true }) category!: ElementRef;
 
-  constructor(private eRef: ElementRef, private enumService: EnumService) {}
+  constructor(private eRef: ElementRef, private categoryService: CategoryService) {}
 
   async ngOnInit() {
-    this.categories = await this.enumService.categoryArray();
+    this.categories = await this.categoryService.categoryArray();
   }
 
   toggleCategory() {

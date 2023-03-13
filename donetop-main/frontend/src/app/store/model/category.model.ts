@@ -1,12 +1,9 @@
-export interface Enum {
+import { Folder } from "./folder.model"
+
+export interface Category {
+  id: number
   name: string
-  value: string
-}
-
-export interface Item {
-  value: string
-}
-
-export interface Category extends Enum {
-  items: Item[]
+  sequence: number
+  subCategories: Array<Category>
+  folder: Folder | undefined
 }

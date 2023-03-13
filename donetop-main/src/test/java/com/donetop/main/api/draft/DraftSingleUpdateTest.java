@@ -1,7 +1,6 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.domain.entity.draft.Draft;
-import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.folder.FolderType;
@@ -50,7 +49,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("companyName", "")
 			.multiPart("inChargeName", "")
 			.multiPart("email", "")
-			.multiPart("category", "")
+			.multiPart("categoryName", "")
 			.multiPart("phoneNumber", "")
 			.multiPart("address", "")
 			.multiPart("memo", "")
@@ -82,7 +81,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("companyName", "my company")
 			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", Category.BONGTU.toString())
+			.multiPart("categoryName", "봉투")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")
@@ -115,7 +114,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("companyName", "my company")
 			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", Category.BONGTU.toString())
+			.multiPart("categoryName", "봉투")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")
@@ -147,7 +146,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 					partWithName("companyName").description("The value can be empty."),
 					partWithName("inChargeName").description("The value can be empty."),
 					partWithName("email").description("The value shouldn't be empty."),
-					partWithName("category").description("The value shouldn't be empty."),
+					partWithName("categoryName").description("The value shouldn't be empty."),
 					partWithName("phoneNumber").description("The value shouldn't be empty."),
 					partWithName("address").description("The value shouldn't be empty."),
 					partWithName("memo").description("The value can be empty."),
@@ -171,7 +170,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("companyName", "my company")
 			.multiPart("inChargeName", "hak")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", Category.BONGTU.toString())
+			.multiPart("categoryName", "봉투")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")

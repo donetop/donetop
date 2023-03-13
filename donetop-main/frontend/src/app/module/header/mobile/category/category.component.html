@@ -11,7 +11,7 @@
       <ul class="category active" #category>
         <li class="group" *ngFor="let category of categories; let i = index">
           <div class="row" (click)="toggleSubGroup(i)">
-            <div>{{ category.value }}</div>
+            <div>{{ category.name }}</div>
             <button class="active" #sub_group_active_buttons>
               <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
             </button>
@@ -20,10 +20,10 @@
             </button>
           </div>
           <ul #sub_groups>
-            <li class="sub_group" *ngFor="let item of category.items">
+            <li class="sub_group" *ngFor="let subCategory of category.subCategories">
               <div class="row">
                 <button><fa-icon [icon]="['fas', 'caret-right']"></fa-icon></button>
-                <div>{{ item.value }}</div>
+                <div>{{ subCategory.name }}</div>
               </div>
             </li>
           </ul>

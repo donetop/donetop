@@ -5,10 +5,12 @@ import { RouterModule } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TitleComponent } from 'src/app/component/title/title.component';
+import { CategoryService } from 'src/app/service/category.service';
 import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { EnumService } from 'src/app/service/enum.service';
-import { Category, Enum } from 'src/app/store/model/category.model';
+import { Category } from 'src/app/store/model/category.model';
+import { Enum } from 'src/app/store/model/enum.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { policy } from './policy';
 
@@ -28,9 +30,9 @@ declare const daum: any;
   ]
 })
 export class CreateComponent implements OnInit {
-  categoryArray!: Category[];
+  categoryArray!: Array<Category>;
   category!: string;
-  paymentMethodArray!: Enum[];
+  paymentMethodArray!: Array<Enum>;
   paymentMethod!: string;
   policy: string = policy;
   address: string = '';
@@ -41,13 +43,13 @@ export class CreateComponent implements OnInit {
   constructor(
     private library: FaIconLibrary, private draftService: DraftService,
     private cryptoService: CryptoService, private enumService: EnumService,
-    protected routeName: RouteName
+    private categoryService: CategoryService, protected routeName: RouteName
   ) {
     this.library.addIcons(faDownload, faXmark);
   }
 
   async ngOnInit() {
-    this.categoryArray = await this.enumService.categoryArray();
+    this.categoryArray = await this.categoryService.categoryArray();
     this.category = this.categoryArray[0].name;
     this.paymentMethodArray = await this.enumService.paymentMethodArray();
     this.paymentMethod = this.paymentMethodArray[0].name;
@@ -78,7 +80,7 @@ export class CreateComponent implements OnInit {
     if (confirm('정말로 주문하시겠습니까?')) {
       const formData = new FormData();
       formData.append('password', this.cryptoService.encrypt(form.controls['phone3'].value));
-      formData.append('category', form.controls['category'].value);
+      formData.append('categoryName', form.controls['categoryName'].value);
       formData.append('paymentMethod', form.controls['paymentMethod'].value);
       formData.append('memo', form.controls['memo'].value);
       formData.append('companyName', form.controls['companyName'].value);

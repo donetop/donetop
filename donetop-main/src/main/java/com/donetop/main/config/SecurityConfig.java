@@ -1,6 +1,7 @@
 package com.donetop.main.config;
 
 import com.donetop.enums.user.RoleType;
+import com.donetop.main.api.category.CategoryAPIController;
 import com.donetop.main.api.draft.DraftAPIController;
 import com.donetop.main.api.enums.EnumAPIController;
 import com.donetop.main.api.file.FileAPIController;
@@ -38,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		DraftAPIController.Uri.SINGULAR + "/**", DraftAPIController.Uri.PLURAL + "/**",
 		FileAPIController.Uri.SINGULAR + "/**",
 		EnumAPIController.Uri.ROOT + "/**",
+		CategoryAPIController.URI.PLURAL,
 		com.donetop.main.api.nhn.URI.NHN_API + "/**"
 	};
 

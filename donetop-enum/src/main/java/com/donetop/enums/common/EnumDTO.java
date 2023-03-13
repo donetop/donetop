@@ -1,4 +1,4 @@
-package com.donetop.enums.draft;
+package com.donetop.enums.common;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,0 +1,42 @@
+:doctype:
+:docinfo: shared
+:toc: left
+:toclevels: 3
+
+= Enum API Documentation
+
+== Get DraftStatus List
+
+Http Method : *GET* +
+Uri : */api/enum/draftStatus*
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/enum_list_get/getList_draftStatus_return200/response-fields.adoc[]
+
+=== Examples
+==== getList_draftStatus_return200
+.request
+include::{snippets}/enum_list_get/getList_draftStatus_return200/http-request.adoc[]
+.response
+include::{snippets}/enum_list_get/getList_draftStatus_return200/http-response.adoc[]
+
+== Get PaymentMethod List
+
+Http Method : *GET* +
+Uri : */api/enum/paymentMethod*
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/enum_list_get/getList_paymentMethod_return200/response-fields.adoc[]
+
+=== Examples
+==== getList_paymentMethod_return200
+.request
+include::{snippets}/enum_list_get/getList_paymentMethod_return200/http-request.adoc[]
+.response
+include::{snippets}/enum_list_get/getList_paymentMethod_return200/http-response.adoc[]

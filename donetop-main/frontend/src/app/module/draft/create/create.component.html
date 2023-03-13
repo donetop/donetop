@@ -4,9 +4,9 @@
     <div class="title">빠른견적</div>
     <div class="area">
       <div class="row">
-        <label for="category">품목선택</label>
-        <select id="category" name="category" [(ngModel)]='category'>
-          <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.value }}</option>
+        <label for="categoryName">품목선택</label>
+        <select id="categoryName" name="categoryName" [(ngModel)]='category'>
+          <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.name }}</option>
         </select>
       </div>
       <div class="row">

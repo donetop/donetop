@@ -1,6 +1,5 @@
 package com.donetop.main.api.draft;
 
-import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.DraftBase;
@@ -68,7 +67,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("customerName", "")
 			.multiPart("companyName", "")
 			.multiPart("email", "")
-			.multiPart("category", "")
+			.multiPart("categoryName", "")
 			.multiPart("phoneNumber", "")
 			.multiPart("address", "")
 			.multiPart("memo", "")
@@ -97,7 +96,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("customerName", "jin")
 			.multiPart("companyName", "my company")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", Category.BAENEO.toString())
+			.multiPart("categoryName", "배너")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")
@@ -128,7 +127,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("customerName", "jin")
 			.multiPart("companyName", "my company")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", "my category")
+			.multiPart("categoryName", "현수막")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")
@@ -156,7 +155,7 @@ public class DraftSingleCreateTest extends DraftBase {
 					partWithName("customerName").description("The value shouldn't be empty."),
 					partWithName("companyName").description("The value can be empty."),
 					partWithName("email").description("The value shouldn't be empty."),
-					partWithName("category").description("The value shouldn't be empty."),
+					partWithName("categoryName").description("The value shouldn't be empty."),
 					partWithName("phoneNumber").description("The value shouldn't be empty."),
 					partWithName("address").description("The value shouldn't be empty."),
 					partWithName("memo").description("The value can be empty."),
@@ -177,7 +176,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("customerName", "jin")
 			.multiPart("companyName", "my company")
 			.multiPart("email", "jin@test.com")
-			.multiPart("category", Category.BAENEO.toString())
+			.multiPart("categoryName", "배너")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("memo", "my memo")

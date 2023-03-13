@@ -86,7 +86,7 @@ public class DraftSingleGetTest extends DraftBase {
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
 			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
-			.body("data.category.name", is(draft.getCategory().name()))
+			.body("data.categoryName", is(draft.getCategoryName()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
 			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
@@ -116,7 +116,7 @@ public class DraftSingleGetTest extends DraftBase {
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
 			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
-			.body("data.category.name", is(draft.getCategory().name()))
+			.body("data.categoryName", is(draft.getCategoryName()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
 			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
@@ -144,10 +144,7 @@ public class DraftSingleGetTest extends DraftBase {
 					fieldWithPath("data.inChargeName").type(STRING).description("Draft inChargeName."),
 					fieldWithPath("data.email").type(STRING).description("Draft email."),
 					fieldWithPath("data.phoneNumber").type(STRING).description("Draft phoneNumber."),
-					fieldWithPath("data.category").type(OBJECT).description("Draft category."),
-					fieldWithPath("data.category.name").type(STRING).description("Draft category name."),
-					fieldWithPath("data.category.value").type(STRING).description("Draft category value."),
-					subsectionWithPath("data.category.items").type(ARRAY).description("Draft category items."),
+					fieldWithPath("data.categoryName").type(STRING).description("Draft categoryName."),
 					fieldWithPath("data.draftStatus").type(OBJECT).description("Draft status."),
 					fieldWithPath("data.draftStatus.name").type(STRING).description("Draft status name."),
 					fieldWithPath("data.draftStatus.value").type(STRING).description("Draft status value."),
@@ -175,7 +172,7 @@ public class DraftSingleGetTest extends DraftBase {
 			.statusCode(HttpStatus.OK.value())
 			.body("data.customerName", is(draft.getCustomerName()))
 			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
-			.body("data.category.name", is(draft.getCategory().name()))
+			.body("data.categoryName", is(draft.getCategoryName()))
 			.body("data.address", is(draft.getAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
 			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))

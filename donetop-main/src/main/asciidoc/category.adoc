@@ -1,0 +1,24 @@
+:doctype:
+:docinfo: shared
+:toc: left
+:toclevels: 3
+
+= Category API Documentation
+
+== Get Category List
+
+Http Method : *GET* +
+Uri : */api/categories*
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/category_list_get/getList_category_return200/response-fields.adoc[]
+
+=== Examples
+==== getList_category_return200
+.request
+include::{snippets}/category_list_get/getList_category_return200/http-request.adoc[]
+.response
+include::{snippets}/category_list_get/getList_category_return200/http-response.adoc[]

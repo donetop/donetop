@@ -5,11 +5,13 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCirclePlus, faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TitleComponent } from 'src/app/component/title/title.component';
+import { CategoryService } from 'src/app/service/category.service';
 import { CryptoService } from 'src/app/service/crypto.service';
 import { DraftService } from 'src/app/service/draft.service';
 import { EnumService } from 'src/app/service/enum.service';
-import { Category, Enum } from 'src/app/store/model/category.model';
+import { Category } from 'src/app/store/model/category.model';
 import { Draft } from 'src/app/store/model/draft.model';
+import { Enum } from 'src/app/store/model/enum.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
 
 @Component({
@@ -28,9 +30,9 @@ import { RouteName } from 'src/app/store/model/routeName.model';
 export class UpdateComponent implements OnInit {
 
   draft: Draft | undefined;
-  categoryArray!: Category[];
-  paymentMethodArray!: Enum[];
-  draftStatusArray!: Enum[];
+  categoryArray!: Array<Category>;
+  paymentMethodArray!: Array<Enum>;
+  draftStatusArray!: Array<Enum>;
   id: number = 0;
   password: string = '';
   nextIndex: number = 0;
@@ -40,7 +42,7 @@ export class UpdateComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
-    private enumService: EnumService, protected routeName: RouteName,
+    private enumService: EnumService, private categoryService: CategoryService, protected routeName: RouteName,
     private library: FaIconLibrary, private cryptoService: CryptoService
   ) {
     this.library.addIcons(faDownload, faCirclePlus, faXmark);
@@ -48,7 +50,7 @@ export class UpdateComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.categoryArray = await this.enumService.categoryArray();
+    this.categoryArray = await this.categoryService.categoryArray();
     this.paymentMethodArray = await this.enumService.paymentMethodArray();
     this.draftStatusArray = await this.enumService.draftStatusArray();
   }
@@ -105,7 +107,7 @@ export class UpdateComponent implements OnInit {
     if (confirm('정말로 수정하시겠습니까?')) {
       const formData = new FormData();
       formData.append('password', this.cryptoService.encrypt(form.controls['phone3'].value));
-      formData.append('category', form.controls['category'].value);
+      formData.append('categoryName', form.controls['categoryName'].value);
       formData.append('paymentMethod', form.controls['paymentMethod'].value);
       formData.append('draftStatus', form.controls['draftStatus'].value);
       formData.append('memo', form.controls['memo'].value);

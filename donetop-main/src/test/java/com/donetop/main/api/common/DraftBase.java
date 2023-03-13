@@ -3,7 +3,6 @@ package com.donetop.main.api.common;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.entity.user.User;
-import com.donetop.enums.draft.Category;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.common.TestFileUtil;
 import com.donetop.main.properties.ApplicationProperties;
@@ -52,7 +51,7 @@ public class DraftBase extends IntegrationBase {
 			.companyName("jin's company")
 			.inChargeName("hak")
 			.email("jin@test.com")
-			.category(Category.BAENEO)
+			.categoryName("배너")
 			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)
@@ -71,7 +70,7 @@ public class DraftBase extends IntegrationBase {
 				.customerName("jin" + i)
 				.companyName("jin's company")
 				.email("jin@test.com")
-				.category(Category.HYEONSUMAK)
+				.categoryName("현수막")
 				.phoneNumber("010-0000-0000")
 				.price(1000 + i)
 				.address("address" + i)
@@ -94,7 +93,7 @@ public class DraftBase extends IntegrationBase {
 			.companyName("jin's company")
 			.inChargeName("hak")
 			.email("jin@test.com")
-			.category(Category.BAENEO)
+			.categoryName("배너")
 			.phoneNumber("010-0000-0000")
 			.address("my address")
 			.price(10000L)

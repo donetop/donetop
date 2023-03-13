@@ -1,4 +1,4 @@
-import { Category, Enum } from "./category.model"
+import { Enum } from "./enum.model"
 import { Folder } from "./folder.model"
 import { PaymentInfo } from "./payment.model"
 
@@ -9,7 +9,7 @@ export interface Draft {
   inChargeName: string
   email: string
   phoneNumber: string
-  category: Category
+  categoryName: string
   draftStatus: Enum
   address: string
   price: number

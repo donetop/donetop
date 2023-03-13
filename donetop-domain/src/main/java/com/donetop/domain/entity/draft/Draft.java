@@ -3,7 +3,6 @@ package com.donetop.domain.entity.draft;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.entity.payment.PaymentInfo;
 import com.donetop.dto.draft.DraftDTO;
-import com.donetop.enums.draft.Category;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.draft.PaymentMethod;
@@ -49,9 +48,8 @@ public class Draft implements Serializable {
 	@Column(nullable = false, columnDefinition = "varchar(15) default ''")
 	private String phoneNumber;
 
-	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, columnDefinition = "varchar(64) default ''")
-	private Category category;
+	private String categoryName;
 
 	@Builder.Default
 	@Enumerated(EnumType.STRING)
@@ -117,8 +115,8 @@ public class Draft implements Serializable {
 		return this;
 	}
 
-	public Draft updateCategory(final Category category) {
-		this.category = category;
+	public Draft updateCategoryName(final String categoryName) {
+		this.categoryName = categoryName;
 		return this;
 	}
 
@@ -181,7 +179,7 @@ public class Draft implements Serializable {
 			.inChargeName(this.inChargeName)
 			.email(this.email)
 			.phoneNumber(this.phoneNumber)
-			.category(this.category.toDTO())
+			.categoryName(this.categoryName)
 			.draftStatus(this.draftStatus.toDTO())
 			.address(this.address)
 			.price(this.price)

@@ -1,5 +1,6 @@
 package com.donetop.enums.draft;
 
+import com.donetop.enums.common.EnumDTO;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
