@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import static com.donetop.main.api.form.FormAPIController.Uri.*;
+import static com.donetop.main.api.form.FormAPIController.URI.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;

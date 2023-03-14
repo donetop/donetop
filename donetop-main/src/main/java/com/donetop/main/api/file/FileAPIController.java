@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.donetop.main.api.file.FileAPIController.Uri.SINGULAR;
+import static com.donetop.main.api.file.FileAPIController.URI.SINGULAR;
 
 @RestController
 @RequiredArgsConstructor
 public class FileAPIController {
 
-	public static class Uri {
+	public static class URI {
 		public static final String SINGULAR = "/api/file";
 	}
 

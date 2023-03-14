@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.donetop.main.api.enums.EnumAPIController.Uri.*;
+import static com.donetop.main.api.enums.EnumAPIController.URI.*;
 
 @RestController
 public class EnumAPIController {
 
-	public static class Uri {
+	public static class URI {
 		public static final String ROOT = "/api/enum";
 		public static final String DRAFT_STATUS = ROOT + "/draftStatus";
 		public static final String PAYMENT_METHOD = ROOT + "/paymentMethod";

@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 
 import java.nio.file.Path;
 
-import static com.donetop.main.api.draft.DraftAPIController.Uri.SINGULAR;
+import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;

@@ -11,13 +11,13 @@ import { RouteName } from '../store/model/routeName.model';
 })
 export class DraftService {
 
-  private draftUri: string = '/api/draft';
-  private draftsUri: string = '/api/drafts';
+  private draftURI: string = '/api/draft';
+  private draftsURI: string = '/api/drafts';
 
   constructor(private httpClient: HttpClient, private router: Router, private routeName: RouteName) {}
 
   create(formData: FormData) {
-    this.httpClient.post<Response<number>>(this.draftUri, formData)
+    this.httpClient.post<Response<number>>(this.draftURI, formData)
       .subscribe({
         next: (response) => {
           console.log(`draft create success. draft id : ${response.data}`);
@@ -28,7 +28,7 @@ export class DraftService {
   }
 
   update(id: number, password: string, formData: FormData) {
-    this.httpClient.put<Response<number>>(`${this.draftUri}/${id}`, formData)
+    this.httpClient.put<Response<number>>(`${this.draftURI}/${id}`, formData)
       .subscribe({
         next: (response) => {
           console.log(`draft update success. draft id : ${response.data}`);
@@ -39,15 +39,15 @@ export class DraftService {
   }
 
   list(page: number) {
-    return this.httpClient.get<Response<Page<Draft>>>(`${this.draftsUri}?page=${page}`);
+    return this.httpClient.get<Response<Page<Draft>>>(`${this.draftsURI}?page=${page}`);
   }
 
   get(id: number, password: string) {
-    return this.httpClient.get<Response<Draft>>(`${this.draftUri}/${id}?password=${password}`);
+    return this.httpClient.get<Response<Draft>>(`${this.draftURI}/${id}?password=${password}`);
   }
 
   delete(id: number) {
-    return this.httpClient.delete<Response<number>>(`${this.draftUri}/${id}`);
+    return this.httpClient.delete<Response<number>>(`${this.draftURI}/${id}`);
   }
 
 }

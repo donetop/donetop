@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static com.donetop.main.api.user.UserAPIController.Uri.*;
+import static com.donetop.main.api.user.UserAPIController.URI.*;
 
 @Validated
 @RestController
 @RequiredArgsConstructor
 public class UserAPIController {
 
-	public static class Uri {
+	public static class URI {
 		public static final String SINGULAR = "/api/user";
 		public static final String PLURAL = "/api/users";
 	}

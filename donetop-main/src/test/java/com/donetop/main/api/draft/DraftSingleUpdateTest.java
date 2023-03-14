@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
-import static com.donetop.main.api.draft.DraftAPIController.Uri.SINGULAR;
+import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static com.donetop.main.properties.ApplicationProperties.Storage;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;

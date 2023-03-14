@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.donetop.main.api.draft.DraftAPIController.Uri.*;
+import static com.donetop.main.api.draft.DraftAPIController.URI.*;
 import static org.springframework.data.domain.Sort.Direction.*;
 
 @Validated
@@ -28,7 +28,7 @@ import static org.springframework.data.domain.Sort.Direction.*;
 @RequiredArgsConstructor
 public class DraftAPIController {
 
-	public static class Uri {
+	public static class URI {
 		public static final String PLURAL = "/api/drafts";
 		public static final String SINGULAR = "/api/draft";
 	}

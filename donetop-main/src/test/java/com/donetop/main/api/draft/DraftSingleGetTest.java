@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Map;
 
-import static com.donetop.main.api.draft.DraftAPIController.Uri.SINGULAR;
+import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;

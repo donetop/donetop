@@ -1,6 +1,5 @@
 package com.donetop.main.api.form.filter;
 
-import com.donetop.main.api.form.FormAPIController.Uri;
 import com.donetop.main.api.form.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.donetop.main.api.form.FormAPIController.URI.LOGIN;
+
 @Slf4j
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	private final ObjectMapper objectMapper;
 
 	public LoginFilter(final ObjectMapper objectMapper) {
-		super(new AntPathRequestMatcher(Uri.LOGIN, HttpMethod.POST.name()));
+		super(new AntPathRequestMatcher(LOGIN, HttpMethod.POST.name()));
 		this.objectMapper = objectMapper;
 	}
 

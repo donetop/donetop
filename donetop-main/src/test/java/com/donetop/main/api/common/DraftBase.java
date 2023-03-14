@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.donetop.main.api.form.FormAPIController.Uri.LOGIN;
+import static com.donetop.main.api.form.FormAPIController.URI.LOGIN;
 
 public class DraftBase extends IntegrationBase {
 

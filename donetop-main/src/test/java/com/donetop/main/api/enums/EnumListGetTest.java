@@ -7,8 +7,8 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static com.donetop.main.api.enums.EnumAPIController.Uri.DRAFT_STATUS;
-import static com.donetop.main.api.enums.EnumAPIController.Uri.PAYMENT_METHOD;
+import static com.donetop.main.api.enums.EnumAPIController.URI.DRAFT_STATUS;
+import static com.donetop.main.api.enums.EnumAPIController.URI.PAYMENT_METHOD;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;

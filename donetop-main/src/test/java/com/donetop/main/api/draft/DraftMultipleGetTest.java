@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-import static com.donetop.main.api.draft.DraftAPIController.Uri.PLURAL;
+import static com.donetop.main.api.draft.DraftAPIController.URI.PLURAL;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.payload.JsonFieldType.*;

@@ -34,11 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] PUBLIC = new String[] {
 		ViewController.Uri.ROOT, ViewController.Uri.VIEW,
-		FormAPIController.Uri.LOGIN, FormAPIController.Uri.LOGOUT,
-		UserAPIController.Uri.SINGULAR,
-		DraftAPIController.Uri.SINGULAR + "/**", DraftAPIController.Uri.PLURAL + "/**",
-		FileAPIController.Uri.SINGULAR + "/**",
-		EnumAPIController.Uri.ROOT + "/**",
+		FormAPIController.URI.LOGIN, FormAPIController.URI.LOGOUT,
+		UserAPIController.URI.SINGULAR,
+		DraftAPIController.URI.SINGULAR + "/**", DraftAPIController.URI.PLURAL + "/**",
+		FileAPIController.URI.SINGULAR + "/**",
+		EnumAPIController.URI.ROOT + "/**",
 		CategoryAPIController.URI.PLURAL,
 		com.donetop.main.api.nhn.URI.NHN_API + "/**"
 	};
@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage(ViewController.Uri.LOGIN)
 			.and()
 				.logout()
-				.logoutUrl(FormAPIController.Uri.LOGOUT)
+				.logoutUrl(FormAPIController.URI.LOGOUT)
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.invalidateHttpSession(true)
 		;

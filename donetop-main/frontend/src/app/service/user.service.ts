@@ -12,9 +12,9 @@ import { NgForm } from '@angular/forms';
 })
 export class UserService {
 
-  private formLoginUri: string = '/api/form/login'
-  private formLogoutUri: string = '/api/form/logout'
-  private userUri: string = '/api/user'
+  private formLoginURI: string = '/api/form/login'
+  private formLogoutURI: string = '/api/form/logout'
+  private userURI: string = '/api/user'
 
   constructor(private httpClient: HttpClient, private router: Router, private store: Store) {}
 
@@ -31,7 +31,7 @@ export class UserService {
       return;
     }
 
-    this.httpClient.post<Response<string>>(this.formLoginUri, form.value)
+    this.httpClient.post<Response<string>>(this.formLoginURI, form.value)
       .subscribe({
         next: (response) => {
           console.log(`login success. user info : ${response.data}`);
@@ -42,7 +42,7 @@ export class UserService {
   }
 
   logout() {
-    this.httpClient.get<Response<string>>(this.formLogoutUri)
+    this.httpClient.get<Response<string>>(this.formLogoutURI)
       .subscribe({
         next: (response) => {
           console.log(`logout success.`);
@@ -54,6 +54,6 @@ export class UserService {
   }
 
   getUserInfo() {
-    return this.httpClient.get<Response<User>>(this.userUri);
+    return this.httpClient.get<Response<User>>(this.userURI);
   }
 }
