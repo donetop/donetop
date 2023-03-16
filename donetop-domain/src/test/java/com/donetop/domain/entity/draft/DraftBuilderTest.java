@@ -30,6 +30,7 @@ public class DraftBuilderTest {
 			.phoneNumber("000-0000-0000")
 			.categoryName("배너")
 			.address("my address")
+			.detailAddress("my detail address")
 			.memo("simple test")
 			.password("my password").build();
 
@@ -41,6 +42,7 @@ public class DraftBuilderTest {
 		assertThat(draft.getPhoneNumber()).isNotEmpty();
 		assertThat(draft.getCategoryName()).isNotNull();
 		assertThat(draft.getAddress()).isNotEmpty();
+		assertThat(draft.getDetailAddress()).isNotEmpty();
 		assertThat(draft.getMemo()).isNotEmpty();
 		assertThat(draft.getPassword()).isNotEmpty();
 		assertThat(draft.getDraftStatus()).isNotNull();

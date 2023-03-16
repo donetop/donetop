@@ -88,6 +88,7 @@ public class DraftSingleGetTest extends DraftBase {
 			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
 			.body("data.categoryName", is(draft.getCategoryName()))
 			.body("data.address", is(draft.getAddress()))
+			.body("data.detailAddress", is(draft.getDetailAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
 			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
 			.body("data.memo", is(draft.getMemo()));
@@ -118,6 +119,7 @@ public class DraftSingleGetTest extends DraftBase {
 			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
 			.body("data.categoryName", is(draft.getCategoryName()))
 			.body("data.address", is(draft.getAddress()))
+			.body("data.detailAddress", is(draft.getDetailAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
 			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
 			.body("data.memo", is(draft.getMemo()));
@@ -149,6 +151,7 @@ public class DraftSingleGetTest extends DraftBase {
 					fieldWithPath("data.draftStatus.name").type(STRING).description("Draft status name."),
 					fieldWithPath("data.draftStatus.value").type(STRING).description("Draft status value."),
 					fieldWithPath("data.address").type(STRING).description("Draft address."),
+					fieldWithPath("data.detailAddress").type(STRING).description("Draft detailAddress."),
 					fieldWithPath("data.price").type(NUMBER).description("Draft price."),
 					fieldWithPath("data.paymentMethod").type(OBJECT).description("Draft paymentMethod."),
 					fieldWithPath("data.paymentMethod.name").type(STRING).description("Draft paymentMethod name."),
@@ -174,6 +177,7 @@ public class DraftSingleGetTest extends DraftBase {
 			.body("data.draftStatus.name", is(draft.getDraftStatus().name()))
 			.body("data.categoryName", is(draft.getCategoryName()))
 			.body("data.address", is(draft.getAddress()))
+			.body("data.detailAddress", is(draft.getDetailAddress()))
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
 			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
 			.body("data.memo", is(draft.getMemo()))

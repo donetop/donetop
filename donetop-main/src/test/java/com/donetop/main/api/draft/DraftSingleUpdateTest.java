@@ -52,6 +52,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("categoryName", "")
 			.multiPart("phoneNumber", "")
 			.multiPart("address", "")
+			.multiPart("detailAddress", "")
 			.multiPart("memo", "")
 			.multiPart("password", "")
 			.multiPart("paymentMethod", "asdsdsadsa")
@@ -62,7 +63,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(9));
+			.body("reason", hasSize(10));
 	}
 
 	@Test
@@ -84,6 +85,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("categoryName", "봉투")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
+			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
@@ -117,6 +119,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("categoryName", "봉투")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
+			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
@@ -149,6 +152,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 					partWithName("categoryName").description("The value shouldn't be empty."),
 					partWithName("phoneNumber").description("The value shouldn't be empty."),
 					partWithName("address").description("The value shouldn't be empty."),
+					partWithName("detailAddress").description("The value shouldn't be empty."),
 					partWithName("memo").description("The value can be empty."),
 					partWithName("password").description("The value shouldn't be empty."),
 					partWithName("paymentMethod").description("The value should be one of [CASH, CREDIT_CARD]."),
@@ -173,6 +177,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("categoryName", "봉투")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
+			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())

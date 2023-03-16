@@ -33,6 +33,7 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 			.updateCategoryName(getCategoryName())
 			.updateDraftStatus(DraftStatus.of(this.draftStatus))
 			.updateAddress(getAddress())
+			.updateDetailAddress(getDetailAddress())
 			.updatePrice(getPrice())
 			.updatePaymentMethod(PaymentMethod.of(getPaymentMethod()))
 			.updateMemo(getMemo())

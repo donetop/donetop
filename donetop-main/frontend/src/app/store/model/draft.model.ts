@@ -12,6 +12,7 @@ export interface Draft {
   categoryName: string
   draftStatus: Enum
   address: string
+  detailAddress: string
   price: number
   paymentMethod: Enum
   memo: string

@@ -30,6 +30,9 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 	@NotEmpty(message = "주소를 입력해주세요.")
 	private String address;
 
+	@NotEmpty(message = "상세 주소를 입력해주세요.")
+	private String detailAddress;
+
 	@NotNull(message = "메모를 입력해주세요.")
 	private String memo;
 
@@ -47,6 +50,7 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 			.phoneNumber(this.phoneNumber)
 			.categoryName(this.categoryName)
 			.address(this.address)
+			.detailAddress(this.detailAddress)
 			.memo(this.memo)
 			.password(this.password)
 			.paymentMethod(PaymentMethod.of(this.paymentMethod)).build();

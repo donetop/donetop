@@ -116,6 +116,7 @@ export class UpdateComponent implements OnInit {
       formData.append('email', form.controls['email'].value);
       formData.append('phoneNumber', `${form.controls['phone1'].value}-${form.controls['phone2'].value}-${form.controls['phone3'].value}`);
       formData.append('address', form.controls['address'].value);
+      formData.append('detailAddress', form.controls['detailAddress'].value);
       formData.append('price', form.controls['price'].value);
       formData.append('inChargeName', form.controls['inChargeName'].value);
       this.refs

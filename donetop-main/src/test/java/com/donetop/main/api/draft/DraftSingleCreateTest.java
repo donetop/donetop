@@ -49,7 +49,7 @@ public class DraftSingleCreateTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(9));
+			.body("reason", hasSize(10));
 	}
 
 	@Test
@@ -70,6 +70,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("categoryName", "")
 			.multiPart("phoneNumber", "")
 			.multiPart("address", "")
+			.multiPart("detailAddress", "")
 			.multiPart("memo", "")
 			.multiPart("password", "")
 			.multiPart("paymentMethod", "asdsdsadsa")
@@ -78,7 +79,7 @@ public class DraftSingleCreateTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(7));
+			.body("reason", hasSize(8));
 	}
 
 	@Test
@@ -99,6 +100,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("categoryName", "배너")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
+			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
@@ -130,6 +132,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("categoryName", "현수막")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
+			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
@@ -158,6 +161,7 @@ public class DraftSingleCreateTest extends DraftBase {
 					partWithName("categoryName").description("The value shouldn't be empty."),
 					partWithName("phoneNumber").description("The value shouldn't be empty."),
 					partWithName("address").description("The value shouldn't be empty."),
+					partWithName("detailAddress").description("The value shouldn't be empty."),
 					partWithName("memo").description("The value can be empty."),
 					partWithName("password").description("The value shouldn't be empty."),
 					partWithName("paymentMethod").description("The value should be one of [CASH, CREDIT_CARD]."),
@@ -179,6 +183,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("categoryName", "배너")
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
+			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CASH.toString())

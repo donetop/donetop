@@ -38,6 +38,8 @@ public class DraftDTO {
 
 	private String address;
 
+	private String detailAddress;
+
 	private long price;
 
 	private EnumDTO paymentMethod;

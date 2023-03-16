@@ -59,6 +59,9 @@ public class Draft implements Serializable {
 	@Column(nullable = false, columnDefinition = "varchar(256) default ''")
 	private String address;
 
+	@Column(nullable = false, columnDefinition = "varchar(256) default ''")
+	private String detailAddress;
+
 	@Column(nullable = false, columnDefinition = "bigint(20) default 0")
 	private long price;
 
@@ -130,6 +133,11 @@ public class Draft implements Serializable {
 		return this;
 	}
 
+	public Draft updateDetailAddress(final String detailAddress) {
+		this.detailAddress = detailAddress;
+		return this;
+	}
+
 	public Draft updatePrice(final long price) {
 		this.price = price;
 		return this;
@@ -182,6 +190,7 @@ public class Draft implements Serializable {
 			.categoryName(this.categoryName)
 			.draftStatus(this.draftStatus.toDTO())
 			.address(this.address)
+			.detailAddress(this.detailAddress)
 			.price(this.price)
 			.paymentMethod(this.paymentMethod.toDTO())
 			.memo(this.memo)

@@ -37,6 +37,7 @@ public class DraftCreateTest {
 			.phoneNumber("000-0000-0000")
 			.categoryName("배너")
 			.address("my address")
+			.detailAddress("my detail address")
 			.memo("simple test")
 			.password("my password").build();
 
@@ -58,6 +59,7 @@ public class DraftCreateTest {
 			.phoneNumber("000-0000-0000")
 			.categoryName("배너")
 			.address("my address")
+			.detailAddress("my detail address")
 			.memo("simple test")
 			.password("my password").build();
 		draft.addFolder(folder);
@@ -84,6 +86,7 @@ public class DraftCreateTest {
 			.phoneNumber("000-0000-0000")
 			.categoryName("배너")
 			.address("my address")
+			.detailAddress("my detail address")
 			.memo("simple test")
 			.password("my password").build();
 		draft.addFolder(folder);
