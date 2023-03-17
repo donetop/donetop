@@ -1,12 +1,40 @@
+plugins {
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
 dependencies {
 
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
 	implementation 'org.apache.tika:tika-core:2.6.0'
+	implementation 'com.querydsl:querydsl-jpa:5.0.0'
+	implementation 'com.querydsl:querydsl-apt:5.0.0'
 
 	runtimeOnly 'com.h2database:h2'
 
 	implementation project(':donetop-dto')
 	implementation project(':donetop-enum')
+}
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+	main.java.srcDir querydslDir
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
 }
 
 bootJar {

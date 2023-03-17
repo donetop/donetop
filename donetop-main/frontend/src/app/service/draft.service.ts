@@ -38,8 +38,15 @@ export class DraftService {
       });
   }
 
-  list(page: number) {
-    return this.httpClient.get<Response<Page<Draft>>>(`${this.draftsURI}?page=${page}`);
+  list(params: object) {
+    let requestURI = this.draftsURI;
+    let first = true;
+    for (const [key, value] of Object.entries(params)) {
+      const symbol = first ? '?' : '&';
+      requestURI += `${symbol}${key}=${value}`;
+      if (first) first = false;
+    }
+    return this.httpClient.get<Response<Page<Draft>>>(requestURI);
   }
 
   get(id: number, password: string) {

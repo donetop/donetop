@@ -9,6 +9,16 @@
       <p>출력요청하시고 입금하면 바로 출력되며 출력한 제품에 대해서는 오타나 크기, 마감방법 등 모든 수정은 불가능하며 반품/환불은 안됩니다.</p>
     </div>
   </div>
+  <div class="utils">
+    <div class="search">
+      <select name="searchSelect" id="searchSelect" [(ngModel)]="searchKey">
+        <option [value]="searchConditions[0].key">{{ searchConditions[0].name }}</option>
+        <option *ngIf="isAdmin" [value]="searchConditions[1].key">{{ searchConditions[1].name }}</option>
+      </select>
+      <input type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." autocomplete="off" [(ngModel)]="searchValue">
+      <button (click)="search()"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon></button>
+    </div>
+  </div>
   <div class="list" *ngIf="page">
     <div class="row">
       <div class="checkbox"><input type="checkbox" name="check"></div>
@@ -35,17 +45,16 @@
     </div>
   </div>
   <div class="page-buttons" *ngIf="page">
-    <a class="page-button first" *ngIf="!page.first" [routerLink]="DRAFT_LIST" [queryParams]="{ page: 0 }"></a>
-    <a class="page-button prev" *ngIf="hasPrev()" [routerLink]="DRAFT_LIST" [queryParams]="{ page: backwardPage() }"></a>
+    <a class="page-button first" *ngIf="!page.first" (click)="goToPage(0)"></a>
+    <a class="page-button prev" *ngIf="hasPrev()" (click)="goToPage(pageNumbers[0] - 1)"></a>
     <a class="page-button"
       [class.active]="number == pageNumber"
-      [routerLink]="DRAFT_LIST"
-      [queryParams]="{ page: number }"
+      (click)="goToPage(number)"
       *ngFor="let number of pageNumbers">
       {{ number + 1 }}
     </a>
-    <a class="page-button next" *ngIf="hasNext()" [routerLink]="DRAFT_LIST" [queryParams]="{ page: forwardPage() }"></a>
-    <a class="page-button end" *ngIf="!page.last" [routerLink]="DRAFT_LIST" [queryParams]="{ page: page.totalPages - 1 }"></a>
+    <a class="page-button next" *ngIf="hasNext()" (click)="goToPage(pageNumbers[0] + pageCount)"></a>
+    <a class="page-button end" *ngIf="!page.last" (click)="goToPage(page.totalPages - 1)"></a>
   </div>
 </div>
 <app-modal [(property)]="modalProperty">

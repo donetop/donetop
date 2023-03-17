@@ -174,4 +174,28 @@ public class DraftMultipleGetTest extends DraftBase {
 				.body("data.totalPages", is(5))
 				.body("data.totalElements", is(100));
 	}
+
+	@Test
+	void getMultiple_withQueryDSLParams_return200() {
+		// given
+		final RequestSpecification given = RestAssured.given(this.spec);
+		given.filter(
+			document(
+				"draft_multiple_get/getMultiple_withQueryDSLParams_return200"
+			)
+		);
+
+		// when
+		final Response response = given.when()
+			.param("customerName", "jin99")
+			.get(PLURAL);
+
+		// then
+		response.then()
+			.statusCode(HttpStatus.OK.value())
+			.body("data.content", hasSize(1))
+			.body("data.first", is(true))
+			.body("data.totalPages", is(1))
+			.body("data.totalElements", is(1));
+	}
 }

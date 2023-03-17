@@ -10,6 +10,7 @@ import com.donetop.main.service.storage.Resource;
 import com.donetop.main.service.storage.StorageService;
 import com.donetop.main.service.user.UserService;
 import com.donetop.repository.draft.DraftRepository;
+import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.User;
@@ -62,8 +63,8 @@ public class DraftServiceImpl implements DraftService {
 	}
 
 	@Override
-	public Page<DraftDTO> getDraft(final PageRequest request) {
-		return draftRepository.findAll(request).map(draft -> draft.toDTO(false));
+	public Page<DraftDTO> getDraft(final Predicate predicate, final PageRequest request) {
+		return draftRepository.findAll(predicate, request).map(draft -> draft.toDTO(false));
 	}
 
 	@Override

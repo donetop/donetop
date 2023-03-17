@@ -37,6 +37,52 @@ div.container {
     }
   }
 
+  > div.utils {
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 250px;
+    max-width: 1200px;
+    margin-bottom: 10px;
+
+    > div.search {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      width: 33%;
+      min-width: fit-content;
+
+      > select {
+        border: 0;
+        height: 28px;
+        border-right: 1px solid #ddd;
+        margin-right: 5px;
+        width: 20%;
+        min-width: fit-content;
+      }
+
+      > input {
+        height: 38px;
+        border: 0;
+        width: 70%;
+        min-width: 70px;
+      }
+
+      > button {
+        flex-grow: 0.5;
+        height: 28px;
+        width: 10%;
+        min-width: 40px;
+        background: none;
+        border: 0;
+        font-size: 15px;
+        border-left: 1px solid #ddd;
+        margin-left: 5px;
+      }
+    }
+  }
+
   > div.list {
     width: 65%;
     display: flex;
