@@ -6,7 +6,7 @@ import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.main.api.common.Response.OK;
-import com.donetop.main.common.TestFileUtil;
+import com.donetop.main.service.storage.LocalFileUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -138,7 +138,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 		// given
 		final Draft draft = saveSingleDraftWithoutFiles();
 		final Storage storage = applicationProperties.getStorage();
-		final List<java.io.File> files = TestFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
+		final List<java.io.File> files = LocalFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(

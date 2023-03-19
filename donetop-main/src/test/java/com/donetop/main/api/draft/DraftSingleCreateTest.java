@@ -3,7 +3,7 @@ package com.donetop.main.api.draft;
 import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.DraftBase;
-import com.donetop.main.common.TestFileUtil;
+import com.donetop.main.service.storage.LocalFileUtil;
 import com.donetop.main.properties.ApplicationProperties.Storage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
@@ -115,7 +115,7 @@ public class DraftSingleCreateTest extends DraftBase {
 	void createSingle_withValidPartValuesAndSizeExceedFiles_return400() {
 		// given
 		final Storage storage = applicationProperties.getStorage();
-		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc()));
+		final List<File> files = LocalFileUtil.readFiles(Path.of(storage.getSrc()));
 		final RequestSpecification given = RestAssured.given(this.spec);
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
@@ -148,7 +148,7 @@ public class DraftSingleCreateTest extends DraftBase {
 	void createSingle_withValidPartValuesAndFiles_return200() throws Exception {
 		// given
 		final Storage storage = applicationProperties.getStorage();
-		final List<File> files = TestFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
+		final List<File> files = LocalFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(

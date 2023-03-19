@@ -6,6 +6,7 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.main.properties.ApplicationProperties;
+import com.donetop.main.service.storage.LocalFileUtil;
 import com.donetop.main.service.storage.Resource;
 import com.donetop.main.service.storage.StorageService;
 import com.donetop.main.service.user.UserService;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -85,6 +87,18 @@ public class DraftServiceImpl implements DraftService {
 		if (folder != null) storageService.delete(folder);
 		draftRepository.delete(draft);
 		return id;
+	}
+
+	@Override
+	public long copyDraft(final long id) {
+		final Draft draft = draftRepository.findById(id)
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		final Draft copiedDraft = draftRepository.save(draft.copy());
+		final Folder folder = draft.getFolder();
+		if (folder != null) {
+			saveResources(copiedDraft, LocalFileUtil.readResources(Path.of(folder.getPath())));
+		}
+		return copiedDraft.getId();
 	}
 
 	private void saveResources(final Draft draft, final Collection<Resource> resources) {

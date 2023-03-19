@@ -5,6 +5,7 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.common.Response;
 import com.donetop.main.api.common.Response.BadRequest;
 import com.donetop.main.api.common.Response.OK;
+import com.donetop.main.api.draft.request.DraftCopyRequest;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.main.api.user.session.Session;
@@ -34,6 +35,7 @@ public class DraftAPIController {
 	public static class URI {
 		public static final String PLURAL = "/api/drafts";
 		public static final String SINGULAR = "/api/draft";
+		public static final String COPY = SINGULAR + "/copy";
 	}
 
 	private final DraftService draftService;
@@ -41,6 +43,11 @@ public class DraftAPIController {
 	@PostMapping(value = SINGULAR)
 	public ResponseEntity<OK<Long>> create(@Valid final DraftCreateRequest request) {
 		return ResponseEntity.ok(OK.of(draftService.createNewDraft(request)));
+	}
+
+	@PostMapping(value = COPY)
+	public ResponseEntity<OK<Long>> copy(@Valid @RequestBody final DraftCopyRequest request) {
+		return ResponseEntity.ok(OK.of(draftService.copyDraft(request.getId())));
 	}
 
 	@GetMapping(value = PLURAL)

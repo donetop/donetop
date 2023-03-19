@@ -12,6 +12,7 @@ import { RouteName } from '../store/model/routeName.model';
 export class DraftService {
 
   private draftURI: string = '/api/draft';
+  private draftCopyURI: string = this.draftURI + '/copy';
   private draftsURI: string = '/api/drafts';
 
   constructor(private httpClient: HttpClient, private router: Router, private routeName: RouteName) {}
@@ -55,6 +56,10 @@ export class DraftService {
 
   delete(id: number) {
     return this.httpClient.delete<Response<number>>(`${this.draftURI}/${id}`);
+  }
+
+  copy(id: number) {
+    return this.httpClient.post<Response<number>>(this.draftCopyURI, { id });
   }
 
 }

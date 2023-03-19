@@ -40,6 +40,8 @@ div.container {
   > div.utils {
     width: 65%;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     min-width: 250px;
     max-width: 1200px;
@@ -80,6 +82,17 @@ div.container {
         border-left: 1px solid #ddd;
         margin-left: 5px;
       }
+    }
+
+    > button.copy {
+      background: #d13f4a;
+      color: #fff;
+      padding: 8px;
+      height: 35px;
+      text-align: center;
+      border-radius: 3px;
+      font-weight: bold;
+      border: 0;
     }
   }
 

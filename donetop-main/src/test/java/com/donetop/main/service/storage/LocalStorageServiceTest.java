@@ -2,10 +2,8 @@ package com.donetop.main.service.storage;
 
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.enums.folder.FolderType;
-import com.donetop.main.common.TestFileUtil;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
-import org.apache.tika.Tika;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,28 +77,9 @@ class LocalStorageServiceTest {
 	}
 
 	@Test
-	void read_filesFromSRC_mimeTypeShouldBeKnown() {
-		// given
-		final List<File> files = TestFileUtil.readFiles(Path.of(src));
-		Tika tika = new Tika();
-
-		// when
-		final List<String> mimeTypes = files.stream().map(file -> {
-			try {
-				return tika.detect(file);
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}).collect(Collectors.toList());
-
-		// then
-		assertThat(mimeTypes.size()).isEqualTo(4);
-	}
-
-	@Test
 	void save_SrcFilesAtDst_shouldExistFilesAtDst() {
 		// given
-		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
+		final List<Resource> resources = LocalFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()
 			.folderType(FolderType.DRAFT)
 			.path(dst)
@@ -117,7 +96,7 @@ class LocalStorageServiceTest {
 	@Test
 	void save_singleSrcFileMultipleTimesAtDst_shouldExistSingleFileAtDst() {
 		// given
-		final List<List<Resource>> resourcesList = TestFileUtil.readResources(Path.of(src))
+		final List<List<Resource>> resourcesList = LocalFileUtil.readResources(Path.of(src))
 			.stream().map(List::of).collect(Collectors.toList());
 		final Folder folder = Folder.builder()
 			.folderType(FolderType.DRAFT)
@@ -137,7 +116,7 @@ class LocalStorageServiceTest {
 	@Test
 	void delete_allDstFiles_shouldExistFolderAndNotExistFiles() {
 		// given
-		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
+		final List<Resource> resources = LocalFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()
 			.folderType(FolderType.DRAFT)
 			.path(dst)
@@ -159,7 +138,7 @@ class LocalStorageServiceTest {
 	@Test
 	void delete_folder_shouldNotExistFolder() {
 		// given
-		final List<Resource> resources = TestFileUtil.readResources(Path.of(src));
+		final List<Resource> resources = LocalFileUtil.readResources(Path.of(src));
 		final Folder folder = Folder.builder()
 			.folderType(FolderType.DRAFT)
 			.path(dst)

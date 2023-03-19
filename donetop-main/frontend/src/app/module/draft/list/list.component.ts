@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -14,6 +14,7 @@ import { User, isAdmin } from 'src/app/store/model/user.model';
 import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-list',
@@ -38,6 +39,9 @@ export class ListComponent {
   pageNumbers: Array<number> = [];
   index: Array<number> = [];
   pageCount: number = 10;
+  @ViewChildren('checkbox') checkboxes!: QueryList<ElementRef>;
+  prevCheckedboxIndex: number = -1;
+  prevCheckedboxStatus: boolean = true;
   modalProperty: Property = Property.default();
   DRAFT_LIST: string = `/${this.routeName.DRAFT_LIST}`;
   isAdmin: boolean = false;
@@ -55,7 +59,7 @@ export class ListComponent {
   ) {
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
-    this.library.addIcons(faMagnifyingGlass);
+    this.library.addIcons(faMagnifyingGlass, faCopy);
   }
 
   setUp(params: any) {
@@ -129,6 +133,42 @@ export class ListComponent {
     newParams[this.searchKey] = this.searchValue;
     newParams['page'] = 0;
     this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: newParams });
+  }
+
+  copy() {
+    const elements = this.checkboxes.filter(element => element.nativeElement.checked);
+    if (elements.length === 0) {
+      alert('선택복사할 게시물을 선택하세요.');
+      return;
+    }
+    if (confirm('정말 복사하시겠습니까?')) {
+      this.draftService.copy(elements[0].nativeElement.id)
+        .subscribe({
+          next: (response) => {
+            console.log(`draft copy success. copied draft id : ${response.data}`);
+            alert('선택복사 성공');
+            // 0 페이지에서 복사하는 경우가 있으므로 HOME으로 갔다가 돌아옴
+            // router.routereusestrategy.shouldreuseroute를 변경할 수도 있으나 그렇게 하면 이후에 모든 다른 routerlink가 정상 동작 안함.
+            // https://github.com/angular/angular/issues/13831
+            this.router.navigate([this.routeName.HOME]).then(() => {
+              this.goToPage(0);
+            });
+          },
+          error: ({error}) => alert(error.reason)
+        });
+    }
+  }
+
+  checknthbox(index: number) {
+    if (this.prevCheckedboxIndex != -1 && index === this.prevCheckedboxIndex) {
+      const element = this.checkboxes.get(index)?.nativeElement;
+      this.prevCheckedboxStatus = !this.prevCheckedboxStatus;
+      element.checked = this.prevCheckedboxStatus;
+      return;
+    }
+    this.checkboxes.forEach((element, i) => element.nativeElement.checked = i === index);
+    this.prevCheckedboxIndex = index;
+    this.prevCheckedboxStatus = true;
   }
 }
 

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCreditCard } from '@fortawesome/free-regular-svg-icons';
+import { faCopy, faCreditCard } from '@fortawesome/free-regular-svg-icons';
 import { faPenToSquare, faReceipt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
@@ -60,7 +60,7 @@ export class DetailComponent {
     private store: Store<{ user: User }>, private library: FaIconLibrary,
     private router: Router, private routeName: RouteName
   ) {
-    this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard, faReceipt);
+    this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard, faReceipt, faCopy);
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
   }
@@ -164,6 +164,21 @@ export class DetailComponent {
 
     doc.autoPrint({ variant: 'non-conform' });
     doc.save(`donetop-${this.paymentHistory.detail[this.modalObject['거래번호']]}`);
+  }
+
+  copy() {
+    if (!this.draft) return;
+    if (confirm('정말 복사하시겠습니까?')) {
+      this.draftService.copy(this.draft.id)
+        .subscribe({
+          next: (response) => {
+            console.log(`draft copy success. copied draft id : ${response.data}`);
+            alert('복사 성공');
+            this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: { page: 0 } });
+          },
+          error: ({error}) => alert(error.reason)
+        });
+    }
   }
 
 }

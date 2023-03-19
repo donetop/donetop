@@ -7,8 +7,8 @@
 
 == Draft Single Create
 
-Http Method : *POST* +
-Uri : */api/draft*
+HTTP Method : *POST* +
+URI : */api/draft*
 
 === Request parts description
 include::{snippets}/draft_single_create/createSingle_withValidPartValuesAndFiles_return200/request-parts.adoc[]
@@ -48,8 +48,8 @@ include::{snippets}/draft_single_create/createSingle_withValidPartValuesAndFiles
 
 == Draft Single Update
 
-Http Method : *PUT* +
-Uri : */api/draft/\{draft_id\}*
+HTTP Method : *PUT* +
+URI : */api/draft/\{draft_id\}*
 
 === Request parts description
 include::{snippets}/draft_single_update/updateSingle_withValidPartValuesAndFilesAndId_return200/request-parts.adoc[]
@@ -84,8 +84,8 @@ include::{snippets}/draft_single_update/updateSingle_withValidPartValuesAndFiles
 
 == Draft Single Get
 
-Http Method : *GET* +
-Uri : */api/draft/\{draft_id\}*?password=\{string\}
+HTTP Method : *GET* +
+URI : */api/draft/\{draft_id\}*?password=\{string\}
 
 === Request parameters description
 include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/request-parameters.adoc[]
@@ -126,8 +126,8 @@ include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightP
 
 == Draft Single Delete
 
-Http Method : *DELETE* +
-Uri : /api/draft/\{draft_id\}
+HTTP Method : *DELETE* +
+URI : /api/draft/\{draft_id\}
 
 === Request parameters description
 X
@@ -162,8 +162,8 @@ include::{snippets}/draft_single_delete/deleteSingle_byAdminUser_return200/http-
 
 == Draft Multiple Get
 
-Http Method : *GET* +
-Uri : */api/drafts?page=\{int\}&size=\{int\}&property=\{draft_property\}&direction=\{asc_or_desc\}*
+HTTP Method : *GET* +
+URI : */api/drafts?page=\{int\}&size=\{int\}&property=\{draft_property\}&direction=\{asc_or_desc\}*
 
 === Request parameters description
 include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/request-parameters.adoc[]
@@ -213,3 +213,39 @@ include::{snippets}/draft_multiple_get/getMultiple_withoutParams_return200/http-
 include::{snippets}/draft_multiple_get/getMultiple_withQueryDSLParams_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_multiple_get/getMultiple_withQueryDSLParams_return200/http-response.adoc[]
+
+== Draft Copy
+
+HTTP Method : *POST* +
+URI : */api/draft/copy*
+
+=== Request body fields description
+include::{snippets}/draft_copy/copy_hasFolderDraft_return200/request-fields.adoc[]
+
+=== Response body fields description
+include::{snippets}/draft_copy/copy_hasFolderDraft_return200/response-fields.adoc[]
+
+=== Examples
+==== copy_withInvalidId_return400
+.request
+include::{snippets}/draft_copy/copy_withInvalidId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_copy/copy_withInvalidId_return400/http-response.adoc[]
+
+==== copy_withUnknownId_return400
+.request
+include::{snippets}/draft_copy/copy_withUnknownId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_copy/copy_withUnknownId_return400/http-response.adoc[]
+
+==== copy_noFolderDraft_return200
+.request
+include::{snippets}/draft_copy/copy_noFolderDraft_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_copy/copy_noFolderDraft_return200/http-response.adoc[]
+
+==== copy_hasFolderDraft_return200
+.request
+include::{snippets}/draft_copy/copy_hasFolderDraft_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_copy/copy_hasFolderDraft_return200/http-response.adoc[]

@@ -7,8 +7,8 @@
 
 == Get Category List
 
-Http Method : *GET* +
-Uri : */api/categories*
+HTTP Method : *GET* +
+URI : */api/categories*
 
 === Request parameters description
 X

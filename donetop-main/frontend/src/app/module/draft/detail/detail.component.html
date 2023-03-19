@@ -37,6 +37,10 @@
         <span>{{ draft.paymentMethod.value }}</span>
       </div>
       <div class="row">
+        <span>카테고리</span>&nbsp;:&nbsp;
+        <span>{{ draft.categoryName }}</span>
+      </div>
+      <div class="row">
         <span>메모</span><br>
         <textarea id="memo" name="memo" rows="10" disabled>{{ draft.memo }}</textarea>
       </div>
@@ -49,6 +53,7 @@
     <div class="admin" *ngIf="isAdmin">
       <button type="button" (click)="update()"><fa-icon [icon]="['fas', 'pen-to-square']"></fa-icon>&nbsp;수정</button>
       <button type="button" (click)="delete()"><fa-icon [icon]="['fas', 'trash-can']"></fa-icon>&nbsp;삭제</button>
+      <button class="copy" type="button" (click)="copy()"><fa-icon [icon]="['far', 'copy']"></fa-icon>&nbsp;복사</button>
     </div>
     <div class="public">
       <button type="button" *ngIf="isPayable()" (click)="pay()"><fa-icon [icon]="['far', 'credit-card']"></fa-icon>&nbsp;카드결제</button>

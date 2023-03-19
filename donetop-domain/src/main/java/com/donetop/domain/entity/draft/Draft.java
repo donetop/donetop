@@ -18,7 +18,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tbDraft")
+@Table(
+	name = "tbDraft",
+	uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"folderId"}),
+		@UniqueConstraint(columnNames = {"paymentInfoId"})
+	}
+)
 @DynamicUpdate
 @Getter
 @Builder(toBuilder = true)
@@ -177,6 +183,24 @@ public class Draft implements Serializable {
 
 	public PaymentInfo getOrNewPaymentInfo() {
 		return this.paymentInfo == null ? PaymentInfo.of(PaymentStatus.PAID) : this.paymentInfo;
+	}
+
+	public Draft copy() {
+		return new Draft().toBuilder()
+			.customerName(this.customerName)
+			.companyName(this.companyName)
+			.inChargeName(this.inChargeName)
+			.email(this.email)
+			.phoneNumber(this.phoneNumber)
+			.categoryName(this.categoryName)
+			.draftStatus(this.draftStatus)
+			.address(this.address)
+			.detailAddress(this.detailAddress)
+			.price(this.price)
+			.paymentMethod(this.paymentMethod)
+			.memo(this.memo)
+			.password(this.password)
+			.build();
 	}
 
 	public DraftDTO toDTO(final boolean includeSubObjectInfo) {

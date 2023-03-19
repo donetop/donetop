@@ -19,4 +19,6 @@ public interface DraftService {
 	Page<DraftDTO> getDraft(Predicate predicate, PageRequest request);
 
 	long deleteDraft(long id, User user);
+
+	long copyDraft(long id);
 }

@@ -4,7 +4,7 @@ import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.entity.user.User;
 import com.donetop.enums.user.RoleType;
-import com.donetop.main.common.TestFileUtil;
+import com.donetop.main.service.storage.LocalFileUtil;
 import com.donetop.main.properties.ApplicationProperties;
 import com.donetop.main.service.storage.Resource;
 import com.donetop.main.service.storage.StorageService;
@@ -88,7 +88,7 @@ public class DraftBase extends IntegrationBase {
 
 	protected Draft saveSingleDraftWithFiles() {
 		final ApplicationProperties.Storage storage = applicationProperties.getStorage();
-		final List<Resource> resources = TestFileUtil.readResources(Path.of(storage.getSrc()));
+		final List<Resource> resources = LocalFileUtil.readResources(Path.of(storage.getSrc()));
 		final LocalDateTime now = LocalDateTime.now();
 		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")

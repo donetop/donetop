@@ -18,6 +18,7 @@ dependencies {
 	implementation 'com.mysql:mysql-connector-j:8.0.31'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
 	implementation 'commons-io:commons-io:2.11.0'
+	implementation 'commons-fileupload:commons-fileupload:1.5'
 
 	implementation project(':donetop-domain')
 	implementation project(':donetop-dto')
@@ -28,7 +29,6 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
 	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation 'org.apache.tika:tika-core:2.6.0'
 }
 
 test {

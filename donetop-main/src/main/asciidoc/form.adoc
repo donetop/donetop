@@ -7,8 +7,8 @@
 
 == Form Login
 
-Http Method : *POST* +
-Uri : */api/form/login*
+HTTP Method : *POST* +
+URI : */api/form/login*
 
 === Request body fields description
 include::{snippets}/form_login/login_withValidInfo_return200/request-fields.adoc[]

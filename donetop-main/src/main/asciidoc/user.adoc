@@ -7,8 +7,8 @@
 
 == Create User
 
-Http Method : *POST* +
-Uri : */api/user*
+HTTP Method : *POST* +
+URI : */api/user*
 
 === Request body fields description
 include::{snippets}/user_create/create_withValidValues_return200/request-fields.adoc[]
