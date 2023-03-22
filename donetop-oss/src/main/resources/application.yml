@@ -1,0 +1,35 @@
+server:
+  port: 8070
+  servlet:
+    session:
+      timeout: 10m
+
+spring:
+  profiles:
+    default: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/donetop
+    username: root
+    password: system
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: false
+        show_sql: true
+
+application:
+  properties:
+    base-uri: "http://localhost"
+    storage:
+      root: C:/Users/hjm70/Jin/Work/WorkSpace/donetop/donetop-oss/src/main/resources/storage
+
+logging:
+  level:
+    org.springframework.security.web.session: DEBUG

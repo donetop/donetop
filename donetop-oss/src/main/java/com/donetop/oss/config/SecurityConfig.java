@@ -1,23 +1,14 @@
-package com.donetop.main.config;
+package com.donetop.oss.config;
 
-import com.donetop.enums.user.RoleType;
-import com.donetop.main.api.category.CategoryAPIController;
-import com.donetop.main.api.draft.DraftAPIController;
-import com.donetop.main.api.enums.EnumAPIController;
-import com.donetop.main.api.file.FileAPIController;
-import com.donetop.main.api.form.FormAPIController;
-import com.donetop.main.api.form.filter.ContentCachingRequestFilter;
-import com.donetop.main.api.form.filter.LoginFilter;
-import com.donetop.main.api.form.handler.LoginFailureHandler;
-import com.donetop.main.api.form.handler.LoginSuccessHandler;
-import com.donetop.main.api.form.handler.LogoutSuccessHandler;
-import com.donetop.main.api.user.UserAPIController;
-import com.donetop.main.view.ViewController;
+import com.donetop.oss.api.form.FormAPIController;
+import com.donetop.oss.api.form.filter.LoginFilter;
+import com.donetop.oss.api.form.handler.LoginFailureHandler;
+import com.donetop.oss.api.form.handler.LoginSuccessHandler;
+import com.donetop.oss.api.form.handler.LogoutSuccessHandler;
+import com.donetop.oss.view.ViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,21 +17,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final String[] PUBLIC = new String[] {
+	private final String[] PUBLIC = new String[] {
 		ViewController.URI.ROOT, ViewController.URI.VIEW,
 		FormAPIController.URI.LOGIN, FormAPIController.URI.LOGOUT,
-		UserAPIController.URI.SINGULAR,
-		DraftAPIController.URI.SINGULAR + "/**", DraftAPIController.URI.PLURAL + "/**",
-		FileAPIController.URI.SINGULAR + "/**",
-		EnumAPIController.URI.ROOT + "/**",
-		CategoryAPIController.URI.PLURAL,
-		com.donetop.main.api.nhn.URI.NHN_API + "/**"
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {
@@ -66,11 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(STATIC_RESOURCES).permitAll()
 				.antMatchers(PUBLIC).permitAll()
-				.antMatchers("/**/*.html").hasAuthority(RoleType.ADMIN.name())
 				.anyRequest().authenticated()
 			.and()
 				.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(contentCachingRequestFilter(), LoginFilter.class)
 				.formLogin()
 				.loginPage(ViewController.URI.LOGIN)
 			.and()
@@ -79,26 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.invalidateHttpSession(true)
 		;
-	}
-
-	@Bean
-	@Profile(value = "local")
-	public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
-		return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
-	}
-
-	@Bean
-	public LoginFilter loginFilter() throws Exception {
-		LoginFilter loginFilter = new LoginFilter(objectMapper);
-		loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
-		loginFilter.setAuthenticationFailureHandler(loginFailureHandler);
-		loginFilter.setAuthenticationManager(authenticationManagerBean());
-		return loginFilter;
-	}
-
-	@Bean
-	public ContentCachingRequestFilter contentCachingRequestFilter() {
-		return new ContentCachingRequestFilter();
 	}
 
 	@Bean
@@ -113,6 +75,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				return rawPassword.toString().equals(encodedPassword);
 			}
 		};
+	}
+
+	@Bean
+	public LoginFilter loginFilter() throws Exception {
+		LoginFilter loginFilter = new LoginFilter(objectMapper);
+		loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
+		loginFilter.setAuthenticationFailureHandler(loginFailureHandler);
+		loginFilter.setAuthenticationManager(authenticationManagerBean());
+		return loginFilter;
 	}
 
 	@Override

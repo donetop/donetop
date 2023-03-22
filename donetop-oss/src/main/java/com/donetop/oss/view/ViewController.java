@@ -1,9 +1,9 @@
-package com.donetop.main.view;
+package com.donetop.oss.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import static com.donetop.main.view.ViewController.URI.*;
+import static com.donetop.oss.view.ViewController.URI.*;
 
 @Controller
 public class ViewController {
