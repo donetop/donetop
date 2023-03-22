@@ -1,6 +1,6 @@
 package com.donetop.main.api.form.handler;
 
-import com.donetop.main.api.common.Response;
+import com.donetop.common.api.Response;
 import com.donetop.main.api.form.request.LoginRequest;
 import com.donetop.main.properties.ApplicationProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;

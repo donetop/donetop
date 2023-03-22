@@ -1,6 +1,6 @@
-package com.donetop.oss.api.common;
+package com.donetop.common.api;
 
-import com.donetop.oss.api.common.Response.BadRequest;
+import com.donetop.common.api.Response.BadRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;

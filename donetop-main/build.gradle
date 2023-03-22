@@ -23,6 +23,7 @@ dependencies {
 	implementation project(':donetop-domain')
 	implementation project(':donetop-dto')
 	implementation project(':donetop-enum')
+	implementation project(':donetop-common')
 
     runtimeOnly 'com.h2database:h2'
 

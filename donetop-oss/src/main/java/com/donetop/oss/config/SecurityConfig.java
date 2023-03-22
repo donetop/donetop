@@ -1,5 +1,6 @@
 package com.donetop.oss.config;
 
+import com.donetop.common.encoder.NoOpPasswordEncoder;
 import com.donetop.oss.api.form.FormAPIController;
 import com.donetop.oss.api.form.filter.LoginFilter;
 import com.donetop.oss.api.form.handler.LoginFailureHandler;
@@ -65,16 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new PasswordEncoder() {
-			@Override
-			public String encode(CharSequence rawPassword) {
-				return rawPassword.toString();
-			}
-			@Override
-			public boolean matches(CharSequence rawPassword, String encodedPassword) {
-				return rawPassword.toString().equals(encodedPassword);
-			}
-		};
+		return NoOpPasswordEncoder.getInstance();
 	}
 
 	@Bean

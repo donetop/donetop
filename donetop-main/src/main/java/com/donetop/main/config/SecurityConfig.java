@@ -1,5 +1,6 @@
 package com.donetop.main.config;
 
+import com.donetop.common.encoder.NoOpPasswordEncoder;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.category.CategoryAPIController;
 import com.donetop.main.api.draft.DraftAPIController;
@@ -103,16 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new PasswordEncoder() {
-			@Override
-			public String encode(CharSequence rawPassword) {
-				return rawPassword.toString();
-			}
-			@Override
-			public boolean matches(CharSequence rawPassword, String encodedPassword) {
-				return rawPassword.toString().equals(encodedPassword);
-			}
-		};
+		return NoOpPasswordEncoder.getInstance();
 	}
 
 	@Override

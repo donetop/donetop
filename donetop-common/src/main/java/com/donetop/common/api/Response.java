@@ -1,4 +1,4 @@
-package com.donetop.oss.api.common;
+package com.donetop.common.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -17,7 +17,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
-import static com.donetop.main.api.common.Response.OK;
+import static com.donetop.common.api.Response.OK;
 import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.containsString;

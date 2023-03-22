@@ -1,6 +1,6 @@
 package com.donetop.main.api.form.handler;
 
-import com.donetop.main.api.common.Response;
+import com.donetop.common.api.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.donetop.main.api.category;
 
 import com.donetop.dto.category.CategoryDTO;
-import com.donetop.main.api.common.Response.OK;
+import com.donetop.common.api.Response.OK;
 import com.donetop.main.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

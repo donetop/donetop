@@ -5,7 +5,7 @@ import com.donetop.domain.entity.user.User;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.DraftBase;
-import com.donetop.main.api.common.Response.OK;
+import com.donetop.common.api.Response.OK;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;

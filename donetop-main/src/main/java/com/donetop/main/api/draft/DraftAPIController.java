@@ -2,9 +2,9 @@ package com.donetop.main.api.draft;
 
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.dto.draft.DraftDTO;
-import com.donetop.main.api.common.Response;
-import com.donetop.main.api.common.Response.BadRequest;
-import com.donetop.main.api.common.Response.OK;
+import com.donetop.common.api.Response;
+import com.donetop.common.api.Response.BadRequest;
+import com.donetop.common.api.Response.OK;
 import com.donetop.main.api.draft.request.DraftCopyRequest;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;

@@ -1,8 +1,8 @@
 package com.donetop.main.api.user;
 
-import com.donetop.main.api.common.Response;
-import com.donetop.main.api.common.Response.BadRequest;
-import com.donetop.main.api.common.Response.OK;
+import com.donetop.common.api.Response;
+import com.donetop.common.api.Response.BadRequest;
+import com.donetop.common.api.Response.OK;
 import com.donetop.main.api.user.request.UserCreateRequest;
 import com.donetop.main.api.user.session.Session;
 import com.donetop.main.service.user.UserService;

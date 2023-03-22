@@ -3,7 +3,7 @@ package com.donetop.main.api.enums;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.common.EnumDTO;
 import com.donetop.enums.draft.PaymentMethod;
-import com.donetop.main.api.common.Response.OK;
+import com.donetop.common.api.Response.OK;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,8 +1,8 @@
 package com.donetop.main.api.form.handler;
 
-import com.donetop.main.api.common.Response;
-import com.donetop.main.api.common.Response.BadRequest;
-import com.donetop.main.api.common.Response.OK;
+import com.donetop.common.api.Response;
+import com.donetop.common.api.Response.BadRequest;
+import com.donetop.common.api.Response.OK;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.donetop.main.api.nhn;
 
-import com.donetop.main.api.common.Response;
-import com.donetop.main.api.common.Response.OK;
+import com.donetop.common.api.Response;
+import com.donetop.common.api.Response.OK;
 import com.donetop.main.api.nhn.request.PaymentRequest;
 import com.donetop.main.api.nhn.request.TradeRegisterRequest;
 import com.donetop.main.service.payment.NHNPaymentService;
