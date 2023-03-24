@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
 
 import { AppComponent } from './app.component';
 import { EntryComponent } from './components/entry/entry.component';
+import { ossUserReducer } from './store/reducer/oss-user.reducer';
 
 @NgModule({
   declarations: [
@@ -10,7 +12,8 @@ import { EntryComponent } from './components/entry/entry.component';
   ],
   imports: [
     BrowserModule,
-    EntryComponent
+    EntryComponent,
+    StoreModule.forRoot({ ossUser: ossUserReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]

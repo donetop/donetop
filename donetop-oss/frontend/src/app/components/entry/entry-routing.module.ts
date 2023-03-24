@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserService } from 'src/app/service/user.service';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { HomeComponent } from '../home/home.component';
 import { LoginComponent } from '../login/login.component';

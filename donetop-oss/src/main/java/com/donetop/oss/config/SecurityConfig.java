@@ -1,15 +1,19 @@
 package com.donetop.oss.config;
 
 import com.donetop.common.encoder.NoOpPasswordEncoder;
+import com.donetop.enums.user.RoleType;
 import com.donetop.oss.api.form.FormAPIController;
 import com.donetop.oss.api.form.filter.LoginFilter;
 import com.donetop.oss.api.form.handler.LoginFailureHandler;
 import com.donetop.oss.api.form.handler.LoginSuccessHandler;
 import com.donetop.oss.api.form.handler.LogoutSuccessHandler;
+import com.donetop.oss.api.user.OSSUserAPIController;
 import com.donetop.oss.view.ViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final String[] PUBLIC = new String[] {
 		ViewController.URI.ROOT, ViewController.URI.VIEW,
 		FormAPIController.URI.LOGIN, FormAPIController.URI.LOGOUT,
+		OSSUserAPIController.URI.SINGULAR
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {
@@ -51,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(STATIC_RESOURCES).permitAll()
 				.antMatchers(PUBLIC).permitAll()
+				.antMatchers("/api/**").hasAuthority(RoleType.ADMIN.name())
 				.anyRequest().authenticated()
 			.and()
 				.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -67,6 +74,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
+	}
+
+	@Bean
+	@Profile(value = "local")
+	public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+		return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
 	}
 
 	@Bean
