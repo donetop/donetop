@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.donetop.oss.api.form.FormAPIController.URI.LOGIN;
+import static com.donetop.oss.api.form.OSSFormAPIController.URI.LOGIN;
 
 @Slf4j
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {

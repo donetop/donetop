@@ -43,7 +43,7 @@ public class Category implements Comparable<Category> {
 	@JoinColumn(name = "parentId")
 	private Category parent;
 
-	@OneToMany(mappedBy = "parent")
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
 	private final List<Category> subCategories = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

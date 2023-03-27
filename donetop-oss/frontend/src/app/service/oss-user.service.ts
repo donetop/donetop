@@ -25,7 +25,7 @@ export class OSSUserService {
     .subscribe({
       next: (response) => {
         console.log(`login success. user info : ${response.data}`);
-        this.router.navigateByUrl(this.routeName.HOME);
+        this.router.navigateByUrl(this.routeName.HOME).then(() => window.location.reload());
       },
       error: ({error}) => alert(error.reason)
     });

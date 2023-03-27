@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: INSTANCE.ROOT, redirectTo: INSTANCE.LOGIN, pathMatch: 'full' },
   { path: INSTANCE.LOGIN, component: LoginComponent },
   { path: INSTANCE.HOME, component: HomeComponent },
+  { path: INSTANCE.CATEGORY, loadChildren: () => import('../category/category-children-routes').then(m => m.CATEGORY_CHILDREN_ROUTES) },
   { path: INSTANCE.FALL_BACK, redirectTo: INSTANCE.HOME }
 ];
 

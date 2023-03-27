@@ -2,13 +2,14 @@ package com.donetop.oss.config;
 
 import com.donetop.common.encoder.NoOpPasswordEncoder;
 import com.donetop.enums.user.RoleType;
-import com.donetop.oss.api.form.FormAPIController;
+import com.donetop.oss.api.category.OSSCategoryAPIController;
+import com.donetop.oss.api.form.OSSFormAPIController;
 import com.donetop.oss.api.form.filter.LoginFilter;
 import com.donetop.oss.api.form.handler.LoginFailureHandler;
 import com.donetop.oss.api.form.handler.LoginSuccessHandler;
 import com.donetop.oss.api.form.handler.LogoutSuccessHandler;
 import com.donetop.oss.api.user.OSSUserAPIController;
-import com.donetop.oss.view.ViewController;
+import com.donetop.oss.view.OSSViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -24,14 +25,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+import static com.donetop.common.Profile.*;
+
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final String[] PUBLIC = new String[] {
-		ViewController.URI.ROOT, ViewController.URI.VIEW,
-		FormAPIController.URI.LOGIN, FormAPIController.URI.LOGOUT,
-		OSSUserAPIController.URI.SINGULAR
+		OSSViewController.URI.ROOT, OSSViewController.URI.VIEW,
+		OSSFormAPIController.URI.LOGIN, OSSFormAPIController.URI.LOGOUT,
+		OSSUserAPIController.URI.SINGULAR,
+		OSSCategoryAPIController.URI.SINGULAR, OSSCategoryAPIController.URI.PLURAL
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {
@@ -62,10 +66,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class)
 				.formLogin()
-				.loginPage(ViewController.URI.LOGIN)
+				.loginPage(OSSViewController.URI.LOGIN)
 			.and()
 				.logout()
-				.logoutUrl(FormAPIController.URI.LOGOUT)
+				.logoutUrl(OSSFormAPIController.URI.LOGOUT)
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.invalidateHttpSession(true)
 		;
@@ -77,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	@Profile(value = "local")
+	@Profile(value = LOCAL)
 	public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
 		return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
 	}

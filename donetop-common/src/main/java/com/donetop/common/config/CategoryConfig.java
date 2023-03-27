@@ -1,4 +1,4 @@
-package com.donetop.main.config;
+package com.donetop.common.config;
 
 import com.donetop.domain.entity.category.Category;
 import com.donetop.repository.category.CategoryRepository;
@@ -6,11 +6,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+import static com.donetop.common.Profile.*;
+
+@Profile(value = {TEST})
 @Configuration
 @RequiredArgsConstructor
 public class CategoryConfig {

@@ -1,6 +1,6 @@
 package com.donetop.oss.api.form;
 
-public class FormAPIController {
+public class OSSFormAPIController {
 
 	public static class URI {
 		public static final String LOGIN = "/api/form/login";

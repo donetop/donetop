@@ -36,6 +36,8 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/admin-lte/dist/js/adminlte.min.js"
             ],
             "allowedCommonJsDependencies": [
@@ -90,7 +92,10 @@
               "proxyConfig": "src/proxy/development.config.json"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4300
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

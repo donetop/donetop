@@ -8,6 +8,14 @@ export class RouteName {
 
   public readonly LOGIN = `${prefix}/login`;
 
+  public readonly CATEGORY = `${prefix}/category`;
+
+  public readonly CATEGORY_CHILDREN = {
+    LIST: `list`
+  };
+
+  public readonly CATEGORY_LIST = `${this.CATEGORY}/${this.CATEGORY_CHILDREN.LIST}`;
+
   public readonly FALL_BACK = `**`;
 
   private constructor() {}

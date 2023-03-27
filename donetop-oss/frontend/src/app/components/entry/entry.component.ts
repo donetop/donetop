@@ -6,6 +6,7 @@ import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RouteName } from 'src/app/store/model/routeName.model';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-entry',
@@ -15,7 +16,8 @@ import { RouteName } from 'src/app/store/model/routeName.model';
     EntryRoutingModule,
     HttpClientModule,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
+    FooterComponent
   ],
   providers: [
     { provide: RouteName, useValue: RouteName.INSTANCE },

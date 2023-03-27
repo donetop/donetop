@@ -3,10 +3,10 @@ package com.donetop.oss.view;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import static com.donetop.oss.view.ViewController.URI.*;
+import static com.donetop.oss.view.OSSViewController.URI.*;
 
 @Controller
-public class ViewController {
+public class OSSViewController {
 
 	public static class URI {
 		public static final String ROOT = "/";
