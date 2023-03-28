@@ -33,4 +33,8 @@ export class CategoryService {
     return this.httpClient.delete<Response<number>>(`${this.categoryURI}/${id}`);
   }
 
+  sort(categories: Array<Category>) {
+    return this.httpClient.put<Response<Array<Category>>>(`${this.categoriesURI}/sort`, { categories });
+  }
+
 }

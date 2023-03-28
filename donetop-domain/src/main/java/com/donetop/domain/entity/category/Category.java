@@ -71,6 +71,10 @@ public class Category implements Comparable<Category> {
 		return this.parent == null;
 	}
 
+	public void decreaseSequence() {
+		if (this.sequence > 1) this.sequence--;
+	}
+
 	public CategoryDTO toDTO() {
 		return CategoryDTO.builder()
 			.id(this.id)

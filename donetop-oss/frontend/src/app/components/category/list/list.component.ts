@@ -5,6 +5,7 @@ import { Category } from 'src/app/store/model/category.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { FormsModule, NgForm } from '@angular/forms';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop'
 
 declare const $: any;
 
@@ -13,7 +14,8 @@ declare const $: any;
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    DragDropModule
   ],
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
@@ -82,6 +84,27 @@ export class ListComponent implements AfterViewInit {
         error: ({error}) => alert(error.reason)
       });
     }
+  }
+
+  drop(event: CdkDragDrop<Array<Category>>) {
+    moveItemInArray(this.categoryArray, event.previousIndex, event.currentIndex);
+  }
+
+  isSorted() {
+    return this.categoryArray.every((curr, i, array) => !i || array[i - 1].sequence < curr.sequence);
+  }
+
+  sortAndSave() {
+    this.categoryArray.forEach((category, index) => category.sequence = index + 1);
+
+    this.categoryService.sort(this.categoryArray)
+      .subscribe({
+        next: (response) => {
+          console.log(`category sort success.`);
+          alert('카테고리 정렬 성공');
+        },
+        error: ({error}) => alert(error.reason)
+      });
   }
 
 }

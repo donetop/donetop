@@ -1,6 +1,7 @@
 package com.donetop.common.service.category;
 
 import com.donetop.common.api.category.CategoryCreateRequest;
+import com.donetop.common.api.category.CategorySortRequest;
 import com.donetop.domain.entity.category.Category;
 import com.donetop.dto.category.CategoryDTO;
 import com.donetop.repository.category.CategoryRepository;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
@@ -57,7 +59,23 @@ public class CategoryServiceImpl implements CategoryService {
 		final Category category = categoryRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CATEGORY_MESSAGE, id)));
 		categoryRepository.delete(category);
+		final List<Category> greaterSequenceCategories = category.isParent() ?
+			categoryRepository.greaterSequenceParentCategories(category.getSequence()) :
+			categoryRepository.greaterSequenceSubCategories(Objects.requireNonNull(category.getParent()).getId(), category.getSequence());
+		greaterSequenceCategories.forEach(Category::decreaseSequence);
 		return id;
+	}
+
+	@Override
+	public List<CategoryDTO> sort(final CategorySortRequest request) {
+		final List<CategoryDTO> categories = request.getCategories();
+		categories.forEach(categoryDTO -> {
+			final long id = categoryDTO.getId();
+			categoryRepository.findById(id)
+				.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CATEGORY_MESSAGE, id)))
+				.setSequence(categoryDTO.getSequence());
+		});
+		return categories;
 	}
 
 	private Category save(Category newCategory) {

@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		OSSViewController.URI.ROOT, OSSViewController.URI.VIEW,
 		OSSFormAPIController.URI.LOGIN, OSSFormAPIController.URI.LOGOUT,
 		OSSUserAPIController.URI.SINGULAR,
-		OSSCategoryAPIController.URI.SINGULAR, OSSCategoryAPIController.URI.PLURAL
+		OSSCategoryAPIController.URI.SINGULAR + "/**", OSSCategoryAPIController.URI.PLURAL + "/**"
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {

@@ -2,6 +2,7 @@ package com.donetop.oss.api.category;
 
 import com.donetop.common.api.Response.OK;
 import com.donetop.common.api.category.CategoryCreateRequest;
+import com.donetop.common.api.category.CategorySortRequest;
 import com.donetop.common.service.category.CategoryService;
 import com.donetop.dto.category.CategoryDTO;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,11 @@ public class OSSCategoryAPIController {
 	@PostMapping(value = SINGULAR)
 	public ResponseEntity<OK<Long>> createCategory(@Valid @RequestBody final CategoryCreateRequest request) {
 		return ResponseEntity.ok(OK.of(categoryService.createNewCategory(request)));
+	}
+
+	@PutMapping(value = PLURAL + "/sort")
+	public ResponseEntity<OK<List<CategoryDTO>>> sort(@Valid @RequestBody final CategorySortRequest request) {
+		return ResponseEntity.ok(OK.of(categoryService.sort(request)));
 	}
 
 }
