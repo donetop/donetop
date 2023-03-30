@@ -20,6 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
+import static com.donetop.common.Profile.TEST;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -56,7 +57,7 @@ public abstract class IntegrationBase {
 			.setBaseUri(applicationProperties.getBaseUri())
 			.setPort(port);
 
-		if (List.of(environment.getActiveProfiles()).contains("test"))
+		if (List.of(environment.getActiveProfiles()).contains(TEST))
 			requestSpecBuilder.addFilters(List.of(new RequestLoggingFilter(), new ResponseLoggingFilter()));
 
 		this.spec = requestSpecBuilder.build();

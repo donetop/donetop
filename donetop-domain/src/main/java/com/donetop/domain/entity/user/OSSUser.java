@@ -38,6 +38,7 @@ public class OSSUser {
 	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
 	private String name;
 
+	@Builder.Default
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
 	private RoleType roleType = RoleType.NORMAL;

@@ -9,7 +9,7 @@ import { Category } from 'src/app/store/model/category.model';
 })
 export class CategoryComponent implements OnInit {
 
-  categories!: Array<Category>;
+  categories: Array<Category> = [];
   showCategory: boolean = false;
   @ViewChild('category_open_button', { static: true }) categoryOpenButton!: ElementRef;
   @ViewChild('category_close_button', { static: true }) categoryCloseButton!: ElementRef;
@@ -42,5 +42,10 @@ export class CategoryComponent implements OnInit {
   private isButton(event: PointerEvent): boolean {
     let tagName = document.elementFromPoint(event.clientX, event.clientY)?.tagName;
     return tagName == 'BUTTON' || tagName == 'FA-ICON' || tagName == 'svg' || tagName == 'path';
+  }
+
+  isBottom(index: number) {
+    const base = Math.floor(this.categories.length / 5) + Math.floor(this.categories.length % 5) - 1;
+    return Math.floor(index / 5) === base;
   }
 }
