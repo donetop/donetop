@@ -1,8 +1,8 @@
-package com.donetop.main.service.storage;
+package com.donetop.common.service.storage;
 
 import com.donetop.domain.entity.file.File;
 import com.donetop.domain.entity.folder.Folder;
-import com.donetop.main.service.storage.Resource.FileSaveInfo;
+import com.donetop.common.service.storage.Resource.FileSaveInfo;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +46,13 @@ public class LocalStorageService implements StorageService {
 	}
 
 	@Override
+	public File add(final Resource resource, final Folder folder) {
+		final FileSaveInfo fileSaveInfo = resource.saveAt(folder);
+		if (fileSaveInfo.isSuccess()) return fileRepository.save(fileSaveInfo.getFile());
+		throw new IllegalStateException(fileSaveInfo.getMessage());
+	}
+
+	@Override
 	public Folder saveIfNotExist(final Folder folder) {
 		try {
 			final Path folderPath = Path.of(Objects.requireNonNull(folder).getPath());
@@ -69,7 +76,8 @@ public class LocalStorageService implements StorageService {
 		return deleteAll;
 	}
 
-	private boolean delete(final File file) {
+	@Override
+	public boolean delete(final File file) {
 		final boolean result = Path.of(Objects.requireNonNull(file).getPath()).toFile().delete();
 		if (result) fileRepository.delete(file);
 		return result;

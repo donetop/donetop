@@ -52,6 +52,10 @@ export class ListComponent implements AfterViewInit {
     this.router.navigate([this.routeName.CATEGORY_LIST], { queryParams: this.params });
   }
 
+  showImage(categoryId: number) {
+    this.router.navigate([this.routeName.CATEGORY_IMAGE], { queryParams: { id: categoryId } });
+  }
+
   createNewCategory(form: NgForm) {
     const parentId = this.params['parentId'];
     const data = {

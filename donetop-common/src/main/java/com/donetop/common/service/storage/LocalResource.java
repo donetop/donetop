@@ -1,4 +1,4 @@
-package com.donetop.main.service.storage;
+package com.donetop.common.service.storage;
 
 import com.donetop.domain.entity.file.File;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +15,14 @@ public class LocalResource extends Resource {
 	}
 
 	@Override
-	protected boolean save(final File file) {
+	protected FileSaveInfo save(final File file) {
 		try {
 			multipartFile.transferTo(Path.of(file.getPath()));
 		} catch (final IOException e) {
-			log.info("File save failed... reason : {}", e.getMessage());
-			return false;
+			final String reason = e.getMessage();
+			log.info("File save failed... reason : {}", reason);
+			return new FileSaveInfo(false, reason, file);
 		}
-		return true;
+		return new FileSaveInfo(true, "success", file);
 	}
 }

@@ -1,9 +1,11 @@
 package com.donetop.oss.api.category;
 
 import com.donetop.common.api.Response.OK;
-import com.donetop.common.api.category.CategoryCreateRequest;
-import com.donetop.common.api.category.CategorySortRequest;
-import com.donetop.common.service.category.CategoryService;
+import com.donetop.oss.api.category.request.CategoryCreateRequest;
+import com.donetop.oss.api.category.request.CategoryImageAddRequest;
+import com.donetop.oss.api.category.request.CategoryImageDeleteRequest;
+import com.donetop.oss.api.category.request.CategorySortRequest;
+import com.donetop.oss.service.category.CategoryService;
 import com.donetop.dto.category.CategoryDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ public class OSSCategoryAPIController {
 	public static class URI {
 		public static final String SINGULAR = "/api/category";
 		public static final String PLURAL = "/api/categories";
+		public static final String IMAGE = SINGULAR + "/image";
 	}
 
 	private final CategoryService categoryService;
@@ -37,6 +40,16 @@ public class OSSCategoryAPIController {
 	@DeleteMapping(value = SINGULAR + "/{id}")
 	public ResponseEntity<OK<Long>> delete(@PathVariable("id") final long id) {
 		return ResponseEntity.ok(OK.of(categoryService.deleteCategory(id)));
+	}
+
+	@PostMapping(value = IMAGE + "/{id}")
+	public ResponseEntity<OK<Long>> addImage(@PathVariable("id") final long id, @Valid final CategoryImageAddRequest request) {
+		return ResponseEntity.ok(OK.of(categoryService.addImage(id, request)));
+	}
+
+	@PutMapping(value = IMAGE + "/{id}")
+	public ResponseEntity<OK<Long>> deleteImage(@PathVariable("id") final long id, @Valid @RequestBody final CategoryImageDeleteRequest request) {
+		return ResponseEntity.ok(OK.of(categoryService.deleteImage(id, request)));
 	}
 
 	@GetMapping(value = PLURAL)

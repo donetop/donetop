@@ -3,6 +3,7 @@ package com.donetop.oss.config;
 import com.donetop.common.encoder.NoOpPasswordEncoder;
 import com.donetop.enums.user.RoleType;
 import com.donetop.oss.api.category.OSSCategoryAPIController;
+import com.donetop.oss.api.file.OSSFileAPIController;
 import com.donetop.oss.api.form.OSSFormAPIController;
 import com.donetop.oss.api.form.filter.LoginFilter;
 import com.donetop.oss.api.form.handler.LoginFailureHandler;
@@ -35,7 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		OSSViewController.URI.ROOT, OSSViewController.URI.VIEW,
 		OSSFormAPIController.URI.LOGIN, OSSFormAPIController.URI.LOGOUT,
 		OSSUserAPIController.URI.SINGULAR,
-		OSSCategoryAPIController.URI.SINGULAR + "/**", OSSCategoryAPIController.URI.PLURAL + "/**"
+		OSSCategoryAPIController.URI.SINGULAR + "/**", OSSCategoryAPIController.URI.PLURAL + "/**",
+		OSSFileAPIController.URI.SINGULAR + "/**"
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {

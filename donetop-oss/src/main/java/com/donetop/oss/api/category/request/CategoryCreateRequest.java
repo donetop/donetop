@@ -1,4 +1,4 @@
-package com.donetop.common.api.category;
+package com.donetop.oss.api.category.request;
 
 import lombok.Getter;
 import lombok.Setter;

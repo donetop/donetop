@@ -3,7 +3,7 @@ package com.donetop.main.api.draft;
 import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.DraftBase;
-import com.donetop.main.service.storage.LocalFileUtil;
+import com.donetop.common.service.storage.LocalFileUtil;
 import com.donetop.main.properties.ApplicationProperties.Storage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;

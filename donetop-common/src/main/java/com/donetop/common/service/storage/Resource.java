@@ -1,4 +1,4 @@
-package com.donetop.main.service.storage;
+package com.donetop.common.service.storage;
 
 import com.donetop.domain.entity.file.File;
 import com.donetop.domain.entity.folder.Folder;
@@ -25,15 +25,16 @@ public abstract class Resource {
 			.name(this.originalFilename)
 			.folder(folder)
 			.build();
-		return new FileSaveInfo(save(file), file);
+		return save(file);
 	}
 
-	protected abstract boolean save(File file);
+	protected abstract FileSaveInfo save(File file);
 
 	@Getter
 	@RequiredArgsConstructor
 	public static class FileSaveInfo {
 		private final boolean success;
+		private final String message;
 		private final File file;
 	}
 

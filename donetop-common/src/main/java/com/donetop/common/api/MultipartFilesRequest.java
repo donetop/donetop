@@ -1,7 +1,7 @@
-package com.donetop.main.api.common;
+package com.donetop.common.api;
 
-import com.donetop.main.service.storage.LocalResource;
-import com.donetop.main.service.storage.Resource;
+import com.donetop.common.service.storage.LocalResource;
+import com.donetop.common.service.storage.Resource;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;

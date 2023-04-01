@@ -2,6 +2,7 @@ package com.donetop.domain.entity.category;
 
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.category.CategoryDTO;
+import com.donetop.enums.folder.FolderType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -67,12 +68,21 @@ public class Category implements Comparable<Category> {
 		return this;
 	}
 
+	public Category setFolder(final Folder folder) {
+		this.folder = folder;
+		return this;
+	}
+
 	public boolean isParent() {
 		return this.parent == null;
 	}
 
 	public void decreaseSequence() {
 		if (this.sequence > 1) this.sequence--;
+	}
+
+	public Folder getOrNewFolder(final String root) {
+		return this.folder == null ? Folder.of(FolderType.CATEGORY, root, this.id) : this.folder;
 	}
 
 	public CategoryDTO toDTO() {

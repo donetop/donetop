@@ -2,8 +2,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	implementation 'commons-fileupload:commons-fileupload:1.5'
+
 	implementation project(':donetop-domain')
 	implementation project(':donetop-dto')
+	implementation project(':donetop-enum')
 }
 
 bootJar {

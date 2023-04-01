@@ -3,7 +3,7 @@ package com.donetop.main.api.draft.request;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.validation.NameOfEnum;
-import com.donetop.main.api.common.MultipartFilesRequest;
+import com.donetop.common.api.MultipartFilesRequest;
 import lombok.Getter;
 import lombok.Setter;
 

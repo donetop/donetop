@@ -5,9 +5,11 @@ import com.donetop.dto.file.FileDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.tika.Tika;
 
 import javax.persistence.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Objects;
 
 @Entity
@@ -19,8 +21,6 @@ import java.util.Objects;
 @NoArgsConstructor
 public class File {
 
-	private static final Tika tika = new Tika();
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, updatable = false)
@@ -29,7 +29,7 @@ public class File {
 	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
 	private String name;
 
-	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
 	private String mimeType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -39,7 +39,11 @@ public class File {
 	@Builder
 	public File(final String name, final Folder folder) {
 		this.name = name;
-		this.mimeType = tika.detect(name);
+		try {
+			this.mimeType = Files.probeContentType(Path.of(name));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		this.folder = folder;
 		folder.add(this);
 	}

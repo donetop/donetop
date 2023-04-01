@@ -1,21 +1,19 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { firstValueFrom } from "rxjs";
 import { Category } from "../store/model/category.model";
 import { Response } from "../store/model/response";
-import { RouteName } from "../store/model/routeName.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private routeName = RouteName.INSTANCE;
   private categoryURI: string = '/api/category';
+  private categoryImageURI: string = `${this.categoryURI}/image`;
   private categoriesURI: string = '/api/categories';
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(private httpClient: HttpClient) {}
 
   async categoryArray() {
     return (await firstValueFrom(this.httpClient.get<Response<Array<Category>>>(this.categoriesURI))).data;
@@ -23,6 +21,18 @@ export class CategoryService {
 
   async subCategoryArray(id: number) {
     return (await firstValueFrom(this.httpClient.get<Response<Category>>(`${this.categoryURI}/${id}`))).data.subCategories;
+  }
+
+  async get(id: number) {
+    return (await firstValueFrom(this.httpClient.get<Response<Category>>(`${this.categoryURI}/${id}`))).data;
+  }
+
+  addImage(id: number, formData: FormData) {
+    return this.httpClient.post<Response<number>>(`${this.categoryImageURI}/${id}`, formData);
+  }
+
+  deleteImage(categoryId: number, fileId: number) {
+    return this.httpClient.put<Response<number>>(`${this.categoryImageURI}/${categoryId}`, { fileId });
   }
 
   createNewCategory(data: object) {

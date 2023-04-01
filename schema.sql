@@ -15,6 +15,8 @@ select * from `tbPaymentInfo`;
 select * from `tbPaymentHistory`;
 select * from `tbCategory`;
 
+-- update `tbCategory` set folderId = null where id = 78;
+
 -- drop table if exists `tbUser`;
 -- drop table if exists `tbOSSUser`;
 -- drop table if exists `tbDraft`;
