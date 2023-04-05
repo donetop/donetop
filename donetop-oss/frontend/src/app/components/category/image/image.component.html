@@ -1,6 +1,6 @@
 <div class="content-wrapper px-4 py-2">
   <div class="content-header">
-    <h5>카테고리 이미지 관리</h5>
+    <h5 *ngIf="category">{{ category.name }} 이미지 관리</h5>
   </div>
   <div class="content px-2">
     <table id="imageTable" class="table table-hover table-bordered">
@@ -9,15 +9,16 @@
           <th scope="col" class="text-center">ID</th>
           <th scope="col" class="text-center">이름</th>
           <th scope="col" class="text-center">이미지</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngIf="folder === undefined || folder.files.length === 0">
-          <td colspan="3" class="text-center">데이터가 없습니다.</td>
+          <td colspan="4" class="text-center">데이터가 없습니다.</td>
         </tr>
         <tr *ngFor="let file of folder?.files">
           <td class="text-center">{{ file.id }}</td>
-          <td class="text-center">{{ file.name }}</td>
+          <td class="text-center">{{ file.name | stringAbbreviation: 8 }}</td>
           <td class="text-center">
             <img [src]="'api/file/' + file.id" alt="이미지가 없습니다.">
           </td>

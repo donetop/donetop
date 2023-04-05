@@ -111,4 +111,9 @@ export class ListComponent implements AfterViewInit {
       });
   }
 
+  numberOfImages(category: Category) {
+    if (category.folder === undefined) return 0;
+    return category.folder.files.length;
+  }
+
 }

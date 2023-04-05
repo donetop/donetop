@@ -6,6 +6,8 @@ import { Folder } from 'src/app/store/model/folder.model';
 import { FormsModule } from '@angular/forms';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { File as DonetopFile } from 'src/app/store/model/file.model';
+import { Category } from 'src/app/store/model/category.model';
+import { StringAbbreviationPipe } from 'src/app/pipe/string-abbreviation.pipe';
 
 declare const $: any;
 
@@ -14,7 +16,8 @@ declare const $: any;
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    StringAbbreviationPipe
   ],
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss']
@@ -23,6 +26,7 @@ export class ImageComponent implements AfterViewInit {
 
   routeName = RouteName.INSTANCE;
   params: any;
+  category!: Category;
   folder: Folder | undefined = undefined;
   @ViewChild('file') file!: ElementRef;
 
@@ -41,7 +45,8 @@ export class ImageComponent implements AfterViewInit {
 
   async setUp(params: any) {
     this.params = Object.assign({}, params);
-    this.folder = (await this.categoryService.get(this.params['id'])).folder;
+    this.category = await this.categoryService.get(this.params['id']);
+    this.folder = this.category.folder;
   }
 
   addImage() {
