@@ -39,10 +39,11 @@ export class UpdateComponent implements OnInit {
   maxSize: number = 5;
   indexArray: Array<number> = new Array(this.maxSize).fill(0).map((v, i) => i);
   @ViewChildren('file') refs!: QueryList<ElementRef>;
+  routeName = RouteName.INSTANCE;
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
-    private enumService: EnumService, private categoryService: CategoryService, protected routeName: RouteName,
+    private enumService: EnumService, private categoryService: CategoryService,
     private library: FaIconLibrary, private cryptoService: CryptoService
   ) {
     this.library.addIcons(faDownload, faCirclePlus, faXmark);

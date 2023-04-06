@@ -54,11 +54,12 @@ export class DetailComponent {
   paymentHistory: PaymentHistory | undefined;
   isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent);
   mobile_opt_param1 = `${location.pathname}${location.search}`;
+  private routeName = RouteName.INSTANCE;
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
     private store: Store<{ user: User }>, private library: FaIconLibrary,
-    private router: Router, private routeName: RouteName
+    private router: Router
   ) {
     this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard, faReceipt, faCopy);
     this.route.queryParams.subscribe(params => this.setUp(params));

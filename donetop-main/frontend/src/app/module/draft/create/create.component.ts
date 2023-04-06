@@ -30,6 +30,7 @@ declare const daum: any;
   ]
 })
 export class CreateComponent implements OnInit {
+
   categoryArray!: Array<Category>;
   category!: string;
   paymentMethodArray!: Array<Enum>;
@@ -39,11 +40,12 @@ export class CreateComponent implements OnInit {
   maxSize: number = 3;
   indexArray: Array<number> = new Array(this.maxSize).fill(0).map((v, i) => i);
   @ViewChildren('file') refs!: QueryList<ElementRef>;
+  routeName = RouteName.INSTANCE;
 
   constructor(
     private library: FaIconLibrary, private draftService: DraftService,
     private cryptoService: CryptoService, private enumService: EnumService,
-    private categoryService: CategoryService, protected routeName: RouteName
+    private categoryService: CategoryService
   ) {
     this.library.addIcons(faDownload, faXmark);
   }

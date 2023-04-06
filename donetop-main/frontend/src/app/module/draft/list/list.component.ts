@@ -43,6 +43,7 @@ export class ListComponent {
   prevCheckedboxIndex: number = -1;
   prevCheckedboxStatus: boolean = true;
   modalProperty: Property = Property.default();
+  routeName = RouteName.INSTANCE;
   DRAFT_LIST: string = `/${this.routeName.DRAFT_LIST}`;
   isAdmin: boolean = false;
   params: any;
@@ -53,9 +54,8 @@ export class ListComponent {
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
-    protected routeName: RouteName, private router: Router,
-    private store: Store<{ user: User }>, private cryptoService: CryptoService,
-    private library: FaIconLibrary
+    private router: Router, private store: Store<{ user: User }>,
+    private cryptoService: CryptoService, private library: FaIconLibrary
   ) {
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));

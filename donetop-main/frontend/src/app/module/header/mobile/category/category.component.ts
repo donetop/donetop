@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild, ViewChildren, QueryList, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/service/category.service';
 import { Category } from 'src/app/store/model/category.model';
+import { RouteName } from 'src/app/store/model/routeName.model';
 
 @Component({
   selector: 'app-category',
@@ -11,6 +13,7 @@ export class CategoryComponent implements OnInit {
 
   categories!: Array<Category>;
   showSection: boolean = false;
+  routeName = RouteName.INSTANCE;
   @ViewChild('left_section') leftSection!: ElementRef;
   @ViewChild('right_section') rightSection!: ElementRef;
   @ViewChild('category_button') categoryButton!: ElementRef;
@@ -21,7 +24,7 @@ export class CategoryComponent implements OnInit {
   @ViewChildren('sub_group_disable_buttons') subGroupDisableButtons!: QueryList<ElementRef>;
   @ViewChildren('sub_groups') subGroups!: QueryList<ElementRef>;
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private router: Router) {}
 
   async ngOnInit() {
     this.categories = await this.categoryService.categoryArray();
@@ -56,6 +59,11 @@ export class CategoryComponent implements OnInit {
     this.subGroupActiveButtons.filter((element, i) => i === index)[0].nativeElement.classList.toggle('active');
     this.subGroupDisableButtons.filter((element, i) => i === index)[0].nativeElement.classList.toggle('active');
     this.subGroups.filter((element, i) => i === index)[0].nativeElement.classList.toggle('active');
+  }
+
+  showDetail(categoryId: number) {
+    this.router.navigate([this.routeName.CATEGORY], { queryParams: { id: categoryId } });
+    this.toggleSection();
   }
 
 }

@@ -11,11 +11,12 @@ import { RouteName } from '../store/model/routeName.model';
 })
 export class DraftService {
 
+  routeName = RouteName.INSTANCE;
   private draftURI: string = '/api/draft';
   private draftCopyURI: string = this.draftURI + '/copy';
   private draftsURI: string = '/api/drafts';
 
-  constructor(private httpClient: HttpClient, private router: Router, private routeName: RouteName) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   create(formData: FormData) {
     this.httpClient.post<Response<number>>(this.draftURI, formData)

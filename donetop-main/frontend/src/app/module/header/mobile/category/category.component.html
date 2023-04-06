@@ -21,7 +21,7 @@
           </div>
           <ul #sub_groups>
             <li class="sub_group" *ngFor="let subCategory of category.subCategories">
-              <div class="row">
+              <div class="row" (click)="showDetail(subCategory.id)">
                 <button><fa-icon [icon]="['fas', 'caret-right']"></fa-icon></button>
                 <div>{{ subCategory.name }}</div>
               </div>
