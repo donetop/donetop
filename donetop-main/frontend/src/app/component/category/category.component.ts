@@ -29,7 +29,7 @@ export class CategoryComponent {
   }
 
   async setUp(params: any) {
-    this.category = await this.categoryService.get(this.params['id']);
+    this.category = await this.categoryService.get(params['id']);
     this.folder = this.category.folder;
   }
 
