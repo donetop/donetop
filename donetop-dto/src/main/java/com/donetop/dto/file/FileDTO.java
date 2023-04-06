@@ -1,5 +1,6 @@
 package com.donetop.dto.file;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class FileDTO {
 
 	private String mimeType;
 
+	@JsonIgnore
 	private String path;
 
 }

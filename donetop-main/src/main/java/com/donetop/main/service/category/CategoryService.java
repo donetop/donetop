@@ -8,4 +8,6 @@ public interface CategoryService {
 
 	List<CategoryDTO> categories();
 
+	CategoryDTO getCategory(long id);
+
 }

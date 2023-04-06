@@ -5,7 +5,31 @@
 
 = Category API Documentation
 
-== Get Category List
+== Get Single Category
+
+HTTP Method : *GET* +
+URI : */api/category/\{category_id\}*
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/category_single_get/getSingle_withValidId_return200/response-fields.adoc[]
+
+=== Examples
+==== getSingle_withInvalidId_return400
+.request
+include::{snippets}/category_single_get/getSingle_withInvalidId_return400/http-request.adoc[]
+.response
+include::{snippets}/category_single_get/getSingle_withInvalidId_return400/http-response.adoc[]
+
+==== getSingle_withValidId_return200
+.request
+include::{snippets}/category_single_get/getSingle_withValidId_return200/http-request.adoc[]
+.response
+include::{snippets}/category_single_get/getSingle_withValidId_return200/http-response.adoc[]
+
+== Get Multiple Category
 
 HTTP Method : *GET* +
 URI : */api/categories*
@@ -14,11 +38,11 @@ URI : */api/categories*
 X
 
 === Response body fields description
-include::{snippets}/category_list_get/getList_category_return200/response-fields.adoc[]
+include::{snippets}/category_multiple_get/getMultiple_category_return200/response-fields.adoc[]
 
 === Examples
-==== getList_category_return200
+==== getMultiple_category_return200
 .request
-include::{snippets}/category_list_get/getList_category_return200/http-request.adoc[]
+include::{snippets}/category_multiple_get/getMultiple_category_return200/http-request.adoc[]
 .response
-include::{snippets}/category_list_get/getList_category_return200/http-response.adoc[]
+include::{snippets}/category_multiple_get/getMultiple_category_return200/http-response.adoc[]

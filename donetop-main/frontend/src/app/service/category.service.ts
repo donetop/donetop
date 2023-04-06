@@ -9,6 +9,7 @@ import { Response } from "../store/model/response";
 })
 export class CategoryService {
 
+  private categoryURI: string = '/api/category';
   private categoriesURI: string = '/api/categories';
   private _categoryArray: Array<Category> | undefined;
 
@@ -18,6 +19,10 @@ export class CategoryService {
     if (this._categoryArray !== undefined) return this._categoryArray;
     this._categoryArray = (await firstValueFrom(this.httpClient.get<Response<Array<Category>>>(this.categoriesURI))).data;
     return this._categoryArray;
+  }
+
+  async get(id: number) {
+    return (await firstValueFrom(this.httpClient.get<Response<Category>>(`${this.categoryURI}/${id}`))).data;
   }
 
 }

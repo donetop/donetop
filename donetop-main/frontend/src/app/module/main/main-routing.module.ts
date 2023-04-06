@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RouteName } from 'src/app/store/model/routeName.model';
 
 import { HomeComponent } from 'src/app/component/home/home.component';
+import { CategoryComponent } from 'src/app/component/category/category.component';
 
 const INSTANCE = RouteName.INSTANCE;
 
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: INSTANCE.HOME, component: HomeComponent },
   { path: INSTANCE.LOGIN, loadChildren: () => import("../login/login.module").then(m => m.LoginModule) },
   { path: INSTANCE.DRAFT, loadChildren: () => import("../draft/draft.module").then(m => m.DraftModule) },
+  { path: INSTANCE.CATEGORY, component: CategoryComponent },
   { path: INSTANCE.FALL_BACK, redirectTo: INSTANCE.HOME }
 ];
 

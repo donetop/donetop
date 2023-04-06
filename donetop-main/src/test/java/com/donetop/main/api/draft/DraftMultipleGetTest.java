@@ -121,7 +121,7 @@ public class DraftMultipleGetTest extends DraftBase {
 					fieldWithPath("status").type(STRING).description("Status value."),
 					fieldWithPath("code").type(NUMBER).description("Status code."),
 					fieldWithPath("data").type(OBJECT).description("Response data."),
-					subsectionWithPath("data.content").type(ARRAY).description("Searched Drafts. See the Get One Draft response body field description for details."),
+					subsectionWithPath("data.content").type(ARRAY).description("Searched Drafts. See the Get Single Draft response body field description for details."),
 					subsectionWithPath("data.pageable").type(OBJECT).description("Pageable information."),
 					fieldWithPath("data.last").type(BOOLEAN).description("Last information."),
 					fieldWithPath("data.totalElements").type(NUMBER).description("TotalElements information."),

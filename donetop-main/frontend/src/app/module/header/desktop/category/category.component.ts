@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/service/category.service';
 import { Category } from 'src/app/store/model/category.model';
+import { RouteName } from 'src/app/store/model/routeName.model';
 
 @Component({
   selector: 'app-category',
@@ -14,8 +16,9 @@ export class CategoryComponent implements OnInit {
   @ViewChild('category_open_button', { static: true }) categoryOpenButton!: ElementRef;
   @ViewChild('category_close_button', { static: true }) categoryCloseButton!: ElementRef;
   @ViewChild('category', { static: true }) category!: ElementRef;
+  routeName = RouteName.INSTANCE;
 
-  constructor(private eRef: ElementRef, private categoryService: CategoryService) {}
+  constructor(private eRef: ElementRef, private categoryService: CategoryService, private router: Router) {}
 
   async ngOnInit() {
     this.categories = await this.categoryService.categoryArray();
@@ -34,6 +37,7 @@ export class CategoryComponent implements OnInit {
       console.log('Click DesktopCategoryComponent...');
       if (!this.showCategory) this.toggleCategory();
       else if (this.isButton(event)) this.toggleCategory();
+      else if (this.isATag(event)) this.toggleCategory();
     } else {
       if (this.showCategory) this.toggleCategory();
     }
@@ -44,8 +48,17 @@ export class CategoryComponent implements OnInit {
     return tagName == 'BUTTON' || tagName == 'FA-ICON' || tagName == 'svg' || tagName == 'path';
   }
 
+  private isATag(event: PointerEvent): boolean {
+    let tagName = document.elementFromPoint(event.clientX, event.clientY)?.tagName;
+    return tagName == 'A';
+  }
+
   isBottom(index: number) {
     const base = Math.floor(this.categories.length / 5) + Math.floor(this.categories.length % 5) - 1;
     return Math.floor(index / 5) === base;
+  }
+
+  showDetail(categoryId: number) {
+    this.router.navigate([this.routeName.CATEGORY], { queryParams: { id: categoryId } });
   }
 }

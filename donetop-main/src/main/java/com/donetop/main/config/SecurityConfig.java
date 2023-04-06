@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		DraftAPIController.URI.SINGULAR + "/**", DraftAPIController.URI.PLURAL + "/**",
 		FileAPIController.URI.SINGULAR + "/**",
 		EnumAPIController.URI.ROOT + "/**",
-		CategoryAPIController.URI.PLURAL,
+		CategoryAPIController.URI.PLURAL + "/**", CategoryAPIController.URI.SINGULAR + "/**",
 		com.donetop.main.api.nhn.URI.NHN_API + "/**"
 	};
 

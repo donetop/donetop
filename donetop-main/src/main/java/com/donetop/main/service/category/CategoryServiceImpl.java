@@ -24,4 +24,14 @@ public class CategoryServiceImpl implements CategoryService {
 			.stream().sorted().map(Category::toDTO).collect(toList());
 	}
 
+	@Override
+	public CategoryDTO getCategory(final long id) {
+		return getOrThrow(id).toDTO();
+	}
+
+	private Category getOrThrow(final long categoryId) {
+		return categoryRepository.findById(categoryId)
+			.orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 카테고리입니다. id: %s", categoryId)));
+	}
+
 }

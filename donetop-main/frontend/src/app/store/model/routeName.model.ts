@@ -22,6 +22,8 @@ export class RouteName {
 
   public readonly DRAFT_UPDATE = `${this.DRAFT}/${this.DRAFT_CHILDREN.UPDATE}`;
 
+  public readonly CATEGORY = `${prefix}/category`;
+
   public readonly FALL_BACK = `**`;
 
   private constructor() {}
