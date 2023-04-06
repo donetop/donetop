@@ -10,9 +10,11 @@ import { User } from 'src/app/store/model/user.model';
   styleUrls: ['./desktop.component.scss']
 })
 export class DesktopComponent {
+
+  routeName = RouteName.INSTANCE;
   user: User | undefined;
 
-  constructor(private store: Store<{ user: User }>, private userService: UserService, protected routeName: RouteName) {
+  constructor(private store: Store<{ user: User }>, private userService: UserService) {
     this.store.select('user').subscribe(user => this.user = user);
   }
 

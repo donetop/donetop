@@ -10,12 +10,14 @@ import { User } from 'src/app/store/model/user.model';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent {
+
+  routeName = RouteName.INSTANCE;
   user: User | undefined;
   showSection: boolean = false;
   @ViewChild('left_section') leftSection!: ElementRef;
   @ViewChild('right_section') rightSection!: ElementRef;
 
-  constructor(private store: Store<{ user: User }>, private userService: UserService, protected routeName: RouteName) {
+  constructor(private store: Store<{ user: User }>, private userService: UserService) {
     this.store.select('user').subscribe(user => this.user = user);
   }
 

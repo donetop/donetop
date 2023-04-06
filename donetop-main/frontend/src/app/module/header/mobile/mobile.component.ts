@@ -8,6 +8,6 @@ import { RouteName } from 'src/app/store/model/routeName.model';
 })
 export class MobileComponent {
 
-  constructor(protected routeName: RouteName) {}
+  routeName = RouteName.INSTANCE;
 
 }
