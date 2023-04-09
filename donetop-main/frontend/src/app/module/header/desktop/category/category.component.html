@@ -8,7 +8,7 @@
   <div class="category" #category>
     <ul>
       <li class="group" *ngFor="let category of categories; let i = index" [ngClass]="{ 'bottom': isBottom(i) }">
-        <a (click)="showDetail(category.id)">{{ category.name }}</a>
+        <a class="parent">{{ category.name }}</a>
         <ul class="sub_group">
           <li *ngFor="let subCategory of category.subCategories">
             <a (click)="showDetail(subCategory.id)">{{ subCategory.name }}</a>

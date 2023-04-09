@@ -49,8 +49,9 @@ export class CategoryComponent implements OnInit {
   }
 
   private isATag(event: PointerEvent): boolean {
-    let tagName = document.elementFromPoint(event.clientX, event.clientY)?.tagName;
-    return tagName == 'A';
+    const element = document.elementFromPoint(event.clientX, event.clientY);
+    if (element?.classList.contains('parent')) return false;
+    return element?.tagName == 'A';
   }
 
   isBottom(index: number) {
