@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouteName } from 'src/app/store/model/routeName.model';
 
 @Component({
   selector: 'app-desktop',
@@ -6,6 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./desktop.component.scss']
 })
 export class DesktopComponent {
-
+  routeName = RouteName.INSTANCE;
 }
 

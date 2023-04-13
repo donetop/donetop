@@ -21,7 +21,7 @@
           </div>
           <ul #sub_groups>
             <li class="sub_group" *ngFor="let subCategory of category.subCategories">
-              <div class="row" (click)="showDetail(subCategory.id)">
+              <div class="row" (click)="movePage(routeName.CATEGORY, { 'id': subCategory.id })">
                 <button><fa-icon [icon]="['fas', 'caret-right']"></fa-icon></button>
                 <div>{{ subCategory.name }}</div>
               </div>
@@ -37,17 +37,17 @@
         </li>
         <li class="group">
           <div class="row">
-            <div>주문하기</div>
+            <div (click)="movePage(routeName.DRAFT_CREATE, {})">주문하기</div>
           </div>
         </li>
         <li class="group">
           <div class="row">
-            <div>시안확인</div>
+            <div (click)="movePage(routeName.DRAFT_LIST, { 'page': 0 })">시안확인</div>
           </div>
         </li>
         <li class="group">
           <div class="row">
-            <div>이미지사이트</div>
+            <div onclick="window.open('https://imagetoday.co.kr/', '_blank');">이미지사이트</div>
           </div>
         </li>
         <li class="group">

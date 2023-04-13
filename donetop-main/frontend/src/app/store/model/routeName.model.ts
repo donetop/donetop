@@ -24,6 +24,12 @@ export class RouteName {
 
   public readonly CATEGORY = `${prefix}/category`;
 
+  public readonly INTRODUCTION = `${prefix}/introduction`;
+
+  public readonly TERMS = `${prefix}/terms`;
+
+  public readonly POLICY = `${prefix}/policy`;
+
   public readonly FALL_BACK = `**`;
 
   private constructor() {}
