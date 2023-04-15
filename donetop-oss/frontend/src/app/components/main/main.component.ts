@@ -1,31 +1,26 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EntryRoutingModule } from './entry-routing.module';
-import { NavigationEnd, Event, Router } from '@angular/router';
+import { NavigationEnd, Event, Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { RouteName } from 'src/app/store/model/routeName.model';
 import { FooterComponent } from '../footer/footer.component';
 
 @Component({
-  selector: 'app-entry',
+  selector: 'app-main',
   standalone: true,
   imports: [
     CommonModule,
-    EntryRoutingModule,
+    RouterModule,
     HttpClientModule,
     HeaderComponent,
     SidebarComponent,
     FooterComponent
   ],
-  providers: [
-    { provide: RouteName, useValue: RouteName.INSTANCE },
-  ],
-  templateUrl: './entry.component.html',
-  styleUrls: ['./entry.component.scss']
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss']
 })
-export class EntryComponent {
+export class MainComponent {
 
   isLogin: boolean = false;
 

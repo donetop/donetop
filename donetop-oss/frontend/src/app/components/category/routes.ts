@@ -5,7 +5,7 @@ import { ListComponent } from "./list/list.component";
 
 const CATEGORY_CHILDREN = RouteName.INSTANCE.CATEGORY_CHILDREN;
 
-export const CATEGORY_CHILDREN_ROUTES: Routes = [
+export const routes: Routes = [
   {
     path: '',
     children: [
