@@ -6,7 +6,6 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.draft.PaymentMethod;
-import com.donetop.enums.payment.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -182,7 +181,7 @@ public class Draft implements Serializable {
 	}
 
 	public PaymentInfo getOrNewPaymentInfo() {
-		return this.paymentInfo == null ? PaymentInfo.of(PaymentStatus.PAID) : this.paymentInfo;
+		return this.paymentInfo == null ? new PaymentInfo() : this.paymentInfo;
 	}
 
 	public Draft copy() {

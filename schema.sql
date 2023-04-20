@@ -8,7 +8,7 @@ show tables;
 
 select * from `tbUser`;
 select * from `tbOSSUser`;
-select * from `tbDraft`;
+select * from `tbDraft` order by createTime;
 select * from `tbFolder`;
 select * from `tbFile`;
 select * from `tbPaymentInfo`;
@@ -27,6 +27,7 @@ select * from `tbCategory`;
 -- drop table if exists `tbCategory`;
 
 -- alter table `tbDraft` modify column `password` varchar(512) not null default '';
+-- alter table `tbPaymentInfo` drop column `paymentStatus`;
 
 show full columns from `tbUser`;
 show full columns from `tbOSSUser`;

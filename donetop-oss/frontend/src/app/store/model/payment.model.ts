@@ -13,6 +13,6 @@ export interface PaymentHistory {
   detail: Detail
 }
 
-interface Detail {
+export interface Detail {
   [key: string]: any;
 }

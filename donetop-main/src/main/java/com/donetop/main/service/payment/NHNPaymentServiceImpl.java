@@ -1,130 +1,73 @@
 package com.donetop.main.service.payment;
 
+import com.donetop.common.nhn.NHN;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.payment.PaymentHistory;
 import com.donetop.domain.entity.payment.PaymentInfo;
+import com.donetop.enums.payment.Detail.NHNPaidDetail;
 import com.donetop.enums.payment.PGType;
-import com.donetop.enums.payment.Detail.NHNPaymentDetail;
+import com.donetop.enums.payment.PaymentStatus;
 import com.donetop.main.api.nhn.request.PaymentRequest;
 import com.donetop.main.api.nhn.request.TradeRegisterRequest;
 import com.donetop.main.api.nhn.response.TradeRegisterResponse;
-import com.donetop.main.properties.ApplicationProperties;
-import com.donetop.main.properties.ApplicationProperties.Payment.NHN;
 import com.donetop.repository.draft.DraftRepository;
 import com.donetop.repository.payment.PaymentHistoryRepository;
 import com.donetop.repository.payment.PaymentInfoRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.joining;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class NHNPaymentServiceImpl implements NHNPaymentService {
-
-	private final String kcp_cert_info;
 
 	private final NHN nhn;
 
 	private final DraftRepository draftRepository;
 
 	private final PaymentInfoRepository paymentInfoRepository;
+
 	private final PaymentHistoryRepository paymentHistoryRepository;
 
-	public NHNPaymentServiceImpl(final ApplicationProperties applicationProperties,
-								 final DraftRepository draftRepository,
-								 final PaymentInfoRepository paymentInfoRepository,
-								 final PaymentHistoryRepository paymentHistoryRepository,
-								 final Environment environment) {
-		this.nhn = applicationProperties.getPayment().getNhn();
-		this.draftRepository = draftRepository;
-		this.paymentInfoRepository = paymentInfoRepository;
-		this.paymentHistoryRepository = paymentHistoryRepository;
-		this.kcp_cert_info = getNHNCertInfo(environment);
-	}
-
-	private String getNHNCertInfo(final Environment environment) {
-		try {
-			final String[] activeProfiles = environment.getActiveProfiles();
-			final String[] profiles = activeProfiles.length == 0 ? environment.getDefaultProfiles() : activeProfiles;
-			final String certPath = "production".equals(profiles[0]) ? "nhn/KCP_AUTH_SR9RN_CERT.pem" : "nhn/splCert.pem";
-			log.info("NHN cert file path : {}", certPath);
-			final Path path = Paths.get(new ClassPathResource(certPath).getURI());
-			return String.join("", Files.readAllLines(path));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	@Override
-	public NHNPaymentDetail payment(final PaymentRequest request) throws Exception {
+	public NHNPaidDetail payment(final PaymentRequest request) throws Exception {
 		final JSONObject jsonObject = request.toJsonObject()
-			.put("kcp_cert_info", kcp_cert_info);
-		return savePaymentHistory(doRequest(this.nhn.getTargetURL(), jsonObject));
+			.put("kcp_cert_info", nhn.getCertData());
+		return savePaymentHistory(nhn.doRequest(nhn.getPaymentURL(), jsonObject));
 	}
 
 	@Override
 	public TradeRegisterResponse tradeRegister(final TradeRegisterRequest request) throws Exception {
 		final JSONObject jsonObject = request.toJsonObject()
-			.put("kcp_cert_info", kcp_cert_info);
-		return TradeRegisterResponse.of(doRequest(nhn.getTradeRegisterURL(), jsonObject));
+			.put("kcp_cert_info", nhn.getCertData());
+		return TradeRegisterResponse.of(nhn.doRequest(nhn.getTradeRegisterURL(), jsonObject));
 	}
 
-	private String doRequest(final String urlString, final JSONObject jsonObject) {
-		String rawData;
-		try {
-			final URL url = new URL(urlString);
-			final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setDoOutput(true);
-			conn.setRequestMethod(HttpMethod.POST.name());
-			conn.setRequestProperty("Content-Type", APPLICATION_JSON_VALUE);
-			conn.setRequestProperty("Accept-Charset", UTF_8.toString());
-
-			final OutputStream os = conn.getOutputStream();
-			os.write(jsonObject.toString().getBytes(UTF_8));
-			os.flush();
-
-			rawData = new BufferedReader(new InputStreamReader(conn.getInputStream(), UTF_8)).lines().collect(joining());
-			conn.disconnect();
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		}
-		return rawData;
-	}
-
-	private NHNPaymentDetail savePaymentHistory(final String rawData) {
-		final NHNPaymentDetail nhnPaymentDetail = (NHNPaymentDetail) PGType.NHN.detail(rawData);
-		final Long draftId = Long.valueOf(nhnPaymentDetail.getOrder_no().split("-")[1]);
+	private NHNPaidDetail savePaymentHistory(final String rawData) {
+		final NHNPaidDetail nhnPaidDetail = (NHNPaidDetail) PGType.NHN.detail(PaymentStatus.PAID, rawData);
+		final Long draftId = Long.valueOf(nhnPaidDetail.getOrder_no().split("-")[1]);
 		final Draft draft = draftRepository.findById(draftId)
 			.orElseThrow(() -> new IllegalStateException("결제 정보 저장을 위한 유효한 시안이 없습니다."));
 		final PaymentInfo paymentInfo = draft.getOrNewPaymentInfo();
 		if (paymentInfo.isNew()) {
 			paymentInfoRepository.save(paymentInfo);
 			draft.addPaymentInfo(paymentInfo);
+		} else {
+			paymentInfo.setUpdateTime(LocalDateTime.now());
 		}
 		final PaymentHistory paymentHistory = new PaymentHistory().toBuilder()
 			.pgType(PGType.NHN)
+			.paymentStatus(PaymentStatus.PAID)
 			.rawData(rawData)
 			.paymentInfo(paymentInfo).build();
 		paymentHistoryRepository.save(paymentHistory);
-		return nhnPaymentDetail;
+		return nhnPaidDetail;
 	}
 
 }

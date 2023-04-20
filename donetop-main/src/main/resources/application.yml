@@ -34,10 +34,15 @@ application:
     custom-max-inactive-interval: 31536000 # 1년
     storage:
       root: C:/Users/hjm70/Jin/Work/WorkSpace/donetop/donetop-main/src/main/resources/storage
-    payment:
-      nhn:
-        target-url: https://stg-spl.kcp.co.kr/gw/enc/v1/payment
-        trade-register-url: https://stg-spl.kcp.co.kr/std/tradeReg/register
+
+nhn:
+  site-cd: T0000
+  payment-url: https://stg-spl.kcp.co.kr/gw/enc/v1/payment
+  trade-register-url: https://stg-spl.kcp.co.kr/std/tradeReg/register
+  cancel-url: https://stg-spl.kcp.co.kr/gw/mod/v1/cancel
+  cert-path: nhn/splCert.pem
+  private-key-path: nhn/splPrikeyPKCS8.pem
+  private-key-password: changeit
 
 logging:
   level:

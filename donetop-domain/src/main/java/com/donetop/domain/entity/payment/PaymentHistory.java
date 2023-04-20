@@ -2,6 +2,7 @@ package com.donetop.domain.entity.payment;
 
 import com.donetop.dto.payment.PaymentHistoryDTO;
 import com.donetop.enums.payment.PGType;
+import com.donetop.enums.payment.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,10 @@ public class PaymentHistory {
 	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
 	private PGType pgType;
 
+	@Enumerated(value = EnumType.STRING)
+	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
+	private PaymentStatus paymentStatus;
+
 	@Column(nullable = false, columnDefinition = "varchar(1024) default ''")
 	private String rawData;
 
@@ -42,7 +47,8 @@ public class PaymentHistory {
 		final PaymentHistoryDTO paymentHistoryDTO = new PaymentHistoryDTO();
 		paymentHistoryDTO.setId(this.id);
 		paymentHistoryDTO.setPgType(this.pgType);
-		paymentHistoryDTO.setDetail(this.pgType.detail(this.rawData));
+		paymentHistoryDTO.setPaymentStatus(this.paymentStatus);
+		paymentHistoryDTO.setDetail(this.pgType.detail(this.paymentStatus, this.rawData));
 		paymentHistoryDTO.setCreateTime(this.createTime);
 		return paymentHistoryDTO;
 	}

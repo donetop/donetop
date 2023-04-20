@@ -31,7 +31,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a class="nav-link" role="button"><i class="far fa-circle nav-icon"></i><p>결제 목록</p></a>
+              <a class="nav-link" role="button" [routerLink]="routeName.PAYMENT_LIST" [queryParams]="{ 'page': 0 }"><i class="far fa-circle nav-icon"></i><p>결제 목록</p></a>
             </li>
           </ul>
         </li>

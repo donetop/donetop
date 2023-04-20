@@ -1,10 +1,13 @@
 package com.donetop.dto.payment;
 
-import com.donetop.enums.payment.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter
@@ -13,7 +16,9 @@ public class PaymentInfoDTO {
 
 	private long id;
 
-	private PaymentStatus paymentStatus;
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime updateTime;
 
 	private PaymentHistoryDTO lastHistory;
 

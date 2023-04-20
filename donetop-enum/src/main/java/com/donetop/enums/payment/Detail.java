@@ -12,7 +12,7 @@ public interface Detail {
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 	@Getter @Setter
-	class NHNPaymentDetail implements Detail {
+	class NHNPaidDetail implements Detail {
 
 		private String res_cd;
 
@@ -32,10 +32,37 @@ public interface Detail {
 
 		public static Detail from(final String rawData) {
 			try {
-				return objectMapper.readValue(rawData, NHNPaymentDetail.class);
+				return objectMapper.readValue(rawData, NHNPaidDetail.class);
 			} catch (JsonProcessingException e) {
 				throw new RuntimeException(e);
 			}
+		}
+
+	}
+
+	@Getter @Setter
+	class NHNCancelDetail implements Detail {
+
+		private String res_msg;
+
+		private String tno;
+
+		private String res_en_msg;
+
+		private String res_cd;
+
+		private String canc_time;
+
+		public static Detail from(final String rawData) {
+			try {
+				return objectMapper.readValue(rawData, NHNCancelDetail.class);
+			} catch (JsonProcessingException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		public boolean isSuccess() {
+			return this.res_cd != null && this.res_cd.equals("0000");
 		}
 
 	}

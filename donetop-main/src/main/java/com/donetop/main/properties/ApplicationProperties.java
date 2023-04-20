@@ -25,9 +25,6 @@ public class ApplicationProperties {
 	@NotNull
 	private Storage storage;
 
-	@NotNull
-	private Payment payment;
-
 	@Getter @Setter
 	public static class Storage {
 
@@ -35,25 +32,6 @@ public class ApplicationProperties {
 		private String root;
 
 		private String src;
-
-	}
-
-	@Getter @Setter
-	public static class Payment {
-
-		@NotNull
-		private NHN nhn;
-
-		@Getter @Setter
-		public static class NHN {
-
-			@NotEmpty
-			private String targetURL;
-
-			@NotEmpty
-			private String tradeRegisterURL;
-
-		}
 
 	}
 

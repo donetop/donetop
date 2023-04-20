@@ -114,13 +114,13 @@ export class DetailComponent {
     if (!this.draft) return false;
     if (this.draft.price <= 0) return false;
     if (this.draft.paymentMethod.name !== 'CREDIT_CARD') return false;
-    if (this.draft.paymentInfo && this.draft.paymentInfo.paymentStatus === 'PAID') return false;
+    if (this.draft.paymentInfo && this.draft.paymentInfo.lastHistory.paymentStatus === 'PAID') return false;
     return true;
   }
 
   isPaid() {
     if (!this.draft) return false;
-    return this.draft.paymentInfo && this.draft.paymentInfo.paymentStatus === 'PAID';
+    return this.draft.paymentInfo && this.draft.paymentInfo.lastHistory.paymentStatus === 'PAID';
   }
 
   openModal() {

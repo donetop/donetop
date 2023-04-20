@@ -1,0 +1,39 @@
+li.page-item {
+  cursor: pointer;
+  margin: 3px;
+
+  > a.page-link {
+    border-radius: .25rem;
+    background: #fdfdfd;
+    border: 1px solid #d4d4d4;
+    color: #555;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      background-color: #f3f3f1;
+    }
+
+    &.active {
+      background: #4c4f6f;
+      color: #fff;
+      cursor: default;
+    }
+  }
+}
+
+.dropdown-menu {
+  min-width: fit-content;
+
+  > button {
+    min-width: 65px;
+  }
+}
+
+@media (max-width: 750px) {
+  .unimportant {
+    display: none;
+  }
+}
+

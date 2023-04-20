@@ -2,16 +2,17 @@ package com.donetop.domain.entity.payment;
 
 import com.donetop.dto.payment.PaymentHistoryDTO;
 import com.donetop.dto.payment.PaymentInfoDTO;
-import com.donetop.enums.payment.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 @Entity
@@ -27,26 +28,26 @@ public class PaymentInfo {
 	@Column(nullable = false, updatable = false)
 	private long id;
 
-	@Enumerated(value = EnumType.STRING)
-	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
-	private PaymentStatus paymentStatus;
+	@Builder.Default
+	@Column(nullable = false)
+	private LocalDateTime updateTime = LocalDateTime.now();
 
 	@OneToMany(mappedBy = "paymentInfo", cascade = CascadeType.REMOVE)
 	private final List<PaymentHistory> histories = new ArrayList<>();
-
-	public static PaymentInfo of(final PaymentStatus paymentStatus) {
-		return new PaymentInfo().toBuilder().paymentStatus(paymentStatus).build();
-	}
 
 	public boolean isNew() {
 		return this.id == 0L;
 	}
 
+	public void setUpdateTime(final LocalDateTime updateTime) {
+		this.updateTime = updateTime;
+	}
+
 	public PaymentInfoDTO toDTO() {
 		PaymentInfoDTO paymentInfoDTO = new PaymentInfoDTO();
 		paymentInfoDTO.setId(this.id);
-		paymentInfoDTO.setPaymentStatus(this.paymentStatus);
-		List<PaymentHistoryDTO> historyDTOList = this.histories.stream().map(PaymentHistory::toDTO).collect(toList());
+		paymentInfoDTO.setUpdateTime(this.updateTime);
+		List<PaymentHistoryDTO> historyDTOList = this.histories.stream().sorted(comparing(PaymentHistory::getCreateTime)).map(PaymentHistory::toDTO).collect(toList());
 		if (historyDTOList.isEmpty()) throw new IllegalStateException("Payment history should exist at least one.");
 		paymentInfoDTO.setHistories(historyDTOList);
 		paymentInfoDTO.setLastHistory(historyDTOList.get(historyDTOList.size() - 1));

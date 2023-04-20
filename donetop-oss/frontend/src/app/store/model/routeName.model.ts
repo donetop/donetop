@@ -18,6 +18,14 @@ export class RouteName {
 
   public readonly CATEGORY_IMAGE = `${this.CATEGORY}/${this.CATEGORY_CHILDREN.IMAGE}`;
 
+  public readonly PAYMENT = `${prefix}/payment`;
+
+  public readonly PAYMENT_CHILDREN = {
+    LIST: `list`
+  }
+
+  public readonly PAYMENT_LIST = `${this.PAYMENT}/${this.PAYMENT_CHILDREN.LIST}`;
+
   public readonly FALL_BACK = `**`;
 
   private constructor() {}

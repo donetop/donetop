@@ -2,6 +2,7 @@ package com.donetop.dto.payment;
 
 import com.donetop.enums.payment.PGType;
 import com.donetop.enums.payment.Detail;
+import com.donetop.enums.payment.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -18,6 +19,8 @@ public class PaymentHistoryDTO {
 	private long id;
 
 	private PGType pgType;
+
+	private PaymentStatus paymentStatus;
 
 	private Detail detail;
 
