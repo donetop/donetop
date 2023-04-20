@@ -65,6 +65,10 @@ public interface Detail {
 			return this.res_cd != null && this.res_cd.equals("0000");
 		}
 
+		public boolean isAlreadyCanceled() {
+			return this.res_cd != null && this.res_cd.equals("8133");
+		}
+
 	}
 
 }

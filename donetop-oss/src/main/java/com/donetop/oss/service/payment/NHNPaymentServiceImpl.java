@@ -63,10 +63,14 @@ public class NHNPaymentServiceImpl implements PaymentService {
 				.put("mod_type", "STSC") // 전체 승인취소 - STSC / 부분취소 - STPC
 				.put("tno", tno);
 
-			final String rawData = nhn.doRequest(nhn.getCancelURL(), jsonObject);
+			String rawData = nhn.doRequest(nhn.getCancelURL(), jsonObject);
 			final NHNCancelDetail nhnCancelDetail = (NHNCancelDetail) PGType.NHN.detail(PaymentStatus.CANCELED, rawData);
 
-			if (nhnCancelDetail.isSuccess()) {
+			if (nhnCancelDetail.isAlreadyCanceled() && nhnCancelDetail.getTno() == null) { // 가맹점 관리자 사이트에서 취소된 경우
+				rawData = new JSONObject(rawData).put("tno", tno).toString();
+			}
+
+			if (nhnCancelDetail.isSuccess() || nhnCancelDetail.isAlreadyCanceled()) {
 				paymentInfo.setUpdateTime(LocalDateTime.now());
 				final PaymentHistory paymentHistory = new PaymentHistory().toBuilder()
 					.pgType(PGType.NHN)

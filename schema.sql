@@ -8,7 +8,7 @@ show tables;
 
 select * from `tbUser`;
 select * from `tbOSSUser`;
-select * from `tbDraft` order by createTime;
+select * from `tbDraft` order by createTime desc;
 select * from `tbFolder`;
 select * from `tbFile`;
 select * from `tbPaymentInfo`;

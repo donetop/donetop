@@ -42,7 +42,9 @@ export class ListComponent {
             .map((v, i) => i)
             .filter(pageNumber => Math.floor(this.pageNumber / this.pageNumberSize) == Math.floor(pageNumber / this.pageNumberSize));
         },
-        error: ({error}) => alert(error.reason)
+        error: ({error}) => {
+          if ('reason' in error) alert(error.reason);
+        }
       });
   }
 

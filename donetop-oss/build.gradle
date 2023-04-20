@@ -1,4 +1,8 @@
 plugins {
+	id 'war'
+
+	//https://github.com/node-gradle/gradle-node-plugin/blob/master/docs/usage.md
+	id "com.github.node-gradle.node" version "3.4.0"
 }
 
 dependencies {
@@ -19,4 +23,49 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDir 'src/main/resources'
+			srcDir 'src/main/resources-production'
+		}
+	}
+}
+
+node {
+	download = true
+	version = '14.20.0'
+	npmVersion = '6.14.17'
+	distBaseUrl = 'https://nodejs.org/dist'
+	npmInstallCommand = 'install'
+	workDir = file('../.gradle/nodejs')
+	npmWorkDir = file('../.gradle/npm')
+	nodeProjectDir = file('./frontend')
+}
+
+tasks.register('copySubmoduleFiles', Copy) {
+	copy {
+		from fileTree("../donetop-secret/nhn").include("*.pem")
+		into "src/main/resources-production/nhn"
+	}
+	copy {
+		from fileTree("../donetop-secret/oss/environments").include("*.ts")
+		into "frontend/src/environments"
+	}
+	copy {
+		from fileTree("../donetop-secret/oss/properties").include("*.yml")
+		into "src/main/resources-production"
+	}
+}
+
+tasks.register('npmBuild', NpmTask) {
+	dependsOn npmInstall
+	args = ["run", "build-production"]
+}
+
+processResources {
+	dependsOn copySubmoduleFiles
+	dependsOn npmBuild
 }
