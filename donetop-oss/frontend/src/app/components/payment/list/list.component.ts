@@ -5,11 +5,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentInfo } from 'src/app/store/model/payment.model';
 import { Page } from 'src/app/store/model/page.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
@@ -22,6 +26,7 @@ export class ListComponent {
   pageNumberSize: number = 10;
   pageNumbers: Array<number> = [];
   pageCount: number = 10;
+  transactionNumber: string = '';
 
   constructor(
     private paymentService: PaymentService, private route: ActivatedRoute,
@@ -33,6 +38,7 @@ export class ListComponent {
   setUp(params: any) {
     this.params = Object.assign({}, params);
     this.pageNumber = parseInt(this.params['page']);
+    this.transactionNumber = this.params['lastTransactionNumber'] === undefined ? '' : this.params['lastTransactionNumber'];
     this.paymentService.list(this.params)
       .subscribe({
         next: (response) => {
@@ -81,4 +87,11 @@ export class ListComponent {
     return paymentInfo.lastHistory.paymentStatus === 'CANCELED';
   }
 
+  search() {
+    const newParams = Object.assign({}, this.params);
+    if (this.transactionNumber.length > 0) newParams['lastTransactionNumber'] = this.transactionNumber;
+    else delete newParams['lastTransactionNumber'];
+    newParams['page'] = 0;
+    this.router.navigate([this.routeName.PAYMENT_LIST], { queryParams: newParams });
+  }
 }

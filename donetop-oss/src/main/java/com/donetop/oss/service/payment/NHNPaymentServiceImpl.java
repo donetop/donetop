@@ -13,6 +13,7 @@ import com.donetop.enums.payment.PaymentStatus;
 import com.donetop.oss.api.payment.request.PaymentCancelRequest;
 import com.donetop.repository.payment.PaymentHistoryRepository;
 import com.donetop.repository.payment.PaymentInfoRepository;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -38,7 +39,7 @@ public class NHNPaymentServiceImpl implements PaymentService {
 	private final PaymentHistoryRepository paymentHistoryRepository;
 
 	@Override
-	public Page<PaymentInfoDTO> list(final PageRequest request) {
+	public Page<PaymentInfoDTO> list(final Predicate predicate, final PageRequest request) {
 		throw new UnsupportedOperationException("잘못된 요청입니다.");
 	}
 
@@ -68,10 +69,11 @@ public class NHNPaymentServiceImpl implements PaymentService {
 
 			if (nhnCancelDetail.isAlreadyCanceled() && nhnCancelDetail.getTno() == null) { // 가맹점 관리자 사이트에서 취소된 경우
 				rawData = new JSONObject(rawData).put("tno", tno).toString();
+				nhnCancelDetail.setTno(tno);
 			}
 
 			if (nhnCancelDetail.isSuccess() || nhnCancelDetail.isAlreadyCanceled()) {
-				paymentInfo.setUpdateTime(LocalDateTime.now());
+				paymentInfo.setUpdateTime(LocalDateTime.now()).setLastTransactionNumber(nhnCancelDetail.getTno());
 				final PaymentHistory paymentHistory = new PaymentHistory().toBuilder()
 					.pgType(PGType.NHN)
 					.paymentStatus(PaymentStatus.CANCELED)

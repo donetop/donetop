@@ -54,7 +54,7 @@ public class NHNPaymentServiceImpl implements NHNPaymentService {
 		final Long draftId = Long.valueOf(nhnPaidDetail.getOrder_no().split("-")[1]);
 		final Draft draft = draftRepository.findById(draftId)
 			.orElseThrow(() -> new IllegalStateException("결제 정보 저장을 위한 유효한 시안이 없습니다."));
-		final PaymentInfo paymentInfo = draft.getOrNewPaymentInfo();
+		final PaymentInfo paymentInfo = draft.getOrNewPaymentInfo().setLastTransactionNumber(nhnPaidDetail.getTno());
 		if (paymentInfo.isNew()) {
 			paymentInfoRepository.save(paymentInfo);
 			draft.addPaymentInfo(paymentInfo);

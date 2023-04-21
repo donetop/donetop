@@ -1,6 +1,7 @@
 export interface PaymentInfo {
   id: number
   updateTime: Date
+  lastTransactionNumber: string
   histories: Array<PaymentHistory>
   lastHistory: PaymentHistory
 }

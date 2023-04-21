@@ -6,6 +6,7 @@ import com.donetop.enums.payment.Detail;
 import com.donetop.enums.payment.PGType;
 import com.donetop.oss.api.payment.request.PaymentCancelRequest;
 import com.donetop.repository.payment.PaymentInfoRepository;
+import com.querydsl.core.types.Predicate;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,8 +33,8 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public Page<PaymentInfoDTO> list(final PageRequest request) {
-		return paymentInfoRepository.findAll(request).map(PaymentInfo::toDTO);
+	public Page<PaymentInfoDTO> list(final Predicate predicate, final PageRequest request) {
+		return paymentInfoRepository.findAll(predicate, request).map(PaymentInfo::toDTO);
 	}
 
 	@Override

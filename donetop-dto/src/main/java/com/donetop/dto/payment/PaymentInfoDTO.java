@@ -20,6 +20,8 @@ public class PaymentInfoDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updateTime;
 
+	private String lastTransactionNumber;
+
 	private PaymentHistoryDTO lastHistory;
 
 	private List<PaymentHistoryDTO> histories;
