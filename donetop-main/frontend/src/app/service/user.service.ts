@@ -6,6 +6,7 @@ import { User } from '../store/model/user.model';
 import { Store } from '@ngrx/store';
 import { UserUnloadAction } from '../store/action/user.action';
 import { NgForm } from '@angular/forms';
+import { CryptoService } from './crypto.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,10 @@ export class UserService {
   private formLogoutURI: string = '/api/form/logout'
   private userURI: string = '/api/user'
 
-  constructor(private httpClient: HttpClient, private router: Router, private store: Store) {}
+  constructor(
+    private httpClient: HttpClient, private router: Router,
+    private store: Store, private cryptoService: CryptoService
+  ) {}
 
   login(form: NgForm) {
     if (form.controls['username'].invalid) {
@@ -31,7 +35,13 @@ export class UserService {
       return;
     }
 
-    this.httpClient.post<Response<string>>(this.formLoginURI, form.value)
+    const body = {
+      'username': form.controls['username'].value,
+      'password': this.cryptoService.encrypt(form.controls['password'].value),
+      'autoLogin': form.controls['autoLogin'].value
+    }
+
+    this.httpClient.post<Response<string>>(this.formLoginURI, body)
       .subscribe({
         next: (response) => {
           console.log(`login success. user info : ${response.data}`);

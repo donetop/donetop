@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 @Table(
 	name = "tbOSSUser",
 	uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"email"}),
-		@UniqueConstraint(columnNames = {"name"}),
+		@UniqueConstraint(columnNames = {"name"})
 	}
 )
 @Getter
@@ -29,13 +28,10 @@ public class OSSUser {
 	@Column(nullable = false, updatable = false)
 	private long id;
 
-	@Column(nullable = false, columnDefinition = "varchar(32) default ''")
-	private String email;
-
 	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
 	private String password;
 
-	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(32) default ''")
 	private String name;
 
 	@Builder.Default
@@ -59,7 +55,6 @@ public class OSSUser {
 	public OSSUserDTO toDTO() {
 		final OSSUserDTO ossUserDTO = new OSSUserDTO();
 		ossUserDTO.setId(this.id);
-		ossUserDTO.setEmail(this.email);
 		ossUserDTO.setName(this.name);
 		ossUserDTO.setRoleType(this.roleType);
 		ossUserDTO.setCreateTime(this.createTime);

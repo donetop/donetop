@@ -20,9 +20,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO findUserBy(final String username) {
-		return userRepository.findByEmail(username)
-			.or(() -> userRepository.findByName(username))
+	public UserDTO findUserBy(final String email) {
+		return userRepository.findByEmail(email)
 			.orElseThrow(() -> new IllegalStateException("유효한 유저 정보가 없습니다.")).toDTO();
 	}
 }

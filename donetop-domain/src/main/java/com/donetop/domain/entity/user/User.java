@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 @Table(
 	name = "tbUser",
 	uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"email"}),
-		@UniqueConstraint(columnNames = {"name"}),
+		@UniqueConstraint(columnNames = {"email"})
 	}
 )
 @Getter
@@ -32,7 +31,7 @@ public class User {
 	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
 	private String password;
 
-	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(32) default ''")
 	private String name;
 
 	@Enumerated(EnumType.STRING)

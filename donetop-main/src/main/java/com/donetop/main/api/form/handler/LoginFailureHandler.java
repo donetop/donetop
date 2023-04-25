@@ -4,7 +4,6 @@ import com.donetop.common.api.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -27,8 +26,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response,
 										final AuthenticationException exception) throws IOException {
 		log.debug("exception : {}, message : {}", exception.getClass().getName(), exception.getMessage());
-		final String message = exception instanceof BadCredentialsException ? "비밀번호가 유효하지 않습니다." : exception.getMessage();
-		Response.BadRequest<String> badRequest = Response.BadRequest.of(message);
+		Response.BadRequest<String> badRequest = Response.BadRequest.of("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
 		response.setStatus(badRequest.getCode());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		response.setContentType(APPLICATION_JSON_VALUE);

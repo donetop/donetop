@@ -14,6 +14,8 @@ import org.springframework.util.StringUtils;
 import java.util.Collections;
 import java.util.Set;
 
+import static com.donetop.enums.user.RoleType.ADMIN;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final UserRepository userRepository;
 
-	private final String loginFailMessage = "유저이름이 유효하지 않습니다.";
+	private final String loginFailMessage = "유저 이름이 유효하지 않습니다.";
 
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
@@ -29,12 +31,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(loginFailMessage);
 		}
 
-		User user = (username.contains("@") ? userRepository.findByEmail(username) : userRepository.findByName(username))
+		User user = (username.equals("admin") ? userRepository.findByRoleType(ADMIN) : userRepository.findByEmail(username))
 			.orElseThrow(() -> new UsernameNotFoundException(loginFailMessage));
 
 		Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoleType().name()));
 
-		return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
 	}
 
 }

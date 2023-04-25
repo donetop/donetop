@@ -4,7 +4,7 @@
   </div>
   <div class="buttons">
     <ul>
-      <li *ngIf="user"><a href="#"><fa-icon [icon]="['fas', 'user']"></fa-icon>{{ user.name }}님</a></li>
+      <li *ngIf="user"><a><fa-icon [icon]="['fas', 'user']"></fa-icon>{{ user.name }}님</a></li>
       <li *ngIf="user"><a (click)="logout()"><fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>로그아웃</a></li>
       <li *ngIf="!user"><a [routerLink]="routeName.LOGIN"><fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>로그인</a></li>
       <li><a [routerLink]="routeName.ROOT"><fa-icon [icon]="['fas', 'file-signature']"></fa-icon>회원가입</a></li>

@@ -154,14 +154,14 @@ public class FormLoginTest extends IntegrationBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("유저이름이 유효하지 않습니다."));
+			.body("reason", containsString("아이디 또는 비밀번호를 잘못 입력하셨습니다."));
 	}
 
 	@Test
 	void login_withWrongPassword_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
-		body.put("username", "jin");
+		body.put("username", "jin@test.com");
 		body.put("password", "unknown");
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
@@ -179,14 +179,14 @@ public class FormLoginTest extends IntegrationBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("비밀번호가 유효하지 않습니다."));
+			.body("reason", containsString("아이디 또는 비밀번호를 잘못 입력하셨습니다."));
 	}
 
 	@Test
 	void login_withValidInfo_return200() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
-		body.put("username", "jin");
+		body.put("username", "jin@test.com");
 		body.put("password", "my password");
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(

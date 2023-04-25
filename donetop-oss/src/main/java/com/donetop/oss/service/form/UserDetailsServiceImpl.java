@@ -29,8 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(loginFailMessage);
 		}
 
-		OSSUser ossUser = (username.contains("@") ? ossUserRepository.findByEmail(username) : ossUserRepository.findByName(username))
-			.orElseThrow(() -> new UsernameNotFoundException(loginFailMessage));
+		OSSUser ossUser = ossUserRepository.findByName(username).orElseThrow(() -> new UsernameNotFoundException(loginFailMessage));
 
 		Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(ossUser.getRoleType().name()));
 

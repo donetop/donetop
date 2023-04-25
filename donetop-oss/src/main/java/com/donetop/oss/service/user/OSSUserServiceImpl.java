@@ -15,8 +15,7 @@ public class OSSUserServiceImpl implements OSSUserService {
 
 	@Override
 	public OSSUserDTO findUserBy(final String username) {
-		return ossUserRepository.findByEmail(username)
-			.or(() -> ossUserRepository.findByName(username))
+		return ossUserRepository.findByName(username)
 			.orElseThrow(() -> new IllegalStateException("유효한 유저 정보가 없습니다.")).toDTO();
 	}
 }

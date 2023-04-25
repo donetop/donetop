@@ -118,7 +118,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-		daoAuthenticationProvider.setHideUserNotFoundExceptions(false); // true 로 설정하면 UsernameNotFoundException -> BadCredentialsException 으로 숨겨짐.
+		daoAuthenticationProvider.setHideUserNotFoundExceptions(true); // true 로 설정하면 UsernameNotFoundException -> BadCredentialsException 으로 숨겨짐.
 		return daoAuthenticationProvider;
 	}
 }

@@ -7,5 +7,5 @@ public interface UserService {
 
 	long createNewUser(UserCreateRequest request);
 
-	UserDTO findUserBy(String username);
+	UserDTO findUserBy(String email);
 }

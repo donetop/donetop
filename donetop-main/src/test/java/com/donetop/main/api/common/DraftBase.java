@@ -113,7 +113,7 @@ public class DraftBase extends IntegrationBase {
 
 	protected Response doLoginWith(final User user) throws Exception {
 		final JSONObject loginBody = new JSONObject();
-		loginBody.put("username", user.getName());
+		loginBody.put("username", user.getEmail());
 		loginBody.put("password", user.getPassword());
 		return RestAssured.given(this.spec).when()
 			.contentType(ContentType.JSON)
