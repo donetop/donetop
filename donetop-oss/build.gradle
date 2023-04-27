@@ -1,0 +1,78 @@
+plugins {
+	id 'war'
+
+	//https://github.com/node-gradle/gradle-node-plugin/blob/master/docs/usage.md
+	id "com.github.node-gradle.node" version "3.4.0"
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
+
+	implementation 'com.mysql:mysql-connector-j:8.0.31'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
+	implementation 'commons-io:commons-io:2.11.0'
+
+	implementation project(':donetop-domain')
+	implementation project(':donetop-dto')
+	implementation project(':donetop-enum')
+	implementation project(':donetop-common')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDir 'src/main/resources'
+			srcDir 'src/main/resources-production'
+		}
+	}
+}
+
+node {
+	download = true
+	version = '14.20.0'
+	npmVersion = '6.14.17'
+	distBaseUrl = 'https://nodejs.org/dist'
+	npmInstallCommand = 'install'
+	workDir = file('../.gradle/nodejs')
+	npmWorkDir = file('../.gradle/npm')
+	nodeProjectDir = file('./frontend')
+}
+
+tasks.register('copySubmoduleFiles', Copy) {
+	copy {
+		from fileTree("../donetop-secret/nhn").include("*.pem")
+		into "src/main/resources-production/nhn"
+	}
+	copy {
+		from fileTree("../donetop-secret/oss/environments").include("*.ts")
+		into "frontend/src/environments"
+	}
+	copy {
+		from fileTree("../donetop-secret/oss/properties").include("*.yml")
+		into "src/main/resources-production"
+	}
+}
+
+tasks.register('npmBuild', NpmTask) {
+	dependsOn npmInstall
+	args = ["run", "build-production"]
+}
+
+processResources {
+	dependsOn copySubmoduleFiles
+	dependsOn npmBuild
+}
+
+if (hasProperty('buildScan')) {
+	buildScan {
+		termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+		termsOfServiceAgree = 'yes'
+	}
+}

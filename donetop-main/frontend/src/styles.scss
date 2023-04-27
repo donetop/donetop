@@ -1,0 +1,64 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./fonts";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  user-select: none;
+  font-size: 13px;
+  font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li, p, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  cursor: pointer;
+  font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
+}
+
+input, textarea {
+  font-size: 1em;
+  transition: all 0.30s ease-in-out;
+  outline: none;
+  font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
+  vertical-align: middle;
+  min-width: 50px;
+  max-width: -webkit-fill-available;
+
+  &:focus {
+    box-shadow: 0 0 5px #9ed4ff;
+    border: 1px solid #558ab7 !important;
+  }
+}
+
+label, select {
+  font-family: 'Noto Sans KR','Malgun Gothic', dotum, sans-serif;
+  vertical-align: middle;
+}
+
+.required {
+  background-image: url("/assets/require.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: right top !important;
+}
+
+

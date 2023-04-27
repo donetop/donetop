@@ -1,0 +1,60 @@
+:doctype:
+:docinfo: shared
+:toc: left
+:toclevels: 3
+
+= Form API Documentation
+
+== Form Login
+
+HTTP Method : *POST* +
+URI : */api/form/login*
+
+=== Request body fields description
+include::{snippets}/form_login/login_withValidInfo_return200/request-fields.adoc[]
+
+=== Response body fields description
+include::{snippets}/form_login/login_withValidInfo_return200/response-fields.adoc[]
+
+=== Examples
+==== login_withEmptyBody_return400
+.request
+include::{snippets}/form_login/login_withEmptyBody_return400/http-request.adoc[]
+.response
+include::{snippets}/form_login/login_withEmptyBody_return400/http-response.adoc[]
+
+==== login_withIncorrectFields_return400
+.request
+include::{snippets}/form_login/login_withIncorrectFields_return400/http-request.adoc[]
+.response
+include::{snippets}/form_login/login_withIncorrectFields_return400/http-response.adoc[]
+
+==== login_withNullValues_return400
+.request
+include::{snippets}/form_login/login_withNullValues_return400/http-request.adoc[]
+.response
+include::{snippets}/form_login/login_withNullValues_return400/http-response.adoc[]
+
+==== login_withEmptyValues_return400
+.request
+include::{snippets}/form_login/login_withEmptyValues_return400/http-request.adoc[]
+.response
+include::{snippets}/form_login/login_withEmptyValues_return400/http-response.adoc[]
+
+==== login_withWrongUsername_return400
+.request
+include::{snippets}/form_login/login_withWrongUsername_return400/http-request.adoc[]
+.response
+include::{snippets}/form_login/login_withWrongUsername_return400/http-response.adoc[]
+
+==== login_withWrongPassword_return400
+.request
+include::{snippets}/form_login/login_withWrongPassword_return400/http-request.adoc[]
+.response
+include::{snippets}/form_login/login_withWrongPassword_return400/http-response.adoc[]
+
+==== login_withValidInfo_return200
+.request
+include::{snippets}/form_login/login_withValidInfo_return200/http-request.adoc[]
+.response
+include::{snippets}/form_login/login_withValidInfo_return200/http-response.adoc[]

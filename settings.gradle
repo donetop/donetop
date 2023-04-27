@@ -1,3 +1,7 @@
 rootProject.name = 'donetop'
+include 'donetop-domain'
+include 'donetop-dto'
 include 'donetop-main'
-
+include 'donetop-enum'
+include 'donetop-oss'
+include 'donetop-common'

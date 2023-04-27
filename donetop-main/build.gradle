@@ -1,17 +1,105 @@
 plugins {
     id 'war'
+
+    //https://github.com/node-gradle/gradle-node-plugin/blob/master/docs/usage.md
+    id "com.github.node-gradle.node" version "3.4.0"
+
+	//https://asciidoctor.github.io/asciidoctor-gradle-plugin/development-3.x/
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
+
+	implementation 'com.mysql:mysql-connector-j:8.0.31'
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
+	implementation 'commons-io:commons-io:2.11.0'
+
+	implementation project(':donetop-domain')
+	implementation project(':donetop-dto')
+	implementation project(':donetop-enum')
+	implementation project(':donetop-common')
 
     runtimeOnly 'com.h2database:h2'
+
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 test {
     useJUnitPlatform()
 }
 
-task prepareKotlinBuildScriptModel {}
+sourceSets {
+	main {
+		resources {
+			srcDir 'src/main/resources'
+			srcDir 'src/main/resources-production'
+		}
+	}
+}
+
+node {
+    download = true
+    version = '14.20.0'
+    npmVersion = '6.14.17'
+    distBaseUrl = 'https://nodejs.org/dist'
+    npmInstallCommand = 'install'
+    workDir = file('../.gradle/nodejs')
+    npmWorkDir = file('../.gradle/npm')
+    nodeProjectDir = file('./frontend')
+}
+
+tasks.register('copySubmoduleFiles', Copy) {
+	copy {
+		from fileTree("../donetop-secret/nhn").include("*.pem")
+		into "src/main/resources-production/nhn"
+	}
+	copy {
+		from fileTree("../donetop-secret/main/environments").include("*.ts")
+		into "frontend/src/environments"
+	}
+	copy {
+		from fileTree("../donetop-secret/main/properties").include("*.yml")
+		into "src/main/resources-production"
+	}
+}
+
+tasks.register('npmBuild', NpmTask) {
+	dependsOn npmInstall
+	args = ["run", "build-production"]
+}
+
+processResources {
+	dependsOn copySubmoduleFiles
+	dependsOn npmBuild
+}
+
+asciidoctor {
+	dependsOn test
+	sourceDir 'src/main/asciidoc'
+	outputDir 'src/main/resources/static/asciidoc'
+	attributes 'snippets': file('build/generated-snippets/')
+	baseDirFollowsSourceDir()
+}
+
+tasks.register('copyAsciidoctorHtmls', Copy) {
+	from ("${asciidoctor.outputDir}") {
+		include "*.html"
+	}
+	destinationDir file('build/resources/main/static/asciidoc')
+}
+
+bootJar {
+	dependsOn asciidoctor
+	dependsOn copyAsciidoctorHtmls
+	from ("${asciidoctor.outputDir}") {
+		include "*.html"
+		into '/BOOT-INF/classes/static/asciidoc'
+	}
+}

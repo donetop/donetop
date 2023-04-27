@@ -1,0 +1,13 @@
+div.container {
+  display: flex;
+  flex-direction: column;
+  margin: 80px auto;
+  padding: 20px;
+  background: #fff;
+  line-height: 1.6em;
+  width: 70%;
+
+  > p {
+    text-align: left;
+  }
+}

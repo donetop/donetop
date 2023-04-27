@@ -1,0 +1,36 @@
+.nav {
+  border-bottom: 1px solid #e5e5e5;
+  height: 50px;
+  min-width: 250px;
+
+  ul {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+
+    li {
+      text-align: center;
+      font-size: 15px;
+      flex-grow: 1;
+
+      div {
+        margin-top: 10px;
+        line-height: 30px;
+        border-left: 1px solid #e5e5e5;
+      }
+
+      &:last-child > div {
+        border-right: 1px solid #e5e5e5;
+      }
+    }
+  }
+}
+
+.header {
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+

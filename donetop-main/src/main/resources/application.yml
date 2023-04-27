@@ -1,0 +1,50 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 10m
+
+spring:
+  profiles:
+    default: local
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 5MB
+  datasource:
+    url: jdbc:mysql://localhost:3306/donetop
+    username: root
+    password: system
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: false
+        show_sql: true
+
+application:
+  properties:
+    base-uri: "http://localhost"
+    custom-max-inactive-interval: 31536000 # 1년
+    storage:
+      root: C:/Users/hjm70/Jin/Work/WorkSpace/donetop/donetop-main/src/main/resources/storage
+
+nhn:
+  site-cd: T0000
+  payment-url: https://stg-spl.kcp.co.kr/gw/enc/v1/payment
+  trade-register-url: https://stg-spl.kcp.co.kr/std/tradeReg/register
+  cancel-url: https://stg-spl.kcp.co.kr/gw/mod/v1/cancel
+  cert-path: nhn/splCert.pem
+  private-key-path: nhn/splPrikeyPKCS8.pem
+  private-key-password: changeit
+
+logging:
+  level:
+    com.donetop.main.api.form: DEBUG
+    org.springframework.security.web.session: DEBUG

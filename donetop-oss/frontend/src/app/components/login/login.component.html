@@ -1,0 +1,14 @@
+<div class="container w-25 h-50 mt-5 border">
+  <div class="d-flex justify-content-center mb-2">
+    <img src="/assets/logo.png" class="translate-middle" alt="이미지가 없습니다.">
+  </div>
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+    <div class="mb-3">
+      <input type="email" class="form-control mt-4" id="username" name="username" placeholder="아이디를 입력하세요." ngModel required #username="ngModel">
+    </div>
+    <div class="mb-3">
+      <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호를 입력하세요." ngModel required #password="ngModel">
+    </div>
+    <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary mt-2 w-100">로그인</button>
+  </form>
+</div>

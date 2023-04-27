@@ -1,0 +1,41 @@
+<aside class="main-sidebar sidebar-dark-primary">
+  <a class="brand-link logo-switch">
+    <img src="assets/sidebar/logo-xs.png" alt="1" class="brand-image-xl logo-xs">
+    <img src="assets/sidebar/logo-xl.png" alt="2" class="brand-image-xs logo-xl" style="left: 12px">
+  </a>
+
+  <section class="sidebar">
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu">
+        <li class="nav-item">
+          <a class="nav-link" role="button">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              카테고리 관리
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a class="nav-link" role="button" [routerLink]="routeName.CATEGORY_LIST"><i class="far fa-circle nav-icon"></i><p>카테고리 목록</p></a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" role="button">
+            <i class="nav-icon fas fa-money-check-alt"></i>
+            <p>
+              결제 관리
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a class="nav-link" role="button" [routerLink]="routeName.PAYMENT_LIST" [queryParams]="{ 'page': 0 }"><i class="far fa-circle nav-icon"></i><p>결제 목록</p></a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </section>
+</aside>

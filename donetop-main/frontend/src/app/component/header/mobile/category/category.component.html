@@ -1,0 +1,62 @@
+<div class="contents">
+  <button (click)="toggleSection()">
+    <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+  </button>
+  <section class="left" #left_section>
+    <div class="wrapper">
+      <div class="menu">
+        <div class="active" (click)="toggleMenu(true)" #category_button>카테고리</div>
+        <div (click)="toggleMenu(false)" #board_button>게시판</div>
+      </div>
+      <ul class="category active" #category>
+        <li class="group" *ngFor="let category of categories; let i = index">
+          <div class="row" (click)="toggleSubGroup(i)">
+            <div>{{ category.name }}</div>
+            <button class="active" #sub_group_active_buttons>
+              <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
+            </button>
+            <button #sub_group_disable_buttons>
+              <fa-icon [icon]="['fas', 'angle-down']"></fa-icon>
+            </button>
+          </div>
+          <ul #sub_groups>
+            <li class="sub_group" *ngFor="let subCategory of category.subCategories">
+              <div class="row" (click)="movePage(routeName.CATEGORY, { 'id': subCategory.id })">
+                <button><fa-icon [icon]="['fas', 'caret-right']"></fa-icon></button>
+                <div>{{ subCategory.name }}</div>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="board" #board>
+        <li class="group">
+          <div class="row">
+            <div>FAQ</div>
+          </div>
+        </li>
+        <li class="group">
+          <div class="row">
+            <div (click)="movePage(routeName.DRAFT_CREATE, {})">주문하기</div>
+          </div>
+        </li>
+        <li class="group">
+          <div class="row">
+            <div (click)="movePage(routeName.DRAFT_LIST, { 'page': 0 })">시안확인</div>
+          </div>
+        </li>
+        <li class="group">
+          <div class="row">
+            <div onclick="window.open('https://imagetoday.co.kr/', '_blank');">이미지사이트</div>
+          </div>
+        </li>
+        <li class="group">
+          <div class="row">
+            <div>고객게시판</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section class="right" #right_section (click)="toggleSection()"></section>
+</div>

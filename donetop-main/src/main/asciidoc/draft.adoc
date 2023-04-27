@@ -1,0 +1,251 @@
+:doctype:
+:docinfo: shared
+:toc: left
+:toclevels: 3
+
+= Draft API Documentation
+
+== Draft Single Create
+
+HTTP Method : *POST* +
+URI : */api/draft*
+
+=== Request parts description
+include::{snippets}/draft_single_create/createSingle_withValidPartValuesAndFiles_return200/request-parts.adoc[]
+=== Response body fields description
+include::{snippets}/draft_single_create/createSingle_withValidPartValuesAndFiles_return200/response-fields.adoc[]
+
+=== Examples
+==== createSingle_withoutParts_return400
+.request
+include::{snippets}/draft_single_create/createSingle_withoutParts_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_create/createSingle_withoutParts_return400/http-response.adoc[]
+
+==== createSingle_withInvalidPartValues_return400
+.request
+include::{snippets}/draft_single_create/createSingle_withInvalidPartValues_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_create/createSingle_withInvalidPartValues_return400/http-response.adoc[]
+
+==== createSingle_withValidPartValues_return200
+.request
+include::{snippets}/draft_single_create/createSingle_withValidPartValues_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_create/createSingle_withValidPartValues_return200/http-response.adoc[]
+
+==== createSingle_withValidPartValuesAndSizeExceedFiles_return400
+.request
+include::{snippets}/draft_single_create/createSingle_withValidPartValuesAndSizeExceedFiles_return400/httpie-request.adoc[]
+.response
+include::{snippets}/draft_single_create/createSingle_withValidPartValuesAndSizeExceedFiles_return400/http-response.adoc[]
+
+==== createSingle_withValidPartValuesAndFiles_return200
+.request
+include::{snippets}/draft_single_create/createSingle_withValidPartValuesAndFiles_return200/httpie-request.adoc[]
+.response
+include::{snippets}/draft_single_create/createSingle_withValidPartValuesAndFiles_return200/http-response.adoc[]
+
+== Draft Single Update
+
+HTTP Method : *PUT* +
+URI : */api/draft/\{draft_id\}*
+
+=== Request parts description
+include::{snippets}/draft_single_update/updateSingle_withValidPartValuesAndFilesAndId_return200/request-parts.adoc[]
+
+=== Response body fields description
+include::{snippets}/draft_single_update/updateSingle_withValidPartValuesAndFilesAndId_return200/response-fields.adoc[]
+
+=== Examples
+==== updateSingle_withInvalidPartValues_return400
+.request
+include::{snippets}/draft_single_update/updateSingle_withInvalidPartValues_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_update/updateSingle_withInvalidPartValues_return400/http-response.adoc[]
+
+==== updateSingle_withValidPartValuesButUnknownId_return400
+.request
+include::{snippets}/draft_single_update/updateSingle_withValidPartValuesButUnknownId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_update/updateSingle_withValidPartValuesButUnknownId_return400/http-response.adoc[]
+
+==== updateSingle_withValidPartValuesAndId_return200
+.request
+include::{snippets}/draft_single_update/updateSingle_withValidPartValuesAndId_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_update/updateSingle_withValidPartValuesAndId_return200/http-response.adoc[]
+
+==== updateSingle_withValidPartValuesAndFilesAndId_return200
+.request
+include::{snippets}/draft_single_update/updateSingle_withValidPartValuesAndFilesAndId_return200/httpie-request.adoc[]
+.response
+include::{snippets}/draft_single_update/updateSingle_withValidPartValuesAndFilesAndId_return200/http-response.adoc[]
+
+== Draft Single Get
+
+HTTP Method : *GET* +
+URI : */api/draft/\{draft_id\}*?password=\{string\}
+
+=== Request parameters description
+include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/request-parameters.adoc[]
+
+=== Response body fields description
+include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/response-fields.adoc[]
+
+=== Examples
+==== getSingle_withInvalidId_return400
+.request
+include::{snippets}/draft_single_get/getSingle_withInvalidId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_get/getSingle_withInvalidId_return400/http-response.adoc[]
+
+==== getSingle_withValidIdButWrongPassword_return400
+.request
+include::{snippets}/draft_single_get/getSingle_withValidIdButWrongPassword_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_get/getSingle_withValidIdButWrongPassword_return400/http-response.adoc[]
+
+==== getSingle_withValidIdAndRightPassword_return200
+.request
+include::{snippets}/draft_single_get/getSingle_withValidIdAndRightPassword_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_get/getSingle_withValidIdAndRightPassword_return200/http-response.adoc[]
+
+==== getSingleByAdmin_withValidId_return200
+.request
+include::{snippets}/draft_single_get/getSingleByAdmin_withValidId_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_get/getSingleByAdmin_withValidId_return200/http-response.adoc[]
+
+==== getSingleThatHasFolder_withValidIdAndRightPassword_return200
+.request
+include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightPassword_return200/http-response.adoc[]
+
+== Draft Single Delete
+
+HTTP Method : *DELETE* +
+URI : /api/draft/\{draft_id\}
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/draft_single_delete/deleteSingle_byAdminUser_return200/response-fields.adoc[]
+
+=== Examples
+==== deleteSingle_withoutSession_return400
+.request
+include::{snippets}/draft_single_delete/deleteSingle_withoutSession_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_delete/deleteSingle_withoutSession_return400/http-response.adoc[]
+
+==== deleteSingle_withUnknownId_return400
+.request
+include::{snippets}/draft_single_delete/deleteSingle_withUnknownId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_delete/deleteSingle_withUnknownId_return400/http-response.adoc[]
+
+==== deleteSingle_byNormalUser_return400
+.request
+include::{snippets}/draft_single_delete/deleteSingle_byNormalUser_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_delete/deleteSingle_byNormalUser_return400/http-response.adoc[]
+
+==== deleteSingle_byAdminUser_return200
+.request
+include::{snippets}/draft_single_delete/deleteSingle_byAdminUser_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_delete/deleteSingle_byAdminUser_return200/http-response.adoc[]
+
+== Draft Multiple Get
+
+HTTP Method : *GET* +
+URI : */api/drafts?page=\{int\}&size=\{int\}&property=\{draft_property\}&direction=\{asc_or_desc\}*
+
+=== Request parameters description
+include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/request-parameters.adoc[]
+
+=== Response body fields description
+include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/response-fields.adoc[]
+
+=== Examples
+==== getMultiple_withInvalidPageValue_return400
+.request
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidPageValue_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidPageValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidSizeValue_return400
+.request
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidSizeValue_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidSizeValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidDirectionValue_return400
+.request
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidDirectionValue_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidDirectionValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidPropertyValue_return400
+.request
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidPropertyValue_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_get/getMultiple_withInvalidPropertyValue_return400/http-response.adoc[]
+
+==== getMultiple_withValidParams_return200
+.request
+include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/http-response.adoc[]
+
+==== getMultiple_withoutParams_return200
+.request
+include::{snippets}/draft_multiple_get/getMultiple_withoutParams_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_get/getMultiple_withoutParams_return200/http-response.adoc[]
+
+==== getMultiple_withQueryDSLParams_return200
+.request
+include::{snippets}/draft_multiple_get/getMultiple_withQueryDSLParams_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_get/getMultiple_withQueryDSLParams_return200/http-response.adoc[]
+
+== Draft Copy
+
+HTTP Method : *POST* +
+URI : */api/draft/copy*
+
+=== Request body fields description
+include::{snippets}/draft_copy/copy_hasFolderDraft_return200/request-fields.adoc[]
+
+=== Response body fields description
+include::{snippets}/draft_copy/copy_hasFolderDraft_return200/response-fields.adoc[]
+
+=== Examples
+==== copy_withInvalidId_return400
+.request
+include::{snippets}/draft_copy/copy_withInvalidId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_copy/copy_withInvalidId_return400/http-response.adoc[]
+
+==== copy_withUnknownId_return400
+.request
+include::{snippets}/draft_copy/copy_withUnknownId_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_copy/copy_withUnknownId_return400/http-response.adoc[]
+
+==== copy_noFolderDraft_return200
+.request
+include::{snippets}/draft_copy/copy_noFolderDraft_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_copy/copy_noFolderDraft_return200/http-response.adoc[]
+
+==== copy_hasFolderDraft_return200
+.request
+include::{snippets}/draft_copy/copy_hasFolderDraft_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_copy/copy_hasFolderDraft_return200/http-response.adoc[]

@@ -1,0 +1,75 @@
+<app-title [title]="'시안수정'"></app-title>
+<div class="container">
+  <form #draftUpdateForm="ngForm" (ngSubmit)="onSubmit(draftUpdateForm)" novalidate>
+    <div class="area" *ngIf="draft">
+      <div class="row">
+        <label for="categoryName">품목선택</label>
+        <select id="categoryName" name="categoryName" [(ngModel)]='draft.categoryName'>
+          <option *ngFor="let category of categoryArray" [value]="category.name">{{ category.name }}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="paymentMethod">결제수단</label>
+        <select id="paymentMethod" name="paymentMethod" [(ngModel)]='draft.paymentMethod.name'>
+          <option *ngFor="let paymentMethod of paymentMethodArray" [value]="paymentMethod.name">{{ paymentMethod.value }}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="draftStatus">시안상태</label>
+        <select id="draftStatus" name="draftStatus" [(ngModel)]='draft.draftStatus.name'>
+          <option *ngFor="let draftStatus of draftStatusArray" [value]="draftStatus.name">{{ draftStatus.value }}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="memo">견적내용</label>
+        <textarea id="memo" name="memo" rows="10" [(ngModel)]='draft.memo'></textarea>
+      </div>
+      <div class="row">
+        <label for="companyName">회사</label>
+        <input type="text" id="companyName" name="companyName" autocomplete="off" [(ngModel)]='draft.companyName'>
+      </div>
+      <div class="row">
+        <label for="customerName">이름</label>
+        <input type="text" class="required" id="customerName" name="customerName" placeholder="이름을 입력해주세요." autocomplete="off" required [(ngModel)]='draft.customerName'>
+      </div>
+      <div class="row">
+        <label for="email">이메일</label>
+        <input type="email" class="required" id="email" name="email" placeholder="이메일을 입력해주세요." autocomplete="off" required [(ngModel)]='draft.email'>
+      </div>
+      <div class="row">
+        <label for="phone1">연락처</label>
+        <input type="tel" class="required" id="phone1" name="phone1" placeholder="연락처를 입력해주세요." autocomplete="off" required [(ngModel)]="draft.phoneNumber.split('-')[0]" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="3">&nbsp;-&nbsp;
+        <input type="tel" class="required" id="phone2" name="phone2" placeholder="연락처를 입력해주세요." autocomplete="off" required [(ngModel)]="draft.phoneNumber.split('-')[1]" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">&nbsp;-&nbsp;
+        <input type="tel" class="required" id="phone3" name="phone3" placeholder="연락처를 입력해주세요." autocomplete="off" required [(ngModel)]="draft.phoneNumber.split('-')[2]" (keypress)="onlyNumberKey($event)" [minlength]="4" [maxlength]="4">
+      </div>
+      <div class="row">
+        <label for="address">주소</label>
+        <input type="text" class="required address" id="address" name="address" placeholder="주소를 입력해주세요." autocomplete="off" required [(ngModel)]='draft.address'>
+      </div>
+      <div class="row">
+        <label for="detailAddress">상세 주소</label>
+        <input type="text" class="required address" id="detailAddress" name="detailAddress" placeholder="상세 주소를 입력해주세요." autocomplete="off" required [(ngModel)]='draft.detailAddress'>
+      </div>
+      <div class="row">
+        <label for="price">가격(원)</label>
+        <input type="number" class="required" id="price" name="price" placeholder="가격을 입력해주세요." autocomplete="off" required [(ngModel)]='draft.price' [min]="1000">
+      </div>
+      <div class="row">
+        <label for="inChargeName">담당자명</label>
+        <input type="text" id="inChargeName" name="inChargeName" autocomplete="off" [(ngModel)]='draft.inChargeName'>
+      </div>
+    </div>
+    <div class="area">
+      <div class="file hidden" *ngFor="let i of indexArray">
+        <label [htmlFor]="'file' + i"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
+        <input type="file" [id]="'file' + i" [name]="'file' + i" accept="image/*" #file>
+        <label (click)="deleteFile(i)"><fa-icon [icon]="['fas', 'xmark']"></fa-icon></label>
+      </div>
+      <fa-icon *ngIf="nextIndex < maxSize" (click)="showFileInput()" [icon]="['fas', 'circle-plus']"></fa-icon>
+    </div>
+    <div class="buttons">
+      <button type="button" class="cancel" [routerLink]="'/' + routeName.DRAFT_DETAIL" [queryParams]="{ id, p: password }"><div>취소</div></button>
+      <button type="submit" class="complete" [disabled]="draftUpdateForm.invalid"><div>수정완료</div></button>
+    </div>
+  </form>
+</div>

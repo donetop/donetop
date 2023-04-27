@@ -1,0 +1,20 @@
+<div class="contents">
+  <button class="open" #category_open_button>
+    <fa-icon [icon]="['fas', 'bars']"></fa-icon>
+  </button>
+  <button class="close" #category_close_button>
+    <fa-icon [icon]="['fas', 'xmark']"></fa-icon>
+  </button>
+  <div class="category" #category>
+    <ul>
+      <li class="group" *ngFor="let category of categories; let i = index" [ngClass]="{ 'bottom': isBottom(i) }">
+        <a class="parent">{{ category.name }}</a>
+        <ul class="sub_group">
+          <li *ngFor="let subCategory of category.subCategories">
+            <a (click)="showDetail(subCategory.id)">{{ subCategory.name }}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

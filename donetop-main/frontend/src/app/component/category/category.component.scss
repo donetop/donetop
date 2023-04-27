@@ -1,0 +1,49 @@
+div.container {
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+
+  div.location {
+    display: flex;
+    justify-content: flex-end;
+
+    > a {
+      padding: 10px 5px;
+      letter-spacing: 0 !important;
+      background: url("/assets/category/toright.gif") right 50% no-repeat;
+      padding-right: 15px;
+
+      &:last-child {
+        padding-left: 10px;
+        padding-right: 0px;
+        font-weight: bold;
+        background: none;
+      }
+    }
+  }
+
+  div.sort_buttons {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #dfdfdf;
+    margin: 20px 0;
+  }
+
+  div.noImages {
+    text-align: center;
+  }
+
+  div.images {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    > img {
+      max-width: 80%;
+      border: 1px solid #e5e5e5;
+      margin: 10px;
+    }
+  }
+}

@@ -1,0 +1,3 @@
+[submodule "donetop-secret"]
+	path = donetop-secret
+	url = https://github.com/donetop/donetop-secret.git

@@ -1,0 +1,34 @@
+<ng-image-slider
+  class="desktop"
+  [images]="desktop_slide_images"
+  [imageSize]="{ width: '100%', height: '550px' }"
+  [infinite]="true"
+  [autoSlide]="{ interval: 5, stopOnHover: true }"
+  [imagePopup]="false"
+></ng-image-slider>
+<ng-image-slider
+  class="mobile"
+  [images]="mobile_slide_images"
+  [imageSize]="{ width: '100%', height: '300px' }"
+  [infinite]="true"
+  [autoSlide]="{ interval: 5, stopOnHover: true }"
+  [imagePopup]="false"
+></ng-image-slider>
+<div class="content1">
+  <h2>현수막</h2>
+  <div class="images">
+    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of content1_files">
+  </div>
+</div>
+<div class="content2">
+  <h2>배너</h2>
+  <div class="images">
+    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of content2_files">
+  </div>
+</div>
+<div class="content3">
+  <h2>전단지</h2>
+  <div class="images">
+    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of content3_files">
+  </div>
+</div>
