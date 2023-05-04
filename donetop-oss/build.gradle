@@ -1,3 +1,9 @@
+buildscript {
+	ext {
+		projectName = "oss"
+	}
+}
+
 plugins {
 	id 'war'
 
@@ -11,7 +17,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-configuration-processor'
 
-	implementation 'com.mysql:mysql-connector-j:8.0.31'
+	implementation 'com.mysql:mysql-connector-j:8.0.33'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
 	implementation 'commons-io:commons-io:2.11.0'
 
@@ -29,7 +35,7 @@ sourceSets {
 	main {
 		resources {
 			srcDir 'src/main/resources'
-			srcDir 'src/main/resources-production'
+			srcDir "src/main/resources-$profile"
 		}
 	}
 }
@@ -47,32 +53,25 @@ node {
 
 tasks.register('copySubmoduleFiles', Copy) {
 	copy {
-		from fileTree("../donetop-secret/nhn").include("*.pem")
-		into "src/main/resources-production/nhn"
-	}
-	copy {
-		from fileTree("../donetop-secret/oss/environments").include("*.ts")
+		from fileTree("../donetop-secret/$projectName/environments").include("*")
 		into "frontend/src/environments"
 	}
 	copy {
-		from fileTree("../donetop-secret/oss/properties").include("*.yml")
-		into "src/main/resources-production"
+		from fileTree("../donetop-secret/$projectName/resources-$profile").include("*")
+		into "src/main/resources-$profile"
+	}
+	copy {
+		from fileTree("../donetop-secret/$projectName/resources-$profile/nhn").include("*")
+		into "src/main/resources-$profile/nhn"
 	}
 }
 
 tasks.register('npmBuild', NpmTask) {
 	dependsOn npmInstall
-	args = ["run", "build-production"]
+	args = ["run", "build-$profile"]
 }
 
 processResources {
 	dependsOn copySubmoduleFiles
 	dependsOn npmBuild
-}
-
-if (hasProperty('buildScan')) {
-	buildScan {
-		termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-		termsOfServiceAgree = 'yes'
-	}
 }

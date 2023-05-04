@@ -1,6 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.6.9'
+		profile = project.findProperty('profile') ?: 'development'
     }
 }
 

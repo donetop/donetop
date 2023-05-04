@@ -6,6 +6,131 @@ use `donetop`;
 
 show tables;
 
+-- drop table if exists `tbUser`;
+create table if not exists `tbUser` (
+  `id` bigint(20) not null auto_increment,
+  `createTime` datetime not null,
+  `email` varchar(32) default '' not null,
+  `name` varchar(32) default '' not null,
+  `password` varchar(512) default '' not null,
+  `roleType` varchar(10) default '' not null,
+  primary key (`id`),
+  unique `uc_email` (`email`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbUser`;
+show indexes from `tbUser`;
+
+-- drop table if exists `tbOSSUser`;
+create table if not exists `tbOSSUser` (
+  `id` bigint(20) not null auto_increment,
+  `createTime` datetime not null,
+  `name` varchar(32) default '' not null,
+  `password` varchar(512) default '' not null,
+  `roleType` varchar(10) default '' not null,
+  primary key (`id`),
+  unique `uc_name` (`name`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbOSSUser`;
+show indexes from `tbOSSUser`;
+
+-- drop table if exists `tbFolder`;
+create table if not exists `tbFolder` (
+  `id` bigint(20) not null auto_increment,
+  `folderType` varchar(10) default '' not null,
+  `path` varchar(512) default '' not null,
+  primary key (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbFolder`;
+show indexes from `tbFolder`;
+
+-- drop table if exists `tbFile`;
+create table if not exists `tbFile` (
+  `id` bigint(20) not null auto_increment,
+  `mimeType` varchar(128) default '' not null,
+  `name` varchar(128) default '' not null,
+  `folderId` bigint(20) not null,
+  primary key (`id`),
+  unique `uc_file` (`name`, `mimeType`, `folderId`),
+  constraint `fk_file_folder_id` foreign key (`folderId`) references `tbFolder` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbFile`;
+show indexes from `tbFile`;
+
+-- drop table if exists `tbPaymentInfo`;
+create table if not exists `tbPaymentInfo` (
+  `id` bigint(20) not null auto_increment,
+  `lastTransactionNumber` varchar(128) default '' not null,
+  `updateTime` datetime not null,
+  primary key (`id`),
+  unique `uc_lastTransactionNumber` (`lastTransactionNumber`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbPaymentInfo`;
+show indexes from `tbPaymentInfo`;
+
+-- drop table if exists `tbPaymentHistory`;
+create table if not exists `tbPaymentHistory` (
+  `id` bigint(20) not null auto_increment,
+  `createTime` datetime not null,
+  `paymentStatus` varchar(10) default '' not null,
+  `pgType` varchar(10) default '' not null,
+  `rawData` varchar(1024) default '' not null,
+  `paymentInfoId` bigint(20) not null,
+  primary key (`id`),
+  constraint `fk_paymentHistory_paymentInfo_id` foreign key (`paymentInfoId`) references `tbPaymentInfo` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbPaymentHistory`;
+show indexes from `tbPaymentHistory`;
+
+-- drop table if exists `tbDraft`;
+create table if not exists `tbDraft` (
+  `id` bigint(20) not null auto_increment,
+  `address` varchar(256) default '' not null,
+  `categoryName` varchar(64) default '' not null,
+  `companyName` varchar(128) default '' not null,
+  `createTime` datetime not null,
+  `customerName` varchar(128) default '' not null,
+  `detailAddress` varchar(256) default '' not null,
+  `draftStatus` varchar(50) default '' not null,
+  `email` varchar(128) default '' not null,
+  `inChargeName` varchar(128) default '' not null,
+  `memo` varchar(3000) default '' not null,
+  `password` varchar(512) default '' not null,
+  `paymentMethod` varchar(50) default '' not null,
+  `phoneNumber` varchar(15) default '' not null,
+  `price` bigint(20) default 0 not null,
+  `updateTime` datetime not null,
+  `folderId` bigint(20),
+  `paymentInfoId` bigint(20),
+  primary key (`id`),
+  unique `uc_folderId` (`folderId`),
+  unique `uc_paymentInfoId` (`paymentInfoId`),
+  constraint `fk_draft_folder_id` foreign key (`folderId`) references `tbFolder` (`id`),
+  constraint `fk_draft_paymentInfo_id` foreign key (`paymentInfoId`) references `tbPaymentInfo` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbDraft`;
+show indexes from `tbDraft`;
+
+-- alter table `tbDraft` modify column `password` varchar(512) not null default '';
+
+-- drop table if exists `tbCategory`;
+create table if not exists `tbCategory` (
+  `id` bigint(20) not null auto_increment,
+  `name` varchar(128) default '' not null,
+  `sequence` int(11) default 0 not null,
+  `folderId` bigint(20),
+  `parentId` bigint(20),
+  primary key (`id`),
+  unique `uc_name` (`name`),
+  constraint `fk_category_category_parentId` foreign key (`parentId`) references `tbCategory` (`id`),
+  constraint `fk_category_folder_id` foreign key (`folderId`) references `tbFolder` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbCategory`;
+show indexes from `tbCategory`;
+
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+
 select * from `tbUser`;
 select * from `tbOSSUser`;
 select * from `tbDraft` order by createTime desc;
@@ -16,33 +141,3 @@ select * from `tbPaymentHistory`;
 select * from `tbCategory`;
 
 -- update `tbCategory` set folderId = null where id = 78;
-
--- drop table if exists `tbUser`;
--- drop table if exists `tbOSSUser`;
--- drop table if exists `tbDraft`;
--- drop table if exists `tbFolder`;
--- drop table if exists `tbFile`;
--- drop table if exists `tbPaymentInfo`;
--- drop table if exists `tbPaymentHistory`;
--- drop table if exists `tbCategory`;
-
--- alter table `tbDraft` modify column `password` varchar(512) not null default '';
--- alter table `tbPaymentInfo` drop column `paymentStatus`;
-
-show full columns from `tbUser`;
-show full columns from `tbOSSUser`;
-show full columns from `tbDraft`;
-show full columns from `tbFolder`;
-show full columns from `tbFile`;
-show full columns from `tbPaymentInfo`;
-show full columns from `tbPaymentHistory`;
-show full columns from `tbCategory`;
-
-show indexes from `tbUser`;
-show indexes from `tbOSSUser`;
-show indexes from `tbDraft`;
-show indexes from `tbFolder`;
-show indexes from `tbFile`;
-show indexes from `tbPaymentInfo`;
-show indexes from `tbPaymentHistory`;
-show indexes from `tbCategory`;
