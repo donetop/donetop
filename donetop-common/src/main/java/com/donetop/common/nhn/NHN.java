@@ -24,13 +24,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.util.Base64;
-import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
@@ -76,23 +72,22 @@ public class NHN {
 	}
 
 	private String loadCertData() {
-		try {
-			log.info("NHN cert file path: {}", certPath);
-			final Path path = Paths.get(new ClassPathResource(certPath).getURI());
-			return String.join("", Files.readAllLines(path));
+		log.info("NHN cert file path: {}", certPath);
+		final ClassPathResource classPathResource = new ClassPathResource(certPath);
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(classPathResource.getInputStream()))) {
+			return reader.lines().collect(joining());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	private String loadPrivateKeyData() {
-		try {
-			log.info("NHN private key file path: {}", privateKeyPath);
-			final Path path = Paths.get(new ClassPathResource(privateKeyPath).getURI());
-			return Files.readAllLines(path)
-				.stream()
+		log.info("NHN private key file path: {}", privateKeyPath);
+		final ClassPathResource classPathResource = new ClassPathResource(privateKeyPath);
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(classPathResource.getInputStream()))) {
+			return reader.lines()
 				.filter(line -> !line.startsWith("-----BEGIN") && !line.startsWith("-----END"))
-				.collect(Collectors.joining());
+				.collect(joining());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
