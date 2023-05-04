@@ -1,3 +1,9 @@
+buildscript {
+	ext {
+		projectName = "main"
+	}
+}
+
 plugins {
     id 'war'
 
@@ -39,7 +45,7 @@ sourceSets {
 	main {
 		resources {
 			srcDir 'src/main/resources'
-			srcDir 'src/main/resources-production'
+			srcDir "src/main/resources-$profile"
 		}
 	}
 }
@@ -57,22 +63,22 @@ node {
 
 tasks.register('copySubmoduleFiles', Copy) {
 	copy {
-		from fileTree("../donetop-secret/nhn").include("*.pem")
-		into "src/main/resources-production/nhn"
-	}
-	copy {
-		from fileTree("../donetop-secret/main/environments").include("*.ts")
+		from fileTree("../donetop-secret/$projectName/environments").include("*")
 		into "frontend/src/environments"
 	}
 	copy {
-		from fileTree("../donetop-secret/main/properties").include("*.yml")
-		into "src/main/resources-production"
+		from fileTree("../donetop-secret/$projectName/resources-$profile").include("*")
+		into "src/main/resources-$profile"
+	}
+	copy {
+		from fileTree("../donetop-secret/$projectName/resources-$profile/nhn").include("*")
+		into "src/main/resources-$profile/nhn"
 	}
 }
 
 tasks.register('npmBuild', NpmTask) {
 	dependsOn npmInstall
-	args = ["run", "build-production"]
+	args = ["run", "build-$profile"]
 }
 
 processResources {
