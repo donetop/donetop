@@ -54,15 +54,7 @@ case "$1" in
           	stop "$2"
         fi
         ;;
-		restart)
-				if [ -z "$2" ]; then
-						echo "application-name should be supplied."
-        else
-            stop "$2"
-            start "$2"
-				fi
-				;;
   	*)
-        echo $"Usage: $0 <start|stop|restart> <application-name>"
+        echo $"Usage: $0 <start|stop> <application-name>"
         exit 1
 esac
