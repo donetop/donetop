@@ -18,12 +18,12 @@ start() {
 		check_running_java_process "$APPLICATION_NAME"
 		if [ "$RUNNING" == 1 ]; then
 				echo "There is already running $APPLICATION_NAME process($SEARCHED_PROCESS_ID)."
-				exit 1
+		else
+				SRC_LIB_DIR="$APPLICATION_NAME/build/libs"
+      	JAR_FULL_PATH=$(find "$SRC_LIB_DIR" -name "*.jar")
+        echo "starting $APPLICATION_NAME process."
+        java -server -Xms512m -Xmx512m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" > "/donetop/$1/logs/start.log" &
 		fi
-		SRC_LIB_DIR="$APPLICATION_NAME/build/libs"
-		JAR_FULL_PATH=$(find "$SRC_LIB_DIR" -name "*.jar")
-    echo "starting $APPLICATION_NAME process."
-    java -server -Xms512m -Xmx512m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" > "/donetop/$1/logs/start.log" &
 }
 
 stop() {
@@ -32,10 +32,10 @@ stop() {
     check_running_java_process "$APPLICATION_NAME"
 		if [ "$RUNNING" == 0 ]; then
 				echo "There is no running $APPLICATION_NAME process."
-				exit 1
+		else
+			  echo "shutting down $APPLICATION_NAME($SEARCHED_PROCESS_ID) process."
+        pkill -15 -e -f -o "$APPLICATION_NAME"
 		fi
-    echo "shutting down $APPLICATION_NAME($SEARCHED_PROCESS_ID) process."
-    pkill -15 -e -f -o "$APPLICATION_NAME"
 }
 
 ## See how we call this script.
