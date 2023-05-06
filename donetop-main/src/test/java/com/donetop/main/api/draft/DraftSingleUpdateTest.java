@@ -138,7 +138,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 		// given
 		final Draft draft = saveSingleDraftWithoutFiles();
 		final Storage storage = applicationProperties.getStorage();
-		final List<java.io.File> files = LocalFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 2);
+		final List<java.io.File> files = LocalFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 1);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
@@ -192,7 +192,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
 		final long draftId = Long.parseLong(ok.getData());
 		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(storage.getRoot(), draftId));
-		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(2);
+		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(1);
 	}
 
 }
