@@ -34,7 +34,7 @@ stop() {
 				echo "There is no running $APPLICATION_NAME process."
 		else
 			  echo "shutting down $APPLICATION_NAME($SEARCHED_PROCESS_ID) process."
-        pkill -15 -e -f -o "$APPLICATION_NAME"
+        pkill -9 -e -f -o "$APPLICATION_NAME"
 		fi
 }
 
@@ -54,7 +54,15 @@ case "$1" in
           	stop "$2"
         fi
         ;;
+		restart)
+				if [ -z "$2" ]; then
+						echo "application-name should be supplied."
+				else
+						stop "$2"
+						start "$2"
+				fi
+				;;
   	*)
-        echo $"Usage: $0 <start|stop> <application-name>"
+        echo $"Usage: $0 <start|stop|restart> <application-name>"
         exit 1
 esac
