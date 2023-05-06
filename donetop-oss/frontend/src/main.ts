@@ -6,6 +6,8 @@ import { StoreModule } from "@ngrx/store";
 import { ossUserReducer } from "./app/store/reducer/oss-user.reducer";
 import { AppComponent } from "./app/app.component";
 import { provideHttpClient } from "@angular/common/http";
+import { CryptoService } from "./app/service/crypto.service";
+import { environment } from "./environments/environment.development";
 
 bootstrapApplication(
   AppComponent,
@@ -13,7 +15,8 @@ bootstrapApplication(
     providers: [
       provideRouter(routes),
       provideHttpClient(),
-      importProvidersFrom(StoreModule.forRoot({ ossUser: ossUserReducer }))
+      importProvidersFrom(StoreModule.forRoot({ ossUser: ossUserReducer })),
+      { provide: CryptoService, useClass: environment.cryptoService }
     ]
   }
 ).catch(err => console.error(err));
