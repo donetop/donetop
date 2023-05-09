@@ -3,6 +3,9 @@ server:
   servlet:
     session:
       timeout: 10m
+      cookie:
+        name: DONETOP_OSS_JSESSIONID
+        http-only: true
 
 spring:
   profiles:
@@ -29,6 +32,7 @@ application:
     base-uri: "http://localhost"
     storage:
       root: C:/Users/hjm70/Jin/Work/WorkSpace/donetop/donetop-oss/src/main/resources/storage
+    cookieName: DONETOP_OSS_JSESSIONID
 
 nhn:
   site-cd: T0000

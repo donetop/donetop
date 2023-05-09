@@ -12,7 +12,9 @@ import com.donetop.main.api.form.filter.LoginFilter;
 import com.donetop.main.api.form.handler.LoginFailureHandler;
 import com.donetop.main.api.form.handler.LoginSuccessHandler;
 import com.donetop.main.api.form.handler.LogoutSuccessHandler;
+import com.donetop.common.form.InvalidCookieClearingStrategy;
 import com.donetop.main.api.user.UserAPIController;
+import com.donetop.main.properties.ApplicationProperties;
 import com.donetop.main.view.ViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final LogoutSuccessHandler logoutSuccessHandler;
 
+	private final ApplicationProperties applicationProperties;
+
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http
@@ -81,6 +85,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutUrl(FormAPIController.URI.LOGOUT)
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.invalidateHttpSession(true)
+				.deleteCookies(applicationProperties.getCookieName())
+			.and()
+				.sessionManagement()
+				.invalidSessionStrategy(new InvalidCookieClearingStrategy(applicationProperties.getCookieName()))
 		;
 	}
 

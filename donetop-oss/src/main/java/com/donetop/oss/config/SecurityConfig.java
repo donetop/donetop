@@ -1,6 +1,7 @@
 package com.donetop.oss.config;
 
 import com.donetop.common.encoder.NoOpPasswordEncoder;
+import com.donetop.common.form.InvalidCookieClearingStrategy;
 import com.donetop.enums.user.RoleType;
 import com.donetop.oss.api.category.OSSCategoryAPIController;
 import com.donetop.oss.api.file.OSSFileAPIController;
@@ -10,6 +11,7 @@ import com.donetop.oss.api.form.handler.LoginFailureHandler;
 import com.donetop.oss.api.form.handler.LoginSuccessHandler;
 import com.donetop.oss.api.form.handler.LogoutSuccessHandler;
 import com.donetop.oss.api.user.OSSUserAPIController;
+import com.donetop.oss.properties.ApplicationProperties;
 import com.donetop.oss.view.OSSViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final LogoutSuccessHandler logoutSuccessHandler;
 
+	private final ApplicationProperties applicationProperties;
+
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http
@@ -74,6 +78,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutUrl(OSSFormAPIController.URI.LOGOUT)
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.invalidateHttpSession(true)
+				.deleteCookies(applicationProperties.getCookieName())
+			.and()
+				.sessionManagement()
+				.invalidSessionStrategy(new InvalidCookieClearingStrategy(applicationProperties.getCookieName()))
 		;
 	}
 
