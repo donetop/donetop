@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -36,7 +35,7 @@ public class InvalidCookieClearingStrategy implements InvalidSessionStrategy {
 	}
 
 	@Override
-	public void onInvalidSessionDetected(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+	public void onInvalidSessionDetected(final HttpServletRequest request, final HttpServletResponse response) {
 		log.debug("There's a request with invalid session id {}. So the session will be deleted.", request.getRequestedSessionId());
 		this.cookiesToClear.forEach((f) -> response.addCookie(f.apply(request)));
 	}
