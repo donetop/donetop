@@ -3,6 +3,7 @@ package com.donetop.main.view;
 import com.donetop.main.api.form.handler.LoginFailureHandler;
 import com.donetop.main.api.form.handler.LoginSuccessHandler;
 import com.donetop.main.api.form.handler.LogoutSuccessHandler;
+import com.donetop.main.properties.ApplicationProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,6 +37,8 @@ class ViewControllerTest {
 		private LoginFailureHandler loginFailureHandler;
 		@MockBean
 		private LogoutSuccessHandler logoutSuccessHandler;
+		@MockBean
+		private ApplicationProperties applicationProperties;
 	}
 
 	@Test
