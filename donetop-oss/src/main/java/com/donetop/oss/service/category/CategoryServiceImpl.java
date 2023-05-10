@@ -13,6 +13,7 @@ import com.donetop.dto.category.CategoryDTO;
 import com.donetop.oss.properties.ApplicationProperties;
 import com.donetop.oss.properties.ApplicationProperties.Storage;
 import com.donetop.repository.category.CategoryRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import java.util.Objects;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
@@ -58,13 +60,17 @@ public class CategoryServiceImpl implements CategoryService {
 			final LinkedList<Category> parentCategories = categoryRepository.parentCategories().stream().sorted().collect(toCollection(LinkedList::new));
 			final int sequence = parentCategories.size() == 0 ? 1 : parentCategories.getLast().getSequence() + 1;
 			final Category newCategory = Category.of(request.getName(), sequence);
-			return save(newCategory).getId();
+			final long id = save(newCategory).getId();
+			log.info("[CREATE_PARENT] categoryId: {}", id);
+			return id;
 		}
 		final Category parentCategory = getOrThrow(request.getParentCategoryId());
 		final LinkedList<Category> subCategories = parentCategory.getSubCategories().stream().sorted().collect(toCollection(LinkedList::new));
 		final int sequence = subCategories.size() == 0 ? 1 : subCategories.getLast().getSequence() + 1;
 		final Category newCategory = Category.of(request.getName(), sequence).setParent(parentCategory);
-		return save(newCategory).getId();
+		final long id = save(newCategory).getId();
+		log.info("[CREATE_CHILD] parentCategoryId: {}, categoryId: {}", parentCategory.getId(), id);
+		return id;
 	}
 
 	@Override
@@ -75,6 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
 			categoryRepository.greaterSequenceParentCategories(category.getSequence()) :
 			categoryRepository.greaterSequenceSubCategories(Objects.requireNonNull(category.getParent()).getId(), category.getSequence());
 		greaterSequenceCategories.forEach(Category::decreaseSequence);
+		log.info("[DELETE] categoryId: {}", id);
 		return id;
 	}
 
@@ -85,6 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
 			final long id = categoryDTO.getId();
 			getOrThrow(id).setSequence(categoryDTO.getSequence());
 		});
+		log.info("[SORT] categoryIds: {}", categories.stream().map(CategoryDTO::getId).collect(toList()));
 		return categories;
 	}
 
@@ -96,6 +104,7 @@ public class CategoryServiceImpl implements CategoryService {
 			storageService.saveIfNotExist(folder);
 			category.setFolder(folder);
 		}
+		log.info("[ADD_IMAGE] categoryId: {}", id);
 		return save(request.getResource(), folder).getId();
 	}
 
@@ -107,6 +116,7 @@ public class CategoryServiceImpl implements CategoryService {
 			.getFiles().stream().filter(f -> f.getId() == fileId).findFirst()
 			.orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 파일입니다. id: %s", fileId)));
 		storageService.delete(file);
+		log.info("[DELETE_IMAGE] categoryId: {}", categoryId);
 		return fileId;
 	}
 

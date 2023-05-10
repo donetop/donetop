@@ -12,6 +12,7 @@ import com.donetop.common.service.storage.StorageService;
 import com.donetop.main.service.user.UserService;
 import com.donetop.repository.draft.DraftRepository;
 import com.querydsl.core.types.Predicate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.User;
@@ -24,6 +25,7 @@ import java.util.Objects;
 
 import static com.donetop.main.properties.ApplicationProperties.*;
 
+@Slf4j
 @Service
 @Transactional
 public class DraftServiceImpl implements DraftService {
@@ -52,6 +54,7 @@ public class DraftServiceImpl implements DraftService {
 	public long createNewDraft(final DraftCreateRequest request) {
 		final Draft newDraft = draftRepository.save(request.toEntity());
 		saveResources(newDraft, request.getResources());
+		log.info("[CREATE] draftId: {}", newDraft.getId());
 		return newDraft.getId();
 	}
 
@@ -74,6 +77,7 @@ public class DraftServiceImpl implements DraftService {
 		final Draft draft = draftRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
 		saveResources(draft, request.getResources());
+		log.info("[UPDATE] draftId: {}", draft.getId());
 		return request.applyTo(draft).getId();
 	}
 
@@ -86,6 +90,7 @@ public class DraftServiceImpl implements DraftService {
 		final Folder folder = draft.getFolder();
 		if (folder != null) storageService.delete(folder);
 		draftRepository.delete(draft);
+		log.info("[DELETE] draftId: {}", id);
 		return id;
 	}
 
@@ -98,6 +103,7 @@ public class DraftServiceImpl implements DraftService {
 		if (folder != null) {
 			saveResources(copiedDraft, LocalFileUtil.readResources(Path.of(folder.getPath())));
 		}
+		log.info("[COPY] draftId: {}", id);
 		return copiedDraft.getId();
 	}
 
