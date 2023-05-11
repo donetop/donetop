@@ -25,6 +25,9 @@ public class ApplicationProperties {
 	@NotNull
 	private Storage storage;
 
+	@NotEmpty
+	private String cookieName;
+
 	@Getter @Setter
 	public static class Storage {
 

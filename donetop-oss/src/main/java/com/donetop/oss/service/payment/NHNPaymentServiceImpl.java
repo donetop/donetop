@@ -80,6 +80,8 @@ public class NHNPaymentServiceImpl implements PaymentService {
 					.rawData(rawData)
 					.paymentInfo(paymentInfo).build();
 				paymentHistoryRepository.save(paymentHistory);
+				log.info("[UPDATE_PAYMENT_INFO] paymentInfoId: {}", paymentInfo.getId());
+				log.info("[SAVE_PAYMENT_HISTORY] paymentHistoryId: {}", paymentHistory.getId());
 			}
 
 			return nhnCancelDetail;

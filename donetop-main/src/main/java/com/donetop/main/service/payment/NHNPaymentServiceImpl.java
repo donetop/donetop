@@ -58,8 +58,10 @@ public class NHNPaymentServiceImpl implements NHNPaymentService {
 		if (paymentInfo.isNew()) {
 			paymentInfoRepository.save(paymentInfo);
 			draft.addPaymentInfo(paymentInfo);
+			log.info("[SAVE_PAYMENT_INFO] paymentInfoId: {}", paymentInfo.getId());
 		} else {
 			paymentInfo.setUpdateTime(LocalDateTime.now());
+			log.info("[UPDATE_PAYMENT_INFO] paymentInfoId: {}", paymentInfo.getId());
 		}
 		final PaymentHistory paymentHistory = new PaymentHistory().toBuilder()
 			.pgType(PGType.NHN)
@@ -67,6 +69,7 @@ public class NHNPaymentServiceImpl implements NHNPaymentService {
 			.rawData(rawData)
 			.paymentInfo(paymentInfo).build();
 		paymentHistoryRepository.save(paymentHistory);
+		log.info("[SAVE_PAYMENT_HISTORY] paymentHistoryId: {}", paymentHistory.getId());
 		return nhnPaidDetail;
 	}
 

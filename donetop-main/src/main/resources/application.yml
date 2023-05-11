@@ -3,6 +3,9 @@ server:
   servlet:
     session:
       timeout: 10m
+      cookie:
+        name: DONETOP_MAIN_JSESSIONID
+        http-only: true
 
 spring:
   profiles:
@@ -34,6 +37,7 @@ application:
     custom-max-inactive-interval: 31536000 # 1년
     storage:
       root: C:/Users/hjm70/Jin/Work/WorkSpace/donetop/donetop-main/src/main/resources/storage
+    cookieName: DONETOP_MAIN_JSESSIONID
 
 nhn:
   site-cd: T0000

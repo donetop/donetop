@@ -23,7 +23,7 @@ import java.util.List;
 import static com.donetop.common.Profile.TEST;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class IntegrationBase {

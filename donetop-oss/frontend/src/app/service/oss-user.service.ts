@@ -7,6 +7,7 @@ import { RouteName } from '../store/model/routeName.model';
 import { OSSUser } from '../store/model/oss-user.model';
 import { Store } from '@ngrx/store';
 import { OSSUserUnloadAction } from '../store/action/oss-user.action';
+import { CryptoService } from './crypto.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +19,17 @@ export class OSSUserService {
   private ossUserURI: string = '/api/ossUser'
   private routeName = RouteName.INSTANCE;
 
-  constructor(private httpClient: HttpClient, private router: Router, private store: Store) {}
+  constructor(
+    private httpClient: HttpClient, private router: Router,
+    private store: Store, private cryptoService: CryptoService
+  ) {}
 
   login(form: NgForm) {
-    this.httpClient.post<Response<string>>(this.formLoginURI, form.value)
+    const body = {
+      'username': form.controls['username'].value,
+      'password': this.cryptoService.encrypt(form.controls['password'].value)
+    }
+    this.httpClient.post<Response<string>>(this.formLoginURI, body)
     .subscribe({
       next: (response) => {
         console.log(`login success. user info : ${response.data}`);
