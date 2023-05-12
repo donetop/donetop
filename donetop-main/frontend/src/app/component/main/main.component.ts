@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, Event, NavigationEnd, RouterModule } from '@angular/router';
+import { Router, NavigationEnd, RouterModule, RouterEvent } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
+import { SpinnerComponent } from '../spinner/spinner.component';
+import { LoaderService } from 'src/app/service/loader.service';
 
 @Component({
   selector: 'app-main',
@@ -13,18 +15,20 @@ import { FooterComponent } from '../footer/footer.component';
     CommonModule,
     RouterModule,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SpinnerComponent
   ]
 })
 export class MainComponent {
 
   isLogin: boolean = false;
 
-  constructor(private router: Router) {
-    this.router.events.subscribe((event: Event) => {
+  constructor(private router: Router, private loaderService: LoaderService) {
+    this.router.events.subscribe((event: RouterEvent) => {
       if (event instanceof NavigationEnd) {
         this.isLogin = event.url.includes('login');
       }
+      this.loaderService.acceptRouterEvent(event);
     });
   }
 }
