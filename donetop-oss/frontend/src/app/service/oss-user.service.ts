@@ -33,7 +33,7 @@ export class OSSUserService {
     .subscribe({
       next: (response) => {
         console.log(`login success. user info : ${response.data}`);
-        this.router.navigateByUrl(this.routeName.HOME).then(() => window.location.reload());
+        this.router.navigateByUrl(this.routeName.HOME);
       },
       error: ({error}) => alert(error.reason)
     });
