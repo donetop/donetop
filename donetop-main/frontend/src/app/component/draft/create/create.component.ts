@@ -55,6 +55,7 @@ export class CreateComponent implements OnInit {
     this.category = this.categoryArray[0].name;
     this.paymentMethodArray = await this.enumService.paymentMethodArray();
     this.paymentMethod = this.paymentMethodArray[0].name;
+    document.getElementById('scrollToTopButton')?.click();
   }
 
   onlyNumberKey(event: any) {

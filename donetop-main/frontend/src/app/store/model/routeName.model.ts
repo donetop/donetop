@@ -30,6 +30,8 @@ export class RouteName {
 
   public readonly POLICY = `${prefix}/policy`;
 
+  public readonly USAGE = `${prefix}/usage`;
+
   public readonly FALL_BACK = `**`;
 
   private constructor() {}

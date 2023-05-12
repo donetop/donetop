@@ -80,6 +80,10 @@ footer {
 
     > img {
       flex-grow: 1;
+
+      &:last-child {
+        cursor: pointer;
+      }
     }
   }
 
