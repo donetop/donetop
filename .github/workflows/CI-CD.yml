@@ -42,13 +42,24 @@ jobs:
       with:
         name: build-libs
         path: donetop-oss/build/libs/*.jar
-
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    # - name: Publish to GitHub Packages
-    #  uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-    #  with:
-    #    arguments: publish
-    #  env:
-    #    USERNAME: ${{ github.actor }}
-    #    TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${ { secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${ { secrets.REMOTE_HOST }}
+          REMOTE_USER: ${ { secrets.REMOTE_USER }}
+          SOURCE: "donetop-oss/build/libs/"
+          TARGET: ${ { secrets.REMOTE_TARGET }}
+          SCRIPT_BEFORE: |
+            whoami
+            ls -al
+          SCRIPT_AFTER: |
+            whoami
+            ls -al
+            echo $RSYNC_STDOUT
