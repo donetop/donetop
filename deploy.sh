@@ -22,7 +22,7 @@ start() {
 				SRC_LIB_DIR="$APPLICATION_NAME/build/libs"
       	JAR_FULL_PATH=$(find "$SRC_LIB_DIR" -name "*.jar")
         echo "starting $APPLICATION_NAME process."
-        java -server -Xms512m -Xmx512m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" > "/donetop/$1/logs/start.log" &
+        java -server -Xms128m -Xmx128m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" > "/donetop/$1/logs/start.log" &
 		fi
 }
 

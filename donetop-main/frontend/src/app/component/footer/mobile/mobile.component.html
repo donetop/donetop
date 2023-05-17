@@ -9,12 +9,12 @@
       <div>평일 AM 09:00 ~ PM 18:00</div>
       <div>점심 PM 12:30 ~ PM 13:30</div>
       <div>토·일·공휴일 휴무</div>
-      <a href="#">별도견적 문의</a>
+      <a [routerLink]="routeName.DRAFT_CREATE">별도견적 문의</a>
     </div>
   </div>
   <div class="image">
     <img src="/assets/footer/data.jpg">
-    <img src="/assets/footer/webhard.jpg">
+    <img src="/assets/footer/webhard.jpg" onclick="window.open('https://imagetoday.co.kr/', '_blank');">
   </div>
   <div class="notice">
     <h3><span>주문전</span> 확인해주세요!</h3>
@@ -23,7 +23,7 @@
       <br>
       자세한 내용을 확인하세요.
     </p>
-    <a href="#">이용방법 확인하기</a>
+    <a [routerLink]="routeName.USAGE">이용방법 확인하기</a>
   </div>
   <div class="bank">
     <h2>입금계좌번호</h2>
