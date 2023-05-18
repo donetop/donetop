@@ -50,7 +50,7 @@ jobs:
     steps:
       - name: Check existence of build outputs
         run: |
-          find / -name donetop-oss
+          ls -al /home/runner/work/donetop/donetop/donetop-oss/build/libs
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
