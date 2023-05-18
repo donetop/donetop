@@ -57,8 +57,7 @@ jobs:
         with:
           name: libs
           path: donetop-oss/build/libs/
-      - run: ls -al donetop-oss/build/libs/
-      - name: Deploy to Server
+      - name: Send libs to remote server
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -66,7 +65,14 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SOURCE: donetop-oss/build/libs/
           TARGET: ${{ secrets.REMOTE_TARGET }}
+      - name: Send deploy.sh to remote server and restart donetop-oss process
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          SOURCE: ./deploy.sh
           SCRIPT_AFTER: |
-            whoami
-            ls -al
+            chmod 700 ./deploy.sh
+            ./deploy.sh restart donetop-oss
             
