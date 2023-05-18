@@ -67,11 +67,11 @@ jobs:
           name: libs
           path: donetop-oss/build/libs/
       - run: ls -al donetop-oss/build/libs/
-#       - name: Deploy to Server
-#         uses: easingthemes/ssh-deploy@main
-#         env:
-#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-#           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-#           SOURCE: "build-libs/"
-#           TARGET: ${{ secrets.REMOTE_TARGET }}
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          SOURCE: donetop-oss/build/libs/
+          TARGET: ${{ secrets.REMOTE_TARGET }}
