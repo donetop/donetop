@@ -78,4 +78,4 @@ jobs:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
           SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      - run: ssh ${{ steps.ssh.outputs.SERVER }} ./test.sh my-test
+      - run: ssh ${{ steps.ssh.outputs.SERVER }} ./test.sh
