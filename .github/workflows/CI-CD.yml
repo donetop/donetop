@@ -39,11 +39,11 @@ jobs:
     - name: Run build with Gradle Wrapper
       run: ./gradlew donetop-oss:bootJar -Pprofile=aws
       
-    - name: Upload build libs
-      uses: actions/upload-artifact@v3
-      with:
-        name: build-libs
-        path: donetop-oss/build/libs/*.jar
+#     - name: Upload build libs
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: build-libs
+#         path: donetop-oss/build/libs/*.jar
         
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
@@ -51,7 +51,7 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        SOURCE: "build-libs/"
+        SOURCE: "donetop-oss/build/libs/"
         TARGET: ${{ secrets.REMOTE_TARGET }}
   
 #   deploy:
