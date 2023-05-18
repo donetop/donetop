@@ -39,32 +39,34 @@ jobs:
     - name: Run build with Gradle Wrapper
       run: ./gradlew donetop-oss:bootJar -Pprofile=aws
       
-#     - name: Upload build libs
-#       uses: actions/upload-artifact@v3
-#       with:
-#         name: build-libs
-#         path: donetop-oss/build/libs/*.jar
+    - name: Upload build libs
+      uses: actions/upload-artifact@v3
+      with:
+        name: libs
+        path: donetop-oss/build/libs/
         
-    - name: Deploy to Server
-      uses: easingthemes/ssh-deploy@main
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        SOURCE: "donetop-oss/build/libs/"
-        TARGET: ${{ secrets.REMOTE_TARGET }}
+#     - name: Deploy to Server
+#       uses: easingthemes/ssh-deploy@main
+#       env:
+#         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+#         REMOTE_USER: ${{ secrets.REMOTE_USER }}
+#         SOURCE: "donetop-oss/build/libs/"
+#         TARGET: ${{ secrets.REMOTE_TARGET }}
   
-#   deploy:
-#     needs: [build]
-#     runs-on: ubuntu-latest
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
     
-#     steps:
-#       - name: Checkout project sources
-#         uses: actions/checkout@v3
-#       - name: Download build libs
-#         uses: actions/download-artifact@v3
-#         with:
-#           name: build-libs
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v3
+      - name: Download build libs
+        uses: actions/download-artifact@v3
+        with:
+          name: libs
+          path: donetop-oss/build/libs/
+      - run: ls -al donetop-oss/build/libs/
 #       - name: Deploy to Server
 #         uses: easingthemes/ssh-deploy@main
 #         env:
