@@ -80,4 +80,5 @@ jobs:
       - run: |
           ssh ${{ steps.ssh.outputs.SERVER }} chmod 700 ./deploy.sh
           ssh ${{ steps.ssh.outputs.SERVER }} ./deploy.sh restart donetop-oss
+          ssh ${{ steps.ssh.outputs.SERVER }} echo "restart complete"
             
