@@ -79,6 +79,6 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - run: |
           ssh ${{ steps.ssh.outputs.SERVER }} chmod 700 ./deploy.sh
-          ssh ${{ steps.ssh.outputs.SERVER }} ./deploy.sh restart donetop-oss
+          ssh ${{ steps.ssh.outputs.SERVER }} ./deploy.sh restart donetop-oss > result.log
           ssh ${{ steps.ssh.outputs.SERVER }} echo "restart complete"
             
