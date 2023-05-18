@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    environment: test
 
     steps:
     - name: Checkout project sources
@@ -37,7 +39,7 @@ jobs:
     - name: Run build with Gradle Wrapper
       run: ./gradlew donetop-oss:bootJar -Pprofile=aws
       
-    - name: Upload build lib
+    - name: Upload build libs
       uses: actions/upload-artifact@v3
       with:
         name: build-libs
@@ -48,9 +50,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Check existence of build outputs
-        run: |
-          ls -al donetop-oss/
+      - name: Checkout project sources
+        uses: actions/checkout@v3
+      - name: Download build libs
+        uses: actions/download-artifact@v3
+        with:
+          name: build-libs
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
