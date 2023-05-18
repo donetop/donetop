@@ -70,6 +70,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SOURCE: ./deploy.sh
+          SCRIPT_AFTER: chmod 700 ./deploy.sh
       - id: ssh
         name: ssh action for restarting donetop-oss process
         uses: invi5H/ssh-action@v1
@@ -77,8 +78,4 @@ jobs:
           SSH_HOST: ${{ secrets.REMOTE_HOST }}
           SSH_USER: ${{ secrets.REMOTE_USER }}
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      - run: |
-          ssh ${{ steps.ssh.outputs.SERVER }} chmod 700 ./deploy.sh
-          ssh ${{ steps.ssh.outputs.SERVER }} ./deploy.sh restart donetop-oss > result.log
-          ssh ${{ steps.ssh.outputs.SERVER }} echo "restart complete"
-            
+      - run: ssh ${{ steps.ssh.outputs.SERVER }} ./deploy.sh restart donetop-oss            
