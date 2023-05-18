@@ -75,4 +75,5 @@ jobs:
           SCRIPT_AFTER: |
             chmod 700 ./deploy.sh
             ./deploy.sh restart donetop-oss
+            echo $RSYNC_STDOUT
             
