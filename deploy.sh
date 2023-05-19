@@ -19,10 +19,10 @@ start() {
 		if [ "$RUNNING" == 1 ]; then
 				echo "There is already running $APPLICATION_NAME process($SEARCHED_PROCESS_ID)."
 		else
-				SRC_LIB_DIR="$APPLICATION_NAME/build/libs"
+				SRC_LIB_DIR="/donetop/$APPLICATION_NAME/libs"
       	JAR_FULL_PATH=$(find "$SRC_LIB_DIR" -name "*.jar")
         echo "starting $APPLICATION_NAME process."
-        java -server -Xms128m -Xmx128m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" > "/donetop/$1/logs/start.log" &
+        nohup java -server -Xms128m -Xmx128m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" 1>/dev/null 2>/dev/null &
 		fi
 }
 
