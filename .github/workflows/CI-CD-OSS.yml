@@ -1,9 +1,6 @@
-name: CI-CD
+name: CI-CD-OSS
 
 on:
-  push:
-    branches:
-    - development
   pull_request:
     branches: 
     - main
@@ -62,7 +59,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SOURCE: donetop-oss/build/libs/
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+          TARGET: /donetop/donetop-oss/libs/
       - name: Send deploy.sh to remote server and restart donetop-oss process
         uses: easingthemes/ssh-deploy@main
         env:
