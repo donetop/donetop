@@ -53,8 +53,6 @@ class LocalStorageServiceTest {
 	@Value("${dst}")
 	private String dst;
 
-	final Answer<Object> returnFirstParameter = i -> i.getArguments()[0];
-
 	@BeforeEach
 	void beforeEach() throws IOException {
 		Files.createDirectories(Path.of(dst));
@@ -123,6 +121,7 @@ class LocalStorageServiceTest {
 			.folderType(FolderType.DRAFT)
 			.path(dst)
 			.build();
+		final Answer<Object> returnFirstParameter = i -> i.getArguments()[0];
 		given(fileRepository.saveAll(anyCollection())).will(returnFirstParameter);
 
 		// when
