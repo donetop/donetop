@@ -2,7 +2,6 @@ package com.donetop.batch.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -24,9 +23,9 @@ data class Storage(
 
 	fun clearTmpDir() {
 		Files.walk(Paths.get(tmp))
-			.filter(Files::isRegularFile)
-			.map(Path::toFile)
-			.forEach(File::delete);
+			.filter { Files.isRegularFile(it) }
+			.map { it.toFile() }
+			.forEach { it.delete() };
 	}
 }
 
