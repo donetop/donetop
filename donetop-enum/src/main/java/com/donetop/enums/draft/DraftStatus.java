@@ -26,11 +26,11 @@ public enum DraftStatus {
 		return new EnumDTO(this.name(), this.value);
 	}
 
-	public static DraftStatus of(final String name) {
+	public static DraftStatus of(final String value) {
 		for (final DraftStatus draftStatus : values()) {
-			if (draftStatus.name().equals(name)) return draftStatus;
+			if (draftStatus.value.equals(value)) return draftStatus;
 		}
-		throw new IllegalArgumentException("There's no valid enum name for " + name);
+		throw new IllegalArgumentException("There's no valid enum value for " + value);
 	}
 
 	public static List<EnumDTO> dtoList() {

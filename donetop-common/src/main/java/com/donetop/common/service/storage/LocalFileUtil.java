@@ -26,7 +26,7 @@ public class LocalFileUtil {
 		return Stream.of(Objects.requireNonNull(path.toFile().listFiles())).collect(Collectors.toList());
 	}
 
-	private static MultipartFile multipartFileFrom(final File file) {
+	public static MultipartFile multipartFileFrom(final File file) {
 		FileItem fileItem;
 		try {
 			fileItem = new DiskFileItemFactory().createItem(file.getName(),

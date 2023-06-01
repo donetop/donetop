@@ -25,6 +25,7 @@ dependencies {
 	implementation project(':donetop-dto')
 	implementation project(':donetop-enum')
 	implementation project(':donetop-common')
+	implementation project(':donetop-payment')
 }
 
 test {

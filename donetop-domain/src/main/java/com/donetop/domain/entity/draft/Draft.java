@@ -225,4 +225,26 @@ public class Draft implements Serializable {
 		}
 		return draftDTO;
 	}
+
+	@Override
+	public String toString() {
+		return "Draft{" +
+			"id=" + id +
+			", customerName='" + customerName + '\'' +
+			", companyName='" + companyName + '\'' +
+			", inChargeName='" + inChargeName + '\'' +
+			", email='" + email + '\'' +
+			", phoneNumber='" + phoneNumber + '\'' +
+			", categoryName='" + categoryName + '\'' +
+			", draftStatus=" + draftStatus +
+			", address='" + address + '\'' +
+			", detailAddress='" + detailAddress + '\'' +
+			", price=" + price +
+			", paymentMethod=" + paymentMethod +
+			", memo='" + memo + '\'' +
+			", password='" + password + '\'' +
+			", createTime=" + createTime +
+			", updateTime=" + updateTime +
+			'}';
+	}
 }

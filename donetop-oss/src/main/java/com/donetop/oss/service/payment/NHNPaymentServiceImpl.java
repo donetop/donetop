@@ -1,6 +1,6 @@
 package com.donetop.oss.service.payment;
 
-import com.donetop.common.nhn.NHN;
+import com.donetop.payment.nhn.NHN;
 import com.donetop.domain.entity.payment.PaymentHistory;
 import com.donetop.domain.entity.payment.PaymentInfo;
 import com.donetop.dto.payment.PaymentHistoryDTO;

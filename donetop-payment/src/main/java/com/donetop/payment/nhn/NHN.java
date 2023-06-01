@@ -1,4 +1,4 @@
-package com.donetop.common.nhn;
+package com.donetop.payment.nhn;
 
 import lombok.Getter;
 import lombok.Setter;

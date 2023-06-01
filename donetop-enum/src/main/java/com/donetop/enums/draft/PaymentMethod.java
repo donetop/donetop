@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public enum PaymentMethod {
 	CASH("현금결제"),
-	CREDIT_CARD("신용카드"),
+	CREDIT_CARD("카드결제"),
 	;
 
 	private final String value;
@@ -23,11 +23,11 @@ public enum PaymentMethod {
 		return new EnumDTO(this.name(), this.value);
 	}
 
-	public static PaymentMethod of(final String name) {
+	public static PaymentMethod of(final String value) {
 		for (final PaymentMethod paymentMethod : values()) {
-			if (paymentMethod.name().equals(name)) return paymentMethod;
+			if (paymentMethod.value.equals(value)) return paymentMethod;
 		}
-		throw new IllegalArgumentException("There's no valid enum name for " + name);
+		throw new IllegalArgumentException("There's no valid enum value for " + value);
 	}
 
 	public static List<EnumDTO> dtoList() {

@@ -31,11 +31,11 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 			.updateEmail(getEmail())
 			.updatePhoneNumber(getPhoneNumber())
 			.updateCategoryName(getCategoryName())
-			.updateDraftStatus(DraftStatus.of(this.draftStatus))
+			.updateDraftStatus(DraftStatus.valueOf(this.draftStatus))
 			.updateAddress(getAddress())
 			.updateDetailAddress(getDetailAddress())
 			.updatePrice(getPrice())
-			.updatePaymentMethod(PaymentMethod.of(getPaymentMethod()))
+			.updatePaymentMethod(PaymentMethod.valueOf(getPaymentMethod()))
 			.updateMemo(getMemo())
 			.updatePassword(getPassword())
 			.setUpdateTime(LocalDateTime.now());
