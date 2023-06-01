@@ -25,7 +25,7 @@ data class Storage(
 		Files.walk(Paths.get(tmp))
 			.filter { Files.isRegularFile(it) }
 			.map { it.toFile() }
-			.forEach { it.delete() };
+			.forEach { it.delete() }
 	}
 }
 
