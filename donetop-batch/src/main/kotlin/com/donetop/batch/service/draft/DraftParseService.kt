@@ -2,6 +2,7 @@ package com.donetop.batch.service.draft
 
 import com.donetop.batch.properties.ApplicationProperties
 import com.donetop.batch.properties.Storage
+import com.donetop.batch.service.crypto.CryptoService
 import com.donetop.common.service.storage.LocalFileUtil.multipartFileFrom
 import com.donetop.common.service.storage.LocalResource
 import com.donetop.domain.entity.draft.Draft
@@ -19,6 +20,7 @@ import java.time.LocalDateTime
 @Service
 class DraftParseService(
 	private val draftAddressParser: DraftAddressParser,
+	private val cryptoService: CryptoService,
 	private val applicationProperties: ApplicationProperties,
 	private val storage: Storage = applicationProperties.storage
 ) {
@@ -40,7 +42,7 @@ class DraftParseService(
 		val price = detail.select("section#bo_v_info span.price").text().toLong()
 		val paymentMethod = PaymentMethod.of(detail.select("section#bo_v_info span.payment_method").text())
 		val memo = detail.select("section#bo_v_info textarea[name=\"memo\"]").text()
-		val password = phoneNumber.split("-").drop(2).joinToString("") // TODO 암호화 작업 필요
+		val password = cryptoService.encrypt(phoneNumber.split("-").drop(2).joinToString(""))
 		val createTime = LocalDateTime.parse(detail.select("section#bo_v_info span.datetime").text().replace(" ", "T"))
 		val draft = Draft.builder()
 			.id(id)

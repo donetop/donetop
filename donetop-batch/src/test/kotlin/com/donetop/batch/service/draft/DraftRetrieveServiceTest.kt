@@ -1,6 +1,7 @@
 package com.donetop.batch.service.draft
 
 import com.donetop.batch.properties.ApplicationProperties
+import com.donetop.batch.service.crypto.NoOpCryptoService
 import com.donetop.common.Profile.DEVELOPMENT
 import com.donetop.common.Profile.TEST
 import org.assertj.core.api.Assertions.assertThat
@@ -28,7 +29,7 @@ class DraftRetrieveServiceTest {
 
 	@PostConstruct
 	fun postConstruct() {
-		val draftParseService = DraftParseService(DraftAddressParser(), applicationProperties)
+		val draftParseService = DraftParseService(DraftAddressParser(), NoOpCryptoService(), applicationProperties)
 		draftRetrieveService = DraftRetrieveService(applicationProperties, draftParseService)
 		draftRetrieveService.refreshCookieHeader()
 	}
