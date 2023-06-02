@@ -42,4 +42,5 @@ bin/
 .DS_Store
 
 ### resources ###
-src/main/resources/storage/tmp/
+src/main/resources-development/
+src/main/resources-aws/

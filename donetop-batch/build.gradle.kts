@@ -1,3 +1,6 @@
+val profile = rootProject.ext.get("profile") as String
+val projectName = "batch"
+
 plugins {
 	kotlin("jvm") version "1.8.21"
 	kotlin("plugin.spring") version "1.8.21"
@@ -26,4 +29,25 @@ tasks.test {
 kotlin {
 	jvmToolchain(11)
 	extra["kotlin.version"] = "1.8.21"
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDir("src/main/resources")
+			srcDir("src/main/resources-$profile")
+		}
+	}
+}
+
+tasks.register<Copy>("copySubmoduleFiles") {
+	from("../donetop-secret/$projectName/resources-$profile")
+	include("*")
+	into("src/main/resources-$profile")
+}
+
+tasks {
+	processResources {
+		dependsOn("copySubmoduleFiles")
+	}
 }

@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    default: local
+    default: development
   datasource:
     url: jdbc:mysql://localhost:3306/donetop
     username: root
@@ -24,7 +24,8 @@ spring:
 application:
   properties:
     storage:
-      tmp: C:/Users/hjm70/Jin/Work/WorkSpace/donetop/donetop-batch/src/main/resources/storage/tmp
+      root: C:/donetop/storage
+      tmp: C:/donetop/tmp
     donetop-php:
       url:
         base: https://donetop.com/bbs

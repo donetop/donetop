@@ -60,7 +60,7 @@ class DraftParseService(
 			.createTime(createTime)
 			.updateTime(createTime)
 			.build()
-		log.info("[DRAFT_FROM] Id: $id, Index: $index, Draft: $draft")
+		log.info("[DRAFT_FROM] Id: $id, Index: $index, $draft")
 		val thumbnailResources = detail.select("div#bo_v_con div#bo_v_thumbnail img")
 			.map { it.attr("src") }
 			.map { downloadFileUsingNIO(it) }

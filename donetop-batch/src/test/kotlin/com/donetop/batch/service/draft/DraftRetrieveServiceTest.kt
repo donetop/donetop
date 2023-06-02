@@ -1,6 +1,7 @@
 package com.donetop.batch.service.draft
 
 import com.donetop.batch.properties.ApplicationProperties
+import com.donetop.common.Profile.DEVELOPMENT
 import com.donetop.common.Profile.TEST
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
@@ -14,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import javax.annotation.PostConstruct
 
-@ActiveProfiles(TEST)
+@ActiveProfiles(TEST, DEVELOPMENT)
 @ExtendWith(SpringExtension::class)
 @ContextConfiguration(initializers = [ConfigDataApplicationContextInitializer::class])
 @EnableConfigurationProperties(value = [ApplicationProperties::class])
