@@ -35,5 +35,4 @@ build/
 ### resources ###
 src/main/resources/static/
 src/main/resources/templates/
-src/main/resources/storage/
 src/main/resources-aws/
