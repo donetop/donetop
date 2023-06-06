@@ -34,6 +34,9 @@ public abstract class IntegrationBase {
 	protected ApplicationProperties applicationProperties;
 
 	@Autowired
+	protected TestStorage testStorage;
+
+	@Autowired
 	protected ObjectMapper objectMapper;
 
 	@LocalServerPort

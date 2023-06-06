@@ -1,7 +1,7 @@
 package com.donetop.common.service.storage;
 
+import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.Folder;
-import com.donetop.enums.folder.FolderType;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -25,7 +25,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.donetop.common.service.storage.LocalFileUtil.readResources;
+import static com.donetop.enums.folder.FolderType.DRAFT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.BDDMockito.given;
 
@@ -44,8 +47,13 @@ class LocalStorageServiceTest {
 	@Mock
 	private FolderRepository folderRepository;
 
+	@Mock
+	private Storage storage;
+
 	@InjectMocks
 	private LocalStorageService localStorageService;
+
+	final Answer<Object> returnFirstArgument = i -> i.getArguments()[0];
 
 	@Value("${src}")
 	private String src;
@@ -64,68 +72,103 @@ class LocalStorageServiceTest {
 	}
 
 	@Test
-	void read_filesFromSRC_shouldSuccess() {
+	void saveOrReplace_allFiles_shouldExistAll() {
 		// given
-
-		// when
-		final File directory = Path.of(src).toFile();
-
-		// then
-		assertThat(directory.exists()).isTrue();
-		assertThat(directory.isDirectory()).isTrue();
-		assertThat(Objects.requireNonNull(directory.listFiles()).length).isEqualTo(4);
-	}
-
-	@Test
-	void save_SrcFilesAtDst_shouldExistFilesAtDst() {
-		// given
-		final List<Resource> resources = LocalFileUtil.readResources(Path.of(src));
+		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(FolderType.DRAFT)
+			.folderType(DRAFT)
 			.path(dst)
 			.build();
 
 		// when
-		localStorageService.save(resources, folder);
+		localStorageService.saveOrReplace(resources, folder);
 
 		// then
 		assertThat(folder.getFiles().size()).isEqualTo(resources.size());
-		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(4);
+		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(resources.size());
 	}
 
 	@Test
-	void save_singleSrcFileMultipleTimesAtDst_shouldExistSingleFileAtDst() {
+	void saveOrReplace_allFilesAndPartialFiles_shouldOnlyExistPartialFiles() {
 		// given
-		final List<List<Resource>> resourcesList = LocalFileUtil.readResources(Path.of(src))
-			.stream().map(List::of).collect(Collectors.toList());
+		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(FolderType.DRAFT)
+			.folderType(DRAFT)
 			.path(dst)
 			.build();
 
 		// when
-		localStorageService.save(resourcesList.get(0), folder);
-		localStorageService.save(resourcesList.get(1), folder);
-		localStorageService.save(resourcesList.get(2), folder);
+		localStorageService.saveOrReplace(resources, folder);
+		localStorageService.saveOrReplace(resources.subList(0, resources.size() / 2), folder);
 
 		// then
-		assertThat(folder.getFiles().size()).isEqualTo(1);
-		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(1);
+		assertThat(folder.getFiles().size()).isEqualTo(resources.size() / 2);
+		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(resources.size() / 2);
 	}
 
 	@Test
-	void delete_allDstFiles_shouldExistFolderAndNotExistFiles() {
+	void add_allFiles_shouldExistAll() {
 		// given
-		final List<Resource> resources = LocalFileUtil.readResources(Path.of(src));
+		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(FolderType.DRAFT)
+			.folderType(DRAFT)
 			.path(dst)
 			.build();
-		final Answer<Object> returnFirstParameter = i -> i.getArguments()[0];
-		given(fileRepository.saveAll(anyCollection())).will(returnFirstParameter);
 
 		// when
-		localStorageService.save(resources, folder);
+		localStorageService.add(resources, folder);
+
+		// then
+		assertThat(folder.getFiles().size()).isEqualTo(resources.size());
+		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(resources.size());
+	}
+
+	@Test
+	void add_filesMultipleTimes_shouldExistAll() {
+		// given
+		final List<List<Resource>> resourcesList = readResources(Path.of(src))
+			.stream().map(List::of).collect(Collectors.toList());
+		final Folder folder = Folder.builder()
+			.folderType(DRAFT)
+			.path(dst)
+			.build();
+
+		// when
+		resourcesList.forEach(resources -> localStorageService.add(resources, folder));
+
+		// then
+		assertThat(folder.getFiles().size()).isEqualTo(resourcesList.size());
+		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(resourcesList.size());
+	}
+
+	@Test
+	void addNewFolderOrGet_withFolderContainer_shouldExistFolder() {
+		// given
+		final Draft draft = Draft.builder().id(1L).build();
+		given(storage.getRoot()).willReturn(dst);
+		given(folderRepository.save(any())).will(returnFirstArgument);
+
+		// when
+		Folder folder = localStorageService.addNewFolderOrGet(draft);
+
+		// then
+		assertThat(folder).isEqualTo(draft.getFolder());
+		final String folderPath = DRAFT.buildPathFrom(dst, draft.getId());
+		assertThat(Path.of(folderPath).toFile().exists()).isTrue();
+	}
+
+	@Test
+	void delete_allFiles_shouldExistFolderAndNotExistFiles() {
+		// given
+		final List<Resource> resources = readResources(Path.of(src));
+		final Folder folder = Folder.builder()
+			.folderType(DRAFT)
+			.path(dst)
+			.build();
+		given(fileRepository.saveAll(anyCollection())).will(returnFirstArgument);
+
+		// when
+		localStorageService.add(resources, folder);
 		boolean deleteResult = localStorageService.deleteAllFilesIn(folder);
 
 		// then
@@ -139,14 +182,14 @@ class LocalStorageServiceTest {
 	@Test
 	void delete_folder_shouldNotExistFolder() {
 		// given
-		final List<Resource> resources = LocalFileUtil.readResources(Path.of(src));
+		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(FolderType.DRAFT)
+			.folderType(DRAFT)
 			.path(dst)
 			.build();
 
 		// when
-		localStorageService.save(resources, folder);
+		localStorageService.add(resources, folder);
 		boolean deleteResult = localStorageService.delete(folder);
 
 		// then
@@ -155,34 +198,16 @@ class LocalStorageServiceTest {
 	}
 
 	@Test
-	void add_singleFile_shouldExistOne() {
-		// given
-		final List<Resource> resources = LocalFileUtil.readResources(Path.of(src));
-		final Folder folder = Folder.builder()
-			.folderType(FolderType.DRAFT)
-			.path(dst)
-			.build();
-
-		// when
-		localStorageService.add(resources.get(0), folder);
-
-		// then
-		final File directory = Path.of(dst).toFile();
-		assertThat(directory.exists()).isTrue();
-		assertThat(Objects.requireNonNull(directory.listFiles()).length).isEqualTo(1);
-	}
-
-	@Test
 	void delete_file_shouldNotExistFile() {
 		// given
-		final List<Resource> resources = LocalFileUtil.readResources(Path.of(src));
+		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(FolderType.DRAFT)
+			.folderType(DRAFT)
 			.path(dst)
 			.build();
 
 		// when
-		localStorageService.save(resources, folder);
+		localStorageService.add(resources, folder);
 		List<com.donetop.domain.entity.file.File> files = new ArrayList<>(folder.getFiles());
 		boolean deleteResult = localStorageService.delete(files.get(0));
 

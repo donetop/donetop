@@ -1,8 +1,9 @@
 package com.donetop.common.service.storage;
 
+import com.donetop.common.service.storage.Resource.FileSaveInfo;
 import com.donetop.domain.entity.file.File;
 import com.donetop.domain.entity.folder.Folder;
-import com.donetop.common.service.storage.Resource.FileSaveInfo;
+import com.donetop.domain.interfaces.FolderContainer;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,44 +27,49 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LocalStorageService implements StorageService {
 
+	private final Storage storage;
+
 	private final FileRepository fileRepository;
 
 	private final FolderRepository folderRepository;
 
 	@Override
-	public void save(final Collection<Resource> resources, final Folder folder) {
+	public void saveOrReplace(final Collection<Resource> resources, final Folder folder) {
 		final boolean deleteSuccess = deleteAllFilesIn(Objects.requireNonNull(folder));
-		log.info("File delete success : {}", deleteSuccess);
+		log.info("File delete success: {}", deleteSuccess);
 		if (!deleteSuccess) return;
 		fileRepository.flush();
+		add(resources, folder);
+	}
+
+	@Override
+	public Collection<File> add(final Collection<Resource> resources, final Folder folder) {
+		Objects.requireNonNull(folder);
 		final List<File> saveSuccessFiles = Objects.requireNonNull(resources).stream()
 			.map(resource -> resource.saveAt(folder))
 			.filter(FileSaveInfo::isSuccess)
 			.map(FileSaveInfo::getFile)
 			.collect(Collectors.toList());
-		log.info("Save success files : {}", saveSuccessFiles);
 		fileRepository.saveAll(saveSuccessFiles);
+		log.info("Save success files: {}", saveSuccessFiles);
+		return saveSuccessFiles;
 	}
 
 	@Override
-	public File add(final Resource resource, final Folder folder) {
-		final FileSaveInfo fileSaveInfo = resource.saveAt(folder);
-		if (fileSaveInfo.isSuccess()) return fileRepository.save(fileSaveInfo.getFile());
-		throw new IllegalStateException(fileSaveInfo.getMessage());
-	}
-
-	@Override
-	public Folder saveIfNotExist(final Folder folder) {
+	public Folder addNewFolderOrGet(final FolderContainer folderContainer) {
 		try {
-			final Path folderPath = Path.of(Objects.requireNonNull(folder).getPath());
-			if (folder.getId() == 0L && !Files.exists(folderPath)) {
+			final Folder folder = Objects.requireNonNull(folderContainer).getOrNewFolder(storage.getRoot());
+			final Path folderPath = Path.of(folder.getPath());
+			if (folder.isNew() && !Files.exists(folderPath)) {
 				Files.createDirectories(folderPath);
-				return folderRepository.save(folder);
+				folderRepository.save(folder);
+				folderContainer.addFolder(folder);
+				return folder;
 			}
+			return folder;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return folder;
 	}
 
 	@Override

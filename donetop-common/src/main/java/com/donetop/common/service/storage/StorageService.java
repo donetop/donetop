@@ -2,17 +2,18 @@ package com.donetop.common.service.storage;
 
 import com.donetop.domain.entity.file.File;
 import com.donetop.domain.entity.folder.Folder;
+import com.donetop.domain.interfaces.FolderContainer;
 import org.springframework.core.io.InputStreamResource;
 
 import java.util.Collection;
 
 public interface StorageService {
 
-	void save(Collection<Resource> resources, Folder folder);
+	void saveOrReplace(Collection<Resource> resources, Folder folder);
 
-	File add(Resource resource, Folder folder);
+	Collection<File> add(Collection<Resource> resources, Folder folder);
 
-	Folder saveIfNotExist(Folder folder);
+	Folder addNewFolderOrGet(FolderContainer folderContainer);
 
 	boolean deleteAllFilesIn(Folder folder);
 

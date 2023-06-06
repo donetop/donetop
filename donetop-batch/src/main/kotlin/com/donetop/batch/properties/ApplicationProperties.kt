@@ -14,9 +14,11 @@ data class ApplicationProperties(
 ) {}
 
 data class Storage(
+	val root: String,
 	val tmp: String
 ) {
 	init {
+		require(root.isNotEmpty()) { "root shouldn't be empty." }
 	    require(tmp.isNotEmpty()) { "tmp shouldn't be empty." }
 		Files.createDirectories(Path.of(tmp))
 	}

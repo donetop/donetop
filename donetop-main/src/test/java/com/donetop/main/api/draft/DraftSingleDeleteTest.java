@@ -150,7 +150,7 @@ public class DraftSingleDeleteTest extends DraftBase {
 			.body("data", is(Integer.valueOf(String.valueOf(draft.getId()))));
 		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
 		final long draftId = Long.parseLong(ok.getData());
-		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(applicationProperties.getStorage().getRoot(), draftId));
+		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(testStorage.getRoot(), draftId));
 		assertThat(path.toFile().exists()).isFalse();
 	}
 

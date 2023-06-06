@@ -1,6 +1,7 @@
 package com.donetop.domain.entity.category;
 
 import com.donetop.domain.entity.folder.Folder;
+import com.donetop.domain.interfaces.FolderContainer;
 import com.donetop.dto.category.CategoryDTO;
 import com.donetop.enums.folder.FolderType;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ import static java.util.stream.Collectors.toList;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category implements Comparable<Category> {
+public class Category implements FolderContainer, Comparable<Category> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,9 +69,19 @@ public class Category implements Comparable<Category> {
 		return this;
 	}
 
-	public Category setFolder(final Folder folder) {
+	@Override
+	public void addFolder(final Folder folder) {
 		this.folder = folder;
-		return this;
+	}
+
+	@Override
+	public Folder getOrNewFolder(final String root) {
+		return this.folder == null ? Folder.of(FolderType.CATEGORY, root, this.id) : this.folder;
+	}
+
+	@Override
+	public boolean hasFolder() {
+		return this.folder != null;
 	}
 
 	public boolean isParent() {
@@ -79,10 +90,6 @@ public class Category implements Comparable<Category> {
 
 	public void decreaseSequence() {
 		if (this.sequence > 1) this.sequence--;
-	}
-
-	public Folder getOrNewFolder(final String root) {
-		return this.folder == null ? Folder.of(FolderType.CATEGORY, root, this.id) : this.folder;
 	}
 
 	public CategoryDTO toDTO() {

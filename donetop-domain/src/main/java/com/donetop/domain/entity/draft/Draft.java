@@ -2,6 +2,7 @@ package com.donetop.domain.entity.draft;
 
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.entity.payment.PaymentInfo;
+import com.donetop.domain.interfaces.FolderContainer;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.folder.FolderType;
@@ -29,7 +30,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Draft implements Serializable {
+public class Draft implements FolderContainer, Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -168,16 +169,23 @@ public class Draft implements Serializable {
 		return this;
 	}
 
+	@Override
 	public void addFolder(final Folder folder) {
 		this.folder = folder;
 	}
 
-	public void addPaymentInfo(final PaymentInfo paymentInfo) {
-		this.paymentInfo = paymentInfo;
-	}
-
+	@Override
 	public Folder getOrNewFolder(final String root) {
 		return this.folder == null ? Folder.of(FolderType.DRAFT, root, this.id) : this.folder;
+	}
+
+	@Override
+	public boolean hasFolder() {
+		return this.folder != null;
+	}
+
+	public void addPaymentInfo(final PaymentInfo paymentInfo) {
+		this.paymentInfo = paymentInfo;
 	}
 
 	public PaymentInfo getOrNewPaymentInfo() {

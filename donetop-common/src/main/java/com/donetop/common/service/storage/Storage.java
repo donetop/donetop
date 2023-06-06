@@ -1,4 +1,4 @@
-package com.donetop.oss.properties;
+package com.donetop.common.service.storage;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,13 +11,10 @@ import javax.validation.constraints.NotEmpty;
 @Getter @Setter
 @Validated
 @Configuration
-@ConfigurationProperties(prefix = "application.properties")
-public class ApplicationProperties {
+@ConfigurationProperties(prefix = "application.properties.storage")
+public class Storage {
 
 	@NotEmpty
-	private String baseUri;
-
-	@NotEmpty
-	private String cookieName;
+	private String root;
 
 }

@@ -20,7 +20,7 @@ public interface CategoryService {
 
 	List<CategoryDTO> sort(CategorySortRequest request);
 
-	long addImage(long id, CategoryImageAddRequest request);
+	void addImage(long id, CategoryImageAddRequest request);
 
 	long deleteImage(long categoryId, CategoryImageDeleteRequest request);
 

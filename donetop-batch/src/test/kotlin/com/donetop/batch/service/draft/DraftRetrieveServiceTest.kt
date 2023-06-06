@@ -34,13 +34,13 @@ class DraftRetrieveServiceTest {
 		draftRetrieveService.refreshCookieHeader()
 	}
 
-		@Test
-    fun getDraftList_withFirstPage_returnValidSizeList() {
+	@Test
+    fun getDraftDTOList_withFirstPage_returnValidSizeList() {
 		// given & when
-		val elements = draftRetrieveService.getDraftList(0)
+		val draftDTOList = draftRetrieveService.getDraftDTOList(2)
 
 		// then
-		assertThat(elements.size).isEqualTo(20)
+		assertThat(draftDTOList.size).isEqualTo(20)
 	}
 
 	@Test

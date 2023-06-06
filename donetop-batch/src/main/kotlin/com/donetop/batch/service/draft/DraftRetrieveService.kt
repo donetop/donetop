@@ -2,7 +2,6 @@ package com.donetop.batch.service.draft
 
 import com.donetop.batch.properties.ApplicationProperties
 import com.donetop.batch.properties.DonetopPHP
-import com.donetop.domain.entity.draft.Draft
 import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -32,12 +31,12 @@ class DraftRetrieveService(
 		return endPageNum
 	}
 
-	fun getDraftList(page: Int): List<Draft> {
-		log.info("[GET_DRAFT_LIST] Page: $page")
+	fun getDraftDTOList(page: Int): List<DraftDTO> {
+		log.info("[GET_DRAFT_DTO_LIST] Page: $page")
 		val rawListPage = rawListPage(page)
 		return Jsoup.parse(rawListPage)
 			.select("tbody tr td.td_subject a")
-			.map { it.attr("href").substringAfter("wr_id=").toLong() }
+			.map { it.attr("href").substringAfter("wr_id=").substringBefore("&").toLong() }
 			.mapIndexed { index, id -> draftParseService.draftFrom(id, index + 1, rawListPage, rawDetailPage(id)) }
 	}
 
