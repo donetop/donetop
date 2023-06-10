@@ -10,6 +10,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-configuration-processor")
 	implementation("com.mysql:mysql-connector-j:8.0.33")
 	implementation("org.jsoup:jsoup:1.16.1")
@@ -49,5 +50,8 @@ tasks.register<Copy>("copySubmoduleFiles") {
 tasks {
 	processResources {
 		dependsOn("copySubmoduleFiles")
+	}
+	bootJar {
+		dependsOn("test")
 	}
 }

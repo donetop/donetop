@@ -34,6 +34,7 @@ application:
       admin:
         id: # this value will be provided from donetop-secret
         password: # this value will be provided from donetop-secret
+    collect-password: development
 
 logging:
   level:

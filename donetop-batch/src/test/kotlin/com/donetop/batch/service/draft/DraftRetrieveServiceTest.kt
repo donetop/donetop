@@ -29,7 +29,7 @@ class DraftRetrieveServiceTest {
 
 	@PostConstruct
 	fun postConstruct() {
-		val draftParseService = DraftParseService(DraftAddressParser(), NoOpCryptoService(), applicationProperties)
+		val draftParseService = DraftParseService(DraftPhoneNumberParser(), DraftAddressParser(), NoOpCryptoService(), applicationProperties)
 		draftRetrieveService = DraftRetrieveService(applicationProperties, draftParseService)
 		draftRetrieveService.refreshCookieHeader()
 	}
@@ -37,7 +37,7 @@ class DraftRetrieveServiceTest {
 	@Test
     fun getDraftDTOList_withFirstPage_returnValidSizeList() {
 		// given & when
-		val draftDTOList = draftRetrieveService.getDraftDTOList(2)
+		val draftDTOList = draftRetrieveService.getDraftDTOList(1)
 
 		// then
 		assertThat(draftDTOList.size).isEqualTo(20)

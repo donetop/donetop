@@ -38,6 +38,7 @@ class DraftRetrieveService(
 			.select("tbody tr td.td_subject a")
 			.map { it.attr("href").substringAfter("wr_id=").substringBefore("&").toLong() }
 			.mapIndexed { index, id -> draftParseService.draftFrom(id, index + 1, rawListPage, rawDetailPage(id)) }
+			.filterNotNull()
 	}
 
 	private fun rawListPage(page: Int): String {

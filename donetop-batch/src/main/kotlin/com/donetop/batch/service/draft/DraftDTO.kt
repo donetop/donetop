@@ -46,7 +46,7 @@ data class DraftDTO(
 			.updatePaymentMethod(paymentMethod)
 			.updateMemo(memo)
 			.updatePassword(password)
-			.setUpdateTime(LocalDateTime.now());
+			.setUpdateTime(LocalDateTime.now())
 	}
 
 	fun toEntity(): Draft {
@@ -70,7 +70,7 @@ data class DraftDTO(
 			.build()
 	}
 
-	fun getResources(path: String): List<Resource> {
+	fun downloadResourcesAt(path: String): List<Resource> {
 		return fileMap.values
 			.map { downloadFileUsingNIO(it, path) }
 			.map { LocalFileUtil.multipartFileFrom(it) }

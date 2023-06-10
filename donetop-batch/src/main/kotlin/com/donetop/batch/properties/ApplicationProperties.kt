@@ -10,8 +10,13 @@ import java.nio.file.Paths
 @ConstructorBinding
 data class ApplicationProperties(
 	val storage: Storage,
-	val donetopPHP: DonetopPHP
-) {}
+	val donetopPHP: DonetopPHP,
+	val collectPassword: String
+) {
+	init {
+	    require(collectPassword.isNotEmpty()) { "collect password shouldn't be empty." }
+	}
+}
 
 data class Storage(
 	val root: String,
