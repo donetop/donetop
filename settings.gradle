@@ -5,3 +5,6 @@ include 'donetop-main'
 include 'donetop-enum'
 include 'donetop-oss'
 include 'donetop-common'
+include 'donetop-collect'
+include 'donetop-payment'
+

@@ -60,7 +60,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           SOURCE: donetop-main/build/libs/
           TARGET: /donetop/donetop-main/libs/
-      - name: Send deploy.sh to remote server and restart donetop-oss process
+      - name: Send deploy.sh to remote server and restart donetop-main process
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

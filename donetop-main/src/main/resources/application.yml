@@ -36,7 +36,7 @@ application:
     base-uri: "http://localhost"
     custom-max-inactive-interval: 31536000 # 1년
     storage:
-      root: C:/Users/hjm70/Jin/Work/WorkSpace/donetop/donetop-main/src/main/resources/storage
+      root: C:/donetop/storage
     cookieName: DONETOP_MAIN_JSESSIONID
 
 nhn:

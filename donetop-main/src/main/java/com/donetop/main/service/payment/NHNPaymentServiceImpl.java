@@ -1,6 +1,6 @@
 package com.donetop.main.service.payment;
 
-import com.donetop.common.nhn.NHN;
+import com.donetop.payment.nhn.NHN;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.payment.PaymentHistory;
 import com.donetop.domain.entity.payment.PaymentInfo;

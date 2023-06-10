@@ -1,18 +1,15 @@
 package com.donetop.oss.service.category;
 
-import com.donetop.common.service.storage.Resource;
 import com.donetop.common.service.storage.StorageService;
+import com.donetop.domain.entity.category.Category;
 import com.donetop.domain.entity.file.File;
+import com.donetop.dto.category.CategoryDTO;
 import com.donetop.oss.api.category.request.CategoryCreateRequest;
 import com.donetop.oss.api.category.request.CategoryImageAddRequest;
 import com.donetop.oss.api.category.request.CategoryImageDeleteRequest;
 import com.donetop.oss.api.category.request.CategorySortRequest;
-import com.donetop.domain.entity.category.Category;
-import com.donetop.domain.entity.folder.Folder;
-import com.donetop.dto.category.CategoryDTO;
-import com.donetop.oss.properties.ApplicationProperties;
-import com.donetop.oss.properties.ApplicationProperties.Storage;
 import com.donetop.repository.category.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,21 +24,12 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-
-	private final Storage storage;
 
 	private final StorageService storageService;
 
 	private final CategoryRepository categoryRepository;
-
-	public CategoryServiceImpl(final ApplicationProperties applicationProperties,
-							   final StorageService storageService,
-							   final CategoryRepository categoryRepository) {
-		this.storage = applicationProperties.getStorage();
-		this.storageService = storageService;
-		this.categoryRepository = categoryRepository;
-	}
 
 	@Override
 	public List<CategoryDTO> categories() {
@@ -76,6 +64,10 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public long deleteCategory(final long id) {
 		final Category category = getOrThrow(id);
+		category.getSubCategories().forEach(sub -> {
+			if (sub.hasFolder()) storageService.delete(sub.getFolder());
+		});
+		if (category.hasFolder()) storageService.delete(category.getFolder());
 		categoryRepository.delete(category);
 		final List<Category> greaterSequenceCategories = category.isParent() ?
 			categoryRepository.greaterSequenceParentCategories(category.getSequence()) :
@@ -97,15 +89,14 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public long addImage(final long id, final CategoryImageAddRequest request) {
+	public void addImage(final long id, final CategoryImageAddRequest request) {
 		final Category category = getOrThrow(id);
-		final Folder folder = category.getOrNewFolder(storage.getRoot());
-		if (folder.isNew()) {
-			storageService.saveIfNotExist(folder);
-			category.setFolder(folder);
+		try {
+			storageService.add(request.getResources(), storageService.addNewFolderOrGet(category));
+		} catch (final Exception e) {
+			throw new IllegalStateException("동일한 파일이 이미 존재합니다.");
 		}
 		log.info("[ADD_IMAGE] categoryId: {}", id);
-		return save(request.getResource(), folder).getId();
 	}
 
 	@Override
@@ -123,14 +114,6 @@ public class CategoryServiceImpl implements CategoryService {
 	private Category getOrThrow(final long categoryId) {
 		return categoryRepository.findById(categoryId)
 			.orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 카테고리입니다. id: %s", categoryId)));
-	}
-
-	private File save(Resource resource, Folder folder) {
-		try {
-			return storageService.add(resource, folder);
-		} catch (final Exception e) {
-			throw new IllegalStateException("동일한 파일이 이미 존재합니다.");
-		}
 	}
 
 	private Category save(final Category newCategory) {

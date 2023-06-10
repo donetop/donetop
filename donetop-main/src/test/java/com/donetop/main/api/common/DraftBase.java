@@ -1,11 +1,9 @@
 package com.donetop.main.api.common;
 
 import com.donetop.domain.entity.draft.Draft;
-import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.entity.user.User;
 import com.donetop.enums.user.RoleType;
 import com.donetop.common.service.storage.LocalFileUtil;
-import com.donetop.main.properties.ApplicationProperties;
 import com.donetop.common.service.storage.Resource;
 import com.donetop.common.service.storage.StorageService;
 import com.donetop.repository.draft.DraftRepository;
@@ -41,7 +39,7 @@ public class DraftBase extends IntegrationBase {
 	void afterAll() throws IOException {
 		draftRepository.deleteAll();
 		userRepository.deleteAll();
-		FileSystemUtils.deleteRecursively(Path.of(applicationProperties.getStorage().getRoot()));
+		FileSystemUtils.deleteRecursively(Path.of(testStorage.getRoot()));
 	}
 
 	protected Draft saveSingleDraftWithoutFiles() {
@@ -87,8 +85,7 @@ public class DraftBase extends IntegrationBase {
 	}
 
 	protected Draft saveSingleDraftWithFiles() {
-		final ApplicationProperties.Storage storage = applicationProperties.getStorage();
-		final List<Resource> resources = LocalFileUtil.readResources(Path.of(storage.getSrc()));
+		final List<Resource> resources = LocalFileUtil.readResources(Path.of(testStorage.getSrc()));
 		final LocalDateTime now = LocalDateTime.now();
 		final Draft draft = new Draft().toBuilder()
 			.customerName("jin")
@@ -105,9 +102,7 @@ public class DraftBase extends IntegrationBase {
 			.createTime(now)
 			.updateTime(now).build();
 		draftRepository.save(draft);
-		Folder folder = storageService.saveIfNotExist(draft.getOrNewFolder(storage.getRoot()));
-		storageService.save(resources, folder);
-		draft.addFolder(folder);
+		storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(draft));
 		return draftRepository.save(draft);
 	}
 

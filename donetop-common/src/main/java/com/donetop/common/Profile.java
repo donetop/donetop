@@ -6,6 +6,8 @@ public class Profile {
 
 	public static final String LOCAL = "local";
 
-	public static final String PRODUCTION = "production";
+	public static final String DEVELOPMENT = "development";
+
+	public static final String AWS = "aws";
 
 }

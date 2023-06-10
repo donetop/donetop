@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Getter @Setter
 @Validated
@@ -22,20 +21,7 @@ public class ApplicationProperties {
 	@Min(60)
 	private int customMaxInactiveInterval;
 
-	@NotNull
-	private Storage storage;
-
 	@NotEmpty
 	private String cookieName;
-
-	@Getter @Setter
-	public static class Storage {
-
-		@NotEmpty
-		private String root;
-
-		private String src;
-
-	}
 
 }

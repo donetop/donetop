@@ -44,7 +44,8 @@ public class OSSCategoryAPIController {
 
 	@PostMapping(value = IMAGE + "/{id}")
 	public ResponseEntity<OK<Long>> addImage(@PathVariable("id") final long id, @Valid final CategoryImageAddRequest request) {
-		return ResponseEntity.ok(OK.of(categoryService.addImage(id, request)));
+		categoryService.addImage(id, request);
+		return ResponseEntity.ok(OK.of(id));
 	}
 
 	@PutMapping(value = IMAGE + "/{id}")

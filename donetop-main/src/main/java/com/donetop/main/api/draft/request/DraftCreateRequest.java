@@ -53,7 +53,7 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 			.detailAddress(this.detailAddress)
 			.memo(this.memo)
 			.password(this.password)
-			.paymentMethod(PaymentMethod.of(this.paymentMethod)).build();
+			.paymentMethod(PaymentMethod.valueOf(this.paymentMethod)).build();
 	}
 
 }

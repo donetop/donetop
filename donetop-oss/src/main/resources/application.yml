@@ -31,7 +31,7 @@ application:
   properties:
     base-uri: "http://localhost"
     storage:
-      root: C:/Users/hjm70/Jin/Work/WorkSpace/donetop/donetop-oss/src/main/resources/storage
+      root: C:/donetop/storage
     cookieName: DONETOP_OSS_JSESSIONID
 
 nhn:

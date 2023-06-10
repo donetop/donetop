@@ -1,0 +1,41 @@
+server:
+  port: 8060
+
+spring:
+  profiles:
+    default: development
+  datasource:
+    url: jdbc:mysql://localhost:3306/donetop
+    username: root
+    password: system
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: false
+        show_sql: true
+
+application:
+  properties:
+    storage:
+      root: C:/donetop/storage
+      tmp: C:/donetop/tmp
+    donetop-php:
+      url:
+        base: https://donetop.com/bbs
+        board: /board.php?bo_table=b3
+        login: /login_check.php
+      admin:
+        id: # this value will be provided from donetop-secret
+        password: # this value will be provided from donetop-secret
+    collect-password: development
+
+logging:
+  level:
+    root: INFO

@@ -4,7 +4,6 @@ import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.common.service.storage.LocalFileUtil;
-import com.donetop.main.properties.ApplicationProperties.Storage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -114,8 +113,7 @@ public class DraftSingleCreateTest extends DraftBase {
 	@Test
 	void createSingle_withValidPartValuesAndSizeExceedFiles_return400() {
 		// given
-		final Storage storage = applicationProperties.getStorage();
-		final List<File> files = LocalFileUtil.readFiles(Path.of(storage.getSrc()));
+		final List<File> files = LocalFileUtil.readFiles(Path.of(testStorage.getSrc()));
 		final RequestSpecification given = RestAssured.given(this.spec);
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
@@ -147,8 +145,7 @@ public class DraftSingleCreateTest extends DraftBase {
 	@Test
 	void createSingle_withValidPartValuesAndFiles_return200() throws Exception {
 		// given
-		final Storage storage = applicationProperties.getStorage();
-		final List<File> files = LocalFileUtil.readFiles(Path.of(storage.getSrc())).subList(0, 1);
+		final List<File> files = LocalFileUtil.readFiles(Path.of(testStorage.getSrc())).subList(0, 1);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
@@ -193,7 +190,7 @@ public class DraftSingleCreateTest extends DraftBase {
 		response.then().statusCode(HttpStatus.OK.value());
 		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
 		final long draftId = Long.parseLong(ok.getData());
-		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(storage.getRoot(), draftId));
+		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(testStorage.getRoot(), draftId));
 		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(1);
 	}
 
