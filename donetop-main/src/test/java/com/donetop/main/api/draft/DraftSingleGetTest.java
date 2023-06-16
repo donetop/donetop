@@ -1,5 +1,6 @@
 package com.donetop.main.api.draft;
 
+import com.donetop.common.service.storage.LocalFileUtil;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.user.User;
 import com.donetop.enums.user.RoleType;
@@ -10,8 +11,13 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 
+import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
+import static com.donetop.enums.folder.FolderType.DRAFT_WORK;
 import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
@@ -128,7 +134,8 @@ public class DraftSingleGetTest extends DraftBase {
 	@Test
 	void getSingleThatHasFolder_withValidIdAndRightPassword_return200() {
 		// given
-		final Draft draft = saveSingleDraftWithFiles();
+		final List<File> files = LocalFileUtil.readFiles(Path.of(testStorage.getSrc()));
+		final Draft draft = saveSingleDraftWithFiles(DRAFT_ORDER, DRAFT_WORK);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
@@ -159,8 +166,9 @@ public class DraftSingleGetTest extends DraftBase {
 					fieldWithPath("data.memo").type(STRING).description("Draft memo."),
 					fieldWithPath("data.createTime").type(STRING).description("Draft create time."),
 					fieldWithPath("data.updateTime").type(STRING).description("Draft update time."),
-					subsectionWithPath("data.folder").type(OBJECT).description("Draft's folder."),
-					subsectionWithPath("data.folder.files").type(ARRAY).description("The files that are included in a folder.")
+					subsectionWithPath("data.folders").type(ARRAY).description("Draft folders."),
+					fieldWithPath("data.folders[].folderType").type(STRING).description("Draft folderType."),
+					subsectionWithPath("data.folders[].files").type(ARRAY).description("The files that are included in a folder.")
 				)
 			)
 		);
@@ -181,6 +189,8 @@ public class DraftSingleGetTest extends DraftBase {
 			.body("data.price", is(Integer.valueOf(String.valueOf(draft.getPrice()))))
 			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
 			.body("data.memo", is(draft.getMemo()))
-			.body("data.folder.files", hasSize(4));
+			.body("data.folders", hasSize(2))
+			.body("data.folders[0].files", hasSize(files.size()))
+			.body("data.folders[1].files", hasSize(files.size()));
 	}
 }

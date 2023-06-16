@@ -5,6 +5,8 @@ import com.donetop.collect.properties.ApplicationProperties
 import com.donetop.collect.properties.Storage
 import com.donetop.common.service.storage.StorageService
 import com.donetop.domain.entity.draft.Draft
+import com.donetop.domain.entity.folder.DraftFolder
+import com.donetop.enums.folder.FolderType.DRAFT_WORK
 import com.donetop.repository.draft.DraftDAO
 import com.donetop.repository.draft.DraftRepository
 import org.slf4j.LoggerFactory
@@ -18,7 +20,7 @@ class DraftCollectService(
     private val draftRetrieveService: DraftRetrieveService,
     private val draftRepository: DraftRepository,
     private val draftDAO: DraftDAO,
-    private val storageService: StorageService,
+    private val storageService: StorageService<DraftFolder>,
     private val applicationProperties: ApplicationProperties,
     private val storage: Storage = applicationProperties.storage
 ) {
@@ -67,17 +69,18 @@ class DraftCollectService(
 
 	private fun processFiles(draft: Draft, draftDTO: DraftDTO): Boolean {
 		val files = draftDTO.fileMap.keys
-		if (draft.hasFolder()) {
-			val diff = files - draft.folder.files
+		if (draft.hasFolder(DRAFT_WORK)) {
+			val workFolder = storageService.addNewFolderOrGet(draft, DRAFT_WORK)
+			val diff = files - workFolder.files
 			if (diff.isNotEmpty()) {
 				log.info("[SAVE_OR_UPDATE] There are new files($diff). So they will be added.")
-				storageService.add(draftDTO.downloadResourcesAt(storage.tmp), storageService.addNewFolderOrGet(draft))
+				storageService.add(draftDTO.downloadResourcesAt(storage.tmp), workFolder)
 				return true
 			}
 		} else {
 			if (files.isNotEmpty()) {
 				log.info("[SAVE_OR_UPDATE] There are new files($files). So they will be added.")
-				storageService.add(draftDTO.downloadResourcesAt(storage.tmp), storageService.addNewFolderOrGet(draft))
+				storageService.add(draftDTO.downloadResourcesAt(storage.tmp), storageService.addNewFolderOrGet(draft, DRAFT_WORK))
 				return true
 			}
 		}

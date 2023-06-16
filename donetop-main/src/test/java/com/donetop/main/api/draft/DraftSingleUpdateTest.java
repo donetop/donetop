@@ -3,7 +3,6 @@ package com.donetop.main.api.draft;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.draft.PaymentMethod;
-import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.common.api.Response.OK;
 import com.donetop.common.service.storage.LocalFileUtil;
@@ -19,6 +18,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
+import static com.donetop.enums.folder.DomainType.DRAFT;
+import static com.donetop.enums.folder.FolderType.DRAFT_WORK;
 import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -189,7 +190,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.body("data", is(Integer.valueOf(String.valueOf(draft.getId()))));
 		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
 		final long draftId = Long.parseLong(ok.getData());
-		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(testStorage.getRoot(), draftId));
+		final Path path = Path.of(DRAFT_WORK.buildPathFrom(DRAFT.buildPathFrom(testStorage.getRoot(), draftId), draftId));
 		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(1);
 	}
 

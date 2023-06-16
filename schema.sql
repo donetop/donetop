@@ -42,6 +42,20 @@ create table if not exists `tbFolder` (
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbFolder`;
 show indexes from `tbFolder`;
+-- alter table `tbFolder` change column `folderType` `domainType` varchar(10) default '' not null;
+
+-- drop table if exists `tbDraftFolder`;
+create table if not exists `tbDraftFolder` (
+  `folderType` varchar(50) default '' not null,
+  `folderId` bigint(20) not null,
+  `draftId` bigint(20) not null,
+  primary key (`folderId`),
+  unique `uc_draftFolder` (`folderType`, `draftId`),
+  constraint `fk_draftFolder_folder_id` foreign key (`folderId`) references `tbFolder` (`id`),
+  constraint `fk_draftFolder_draft_id` foreign key (`draftId`) references `tbDraft` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbDraftFolder`;
+show indexes from `tbDraftFolder`;
 
 -- drop table if exists `tbFile`;
 create table if not exists `tbFile` (
@@ -55,6 +69,7 @@ create table if not exists `tbFile` (
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbFile`;
 show indexes from `tbFile`;
+-- alter table `tbFile` add column `size` bigint(20) default 0 not null; 
 
 -- drop table if exists `tbPaymentInfo`;
 create table if not exists `tbPaymentInfo` (
@@ -109,7 +124,8 @@ create table if not exists `tbDraft` (
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbDraft`;
 show indexes from `tbDraft`;
-
+-- drop index `uc_folderId` on `tbDraft`;
+-- alter table `tbDraft` drop column `folderId`;
 -- alter table `tbDraft` modify column `password` varchar(512) not null default '';
 
 -- drop table if exists `tbCategory`;
@@ -135,6 +151,7 @@ select * from `tbUser`;
 select * from `tbOSSUser`;
 select * from `tbDraft` order by createTime desc;
 select * from `tbFolder`;
+select * from `tbDraftFolder`;
 select * from `tbFile`;
 select * from `tbPaymentInfo`;
 select * from `tbPaymentHistory`;

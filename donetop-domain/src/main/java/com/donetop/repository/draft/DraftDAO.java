@@ -15,7 +15,7 @@ public class DraftDAO {
 
 	private final DraftRepository draftRepository;
 
-	private static final String DRAFT_INSERT_QUERY = "INSERT INTO tbDraft (id, address, categoryName, companyName, createTime, customerName, detailAddress, draftStatus, email, folderId, inChargeName, memo, password, paymentInfoId, paymentMethod, phoneNumber, price, updateTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String DRAFT_INSERT_QUERY = "INSERT INTO tbDraft (id, address, categoryName, companyName, createTime, customerName, detailAddress, draftStatus, email, inChargeName, memo, password, paymentInfoId, paymentMethod, phoneNumber, price, updateTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -30,7 +30,6 @@ public class DraftDAO {
 			draft.getDetailAddress(),
 			draft.getDraftStatus().toString(),
 			draft.getEmail(),
-			draft.getFolder(),
 			draft.getInChargeName(),
 			draft.getMemo(),
 			draft.getPassword(),

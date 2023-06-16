@@ -4,6 +4,9 @@ import com.donetop.common.service.storage.Resource.FileSaveInfo;
 import com.donetop.domain.entity.file.File;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.interfaces.FolderContainer;
+import com.donetop.domain.interfaces.MultipleFolderContainer;
+import com.donetop.domain.interfaces.SingleFolderContainer;
+import com.donetop.enums.folder.FolderType;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class LocalStorageService implements StorageService {
+public class LocalStorageService<T extends Folder> implements StorageService<T> {
 
 	private final Storage storage;
 
@@ -34,7 +37,7 @@ public class LocalStorageService implements StorageService {
 	private final FolderRepository folderRepository;
 
 	@Override
-	public void saveOrReplace(final Collection<Resource> resources, final Folder folder) {
+	public void saveOrReplace(final Collection<Resource> resources, final T folder) {
 		final boolean deleteSuccess = deleteAllFilesIn(Objects.requireNonNull(folder));
 		log.info("File delete success: {}", deleteSuccess);
 		if (!deleteSuccess) return;
@@ -43,7 +46,7 @@ public class LocalStorageService implements StorageService {
 	}
 
 	@Override
-	public Collection<File> add(final Collection<Resource> resources, final Folder folder) {
+	public Collection<File> add(final Collection<Resource> resources, final T folder) {
 		Objects.requireNonNull(folder);
 		final List<File> saveSuccessFiles = Objects.requireNonNull(resources).stream()
 			.map(resource -> resource.saveAt(folder))
@@ -56,15 +59,24 @@ public class LocalStorageService implements StorageService {
 	}
 
 	@Override
-	public Folder addNewFolderOrGet(final FolderContainer folderContainer) {
+	public T addNewFolderOrGet(final SingleFolderContainer<T> folderContainer) {
+		final T folder = Objects.requireNonNull(folderContainer).getFolderOrNew(storage.getRoot());
+		return createDirectoriesAndPersistIfNotExist(folderContainer, folder);
+	}
+
+	@Override
+	public T addNewFolderOrGet(final MultipleFolderContainer<T> folderContainer, final FolderType folderType) {
+		final T folder = Objects.requireNonNull(folderContainer).getFolderOrNew(storage.getRoot(), folderType);
+		return createDirectoriesAndPersistIfNotExist(folderContainer, folder);
+	}
+
+	private T createDirectoriesAndPersistIfNotExist(final FolderContainer<T> folderContainer, final T folder) {
 		try {
-			final Folder folder = Objects.requireNonNull(folderContainer).getOrNewFolder(storage.getRoot());
 			final Path folderPath = Path.of(folder.getPath());
 			if (folder.isNew() && !Files.exists(folderPath)) {
 				Files.createDirectories(folderPath);
 				folderRepository.save(folder);
 				folderContainer.addFolder(folder);
-				return folder;
 			}
 			return folder;
 		} catch (IOException e) {

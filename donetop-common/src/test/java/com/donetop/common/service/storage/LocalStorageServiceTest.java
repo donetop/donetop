@@ -1,6 +1,6 @@
 package com.donetop.common.service.storage;
 
-import com.donetop.domain.entity.draft.Draft;
+import com.donetop.domain.entity.category.Category;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
@@ -26,7 +26,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.donetop.common.service.storage.LocalFileUtil.readResources;
-import static com.donetop.enums.folder.FolderType.DRAFT;
+import static com.donetop.enums.folder.DomainType.CATEGORY;
+import static com.donetop.enums.folder.DomainType.DRAFT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
@@ -51,7 +52,7 @@ class LocalStorageServiceTest {
 	private Storage storage;
 
 	@InjectMocks
-	private LocalStorageService localStorageService;
+	private LocalStorageService<Folder> localStorageService;
 
 	final Answer<Object> returnFirstArgument = i -> i.getArguments()[0];
 
@@ -76,7 +77,7 @@ class LocalStorageServiceTest {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(DRAFT)
+			.domainType(DRAFT)
 			.path(dst)
 			.build();
 
@@ -93,7 +94,7 @@ class LocalStorageServiceTest {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(DRAFT)
+			.domainType(DRAFT)
 			.path(dst)
 			.build();
 
@@ -111,7 +112,7 @@ class LocalStorageServiceTest {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(DRAFT)
+			.domainType(DRAFT)
 			.path(dst)
 			.build();
 
@@ -129,7 +130,7 @@ class LocalStorageServiceTest {
 		final List<List<Resource>> resourcesList = readResources(Path.of(src))
 			.stream().map(List::of).collect(Collectors.toList());
 		final Folder folder = Folder.builder()
-			.folderType(DRAFT)
+			.domainType(DRAFT)
 			.path(dst)
 			.build();
 
@@ -142,18 +143,18 @@ class LocalStorageServiceTest {
 	}
 
 	@Test
-	void addNewFolderOrGet_withFolderContainer_shouldExistFolder() {
+	void addNewFolderOrGet_withSingleFolderContainer_shouldExistFolder() {
 		// given
-		final Draft draft = Draft.builder().id(1L).build();
+		final Category category = Category.builder().id(1L).build();
 		given(storage.getRoot()).willReturn(dst);
 		given(folderRepository.save(any())).will(returnFirstArgument);
 
 		// when
-		Folder folder = localStorageService.addNewFolderOrGet(draft);
+		Folder folder = localStorageService.addNewFolderOrGet(category);
 
 		// then
-		assertThat(folder).isEqualTo(draft.getFolder());
-		final String folderPath = DRAFT.buildPathFrom(dst, draft.getId());
+		assertThat(folder).isEqualTo(category.getFolder());
+		final String folderPath = CATEGORY.buildPathFrom(dst, category.getId());
 		assertThat(Path.of(folderPath).toFile().exists()).isTrue();
 	}
 
@@ -162,7 +163,7 @@ class LocalStorageServiceTest {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(DRAFT)
+			.domainType(DRAFT)
 			.path(dst)
 			.build();
 		given(fileRepository.saveAll(anyCollection())).will(returnFirstArgument);
@@ -184,7 +185,7 @@ class LocalStorageServiceTest {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(DRAFT)
+			.domainType(DRAFT)
 			.path(dst)
 			.build();
 
@@ -202,7 +203,7 @@ class LocalStorageServiceTest {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
-			.folderType(DRAFT)
+			.domainType(DRAFT)
 			.path(dst)
 			.build();
 

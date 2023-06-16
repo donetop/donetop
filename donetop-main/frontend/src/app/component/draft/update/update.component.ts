@@ -12,6 +12,7 @@ import { EnumService } from 'src/app/service/enum.service';
 import { Category } from 'src/app/store/model/category.model';
 import { Draft } from 'src/app/store/model/draft.model';
 import { Enum } from 'src/app/store/model/enum.model';
+import { FolderType } from 'src/app/store/model/folder.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
 
 @Component({
@@ -70,7 +71,7 @@ export class UpdateComponent implements OnInit {
   }
 
   async setFileInput() {
-    const files = this.draft?.folder?.files;
+    const files = this.draft?.folders?.find(df => df.folderType === FolderType.DRAFT_WORK)?.files;
     if (!files) return;
     for (const [index, file] of files.entries()) {
       const ref = this.refs.get(index);

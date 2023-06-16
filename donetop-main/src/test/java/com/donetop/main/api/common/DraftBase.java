@@ -1,7 +1,9 @@
 package com.donetop.main.api.common;
 
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.domain.entity.user.User;
+import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.user.RoleType;
 import com.donetop.common.service.storage.LocalFileUtil;
 import com.donetop.common.service.storage.Resource;
@@ -30,7 +32,7 @@ public class DraftBase extends IntegrationBase {
 	protected DraftRepository draftRepository;
 
 	@Autowired
-	protected StorageService storageService;
+	protected StorageService<DraftFolder> storageService;
 
 	@Autowired
 	protected UserRepository userRepository;
@@ -84,7 +86,7 @@ public class DraftBase extends IntegrationBase {
 		draftRepository.saveAll(drafts);
 	}
 
-	protected Draft saveSingleDraftWithFiles() {
+	protected Draft saveSingleDraftWithFiles(final FolderType... folderTypes) {
 		final List<Resource> resources = LocalFileUtil.readResources(Path.of(testStorage.getSrc()));
 		final LocalDateTime now = LocalDateTime.now();
 		final Draft draft = new Draft().toBuilder()
@@ -102,7 +104,7 @@ public class DraftBase extends IntegrationBase {
 			.createTime(now)
 			.updateTime(now).build();
 		draftRepository.save(draft);
-		storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(draft));
+		for (final FolderType folderType : folderTypes) storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(draft, folderType));
 		return draftRepository.save(draft);
 	}
 

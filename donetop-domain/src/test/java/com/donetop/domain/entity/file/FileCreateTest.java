@@ -1,7 +1,7 @@
 package com.donetop.domain.entity.file;
 
 import com.donetop.domain.entity.folder.Folder;
-import com.donetop.enums.folder.FolderType;
+import com.donetop.enums.folder.DomainType;
 import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
 import org.junit.jupiter.api.Test;
@@ -27,11 +27,11 @@ public class FileCreateTest {
 	@Test
 	void create_withDuplicatedFiles_shouldFail() {
 		// given
-		final Folder folder = Folder.builder().path("/myPath").folderType(FolderType.DRAFT).build();
+		final Folder folder = Folder.builder().path("/myPath").domainType(DomainType.DRAFT).build();
 		final File file1 = File.builder().name("my file.jpg").folder(folder).build();
 		final File file2 = File.builder().name("my file.jpg").folder(folder).build();
 
-		// when
+		// when & then
 		folderRepository.save(folder);
 		assertThrows(DataIntegrityViolationException.class, () -> fileRepository.saveAll(List.of(file1, file2)));
 	}

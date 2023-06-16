@@ -3,6 +3,7 @@ package com.donetop.main.service.draft;
 import com.donetop.common.service.storage.Resource;
 import com.donetop.common.service.storage.StorageService;
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.donetop.common.service.storage.LocalFileUtil.readResources;
+import static com.donetop.enums.folder.FolderType.*;
 
 @Slf4j
 @Service
@@ -29,7 +31,7 @@ import static com.donetop.common.service.storage.LocalFileUtil.readResources;
 @RequiredArgsConstructor
 public class DraftServiceImpl implements DraftService {
 
-	private final StorageService storageService;
+	private final StorageService<DraftFolder> storageService;
 
 	private final DraftRepository draftRepository;
 
@@ -41,7 +43,9 @@ public class DraftServiceImpl implements DraftService {
 	public long createNewDraft(final DraftCreateRequest request) {
 		final Draft newDraft = draftRepository.save(request.toEntity());
 		final List<Resource> resources = request.getResources();
-		if (!resources.isEmpty()) storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(newDraft));
+		if (!resources.isEmpty()) {
+			storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(newDraft, DRAFT_ORDER));
+		}
 		log.info("[CREATE] draftId: {}", newDraft.getId());
 		return newDraft.getId();
 	}
@@ -65,7 +69,9 @@ public class DraftServiceImpl implements DraftService {
 		final Draft draft = draftRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
 		final List<Resource> resources = request.getResources();
-		if (draft.hasFolder() || !resources.isEmpty()) storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(draft));
+		if (draft.hasFolder(DRAFT_WORK) || !resources.isEmpty()) {
+			storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(draft, DRAFT_WORK));
+		}
 		log.info("[UPDATE] draftId: {}", draft.getId());
 		return request.applyTo(draft).getId();
 	}
@@ -76,7 +82,7 @@ public class DraftServiceImpl implements DraftService {
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
 		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
 			throw new IllegalStateException("허용되지 않은 요청입니다.");
-		if (draft.hasFolder()) storageService.delete(draft.getFolder());
+		if (draft.hasFolder()) draft.getDraftFolders().forEach(storageService::delete);
 		draftRepository.delete(draft);
 		log.info("[DELETE] draftId: {}", id);
 		return id;
@@ -88,8 +94,10 @@ public class DraftServiceImpl implements DraftService {
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
 		final Draft copiedDraft = draftRepository.save(draft.copy());
 		if (draft.hasFolder()) {
-			final List<Resource> resources = readResources(Path.of(draft.getFolder().getPath()));
-			storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(copiedDraft));
+			draft.getDraftFolders().forEach(draftFolder -> {
+				final List<Resource> resources = readResources(Path.of(draftFolder.getPath()));
+				storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(copiedDraft, draftFolder.getFolderType()));
+			});
 		}
 		log.info("[COPY] draftId: {}", id);
 		return copiedDraft.getId();

@@ -1,12 +1,12 @@
 package com.donetop.domain.entity.draft;
 
-import com.donetop.domain.entity.folder.Folder;
+import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.domain.entity.payment.PaymentInfo;
-import com.donetop.domain.interfaces.FolderContainer;
+import com.donetop.domain.interfaces.MultipleFolderContainer;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.DraftStatus;
-import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.draft.PaymentMethod;
+import com.donetop.enums.folder.FolderType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,12 +16,15 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Entity
 @Table(
 	name = "tbDraft",
 	uniqueConstraints = {
-		@UniqueConstraint(columnNames = {"folderId"}),
 		@UniqueConstraint(columnNames = {"paymentInfoId"})
 	}
 )
@@ -30,7 +33,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Draft implements FolderContainer, Serializable {
+public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,9 +94,8 @@ public class Draft implements FolderContainer, Serializable {
 	@Column(nullable = false)
 	private LocalDateTime updateTime = LocalDateTime.now();
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "folderId")
-	private Folder folder;
+	@OneToMany(mappedBy = "draft", cascade = CascadeType.REMOVE)
+	private final List<DraftFolder> draftFolders = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "paymentInfoId")
@@ -170,18 +172,23 @@ public class Draft implements FolderContainer, Serializable {
 	}
 
 	@Override
-	public void addFolder(final Folder folder) {
-		this.folder = folder;
+	public void addFolder(final DraftFolder folder) {
+		this.draftFolders.add(folder);
 	}
 
 	@Override
-	public Folder getOrNewFolder(final String root) {
-		return this.folder == null ? Folder.of(FolderType.DRAFT, root, this.id) : this.folder;
+	public DraftFolder getFolderOrNew(final String root, final FolderType folderType) {
+		return !hasFolder(folderType) ? DraftFolder.of(folderType, root, this)
+			: this.draftFolders.stream().filter(draftFolder -> draftFolder.getFolderType() == folderType).findFirst().orElseThrow();
 	}
 
 	@Override
 	public boolean hasFolder() {
-		return this.folder != null;
+		return !this.draftFolders.isEmpty();
+	}
+
+	public boolean hasFolder(final FolderType folderType) {
+		return this.draftFolders.stream().anyMatch(draftFolder -> draftFolder.getFolderType() == folderType);
 	}
 
 	public void addPaymentInfo(final PaymentInfo paymentInfo) {
@@ -228,7 +235,7 @@ public class Draft implements FolderContainer, Serializable {
 			.createTime(this.createTime)
 			.updateTime(this.updateTime).build();
 		if (includeSubObjectInfo) {
-			draftDTO.setFolder(this.folder == null ? null : this.folder.toDTO());
+			draftDTO.setFolders(this.draftFolders.stream().map(DraftFolder::toDTO).collect(toList()));
 			draftDTO.setPaymentInfo(this.paymentInfo == null ? null : this.paymentInfo.toDTO());
 		}
 		return draftDTO;

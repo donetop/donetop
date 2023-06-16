@@ -23,6 +23,7 @@ public abstract class Resource {
 	public FileSaveInfo saveAt(final Folder folder) {
 		final File file = File.builder()
 			.name(this.originalFilename)
+			.size(this.multipartFile.getSize())
 			.folder(folder)
 			.build();
 		return save(file);

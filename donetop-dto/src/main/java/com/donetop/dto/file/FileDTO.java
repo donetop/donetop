@@ -18,4 +18,6 @@ public class FileDTO {
 	@JsonIgnore
 	private String path;
 
+	private long size;
+
 }
