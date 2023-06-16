@@ -1,6 +1,6 @@
 package com.donetop.dto.draft;
 
-import com.donetop.dto.folder.FolderDTO;
+import com.donetop.dto.folder.DraftFolderDTO;
 import com.donetop.dto.payment.PaymentInfoDTO;
 import com.donetop.enums.common.EnumDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,6 +10,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
 
@@ -54,7 +56,7 @@ public class DraftDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updateTime;
 
-	private FolderDTO folder;
+	private List<DraftFolderDTO> folders = new ArrayList<>();
 
 	private PaymentInfoDTO paymentInfo;
 }

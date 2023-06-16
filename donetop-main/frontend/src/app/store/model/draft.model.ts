@@ -1,5 +1,5 @@
 import { Enum } from "./enum.model"
-import { Folder } from "./folder.model"
+import { DraftFolder } from "./folder.model"
 import { PaymentInfo } from "./payment.model"
 
 export interface Draft {
@@ -18,6 +18,6 @@ export interface Draft {
   memo: string
   createTime: Date
   updateTime: Date
-  folder: Folder | undefined
+  folders: Array<DraftFolder>
   paymentInfo: PaymentInfo | undefined
 }

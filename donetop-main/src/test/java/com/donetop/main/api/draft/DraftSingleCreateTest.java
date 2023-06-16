@@ -1,7 +1,6 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.enums.draft.PaymentMethod;
-import com.donetop.enums.folder.FolderType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.common.service.storage.LocalFileUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,6 +16,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.donetop.common.api.Response.OK;
+import static com.donetop.enums.folder.DomainType.DRAFT;
+import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
 import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -145,7 +146,8 @@ public class DraftSingleCreateTest extends DraftBase {
 	@Test
 	void createSingle_withValidPartValuesAndFiles_return200() throws Exception {
 		// given
-		final List<File> files = LocalFileUtil.readFiles(Path.of(testStorage.getSrc())).subList(0, 1);
+		final int subSize = 1;
+		final List<File> files = LocalFileUtil.readFiles(Path.of(testStorage.getSrc())).subList(0, subSize);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
@@ -190,8 +192,8 @@ public class DraftSingleCreateTest extends DraftBase {
 		response.then().statusCode(HttpStatus.OK.value());
 		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
 		final long draftId = Long.parseLong(ok.getData());
-		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(testStorage.getRoot(), draftId));
-		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(1);
+		final Path path = Path.of(DRAFT_ORDER.buildPathFrom(DRAFT.buildPathFrom(testStorage.getRoot(), draftId), draftId));
+		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(subSize);
 	}
 
 }

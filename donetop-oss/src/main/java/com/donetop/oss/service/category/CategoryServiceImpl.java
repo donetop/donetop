@@ -3,6 +3,7 @@ package com.donetop.oss.service.category;
 import com.donetop.common.service.storage.StorageService;
 import com.donetop.domain.entity.category.Category;
 import com.donetop.domain.entity.file.File;
+import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.category.CategoryDTO;
 import com.donetop.oss.api.category.request.CategoryCreateRequest;
 import com.donetop.oss.api.category.request.CategoryImageAddRequest;
@@ -27,7 +28,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-	private final StorageService storageService;
+	private final StorageService<Folder> storageService;
 
 	private final CategoryRepository categoryRepository;
 

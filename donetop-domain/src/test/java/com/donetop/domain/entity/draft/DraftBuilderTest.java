@@ -49,7 +49,7 @@ public class DraftBuilderTest {
 		assertThat(draft.getPaymentMethod()).isNotNull();
 		assertThat(draft.getCreateTime()).isNotNull();
 		assertThat(draft.getUpdateTime()).isNotNull();
-		assertThat(draft.getFolder()).isNull();
+		assertThat(draft.getDraftFolders().size()).isEqualTo(0);
 	}
 
 }

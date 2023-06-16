@@ -71,6 +71,41 @@ div.container {
           }
         }
       }
+
+      > div.files {
+        margin: 10px 0;
+        border: 1px solid #d4d4d4;
+
+        > h2 {
+          padding: 10px;
+          background: #f3f3f3;
+          font-size: 1em;
+        }
+
+        > ul {
+          padding: 5px 0;
+
+          > li {
+            padding: 5px 10px;
+            font-size: 13px;
+
+            > fa-icon {
+              margin-right: 5px;
+            }
+
+            > a > strong {
+              color: #3497d9;
+              text-decoration: underline;
+              word-wrap: break-word;
+
+              &:hover {
+                cursor: pointer;
+                text-decoration: none;
+              }
+            }
+          }
+        }
+      }
     }
 
     > div.images {

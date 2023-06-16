@@ -1,9 +1,9 @@
 package com.donetop.domain.entity.category;
 
 import com.donetop.domain.entity.folder.Folder;
-import com.donetop.domain.interfaces.FolderContainer;
+import com.donetop.domain.interfaces.SingleFolderContainer;
 import com.donetop.dto.category.CategoryDTO;
-import com.donetop.enums.folder.FolderType;
+import com.donetop.enums.folder.DomainType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +28,7 @@ import static java.util.stream.Collectors.toList;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category implements FolderContainer, Comparable<Category> {
+public class Category implements SingleFolderContainer<Folder>, Comparable<Category> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,8 +75,8 @@ public class Category implements FolderContainer, Comparable<Category> {
 	}
 
 	@Override
-	public Folder getOrNewFolder(final String root) {
-		return this.folder == null ? Folder.of(FolderType.CATEGORY, root, this.id) : this.folder;
+	public Folder getFolderOrNew(final String root) {
+		return this.folder == null ? Folder.of(DomainType.CATEGORY, root, this.id) : this.folder;
 	}
 
 	@Override

@@ -32,13 +32,17 @@ public class File {
 	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
 	private String mimeType;
 
+	@Column(nullable = false, columnDefinition = "bigint(20) default 0")
+	private long size;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "folderId", nullable = false)
 	private Folder folder;
 
 	@Builder
-	public File(final String name, final Folder folder) {
+	public File(final String name, final long size, final Folder folder) {
 		this.name = name;
+		this.size = size;
 		try {
 			this.mimeType = Files.probeContentType(Path.of(name));
 		} catch (IOException e) {
@@ -62,6 +66,7 @@ public class File {
 		fileDTO.setName(this.name);
 		fileDTO.setMimeType(this.mimeType);
 		fileDTO.setPath(getPath());
+		fileDTO.setSize(this.size);
 		return fileDTO;
 	}
 
@@ -83,6 +88,7 @@ public class File {
 		return "File{" +
 			"name='" + name + '\'' +
 			", mimeType='" + mimeType + '\'' +
+			", size=" + size +
 			'}';
 	}
 }

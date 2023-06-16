@@ -1,5 +1,6 @@
 package com.donetop.main.api.file;
 
+import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.file.FileDTO;
 import com.donetop.main.service.file.FileService;
 import com.donetop.common.service.storage.StorageService;
@@ -23,7 +24,7 @@ public class FileAPIController {
 
 	private final FileService fileService;
 
-	private final StorageService storageService;
+	private final StorageService<Folder> storageService;
 
 	@GetMapping(value = SINGULAR + "/{id}")
 	public ResponseEntity<InputStreamResource> get(@PathVariable("id") final long id) {

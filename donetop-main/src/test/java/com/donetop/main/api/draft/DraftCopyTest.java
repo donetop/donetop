@@ -1,7 +1,10 @@
 package com.donetop.main.api.draft;
 
+import com.donetop.common.api.Response.OK;
+import com.donetop.common.service.storage.LocalFileUtil;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.main.api.common.DraftBase;
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -10,7 +13,16 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Objects;
+
+import static com.donetop.enums.folder.DomainType.DRAFT;
+import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
+import static com.donetop.enums.folder.FolderType.DRAFT_WORK;
 import static com.donetop.main.api.draft.DraftAPIController.URI.COPY;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
@@ -92,7 +104,8 @@ public class DraftCopyTest extends DraftBase {
 	@Test
 	void copy_hasFolderDraft_return200() throws Exception {
 		// given
-		final Draft draft = saveSingleDraftWithFiles();
+		final List<File> files = LocalFileUtil.readFiles(Path.of(testStorage.getSrc()));
+		final Draft draft = saveSingleDraftWithFiles(DRAFT_ORDER, DRAFT_WORK);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
@@ -119,6 +132,14 @@ public class DraftCopyTest extends DraftBase {
 		response.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("data", not(draft.getId()));
+		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
+		final long copiedDraftId = Long.parseLong(ok.getData());
+		final Path orderPath = Path.of(DRAFT_ORDER.buildPathFrom(DRAFT.buildPathFrom(testStorage.getRoot(), copiedDraftId), copiedDraftId));
+		final Path workPath = Path.of(DRAFT_WORK.buildPathFrom(DRAFT.buildPathFrom(testStorage.getRoot(), copiedDraftId), copiedDraftId));
+		assertThat(orderPath.toFile().exists()).isTrue();
+		assertThat(Objects.requireNonNull(orderPath.toFile().listFiles()).length).isEqualTo(files.size());
+		assertThat(workPath.toFile().exists()).isTrue();
+		assertThat(Objects.requireNonNull(workPath.toFile().listFiles()).length).isEqualTo(files.size());
 	}
 
 }

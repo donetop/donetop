@@ -2,7 +2,6 @@ package com.donetop.main.api.draft;
 
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.user.User;
-import com.donetop.enums.folder.FolderType;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.common.api.Response.OK;
@@ -16,6 +15,9 @@ import org.springframework.http.HttpStatus;
 
 import java.nio.file.Path;
 
+import static com.donetop.enums.folder.DomainType.DRAFT;
+import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
+import static com.donetop.enums.folder.FolderType.DRAFT_WORK;
 import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -131,7 +133,7 @@ public class DraftSingleDeleteTest extends DraftBase {
 	@Test
 	void deleteSingleThatHasFiles_byAdminUser_return200() throws Exception {
 		// given
-		final Draft draft = saveSingleDraftWithFiles();
+		final Draft draft = saveSingleDraftWithFiles(DRAFT_ORDER, DRAFT_WORK);
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
@@ -150,8 +152,10 @@ public class DraftSingleDeleteTest extends DraftBase {
 			.body("data", is(Integer.valueOf(String.valueOf(draft.getId()))));
 		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
 		final long draftId = Long.parseLong(ok.getData());
-		final Path path = Path.of(FolderType.DRAFT.buildPathFrom(testStorage.getRoot(), draftId));
-		assertThat(path.toFile().exists()).isFalse();
+		final Path orderPath = Path.of(DRAFT_ORDER.buildPathFrom(DRAFT.buildPathFrom(testStorage.getRoot(), draftId), draftId));
+		final Path workPath = Path.of(DRAFT_WORK.buildPathFrom(DRAFT.buildPathFrom(testStorage.getRoot(), draftId), draftId));
+		assertThat(orderPath.toFile().exists()).isFalse();
+		assertThat(workPath.toFile().exists()).isFalse();
 	}
 
 }

@@ -2,11 +2,9 @@ package com.donetop.domain.interfaces;
 
 import com.donetop.domain.entity.folder.Folder;
 
-public interface FolderContainer {
+public interface FolderContainer<T extends Folder> {
 
-	void addFolder(Folder folder);
-
-	Folder getOrNewFolder(String root);
+	void addFolder(T folder);
 
 	boolean hasFolder();
 

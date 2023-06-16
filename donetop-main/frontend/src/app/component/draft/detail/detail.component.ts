@@ -3,7 +3,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCopy, faCreditCard } from '@fortawesome/free-regular-svg-icons';
-import { faPenToSquare, faReceipt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faPenToSquare, faReceipt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
 import { TitleComponent } from 'src/app/component/title/title.component';
@@ -15,6 +15,8 @@ import { RouteName } from 'src/app/store/model/routeName.model';
 import { isAdmin, User } from 'src/app/store/model/user.model';
 import jsPDF from 'jspdf';
 import { malgun } from './font';
+import { DraftFolder, FolderType } from 'src/app/store/model/folder.model';
+import { FileSizePipe } from 'src/app/pipe/filesize.pipe';
 
 declare const call_pay_form: Function;
 declare const KCP_Pay_Execute: Function;
@@ -29,12 +31,15 @@ declare const trade_register: Function;
     CommonModule,
     FontAwesomeModule,
     TitleComponent,
-    ModalComponent
+    ModalComponent,
+    FileSizePipe
   ]
 })
 export class DetailComponent {
 
   draft: Draft | undefined;
+  orderFolder: DraftFolder | undefined;
+  workFolder: DraftFolder | undefined;
   orderRequest: OrderRequest | undefined;
   tradeRegisterRequest: TradeRegisterRequest | undefined;
   @ViewChild('pc_order_form') pcOrderForm!: ElementRef;
@@ -61,7 +66,7 @@ export class DetailComponent {
     private store: Store<{ user: User }>, private library: FaIconLibrary,
     private router: Router
   ) {
-    this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard, faReceipt, faCopy);
+    this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard, faReceipt, faCopy, faDownload);
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
   }
@@ -73,11 +78,16 @@ export class DetailComponent {
       .subscribe({
         next: (response) => {
           this.draft = response.data;
+          this.orderFolder = this.draft.folders.find(df => df.folderType === FolderType.DRAFT_ORDER);
+          this.workFolder = this.draft.folders.find(df => df.folderType === FolderType.DRAFT_WORK);
           this.paymentHistory = this.draft.paymentInfo?.lastHistory;
           this.orderRequest = OrderRequestFromDraft(this.draft);
           this.tradeRegisterRequest = TradeRegisterRequestFromDraft(this.draft);
         },
-        error: ({error}) => alert(error.reason)
+        error: ({error}) => {
+          alert(error.reason);
+          this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: { page: 0 } });
+        }
       });
   }
 

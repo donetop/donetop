@@ -44,9 +44,19 @@
         <span>메모</span><br>
         <textarea id="memo" name="memo" rows="10" disabled>{{ draft.memo }}</textarea>
       </div>
+      <div class="files" *ngIf="orderFolder && orderFolder.files.length > 0">
+        <h2>첨부파일</h2>
+        <ul>
+          <li *ngFor="let file of orderFolder.files">
+            <fa-icon [icon]="['fas', 'download']"></fa-icon>
+            <a [href]="'api/file/' + file.id" [download]="file.name"><strong>{{ file.name }}</strong></a>
+            ({{ file.size | fileSize }})
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="images" *ngIf="draft.folder">
-      <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of draft.folder.files">
+    <div class="images" *ngIf="workFolder">
+      <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of workFolder.files">
     </div>
   </div>
   <div class="buttons">

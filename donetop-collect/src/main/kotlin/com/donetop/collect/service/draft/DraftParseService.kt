@@ -7,7 +7,7 @@ import com.donetop.domain.entity.file.File
 import com.donetop.domain.entity.folder.Folder
 import com.donetop.enums.draft.DraftStatus
 import com.donetop.enums.draft.PaymentMethod
-import com.donetop.enums.folder.FolderType.DRAFT
+import com.donetop.enums.folder.DomainType.DRAFT
 import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -46,7 +46,7 @@ class DraftParseService(
 				.map { it.attr("src") }
 				.associateBy {
 					val fileName = it.substringAfterLast("/")
-					File(fileName, folder)
+					File(fileName, 0, folder)
 				}
 			val draftDTO = DraftDTO(
 				id = id,

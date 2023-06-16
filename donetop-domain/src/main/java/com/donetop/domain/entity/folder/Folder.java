@@ -2,7 +2,7 @@ package com.donetop.domain.entity.folder;
 
 import com.donetop.domain.entity.file.File;
 import com.donetop.dto.folder.FolderDTO;
-import com.donetop.enums.folder.FolderType;
+import com.donetop.enums.folder.DomainType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +17,7 @@ import static java.util.stream.Collectors.toList;
 
 @Entity
 @Table(name = "tbFolder")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @NoArgsConstructor
 public class Folder {
@@ -31,21 +32,21 @@ public class Folder {
 
 	@Enumerated(value = EnumType.STRING)
 	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
-	private FolderType folderType;
+	private DomainType domainType;
 
 	@OneToMany(mappedBy = "folder", cascade = CascadeType.REMOVE)
 	private final Set<File> files = new HashSet<>();
 
 	@Builder
-	public Folder(final String path, final FolderType folderType) {
+	public Folder(final String path, final DomainType domainType) {
 		this.path = path;
-		this.folderType = folderType;
+		this.domainType = domainType;
 	}
 
-	public static Folder of(final FolderType folderType, final String root, final long id) {
+	public static Folder of(final DomainType domainType, final String root, final long id) {
 		return Folder.builder()
-			.folderType(folderType)
-			.path(folderType.buildPathFrom(root, id))
+			.domainType(domainType)
+			.path(domainType.buildPathFrom(root, id))
 			.build();
 	}
 
