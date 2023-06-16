@@ -124,6 +124,7 @@ create table if not exists `tbDraft` (
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbDraft`;
 show indexes from `tbDraft`;
+-- alter table `tbDraft` drop foreign key `fk_draft_folder_id`;
 -- drop index `uc_folderId` on `tbDraft`;
 -- alter table `tbDraft` drop column `folderId`;
 -- alter table `tbDraft` modify column `password` varchar(512) not null default '';
