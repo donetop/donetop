@@ -15,6 +15,7 @@ import { ModalComponent, Property } from 'src/app/component/modal/modal.componen
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-list',
@@ -169,6 +170,13 @@ export class ListComponent {
     this.checkboxes.forEach((element, i) => element.nativeElement.checked = i === index);
     this.prevCheckedboxIndex = index;
     this.prevCheckedboxStatus = true;
+  }
+
+  isNew(draft: Draft) {
+    let currentDate = new Date(new Date().toLocaleString('en', { timeZone: environment.timeZone }));
+    let currentTime = Math.floor(currentDate.getTime() / 1000);
+    let draftCreateTime = Math.floor(new Date(draft.createTime).getTime() / 1000);
+    return Math.abs(currentTime - draftCreateTime) <= 1 * 60 * 60;
   }
 }
 

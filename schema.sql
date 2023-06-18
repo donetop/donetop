@@ -69,7 +69,9 @@ create table if not exists `tbFile` (
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbFile`;
 show indexes from `tbFile`;
--- alter table `tbFile` add column `size` bigint(20) default 0 not null; 
+-- alter table `tbFile` add column `size` bigint(20) default 0 not null;
+-- alter table `tbFile` modify column `mimeType` varchar(64) not null default '';
+-- alter table `tbFile` modify column `name` varchar(256) not null default '';
 
 -- drop table if exists `tbPaymentInfo`;
 create table if not exists `tbPaymentInfo` (

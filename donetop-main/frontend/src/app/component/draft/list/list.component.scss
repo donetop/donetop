@@ -146,6 +146,12 @@ div.container {
         > a:hover {
           text-decoration: underline;
         }
+
+        > img.new {
+          margin-bottom: 3px;
+          vertical-align: middle;
+          margin-left: 4px;
+        }
       }
       &.sub-row {
         display: flex;
