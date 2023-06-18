@@ -10,5 +10,6 @@ export const environment = {
     ordr_idxx(draft: Draft) {
       return `DRAFT-${draft.id}-TEST`;
     }
-  }
+  },
+  timeZone: 'America/Vancouver'
 };
