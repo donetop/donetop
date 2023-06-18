@@ -152,7 +152,7 @@ show indexes from `tbCategory`;
 
 select * from `tbUser`;
 select * from `tbOSSUser`;
-select * from `tbDraft` order by createTime desc;
+select * from `tbDraft` order by createTime desc limit 20;
 select * from `tbFolder`;
 select * from `tbDraftFolder`;
 select * from `tbFile`;
