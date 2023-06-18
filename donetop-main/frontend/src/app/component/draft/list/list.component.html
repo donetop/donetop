@@ -36,7 +36,10 @@
     <div class="row" *ngFor="let draft of page.content; let i = index">
       <div class="checkbox"><input type="checkbox" [name]="'checkbox' + i" [id]="draft.id" #checkbox (click)="checknthbox(i)"></div>
       <div class="number">{{ index[i] }}</div>
-      <div class="title"><a (click)="openModal(draft.id, passwordForm)">{{ draft.customerName }}님 시안입니다.</a></div>
+      <div class="title">
+        <a (click)="openModal(draft.id, passwordForm)">{{ draft.customerName }}님 시안입니다.</a>
+        <img class="new" src="/assets/draft/icon_new.gif" *ngIf="isNew(draft)">
+      </div>
       <div class="sub-row">
         <div class="inCharge">{{ draft.inChargeName | inChargeNamePipe }}</div>
         <div class="phoneNumber" *ngIf="isAdmin">{{ draft.phoneNumber }}</div>

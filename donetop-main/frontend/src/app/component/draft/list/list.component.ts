@@ -170,6 +170,12 @@ export class ListComponent {
     this.prevCheckedboxIndex = index;
     this.prevCheckedboxStatus = true;
   }
+
+  isNew(draft: Draft) {
+    let currentTime = Math.floor(new Date().getTime() / 1000);
+    let draftCreateTime = Math.floor(new Date(draft.createTime).getTime() / 1000);
+    return Math.abs(currentTime - draftCreateTime) <= 1 * 60 * 60;
+  }
 }
 
 class SearchCondition {
