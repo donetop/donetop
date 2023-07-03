@@ -136,9 +136,12 @@ div.container {
 
       &.checkbox {
         width: 5%;
+        min-width: fit-content;
       }
       &.number {
         width: 5%;
+        word-break: keep-all;
+        min-width: fit-content;
       }
       &.title {
         width: 50%;
@@ -174,10 +177,13 @@ div.container {
 
       @media (max-width: 750px) {
         &.checkbox {
-          width: 15%;
+          width: 10%;
+          > input {
+            min-width: 20px;
+          }
         }
         &.number {
-          width: 15%;
+          width: 20%;
         }
         &.title {
           width: 55%;
