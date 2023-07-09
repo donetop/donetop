@@ -9,7 +9,8 @@ import java.security.InvalidParameterException;
 @RequiredArgsConstructor
 public enum DomainType {
 	DRAFT("draft/{id}"),
-	CATEGORY("category/{id}")
+	CATEGORY("category/{id}"),
+	COMMENT("comment/{id}")
 	;
 
 	private final String path;

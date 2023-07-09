@@ -146,6 +146,20 @@ create table if not exists `tbCategory` (
 show full columns from `tbCategory`;
 show indexes from `tbCategory`;
 
+-- drop table if exists `tbComment`;
+create table if not exists `tbComment` (
+  `id` bigint(20) not null auto_increment,
+  `content` varchar(1024) default '' not null,
+  `createTime` datetime not null,
+  `draftId` bigint(20),
+  `folderId` bigint(20),
+  primary key (`id`),
+  constraint `fk_comment_draft_id` foreign key (`draftId`) references `tbDraft` (`id`),
+  constraint `fk_comment_folder_id` foreign key (`folderId`) references `tbFolder` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbComment`;
+show indexes from `tbComment`;
+
 -- -----------------------------------------------------
 -- -----------------------------------------------------
 -- -----------------------------------------------------
@@ -159,5 +173,6 @@ select * from `tbFile`;
 select * from `tbPaymentInfo`;
 select * from `tbPaymentHistory`;
 select * from `tbCategory`;
+select * from `tbComment`;
 
 -- update `tbCategory` set folderId = null where id = 78;
