@@ -1,0 +1,5 @@
+<div class="file">
+  <label [htmlFor]="file"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
+  <input type="file" [id]="file" [name]="file" [accept]="accept" #file>
+  <label (click)="deleteMe()"><fa-icon [icon]="['fas', 'xmark']"></fa-icon></label>
+</div>

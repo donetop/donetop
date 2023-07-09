@@ -45,7 +45,7 @@
         <textarea id="memo" name="memo" rows="10" disabled>{{ draft.memo }}</textarea>
       </div>
       <div class="files" *ngIf="orderFolder && orderFolder.files.length > 0">
-        <h2>첨부파일</h2>
+        <h2>고객 첨부파일</h2>
         <ul>
           <li *ngFor="let file of orderFolder.files">
             <fa-icon [icon]="['fas', 'download']"></fa-icon>
@@ -69,6 +69,34 @@
       <button type="button" *ngIf="isPayable()" (click)="pay()"><fa-icon [icon]="['far', 'credit-card']"></fa-icon>&nbsp;카드결제</button>
       <button type="button" *ngIf="isPaid()" (click)="openModal()"><fa-icon [icon]="['fas', 'receipt']"></fa-icon>&nbsp;영수증</button>
     </div>
+  </div>
+  <div class="comments">
+    <h3>댓글</h3>
+    <div *ngIf="commentCount() === 0" class="empty">등록된 댓글이 없습니다.</div>
+    <div class="comment" *ngFor="let comment of this.draft?.comments">
+      <div class="content">{{ comment.content }}</div>
+      <div class="files" *ngIf="comment.folder && comment.folder.files.length > 0">
+        <ul>
+          <li *ngFor="let file of comment.folder.files">
+            <fa-icon [icon]="['fas', 'download']"></fa-icon>
+            <a [href]="'api/file/' + file.id" [download]="file.name"><strong>{{ file.name }}</strong></a>
+            ({{ file.size | fileSize }})
+          </li>
+        </ul>
+      </div>
+      <div class="createTime">
+        <div>{{ comment.createTime }}</div>
+        <button *ngIf="isAdmin" type="button" (click)="deleteComment(comment.id)"><fa-icon [icon]="['fas', 'times']"></fa-icon></button>
+      </div>
+    </div>
+    <form *ngIf="commentCount() < 5" class="commentBox" #commentCreateForm="ngForm" (ngSubmit)="addComment(commentCreateForm)">
+      <div class="buttons">
+        <h3>댓글 작성</h3>
+        <button type="submit" [disabled]="commentCreateForm.invalid"><fa-icon [icon]="['fas', 'pencil']"></fa-icon>&nbsp;등록</button>
+      </div>
+      <textarea name="commentContent" rows="5" wrap="hard" placeholder="댓글 내용을 입력하세요." ngModel required #commentContent="ngModel"></textarea>
+      <app-files [maxSize]="3" [files]="[]" #filesComponent></app-files>
+    </form>
   </div>
   <div class="notice">
     <img src="/assets/draft/notice.jpg" alt="이미지가 없습니다.">

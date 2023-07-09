@@ -1,3 +1,4 @@
+import { Comment } from "./comment.model"
 import { Enum } from "./enum.model"
 import { DraftFolder } from "./folder.model"
 import { PaymentInfo } from "./payment.model"
@@ -20,4 +21,5 @@ export interface Draft {
   updateTime: Date
   folders: Array<DraftFolder>
   paymentInfo: PaymentInfo | undefined
+  comments: Array<Comment>
 }

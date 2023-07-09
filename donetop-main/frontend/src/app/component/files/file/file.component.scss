@@ -1,0 +1,23 @@
+div.file {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin-bottom: 10px;
+
+  > label {
+    border-radius: 3px 0 0 3px;
+    height: 38px;
+    line-height: 38px;
+    width: 40px;
+    background: #eee;
+    text-align: center;
+    color: #888;
+    cursor: pointer;
+  }
+
+  > input {
+    padding: 7px 0 5px 0;
+    margin-left: 10px;
+    flex-grow: 1;
+  }
+}

@@ -1,0 +1,10 @@
+div.icons {
+  text-align: center;
+
+  > fa-icon {
+    font-size: 2rem;
+    cursor: pointer;
+    width: fit-content;
+    margin: 0 auto;
+  }
+}
