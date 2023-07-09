@@ -3,6 +3,7 @@ package com.donetop.main.config;
 import com.donetop.common.encoder.NoOpPasswordEncoder;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.category.CategoryAPIController;
+import com.donetop.main.api.comment.CommentAPIController;
 import com.donetop.main.api.draft.DraftAPIController;
 import com.donetop.main.api.enums.EnumAPIController;
 import com.donetop.main.api.file.FileAPIController;
@@ -45,7 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		FileAPIController.URI.SINGULAR + "/**",
 		EnumAPIController.URI.ROOT + "/**",
 		CategoryAPIController.URI.PLURAL + "/**", CategoryAPIController.URI.SINGULAR + "/**",
-		com.donetop.main.api.nhn.URI.NHN_API + "/**"
+		com.donetop.main.api.nhn.URI.NHN_API + "/**",
+		CommentAPIController.URI.SINGULAR + "/**"
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {

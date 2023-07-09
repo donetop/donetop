@@ -1,8 +1,10 @@
 package com.donetop.domain.entity.draft;
 
+import com.donetop.domain.entity.comment.Comment;
 import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.domain.entity.payment.PaymentInfo;
 import com.donetop.domain.interfaces.MultipleFolderContainer;
+import com.donetop.dto.comment.CommentDTO;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.draft.PaymentMethod;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 @Entity
@@ -100,6 +103,9 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "paymentInfoId")
 	private PaymentInfo paymentInfo;
+
+	@OneToMany(mappedBy = "draft", cascade = CascadeType.REMOVE)
+	private final List<Comment> comments = new ArrayList<>();
 
 	public Draft updateCustomerName(final String customerName) {
 		this.customerName = customerName;
@@ -237,6 +243,7 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 		if (includeSubObjectInfo) {
 			draftDTO.setFolders(this.draftFolders.stream().map(DraftFolder::toDTO).collect(toList()));
 			draftDTO.setPaymentInfo(this.paymentInfo == null ? null : this.paymentInfo.toDTO());
+			draftDTO.setComments(this.comments.stream().map(Comment::toDTO).sorted(comparing(CommentDTO::getCreateTime)).collect(toList()));
 		}
 		return draftDTO;
 	}

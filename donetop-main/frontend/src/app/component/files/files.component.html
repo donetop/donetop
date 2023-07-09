@@ -1,0 +1,4 @@
+<ng-template #fileContainer></ng-template>
+<div class="icons">
+  <fa-icon *ngIf="fileComponents.length < maxSize" (click)="addFileComponent(undefined)" [icon]="['fas', 'circle-plus']"></fa-icon>
+</div>

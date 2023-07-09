@@ -3,7 +3,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCopy, faCreditCard } from '@fortawesome/free-regular-svg-icons';
-import { faDownload, faPenToSquare, faReceipt, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faPenToSquare, faPencil, faReceipt, faTimes, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
 import { TitleComponent } from 'src/app/component/title/title.component';
@@ -17,6 +17,9 @@ import jsPDF from 'jspdf';
 import { malgun } from './font';
 import { DraftFolder, FolderType } from 'src/app/store/model/folder.model';
 import { FileSizePipe } from 'src/app/pipe/filesize.pipe';
+import { FilesComponent } from '../../files/files.component';
+import { CommentService } from 'src/app/service/comment.service';
+import { FormsModule, NgForm } from '@angular/forms';
 
 declare const call_pay_form: Function;
 declare const KCP_Pay_Execute: Function;
@@ -32,12 +35,15 @@ declare const trade_register: Function;
     FontAwesomeModule,
     TitleComponent,
     ModalComponent,
-    FileSizePipe
+    FileSizePipe,
+    FilesComponent,
+    FormsModule
   ]
 })
 export class DetailComponent {
 
   draft: Draft | undefined;
+  params: any;
   orderFolder: DraftFolder | undefined;
   workFolder: DraftFolder | undefined;
   orderRequest: OrderRequest | undefined;
@@ -60,20 +66,26 @@ export class DetailComponent {
   isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent);
   mobile_opt_param1 = `${location.pathname}${location.search}`;
   private routeName = RouteName.INSTANCE;
+  @ViewChild('filesComponent') filesComponent!: FilesComponent;
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
     private store: Store<{ user: User }>, private library: FaIconLibrary,
-    private router: Router
+    private router: Router, private commentService: CommentService
   ) {
-    this.library.addIcons(faTrashCan, faPenToSquare, faCreditCard, faReceipt, faCopy, faDownload);
+    this.library.addIcons(
+      faTrashCan, faPenToSquare, faCreditCard,
+      faReceipt, faCopy, faDownload,
+      faPencil, faTimes
+    );
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
   }
 
   setUp(params: any) {
-    this.id = parseInt(params['id']);
-    this.password = params['p'];
+    this.params = Object.assign({}, params);
+    this.id = parseInt(this.params['id']);
+    this.password = this.params['p'];
     this.draftService.get(this.id, this.password)
       .subscribe({
         next: (response) => {
@@ -186,6 +198,44 @@ export class DetailComponent {
             console.log(`draft copy success. copied draft id : ${response.data}`);
             alert('복사 성공');
             this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: { page: 0 } });
+          },
+          error: ({error}) => alert(error.reason)
+        });
+    }
+  }
+
+  commentCount() {
+    if (!this.draft) return 0;
+    return this.draft.comments.length;
+  }
+
+  addComment(form: NgForm) {
+    if (this.draft && confirm('댓글을 등록하시겠습니까?')) {
+      const formData = new FormData();
+      formData.append("draftId", `${this.draft.id}`);
+      formData.append("content", form.controls['commentContent'].value);
+      this.filesComponent.existFiles()
+        .forEach(file => formData.append('files', file));
+      // formData.forEach((v, k) => console.log(`${k}, ${v}`));
+      this.commentService.create(formData)
+        .subscribe({
+          next: (response) => {
+            console.log(`comment create success. comment id : ${response.data}`);
+            this.setUp(this.params);
+            form.resetForm();
+            this.filesComponent.reset();
+          },
+          error: ({error}) => alert(error.reason)
+        });
+    }
+  }
+
+  deleteComment(id: number) {
+    if (confirm('댓글을 삭제하시겠습니까?')) {
+      this.commentService.delete(id)
+        .subscribe({
+          next: (response) => {
+            this.setUp(this.params);
           },
           error: ({error}) => alert(error.reason)
         });

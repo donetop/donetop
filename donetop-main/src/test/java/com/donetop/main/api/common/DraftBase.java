@@ -32,7 +32,7 @@ public class DraftBase extends IntegrationBase {
 	protected DraftRepository draftRepository;
 
 	@Autowired
-	protected StorageService<DraftFolder> storageService;
+	protected StorageService<DraftFolder> draftFolderStorageService;
 
 	@Autowired
 	protected UserRepository userRepository;
@@ -104,7 +104,8 @@ public class DraftBase extends IntegrationBase {
 			.createTime(now)
 			.updateTime(now).build();
 		draftRepository.save(draft);
-		for (final FolderType folderType : folderTypes) storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(draft, folderType));
+		for (final FolderType folderType : folderTypes)
+			draftFolderStorageService.saveOrReplace(resources, draftFolderStorageService.addNewFolderOrGet(draft, folderType));
 		return draftRepository.save(draft);
 	}
 

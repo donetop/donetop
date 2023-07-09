@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCirclePlus, faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TitleComponent } from 'src/app/component/title/title.component';
@@ -14,6 +14,8 @@ import { Draft } from 'src/app/store/model/draft.model';
 import { Enum } from 'src/app/store/model/enum.model';
 import { FolderType } from 'src/app/store/model/folder.model';
 import { RouteName } from 'src/app/store/model/routeName.model';
+import { FilesComponent } from '../../files/files.component';
+import { File } from 'src/app/store/model/file.model';
 
 @Component({
   selector: 'app-update',
@@ -25,7 +27,8 @@ import { RouteName } from 'src/app/store/model/routeName.model';
     FormsModule,
     RouterModule,
     FontAwesomeModule,
-    TitleComponent
+    TitleComponent,
+    FilesComponent
   ]
 })
 export class UpdateComponent implements OnInit {
@@ -36,16 +39,15 @@ export class UpdateComponent implements OnInit {
   draftStatusArray!: Array<Enum>;
   id: number = 0;
   password: string = '';
-  nextIndex: number = 0;
-  maxSize: number = 5;
-  indexArray: Array<number> = new Array(this.maxSize).fill(0).map((v, i) => i);
-  @ViewChildren('file') refs!: QueryList<ElementRef>;
+  @ViewChild('filesComponent') filesComponent!: FilesComponent;
+  draftWorkFiles: Array<File> = [];
   routeName = RouteName.INSTANCE;
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
     private enumService: EnumService, private categoryService: CategoryService,
-    private library: FaIconLibrary, private cryptoService: CryptoService
+    private library: FaIconLibrary, private cryptoService: CryptoService,
+    private router: Router
   ) {
     this.library.addIcons(faDownload, faCirclePlus, faXmark);
     this.route.queryParams.subscribe(params => this.setUp(params));
@@ -64,41 +66,14 @@ export class UpdateComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.draft = response.data;
-          this.setFileInput();
+          const files = this.draft?.folders?.find(df => df.folderType === FolderType.DRAFT_WORK)?.files;
+          if (files) this.draftWorkFiles = files;
         },
-        error: ({error}) => alert(error.reason)
+        error: ({error}) => {
+          alert(error.reason);
+          this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: { page: 0 } });
+        }
       });
-  }
-
-  async setFileInput() {
-    const files = this.draft?.folders?.find(df => df.folderType === FolderType.DRAFT_WORK)?.files;
-    if (!files) return;
-    for (const [index, file] of files.entries()) {
-      const ref = this.refs.get(index);
-      if (!ref) continue;
-
-      const fileInput = ref.nativeElement;
-      fileInput.parentNode.classList.remove('hidden');
-
-      const myFile = new File([await this.convertURLtoFile(`/api/file/${file.id}`)], file.name, { type: file.mimeType });
-      const dataTransfer = new DataTransfer();
-      dataTransfer.items.add(myFile);
-      fileInput.files = dataTransfer.files;
-      this.nextIndex = index + 1;
-    }
-  }
-
-  async convertURLtoFile(url: string) {
-    return await (await fetch(url)).blob();
-  }
-
-  deleteFile(index: number) {
-    const fileInput = this.refs.get(index)?.nativeElement;
-    fileInput.value = '';
-  }
-
-  showFileInput() {
-    this.refs.get(this.nextIndex++)?.nativeElement.parentNode.classList.remove('hidden');
   }
 
   onlyNumberKey(event: any) {
@@ -121,10 +96,7 @@ export class UpdateComponent implements OnInit {
       formData.append('detailAddress', form.controls['detailAddress'].value);
       formData.append('price', form.controls['price'].value);
       formData.append('inChargeName', form.controls['inChargeName'].value);
-      this.refs
-        .map(ref => ref.nativeElement.files)
-        .filter(files => files.length > 0)
-        .map(files => files[0])
+      this.filesComponent.existFiles()
         .forEach(file => formData.append('files', file));
       // formData.forEach((v, k) => console.log(`${k}, ${v}`));
       this.draftService.update(this.id, this.password, formData);
