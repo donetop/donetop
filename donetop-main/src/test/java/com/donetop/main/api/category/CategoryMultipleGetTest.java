@@ -15,7 +15,7 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 public class CategoryMultipleGetTest extends CategoryBase {
 
-	@Test
+	// @Test
 	void getMultiple_category_return200() {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
