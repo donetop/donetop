@@ -4,6 +4,7 @@ import com.donetop.common.service.storage.LocalFileUtil;
 import com.donetop.common.service.storage.Resource;
 import com.donetop.common.service.storage.StorageService;
 import com.donetop.domain.entity.category.Category;
+import com.donetop.domain.entity.folder.Folder;
 import com.donetop.repository.category.CategoryRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class CategoryBase extends IntegrationBase {
 	protected CategoryRepository categoryRepository;
 
 	@Autowired
-	protected StorageService storageService;
+	protected StorageService<Folder> storageService;
 
 	@AfterAll
 	void afterAll() throws IOException {
