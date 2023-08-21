@@ -193,6 +193,10 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 		return !this.draftFolders.isEmpty();
 	}
 
+	public boolean hasComment() {
+		return !this.comments.isEmpty();
+	}
+
 	public boolean hasFolder(final FolderType folderType) {
 		return this.draftFolders.stream().anyMatch(draftFolder -> draftFolder.getFolderType() == folderType);
 	}
