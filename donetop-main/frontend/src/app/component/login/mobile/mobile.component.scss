@@ -59,6 +59,7 @@ div.wrapper {
     > a {
       width: 50%;
       margin-bottom: 15px;
+      cursor: not-allowed;
 
       &:first-child {
         border-right: 1px solid #ddd;

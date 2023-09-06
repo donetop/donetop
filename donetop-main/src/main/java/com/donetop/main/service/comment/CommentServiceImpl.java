@@ -60,4 +60,12 @@ public class CommentServiceImpl implements CommentService {
 		log.info("[DELETE] commentId: {}", comment.getId());
 		return id;
 	}
+
+	@Override
+	public long delete(final Comment comment) {
+		if (comment.hasFolder()) storageService.delete(comment.getFolder());
+		commentRepository.delete(comment);
+		log.info("[DELETE] commentId: {}", comment.getId());
+		return comment.getId();
+	}
 }

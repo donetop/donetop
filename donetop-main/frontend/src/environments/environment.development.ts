@@ -11,5 +11,6 @@ export const environment = {
       return `DRAFT-${draft.id}-TEST`;
     }
   },
-  timeZone: 'America/Vancouver'
+  timeZone: 'America/Vancouver',
+  adminSiteURL: 'http://localhost:8070'
 };

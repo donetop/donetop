@@ -10,6 +10,10 @@
     <section class="right" #right_section>
       <div class="wrapper">
         <div class="name">{{ user.name }}님</div>
+        <div *ngIf="isAdmin" (click)="openAtBlank(adminSiteURL)">
+          <fa-icon [icon]="['fas', 'cog']"></fa-icon>
+          관리자
+        </div>
         <div (click)="logout()">
           <fa-icon [icon]="['fas', 'right-to-bracket']"></fa-icon>
           로그아웃
@@ -18,7 +22,7 @@
           <fa-icon [icon]="['fas', 'cart-shopping']"></fa-icon>
           장바구니
         </div>
-        <div onclick="window.open('https://www.ilogen.com/', '_blank');">
+        <div (click)="openAtBlank('https://www.ilogen.com/')">
           <fa-icon [icon]="['fas', 'truck']"></fa-icon>
           택배조회
         </div>
