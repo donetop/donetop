@@ -7,8 +7,12 @@ div.main_slider {
   width: 100%;
   height: fit-content;
 
-  ul > img {
+  ul.main_desktop_slider > img {
     height: 550px;
+  }
+
+  ul.main_mobile_slider > img {
+    height: 350px;
   }
 }
 
