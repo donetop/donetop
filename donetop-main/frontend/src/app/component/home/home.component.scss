@@ -3,6 +3,15 @@
 @include mobile;
 @include desktop;
 
+div.main_slider {
+  width: 100%;
+  height: fit-content;
+
+  ul > img {
+    height: 550px;
+  }
+}
+
 div.images {
   display: flex;
   flex-wrap: wrap;
@@ -15,7 +24,7 @@ div.images {
   }
 }
 
-div.content1 {
+div.hyeonsumak {
   margin: 80px 0;
 
   > h2 {
@@ -25,9 +34,26 @@ div.content1 {
     margin-bottom: 30px;
     text-align: center;
   }
+
+  div.wrapper {
+    width: 90%;
+    height: fit-content;
+    margin: 0 auto;
+
+    ul.group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      img {
+        height: 150px;
+        margin: 10px;
+      }
+    }
+  }
 }
 
-div.content2 {
+div.banner {
   padding: 80px 0;
   margin-bottom: 80px;
   background: #f8f7ed;
@@ -41,7 +67,7 @@ div.content2 {
   }
 }
 
-div.content3 {
+div.jeondanji {
   margin-bottom: 80px;
 
   > h2 {
