@@ -16,10 +16,16 @@ div.main_slider {
   }
 }
 
+img:hover {
+  cursor: pointer;
+}
+
 div.images {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  max-width: 70%;
+  margin: 0 auto;
 
   > img {
     max-width: 80%;

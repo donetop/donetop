@@ -13,7 +13,7 @@
   <div class="wrapper">
     <ul class="banner_slider">
       <ul class="group" *ngFor="let group of hyeonsumak_fileGroups">
-        <img [src]="'api/file/' + file.id" (load)="loadComplete()" alt="이미지가 없습니다." *ngFor="let file of group.files">
+        <img [src]="'api/file/' + file.id" (load)="loadComplete()" alt="이미지가 없습니다." *ngFor="let file of group.files" (click)="showDraftCreatePage()">
       </ul>
     </ul>
   </div>
@@ -21,12 +21,12 @@
 <div class="banner">
   <h2>배너</h2>
   <div class="images">
-    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of banner_files">
+    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of banner_files" (click)="showDraftCreatePage()">
   </div>
 </div>
 <div class="jeondanji">
   <h2>전단지</h2>
   <div class="images">
-    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of jeondanji_files">
+    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of jeondanji_files" (click)="showDraftCreatePage()">
   </div>
 </div>

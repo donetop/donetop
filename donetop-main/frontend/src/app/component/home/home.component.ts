@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { File } from 'src/app/store/model/file.model';
 import { CategoryService } from 'src/app/service/category.service';
+import { RouteName } from 'src/app/store/model/routeName.model';
+import { Router, RouterModule } from '@angular/router';
 
 declare const $: Function;
 
@@ -9,7 +11,8 @@ declare const $: Function;
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
@@ -33,8 +36,9 @@ export class HomeComponent {
   hyeonsumak_image_load_count = 0;
   banner_files: Array<File> = [];
   jeondanji_files: Array<File> = [];
+  routeName = RouteName.INSTANCE;
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService, private router: Router) {}
 
   async ngOnInit() {
     const categories = await this.categoryService.categoryArray();
@@ -88,6 +92,10 @@ export class HomeComponent {
       fileGroups.push(fileGroup);
     }
     return fileGroups;
+  }
+
+  showDraftCreatePage() {
+    this.router.navigate([this.routeName.DRAFT_CREATE]);
   }
 
 }

@@ -47,6 +47,7 @@ export class ImageComponent implements AfterViewInit {
     this.params = Object.assign({}, params);
     this.category = await this.categoryService.get(this.params['id']);
     this.folder = this.category.folder;
+    this.folder?.files.sort((f1, f2) => f2.id - f1.id);
   }
 
   addImage() {
