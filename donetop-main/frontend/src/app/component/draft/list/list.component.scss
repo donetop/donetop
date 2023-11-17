@@ -120,6 +120,7 @@ div.container {
 
       > div.title {
         font-weight: normal;
+        text-align: center;
       }
     }
 
@@ -146,6 +147,8 @@ div.container {
       &.title {
         width: 50%;
         font-weight: bold;
+        text-align: left;
+
         > a:hover {
           text-decoration: underline;
         }
