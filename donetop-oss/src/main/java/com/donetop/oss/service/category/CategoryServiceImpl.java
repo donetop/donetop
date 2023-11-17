@@ -47,7 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public long createNewCategory(final CategoryCreateRequest request) {
 		if (request.isParentCategoryCreateRequest()) {
 			final LinkedList<Category> parentCategories = categoryRepository.parentCategories().stream().sorted().collect(toCollection(LinkedList::new));
-			final int sequence = parentCategories.size() == 0 ? 1 : parentCategories.getLast().getSequence() + 1;
+			final int sequence = parentCategories.isEmpty() ? 1 : parentCategories.getLast().getSequence() + 1;
 			final Category newCategory = Category.of(request.getName(), sequence);
 			final long id = save(newCategory).getId();
 			log.info("[CREATE_PARENT] categoryId: {}", id);
@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		final Category parentCategory = getOrThrow(request.getParentCategoryId());
 		final LinkedList<Category> subCategories = parentCategory.getSubCategories().stream().sorted().collect(toCollection(LinkedList::new));
-		final int sequence = subCategories.size() == 0 ? 1 : subCategories.getLast().getSequence() + 1;
+		final int sequence = subCategories.isEmpty() ? 1 : subCategories.getLast().getSequence() + 1;
 		final Category newCategory = Category.of(request.getName(), sequence).setParent(parentCategory);
 		final long id = save(newCategory).getId();
 		log.info("[CREATE_CHILD] parentCategoryId: {}, categoryId: {}", parentCategory.getId(), id);
