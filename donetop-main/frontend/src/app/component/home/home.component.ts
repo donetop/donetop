@@ -86,9 +86,10 @@ export class HomeComponent {
 
   buildFileGroupFrom(files: Array<File>): Array<FileGroup> {
     const fileGroups: Array<FileGroup> = [];
-    for (let i = 0; i < files.length; i += 2) {
+    for (let i = 0; i < files.length; i += 3) {
       const fileGroup = new FileGroup().addFile(files[i]);
       if (i + 1 < files.length) fileGroup.addFile(files[i + 1]);
+      if (i + 2 < files.length) fileGroup.addFile(files[i + 2]);
       fileGroups.push(fileGroup);
     }
     return fileGroups;
