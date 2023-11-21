@@ -3,19 +3,50 @@
 @include mobile;
 @include desktop;
 
-div.images {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+div.main_slider {
+  width: 100%;
+  height: fit-content;
 
-  > img {
-    max-width: 80%;
-    border: 1px solid #e5e5e5;
-    margin: 10px;
+  ul.main_desktop_slider > img {
+    height: 550px;
+  }
+
+  ul.main_mobile_slider > img {
+    height: 350px;
   }
 }
 
-div.content1 {
+img:hover {
+  cursor: pointer;
+}
+
+div.files {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 70%;
+  margin: 0 auto;
+
+  > div.file {
+    max-width: 80%;
+    margin: 10px;
+
+    > img {
+      border: 1px solid #e5e5e5;
+    }
+
+    > div.file_name {
+      text-align: center;
+      font-size: 14px;
+      color: #222;
+      font-weight: 500;
+      padding: 5px 0;
+    }
+
+  }
+}
+
+div.hyeonsumak {
   margin: 80px 0;
 
   > h2 {
@@ -25,9 +56,39 @@ div.content1 {
     margin-bottom: 30px;
     text-align: center;
   }
+
+  div.wrapper {
+    width: 80%;
+    height: fit-content;
+    margin: 0 auto;
+
+    ul.group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      div.file {
+        margin: 10px;
+      }
+
+      img {
+        height: 150px;
+      }
+
+      div.file_name {
+        text-align: center;
+        font-size: 14px;
+        color: #222;
+        font-weight: 500;
+        padding: 5px 0;
+        margin-top: 5px;
+        background: #f2f5f9;
+      }
+    }
+  }
 }
 
-div.content2 {
+div.banner {
   padding: 80px 0;
   margin-bottom: 80px;
   background: #f8f7ed;
@@ -41,7 +102,7 @@ div.content2 {
   }
 }
 
-div.content3 {
+div.jeondanji {
   margin-bottom: 80px;
 
   > h2 {

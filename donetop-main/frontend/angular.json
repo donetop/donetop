@@ -29,10 +29,13 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/bxslider/jquery.bxslider.css"
             ],
             "scripts": [
-              "src/assets/daum/postcode.v2.js"
+              "src/assets/daum/postcode.v2.js",
+              "node_modules/bxslider/dist/jquery-3.1.1.min.js",
+              "node_modules/bxslider/dist/jquery.bxslider.min.js"
             ],
             "allowedCommonJsDependencies": [
               "crypto-js",
