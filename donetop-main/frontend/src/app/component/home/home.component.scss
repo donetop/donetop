@@ -20,17 +20,29 @@ img:hover {
   cursor: pointer;
 }
 
-div.images {
+div.files {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   max-width: 70%;
   margin: 0 auto;
 
-  > img {
+  > div.file {
     max-width: 80%;
-    border: 1px solid #e5e5e5;
     margin: 10px;
+
+    > img {
+      border: 1px solid #e5e5e5;
+    }
+
+    > div.file_name {
+      text-align: center;
+      font-size: 14px;
+      color: #222;
+      font-weight: 500;
+      padding: 5px 0;
+    }
+
   }
 }
 
@@ -55,9 +67,22 @@ div.hyeonsumak {
       justify-content: center;
       flex-wrap: wrap;
 
+      div.file {
+        margin: 10px;
+      }
+
       img {
         height: 150px;
-        margin: 10px;
+      }
+
+      div.file_name {
+        text-align: center;
+        font-size: 14px;
+        color: #222;
+        font-weight: 500;
+        padding: 5px 0;
+        margin-top: 5px;
+        background: #f2f5f9;
       }
     }
   }

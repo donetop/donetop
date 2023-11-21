@@ -13,20 +13,29 @@
   <div class="wrapper">
     <ul class="banner_slider">
       <ul class="group" *ngFor="let group of hyeonsumak_fileGroups">
-        <img [src]="'api/file/' + file.id" (load)="loadComplete()" alt="이미지가 없습니다." *ngFor="let file of group.files" (click)="showDraftCreatePage()">
+        <div class="file" *ngFor="let file of group.files">
+          <img [src]="'api/file/' + file.id" (load)="loadComplete()" alt="이미지가 없습니다." (click)="showDraftCreatePage()">
+          <div class="file_name">{{ file.name | extensionHidePipe }}</div>
+        </div>
       </ul>
     </ul>
   </div>
 </div>
 <div class="banner">
   <h2>배너</h2>
-  <div class="images">
-    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of banner_files" (click)="showDraftCreatePage()">
+  <div class="files">
+    <div class="file" *ngFor="let file of banner_files">
+      <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." (click)="showDraftCreatePage()">
+      <div class="file_name">{{ file.name | extensionHidePipe }}</div>
+    </div>
   </div>
 </div>
 <div class="jeondanji">
   <h2>전단지</h2>
-  <div class="images">
-    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of jeondanji_files" (click)="showDraftCreatePage()">
+  <div class="files">
+    <div class="file" *ngFor="let file of jeondanji_files">
+      <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." (click)="showDraftCreatePage()">
+      <div class="file_name">{{ file.name | extensionHidePipe }}</div>
+    </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ import { File } from 'src/app/store/model/file.model';
 import { CategoryService } from 'src/app/service/category.service';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { Router, RouterModule } from '@angular/router';
+import { ExtensionHidePipe } from 'src/app/pipe/extensionhide.pipe';
 
 declare const $: Function;
 
@@ -12,7 +13,8 @@ declare const $: Function;
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    ExtensionHidePipe
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
@@ -33,6 +35,7 @@ export class HomeComponent {
   ]
   hyeonsumak_files: Array<File> = [];
   hyeonsumak_fileGroups: Array<FileGroup> = [];
+  hyeonsumak_fileGroup_size = 6;
   hyeonsumak_image_load_count = 0;
   banner_files: Array<File> = [];
   jeondanji_files: Array<File> = [];
@@ -86,11 +89,8 @@ export class HomeComponent {
 
   buildFileGroupFrom(files: Array<File>): Array<FileGroup> {
     const fileGroups: Array<FileGroup> = [];
-    for (let i = 0; i < files.length; i += 3) {
-      const fileGroup = new FileGroup().addFile(files[i]);
-      if (i + 1 < files.length) fileGroup.addFile(files[i + 1]);
-      if (i + 2 < files.length) fileGroup.addFile(files[i + 2]);
-      fileGroups.push(fileGroup);
+    for (let i = 0; i < files.length; i += this.hyeonsumak_fileGroup_size) {
+      fileGroups.push(new FileGroup(files.slice(i, i + this.hyeonsumak_fileGroup_size)));
     }
     return fileGroups;
   }
@@ -103,9 +103,7 @@ export class HomeComponent {
 
 class FileGroup {
   files: Array<File> = [];
-
-  addFile(file: File) {
-    this.files.push(file);
-    return this;
+  constructor(files: Array<File>) {
+    this.files = files;
   }
 }
