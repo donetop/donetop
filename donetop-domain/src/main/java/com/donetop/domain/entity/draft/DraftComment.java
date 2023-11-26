@@ -1,9 +1,8 @@
-package com.donetop.domain.entity.comment;
+package com.donetop.domain.entity.draft;
 
-import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.interfaces.SingleFolderContainer;
-import com.donetop.dto.comment.CommentDTO;
+import com.donetop.dto.draft.DraftCommentDTO;
 import com.donetop.enums.folder.DomainType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,14 +15,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(
-	name = "tbComment"
+	name = "tbDraftComment"
 )
 @DynamicUpdate
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment implements SingleFolderContainer<Folder> {
+public class DraftComment implements SingleFolderContainer<Folder> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,13 +44,13 @@ public class Comment implements SingleFolderContainer<Folder> {
 	@JoinColumn(name = "folderId")
 	private Folder folder;
 
-	public static Comment of(final String content, final Draft draft) {
-		final Comment comment = new Comment().toBuilder()
+	public static DraftComment of(final String content, final Draft draft) {
+		final DraftComment draftComment = new DraftComment().toBuilder()
 			.content(content)
 			.draft(draft)
 			.build();
-		draft.getComments().add(comment);
-		return comment;
+		draft.getDraftComments().add(draftComment);
+		return draftComment;
 	}
 
 	@Override
@@ -66,11 +65,11 @@ public class Comment implements SingleFolderContainer<Folder> {
 
 	@Override
 	public Folder getFolderOrNew(final String root) {
-		return this.folder == null ? Folder.of(DomainType.COMMENT, root, this.id) : this.folder;
+		return this.folder == null ? Folder.of(DomainType.DRAFT_COMMENT, root, this.id) : this.folder;
 	}
 
-	public CommentDTO toDTO() {
-		return CommentDTO.builder()
+	public DraftCommentDTO toDTO() {
+		return DraftCommentDTO.builder()
 			.id(this.id)
 			.content(this.content)
 			.createTime(this.createTime)

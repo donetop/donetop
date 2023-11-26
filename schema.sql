@@ -43,6 +43,7 @@ create table if not exists `tbFolder` (
 show full columns from `tbFolder`;
 show indexes from `tbFolder`;
 -- alter table `tbFolder` change column `folderType` `domainType` varchar(10) default '' not null;
+-- alter table `tbFolder` change column `domainType` `domainType` varchar(20) default '' not null;
 
 -- drop table if exists `tbDraftFolder`;
 create table if not exists `tbDraftFolder` (
@@ -157,8 +158,9 @@ create table if not exists `tbComment` (
   constraint `fk_comment_draft_id` foreign key (`draftId`) references `tbDraft` (`id`),
   constraint `fk_comment_folder_id` foreign key (`folderId`) references `tbFolder` (`id`)
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
-show full columns from `tbComment`;
-show indexes from `tbComment`;
+-- alter table `tbComment` rename `tbDraftComment`;
+show full columns from `tbDraftComment`;
+show indexes from `tbDraftComment`;
 
 -- -----------------------------------------------------
 -- -----------------------------------------------------
@@ -173,6 +175,6 @@ select * from `tbFile`;
 select * from `tbPaymentInfo`;
 select * from `tbPaymentHistory`;
 select * from `tbCategory`;
-select * from `tbComment`;
+select * from `tbDraftComment`;
 
 -- update `tbCategory` set folderId = null where id = 78;

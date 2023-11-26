@@ -1,4 +1,4 @@
-package com.donetop.main.api.comment.request;
+package com.donetop.main.api.draft.request;
 
 import com.donetop.common.api.MultipartFilesRequest;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Getter @Setter
-public class CommentCreateRequest extends MultipartFilesRequest {
+public class DraftCommentCreateRequest extends MultipartFilesRequest {
 
 	@NotEmpty(message = "내용을 입력해주세요.")
 	private String content;

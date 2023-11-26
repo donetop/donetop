@@ -31,7 +31,7 @@ public class Folder {
 	private String path;
 
 	@Enumerated(value = EnumType.STRING)
-	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(20) default ''")
 	private DomainType domainType;
 
 	@OneToMany(mappedBy = "folder", cascade = CascadeType.REMOVE)

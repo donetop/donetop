@@ -169,7 +169,7 @@ public class DraftSingleGetTest extends DraftBase {
 					subsectionWithPath("data.folders").type(ARRAY).description("Draft folders."),
 					fieldWithPath("data.folders[].folderType").type(STRING).description("Draft folderType."),
 					subsectionWithPath("data.folders[].files").type(ARRAY).description("The files that are included in a folder."),
-					subsectionWithPath("data.comments").type(ARRAY).description("Draft comments.")
+					subsectionWithPath("data.draftComments").type(ARRAY).description("Draft comments.")
 				)
 			)
 		);

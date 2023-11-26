@@ -1,6 +1,5 @@
 package com.donetop.dto.draft;
 
-import com.donetop.dto.comment.CommentDTO;
 import com.donetop.dto.folder.DraftFolderDTO;
 import com.donetop.dto.payment.PaymentInfoDTO;
 import com.donetop.enums.common.EnumDTO;
@@ -61,5 +60,5 @@ public class DraftDTO {
 
 	private PaymentInfoDTO paymentInfo;
 
-	private List<CommentDTO> comments = new ArrayList<>();
+	private List<DraftCommentDTO> draftComments = new ArrayList<>();
 }
