@@ -159,6 +159,8 @@ create table if not exists `tbComment` (
   constraint `fk_comment_folder_id` foreign key (`folderId`) references `tbFolder` (`id`)
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 -- alter table `tbComment` rename `tbDraftComment`;
+-- alter table `tbDraftComment` rename index `fk_comment_draft_id` to `fk_draftComment_draft_id`;
+-- alter table `tbDraftComment` rename index `fk_comment_folder_id` to `fk_draftComment_folder_id`;
 show full columns from `tbDraftComment`;
 show indexes from `tbDraftComment`;
 
