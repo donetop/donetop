@@ -1,11 +1,11 @@
-package com.donetop.main.api.comment;
+package com.donetop.main.api.draft;
 
 import com.donetop.common.api.Response;
 import com.donetop.common.api.Response.BadRequest;
 import com.donetop.common.api.Response.OK;
-import com.donetop.main.api.comment.request.CommentCreateRequest;
+import com.donetop.main.api.draft.request.DraftCommentCreateRequest;
 import com.donetop.main.api.user.session.Session;
-import com.donetop.main.service.comment.CommentService;
+import com.donetop.main.service.draft.DraftCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
@@ -17,29 +17,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static com.donetop.main.api.comment.CommentAPIController.URI.SINGULAR;
+import static com.donetop.main.api.draft.DraftCommentAPIController.URI.SINGULAR;
 
 @Validated
 @RestController
 @RequiredArgsConstructor
-public class CommentAPIController {
+public class DraftCommentAPIController {
 
 	public static class URI {
-		public static final String SINGULAR = "/api/comment";
+		public static final String SINGULAR = "/api/draft/comment";
 	}
 
-	private final CommentService commentService;
+	private final DraftCommentService draftCommentService;
 
 	@PostMapping(SINGULAR)
-	public ResponseEntity<OK<Long>> create(@Valid final CommentCreateRequest request) {
-		return ResponseEntity.ok(OK.of(commentService.createNewComment(request)));
+	public ResponseEntity<OK<Long>> create(@Valid final DraftCommentCreateRequest request) {
+		return ResponseEntity.ok(OK.of(draftCommentService.createNewDraftComment(request)));
 	}
 
 	@DeleteMapping(SINGULAR + "/{id}")
 	public ResponseEntity<Response> delete(@PathVariable("id") final long id,
 										   @Session final User user) {
 		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of("유효한 세션 정보가 없습니다."));
-		return ResponseEntity.ok(OK.of(commentService.deleteComment(id, user)));
+		return ResponseEntity.ok(OK.of(draftCommentService.deleteDraftComment(id, user)));
 	}
 
 }

@@ -1,9 +1,9 @@
-package com.donetop.main.api.comment;
+package com.donetop.main.api.draft.comment;
 
 import com.donetop.common.api.Response.OK;
 import com.donetop.common.service.storage.LocalFileUtil;
 import com.donetop.domain.entity.draft.Draft;
-import com.donetop.main.api.common.CommentBase;
+import com.donetop.main.api.common.DraftCommentBase;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -16,8 +16,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
-import static com.donetop.enums.folder.DomainType.COMMENT;
-import static com.donetop.main.api.comment.CommentAPIController.URI.SINGULAR;
+import static com.donetop.enums.folder.DomainType.DRAFT_COMMENT;
+import static com.donetop.main.api.draft.DraftCommentAPIController.URI.SINGULAR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
@@ -29,7 +29,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.partWith
 import static org.springframework.restdocs.request.RequestDocumentation.requestParts;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
-public class CommentCreateTest extends CommentBase {
+public class DraftCommentCreateTest extends DraftCommentBase {
 
 	@Test
 	void create_withoutParts_return400() {
@@ -37,7 +37,7 @@ public class CommentCreateTest extends CommentBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"comment_create/create_withoutParts_return400"
+				"draft_comment_create/create_withoutParts_return400"
 			)
 		);
 
@@ -57,7 +57,7 @@ public class CommentCreateTest extends CommentBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"comment_create/create_withInvalidPartValues_return400"
+				"draft_comment_create/create_withInvalidPartValues_return400"
 			)
 		);
 
@@ -80,7 +80,7 @@ public class CommentCreateTest extends CommentBase {
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"comment_create/create_withValidPartValues_return200"
+				"draft_comment_create/create_withValidPartValues_return200"
 			)
 		);
 
@@ -104,7 +104,7 @@ public class CommentCreateTest extends CommentBase {
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
 			document(
-				"comment_create/create_withValidPartValuesAndSizeExceedFiles_return400"
+				"draft_comment_create/create_withValidPartValuesAndSizeExceedFiles_return400"
 			)
 		);
 
@@ -130,7 +130,7 @@ public class CommentCreateTest extends CommentBase {
 		for (final File file : files) given.multiPart("files", file);
 		given.filter(
 			document(
-				"comment_create/create_withValidPartValuesAndFiles_return200",
+				"draft_comment_create/create_withValidPartValuesAndFiles_return200",
 				requestParts(
 					partWithName("content").description("The value shouldn't be empty."),
 					partWithName("draftId").description("The value should be greater than 0."),
@@ -154,7 +154,7 @@ public class CommentCreateTest extends CommentBase {
 		response.then().statusCode(HttpStatus.OK.value());
 		final OK<String> ok = objectMapper.readValue(response.getBody().asString(), new TypeReference<>(){});
 		final long commentId = Long.parseLong(ok.getData());
-		Path path = Path.of(COMMENT.buildPathFrom(testStorage.getRoot(), commentId));
+		Path path = Path.of(DRAFT_COMMENT.buildPathFrom(testStorage.getRoot(), commentId));
 		assertThat(Objects.requireNonNull(path.toFile().listFiles()).length).isEqualTo(subSize);
 	}
 

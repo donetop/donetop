@@ -18,7 +18,7 @@ import { malgun } from './font';
 import { DraftFolder, FolderType } from 'src/app/store/model/folder.model';
 import { FileSizePipe } from 'src/app/pipe/filesize.pipe';
 import { FilesComponent } from '../../files/files.component';
-import { CommentService } from 'src/app/service/comment.service';
+import { DraftCommentService } from 'src/app/service/draft.comment.service';
 import { FormsModule, NgForm } from '@angular/forms';
 
 declare const call_pay_form: Function;
@@ -71,7 +71,7 @@ export class DetailComponent {
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
     private store: Store<{ user: User }>, private library: FaIconLibrary,
-    private router: Router, private commentService: CommentService
+    private router: Router, private draftCommentService: DraftCommentService
   ) {
     this.library.addIcons(
       faTrashCan, faPenToSquare, faCreditCard,
@@ -204,12 +204,12 @@ export class DetailComponent {
     }
   }
 
-  commentCount() {
+  draftCommentCount() {
     if (!this.draft) return 0;
-    return this.draft.comments.length;
+    return this.draft.draftComments.length;
   }
 
-  addComment(form: NgForm) {
+  addDraftComment(form: NgForm) {
     if (this.draft && confirm('댓글을 등록하시겠습니까?')) {
       const formData = new FormData();
       formData.append("draftId", `${this.draft.id}`);
@@ -217,10 +217,10 @@ export class DetailComponent {
       this.filesComponent.existFiles()
         .forEach(file => formData.append('files', file));
       // formData.forEach((v, k) => console.log(`${k}, ${v}`));
-      this.commentService.create(formData)
+      this.draftCommentService.create(formData)
         .subscribe({
           next: (response) => {
-            console.log(`comment create success. comment id : ${response.data}`);
+            console.log(`draft comment create success. draft comment id : ${response.data}`);
             this.setUp(this.params);
             form.resetForm();
             this.filesComponent.reset();
@@ -230,9 +230,9 @@ export class DetailComponent {
     }
   }
 
-  deleteComment(id: number) {
+  deleteDraftComment(id: number) {
     if (confirm('댓글을 삭제하시겠습니까?')) {
-      this.commentService.delete(id)
+      this.draftCommentService.delete(id)
         .subscribe({
           next: (response) => {
             this.setUp(this.params);

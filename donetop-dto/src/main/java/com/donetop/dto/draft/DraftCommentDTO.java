@@ -1,4 +1,4 @@
-package com.donetop.dto.comment;
+package com.donetop.dto.draft;
 
 import com.donetop.dto.folder.FolderDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,7 +16,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @JsonInclude(NON_NULL)
-public class CommentDTO {
+public class DraftCommentDTO {
 
 	private long id;
 

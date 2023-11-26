@@ -1,10 +1,9 @@
 package com.donetop.domain.entity.draft;
 
-import com.donetop.domain.entity.comment.Comment;
 import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.domain.entity.payment.PaymentInfo;
 import com.donetop.domain.interfaces.MultipleFolderContainer;
-import com.donetop.dto.comment.CommentDTO;
+import com.donetop.dto.draft.DraftCommentDTO;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.draft.PaymentMethod;
@@ -105,7 +104,7 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 	private PaymentInfo paymentInfo;
 
 	@OneToMany(mappedBy = "draft", cascade = CascadeType.REMOVE)
-	private final List<Comment> comments = new ArrayList<>();
+	private final List<DraftComment> draftComments = new ArrayList<>();
 
 	public Draft updateCustomerName(final String customerName) {
 		this.customerName = customerName;
@@ -193,8 +192,8 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 		return !this.draftFolders.isEmpty();
 	}
 
-	public boolean hasComment() {
-		return !this.comments.isEmpty();
+	public boolean hasDraftComment() {
+		return !this.draftComments.isEmpty();
 	}
 
 	public boolean hasFolder(final FolderType folderType) {
@@ -247,7 +246,7 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 		if (includeSubObjectInfo) {
 			draftDTO.setFolders(this.draftFolders.stream().map(DraftFolder::toDTO).collect(toList()));
 			draftDTO.setPaymentInfo(this.paymentInfo == null ? null : this.paymentInfo.toDTO());
-			draftDTO.setComments(this.comments.stream().map(Comment::toDTO).sorted(comparing(CommentDTO::getCreateTime)).collect(toList()));
+			draftDTO.setDraftComments(this.draftComments.stream().map(DraftComment::toDTO).sorted(comparing(DraftCommentDTO::getCreateTime)).collect(toList()));
 		}
 		return draftDTO;
 	}

@@ -7,7 +7,6 @@ import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
-import com.donetop.main.service.comment.CommentService;
 import com.donetop.main.service.user.UserService;
 import com.donetop.repository.draft.DraftRepository;
 import com.querydsl.core.types.Predicate;
@@ -38,7 +37,7 @@ public class DraftServiceImpl implements DraftService {
 
 	private final UserService userService;
 
-	private final CommentService commentService;
+	private final DraftCommentService draftCommentService;
 
 	private final String UNKNOWN_DRAFT_MESSAGE = "존재하지 않는 시안입니다. id: %s";
 
@@ -86,7 +85,7 @@ public class DraftServiceImpl implements DraftService {
 		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
 			throw new IllegalStateException("허용되지 않은 요청입니다.");
 		if (draft.hasFolder()) draft.getDraftFolders().forEach(storageService::delete);
-		if (draft.hasComment()) draft.getComments().forEach(commentService::delete);
+		if (draft.hasDraftComment()) draft.getDraftComments().forEach(draftCommentService::delete);
 		draftRepository.delete(draft);
 		log.info("[DELETE] draftId: {}", id);
 		return id;
