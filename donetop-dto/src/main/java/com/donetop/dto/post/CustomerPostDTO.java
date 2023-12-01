@@ -27,10 +27,7 @@ public class CustomerPostDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime createTime;
 
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private LocalDateTime updateTime;
-
+	@Builder.Default
 	private List<CustomerPostCommentDTO> customerPostComments = new ArrayList<>();
 
 }

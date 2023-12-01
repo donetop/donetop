@@ -46,37 +46,8 @@ public class CustomerPost {
 	private LocalDateTime createTime = LocalDateTime.now();
 
 	@Builder.Default
-	@Column(nullable = false)
-	private LocalDateTime updateTime = LocalDateTime.now();
-
-	@Builder.Default
 	@OneToMany(mappedBy = "customerPost", cascade = CascadeType.REMOVE)
 	private final List<CustomerPostComment> customerPostComments = new ArrayList<>();
-
-	public CustomerPost updateCustomerName(final String customerName) {
-		this.customerName = customerName;
-		return this;
-	}
-
-	public CustomerPost updateEmail(final String email) {
-		this.email = email;
-		return this;
-	}
-
-	public CustomerPost updateTitle(final String title) {
-		this.title = title;
-		return this;
-	}
-
-	public CustomerPost updateContent(final String content) {
-		this.content = content;
-		return this;
-	}
-
-	public CustomerPost setUpdateTime(final LocalDateTime localDateTime) {
-		this.updateTime = localDateTime;
-		return this;
-	}
 
 	public CustomerPostDTO toDTO() {
 		return CustomerPostDTO.builder()
@@ -85,7 +56,6 @@ public class CustomerPost {
 			.title(this.title)
 			.content(this.content)
 			.createTime(this.createTime)
-			.updateTime(this.updateTime)
 			.customerPostComments(
 				this.customerPostComments.stream()
 					.map(CustomerPostComment::toDTO)
