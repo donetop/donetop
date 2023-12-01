@@ -68,7 +68,6 @@ public class CategorySingleGetTest extends CategoryBase {
 			.body("data.id", is(Integer.valueOf(String.valueOf(category.getId()))))
 			.body("data.name", is(category.getName()))
 			.body("data.sequence", is(category.getSequence()));
-		categoryRepository.delete(category);
 	}
 
 }

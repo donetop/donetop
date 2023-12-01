@@ -1,17 +1,14 @@
 package com.donetop.main.api.form;
 
 import com.donetop.domain.entity.user.User;
-import com.donetop.main.api.common.IntegrationBase;
-import com.donetop.repository.user.UserRepository;
+import com.donetop.main.api.common.UserBase;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import static com.donetop.main.api.form.FormAPIController.URI.*;
@@ -20,24 +17,17 @@ import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.*;
 
-public class FormLoginTest extends IntegrationBase {
+public class FormLoginTest extends UserBase {
 
-	@Autowired
-	private UserRepository userRepository;
+	private User user = User.builder()
+		.email("jin@test.com")
+		.name("jin")
+		.password("my password")
+		.build();
 
 	@BeforeAll
 	void beforeAll() {
-		User user = User.builder()
-			.email("jin@test.com")
-			.name("jin")
-			.password("my password")
-			.build();
-		userRepository.save(user);
-	}
-
-	@AfterAll
-	void afterAll() {
-		userRepository.deleteAll();
+		this.user = persistUser(this.user);
 	}
 
 	@Test
@@ -137,7 +127,7 @@ public class FormLoginTest extends IntegrationBase {
 		// given
 		final JSONObject body = new JSONObject();
 		body.put("username", "unknown");
-		body.put("password", "unknown");
+		body.put("password", user.getPassword());
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
@@ -161,7 +151,7 @@ public class FormLoginTest extends IntegrationBase {
 	void login_withWrongPassword_return400() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
-		body.put("username", "jin@test.com");
+		body.put("username", user.getEmail());
 		body.put("password", "unknown");
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
@@ -186,8 +176,8 @@ public class FormLoginTest extends IntegrationBase {
 	void login_withValidInfo_return200() throws Exception {
 		// given
 		final JSONObject body = new JSONObject();
-		body.put("username", "jin@test.com");
-		body.put("password", "my password");
+		body.put("username", user.getEmail());
+		body.put("password", user.getPassword());
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
