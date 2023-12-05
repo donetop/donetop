@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 
 import java.nio.file.Path;
 
+import static com.donetop.common.api.Message.*;
 import static com.donetop.enums.folder.DomainType.DRAFT;
 import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
 import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
@@ -56,7 +57,7 @@ public class DraftSingleDeleteTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", is("유효한 세션 정보가 없습니다."));
+			.body("reason", is(NO_SESSION));
 	}
 
 	@Test
@@ -77,7 +78,7 @@ public class DraftSingleDeleteTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("존재하지 않는 시안입니다."));
+			.body("reason", containsString(UNKNOWN_DRAFT));
 	}
 
 	@Test
@@ -99,7 +100,7 @@ public class DraftSingleDeleteTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("허용되지 않은 요청입니다."));
+			.body("reason", is(DISALLOWED_REQUEST));
 	}
 
 	@Test

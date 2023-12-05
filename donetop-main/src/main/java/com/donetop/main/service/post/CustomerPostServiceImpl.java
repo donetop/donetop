@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.DISALLOWED_REQUEST;
+import static com.donetop.common.api.Message.UNKNOWN_CUSTOMER_POST_WITH_ARGUMENTS;
+
 @Slf4j
 @Service
 @Transactional
@@ -24,8 +27,6 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 	private final CustomerPostRepository customerPostRepository;
 
 	private final UserService userService;
-
-	private final String UNKNOWN_CUSTOMER_POST_MESSAGE = "존재하지 않는 고객 게시물입니다. id: %s";
 
 	@Override
 	public long createNewCustomerPost(final CustomerPostCreateRequest request) {
@@ -37,7 +38,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 	@Override
 	public CustomerPostDTO getCustomerPost(final long id) {
 		return customerPostRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_MESSAGE, id)))
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_WITH_ARGUMENTS, id)))
 			.toDTO();
 	}
 
@@ -49,9 +50,9 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 	@Override
 	public long deleteCustomerPost(final long id, final User user) {
 		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
-			throw new IllegalStateException("허용되지 않은 요청입니다.");
+			throw new IllegalStateException(DISALLOWED_REQUEST);
 		final CustomerPost customerPost = customerPostRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_MESSAGE, id)));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_WITH_ARGUMENTS, id)));
 		customerPostRepository.delete(customerPost);
 		log.info("[DELETE] customerPostId: {}", id);
 		return id;

@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static com.donetop.common.api.Message.UNKNOWN_DRAFT_WITH_ARGUMENTS;
+
 @Slf4j
 @Service
 @Transactional
@@ -53,7 +55,7 @@ public class NHNPaymentServiceImpl implements NHNPaymentService {
 		final NHNPaidDetail nhnPaidDetail = (NHNPaidDetail) PGType.NHN.detail(PaymentStatus.PAID, rawData);
 		final Long draftId = Long.valueOf(nhnPaidDetail.getOrder_no().split("-")[1]);
 		final Draft draft = draftRepository.findById(draftId)
-			.orElseThrow(() -> new IllegalStateException("결제 정보 저장을 위한 유효한 시안이 없습니다."));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_WITH_ARGUMENTS, draftId)));
 		final PaymentInfo paymentInfo = draft.getOrNewPaymentInfo().setLastTransactionNumber(nhnPaidDetail.getTno());
 		if (paymentInfo.isNew()) {
 			paymentInfoRepository.save(paymentInfo);

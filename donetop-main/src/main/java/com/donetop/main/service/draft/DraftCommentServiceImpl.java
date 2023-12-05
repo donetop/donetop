@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.*;
+
 @Slf4j
 @Service
 @Transactional
@@ -32,14 +34,10 @@ public class DraftCommentServiceImpl implements DraftCommentService {
 
 	private final UserService userService;
 
-	private final String UNKNOWN_DRAFT_MESSAGE = "존재하지 않는 시안입니다. id: %s";
-
-	private final String UNKNOWN_COMMENT_MESSAGE = "존재하지 않는 댓글입니다. id: %s";
-
 	@Override
 	public long createNewDraftComment(final DraftCommentCreateRequest request) {
 		final Draft draft = draftRepository.findById(request.getDraftId())
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, request.getDraftId())));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_WITH_ARGUMENTS, request.getDraftId())));
 		final DraftComment draftComment = draftCommentRepository.save(DraftComment.of(request.getContent(), draft));
 		final List<Resource> resources = request.getResources();
 		if (!resources.isEmpty()) {
@@ -52,9 +50,9 @@ public class DraftCommentServiceImpl implements DraftCommentService {
 	@Override
 	public long deleteDraftComment(final long id, final User user) {
 		final DraftComment draftComment = draftCommentRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_COMMENT_MESSAGE, id)));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_COMMENT_WITH_ARGUMENTS, id)));
 		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
-			throw new IllegalStateException("허용되지 않은 요청입니다.");
+			throw new IllegalStateException(DISALLOWED_REQUEST);
 		if (draftComment.hasFolder()) storageService.delete(draftComment.getFolder());
 		draftCommentRepository.delete(draftComment);
 		log.info("[DELETE] draftCommentId: {}", draftComment.getId());

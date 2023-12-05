@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.donetop.common.api.Message.UNKNOWN_FILE_WITH_ARGUMENTS;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public FileDTO getFile(final long id) {
 		return fileRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException("유효한 파일이 없습니다. id : " + id))
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_FILE_WITH_ARGUMENTS, id)))
 			.toDTO();
 	}
 }

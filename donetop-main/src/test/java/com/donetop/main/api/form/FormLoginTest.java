@@ -11,8 +11,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import static com.donetop.common.api.Message.WRONG_ID_OR_PASSWORD;
 import static com.donetop.main.api.form.FormAPIController.URI.*;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.*;
@@ -144,7 +146,7 @@ public class FormLoginTest extends UserBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("아이디 또는 비밀번호를 잘못 입력하셨습니다."));
+			.body("reason", is(WRONG_ID_OR_PASSWORD));
 	}
 
 	@Test
@@ -169,7 +171,7 @@ public class FormLoginTest extends UserBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("아이디 또는 비밀번호를 잘못 입력하셨습니다."));
+			.body("reason", is(WRONG_ID_OR_PASSWORD));
 	}
 
 	@Test

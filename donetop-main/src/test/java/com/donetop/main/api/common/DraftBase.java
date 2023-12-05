@@ -50,10 +50,10 @@ public class DraftBase extends UserBase {
 		return draftRepository.save(draft);
 	}
 
-	protected void saveMultipleDraftWithoutFiles() {
+	protected List<Draft> saveMultipleDraftWithoutFiles(final int size) {
 		final List<Draft> drafts = new ArrayList<>();
 		LocalDateTime now = LocalDateTime.now();
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < size; i++) {
 			Draft draft = new Draft().toBuilder()
 				.customerName("jin" + i)
 				.companyName("jin's company")
@@ -70,7 +70,7 @@ public class DraftBase extends UserBase {
 			drafts.add(draft);
 			now = now.plusDays(1L);
 		}
-		draftRepository.saveAll(drafts);
+		return draftRepository.saveAll(drafts);
 	}
 
 	protected Draft saveSingleDraftWithFiles(final FolderType... folderTypes) {

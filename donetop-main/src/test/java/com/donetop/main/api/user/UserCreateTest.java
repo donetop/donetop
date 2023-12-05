@@ -1,15 +1,12 @@
 package com.donetop.main.api.user;
 
-import com.donetop.main.api.common.IntegrationBase;
-import com.donetop.repository.user.UserRepository;
+import com.donetop.main.api.common.UserBase;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import static com.donetop.main.api.user.UserAPIController.URI.*;
@@ -21,15 +18,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.*;
 
-public class UserCreateTest extends IntegrationBase {
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@AfterAll
-	void afterAll() {
-		userRepository.deleteAll();
-	}
+public class UserCreateTest extends UserBase {
 
 	@Test
 	void create_withNullAndEmptyValues_return400() throws Exception {

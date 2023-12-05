@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.*;
+
 @Slf4j
 @Service
 @Transactional
@@ -26,14 +28,10 @@ public class CustomerPostCommentServiceImpl implements CustomerPostCommentServic
 
 	private final UserService userService;
 
-	private final String UNKNOWN_CUSTOMER_POST_MESSAGE = "존재하지 않는 고객 게시물입니다. id: %s";
-
-	private final String UNKNOWN_COMMENT_MESSAGE = "존재하지 않는 댓글입니다. id: %s";
-
 	@Override
 	public long createNewCustomerPostComment(final CustomerPostCommentCreateRequest request) {
 		final CustomerPost customerPost = customerPostRepository.findById(request.getCustomerPostId())
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_MESSAGE, request.getCustomerPostId())));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_WITH_ARGUMENTS, request.getCustomerPostId())));
 		final CustomerPostComment customerPostComment = customerPostCommentRepository.save(CustomerPostComment.of(request.getContent(), customerPost));
 		log.info("[CREATE] customerPostCommentId: {}", customerPostComment.getId());
 		return customerPostComment.getId();
@@ -42,9 +40,9 @@ public class CustomerPostCommentServiceImpl implements CustomerPostCommentServic
 	@Override
 	public long deleteCustomerPostComment(final long id, final User user) {
 		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
-			throw new IllegalStateException("허용되지 않은 요청입니다.");
+			throw new IllegalStateException(DISALLOWED_REQUEST);
 		final CustomerPostComment customerPostComment = customerPostCommentRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_COMMENT_MESSAGE, id)));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_COMMENT_WITH_ARGUMENTS, id)));
 		customerPostCommentRepository.delete(customerPostComment);
 		log.info("[DELETE] customerPostCommentId: {}", customerPostComment.getId());
 		return customerPostComment.getId();

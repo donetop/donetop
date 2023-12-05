@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import java.util.Collections;
 import java.util.Set;
 
+import static com.donetop.common.api.Message.WRONG_USERNAME;
 import static com.donetop.enums.user.RoleType.ADMIN;
 
 @Service
@@ -23,16 +24,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final UserRepository userRepository;
 
-	private final String loginFailMessage = "유저 이름이 유효하지 않습니다.";
-
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		if (!StringUtils.hasLength(username)) {
-			throw new UsernameNotFoundException(loginFailMessage);
+			throw new UsernameNotFoundException(WRONG_USERNAME);
 		}
 
 		User user = (username.equals("admin") ? userRepository.findByRoleType(ADMIN) : userRepository.findByEmail(username))
-			.orElseThrow(() -> new UsernameNotFoundException(loginFailMessage));
+			.orElseThrow(() -> new UsernameNotFoundException(WRONG_USERNAME));
 
 		Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoleType().name()));
 

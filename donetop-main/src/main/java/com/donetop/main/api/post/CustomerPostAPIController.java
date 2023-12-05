@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.donetop.common.api.Message.NO_SESSION;
 import static com.donetop.main.api.post.CustomerPostAPIController.URI.PLURAL;
 import static com.donetop.main.api.post.CustomerPostAPIController.URI.SINGULAR;
 import static org.springframework.data.domain.Sort.Direction.fromString;
@@ -59,7 +60,7 @@ public class CustomerPostAPIController {
 	@DeleteMapping(SINGULAR + "/{id}")
 	public ResponseEntity<Response> delete(@PathVariable("id") final long id,
 										   @Session final User user) {
-		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of("유효한 세션 정보가 없습니다."));
+		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of(NO_SESSION));
 		return ResponseEntity.ok(OK.of(customerPostService.deleteCustomerPost(id, user)));
 	}
 

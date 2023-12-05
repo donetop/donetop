@@ -16,6 +16,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
+import static com.donetop.common.api.Message.UNKNOWN_DRAFT;
+import static com.donetop.common.api.Message.WRONG_PASSWORD;
 import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
 import static com.donetop.enums.folder.FolderType.DRAFT_WORK;
 import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
@@ -46,7 +48,7 @@ public class DraftSingleGetTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("존재하지 않는 시안입니다."));
+			.body("reason", containsString(UNKNOWN_DRAFT));
 	}
 
 	@Test
@@ -68,7 +70,7 @@ public class DraftSingleGetTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("비밀번호가 일치하지 않습니다."));
+			.body("reason", is(WRONG_PASSWORD));
 	}
 
 	@Test
