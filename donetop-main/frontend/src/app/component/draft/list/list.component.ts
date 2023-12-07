@@ -45,7 +45,6 @@ export class ListComponent {
   prevCheckedboxStatus: boolean = true;
   modalProperty: Property = Property.default();
   routeName = RouteName.INSTANCE;
-  DRAFT_LIST: string = `/${this.routeName.DRAFT_LIST}`;
   isAdmin: boolean = false;
   params: any;
   searchConditions: Array<SearchCondition> = [SearchCondition.of('customerName', '고객명'), SearchCondition.of('phoneNumber', '전화번호')];
