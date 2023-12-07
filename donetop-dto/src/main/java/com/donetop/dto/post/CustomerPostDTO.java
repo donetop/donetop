@@ -17,7 +17,7 @@ public class CustomerPostDTO {
 
 	private long id;
 
-	private String email;
+	private String customerName;
 
 	private String title;
 

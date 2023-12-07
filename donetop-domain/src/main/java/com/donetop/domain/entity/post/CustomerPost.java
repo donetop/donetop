@@ -32,9 +32,6 @@ public class CustomerPost {
 	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
 	private String customerName;
 
-	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
-	private String email;
-
 	@Column(nullable = false, columnDefinition = "varchar(256) default ''")
 	private String title;
 
@@ -52,7 +49,7 @@ public class CustomerPost {
 	public CustomerPostDTO toDTO() {
 		return CustomerPostDTO.builder()
 			.id(this.id)
-			.email(this.email)
+			.customerName(customerName)
 			.title(this.title)
 			.content(this.content)
 			.createTime(this.createTime)

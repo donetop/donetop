@@ -37,7 +37,7 @@ public class CustomerPostSingleCreateTest extends CustomerPostBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(4));
+			.body("reason", hasSize(3));
 	}
 
 	@Test
@@ -53,7 +53,6 @@ public class CustomerPostSingleCreateTest extends CustomerPostBase {
 		// when
 		final Response response = given.when()
 			.multiPart("customerName", "")
-			.multiPart("email", "")
 			.multiPart("title", "")
 			.multiPart("content", "")
 			.post(SINGULAR);
@@ -61,7 +60,7 @@ public class CustomerPostSingleCreateTest extends CustomerPostBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(4));
+			.body("reason", hasSize(3));
 	}
 
 	@Test
@@ -73,7 +72,6 @@ public class CustomerPostSingleCreateTest extends CustomerPostBase {
 				"customer_post_single_create/createSingle_withValidPartValues_return200",
 				requestParts(
 					partWithName("customerName").description("The value shouldn't be empty."),
-					partWithName("email").description("The value shouldn't be empty."),
 					partWithName("title").description("The value shouldn't be empty."),
 					partWithName("content").description("The value shouldn't be empty.")
 				),
@@ -88,7 +86,6 @@ public class CustomerPostSingleCreateTest extends CustomerPostBase {
 		// when
 		final Response response = given.when()
 			.multiPart("customerName", "jin")
-			.multiPart("email", "jin@test.com")
 			.multiPart("title", "my title")
 			.multiPart("content", "my content")
 			.post(SINGULAR);

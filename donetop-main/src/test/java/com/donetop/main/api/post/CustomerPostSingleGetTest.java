@@ -50,7 +50,7 @@ public class CustomerPostSingleGetTest extends CustomerPostBase {
 					fieldWithPath("code").type(NUMBER).description("Status code."),
 					fieldWithPath("data").type(OBJECT).description("Response data."),
 					fieldWithPath("data.id").type(NUMBER).description("CustomerPost id."),
-					fieldWithPath("data.email").type(STRING).description("CustomerPost email."),
+					fieldWithPath("data.customerName").type(STRING).description("CustomerPost customerName."),
 					fieldWithPath("data.title").type(STRING).description("CustomerPost title."),
 					fieldWithPath("data.content").type(STRING).description("CustomerPost content."),
 					fieldWithPath("data.createTime").type(STRING).description("CustomerPost create time."),
@@ -67,7 +67,7 @@ public class CustomerPostSingleGetTest extends CustomerPostBase {
 		response.then()
 			.statusCode(HttpStatus.OK.value())
 			.body("data.id", is((int) customerPost.getId()))
-			.body("data.email", is(customerPost.getEmail()))
+			.body("data.customerName", is(customerPost.getCustomerName()))
 			.body("data.title", is(customerPost.getTitle()))
 			.body("data.content", is(customerPost.getContent()));
 	}

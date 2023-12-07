@@ -12,9 +12,6 @@ public class CustomerPostCreateRequest {
 	@NotEmpty(message = "고객명을 입력해주세요.")
 	private String customerName;
 
-	@NotEmpty(message = "이메일을 입력해주세요.")
-	private String email;
-
 	@NotEmpty(message = "제목을 입력해주세요.")
 	private String title;
 
@@ -24,7 +21,6 @@ public class CustomerPostCreateRequest {
 	public CustomerPost toEntity() {
 		return new CustomerPost().toBuilder()
 			.customerName(this.customerName)
-			.email(this.email)
 			.title(this.title)
 			.content(this.content)
 			.build();

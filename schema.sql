@@ -152,6 +152,30 @@ create table if not exists `tbComment` (
 show full columns from `tbDraftComment`;
 show indexes from `tbDraftComment`;
 
+-- drop table if exists `tbCustomerPost`;
+create table `tbCustomerPost` (
+  `id` bigint(20) not null auto_increment,
+  `content` varchar(3000) default '' not null,
+  `createTime` datetime not null,
+  `customerName` varchar(128) default '' not null,
+  `title` varchar(256) default '' not null,
+  primary key (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbCustomerPost`;
+show indexes from `tbCustomerPost`;
+
+-- drop table if exists `tbCustomerPostComment`;
+create table `tbCustomerPostComment` (
+  `id` bigint(20) not null auto_increment,
+  `content` varchar(1024) default '' not null,
+  `createTime` datetime not null,
+  `customerPostId` bigint(20),
+  primary key (`id`),
+  constraint `fk_customerPostComment_customerPost_id` foreign key (`customerPostId`) references `tbCustomerPost` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbCustomerPostComment`;
+show indexes from `tbCustomerPostComment`;
+
 -- -----------------------------------------------------
 -- -----------------------------------------------------
 -- -----------------------------------------------------
@@ -166,3 +190,5 @@ select * from `tbPaymentInfo`;
 select * from `tbPaymentHistory`;
 select * from `tbCategory`;
 select * from `tbDraftComment`;
+select * from `tbCustomerPost`;
+select * from `tbCustomerPostComment`;

@@ -23,7 +23,6 @@ public class CustomerPostBase extends UserBase {
 		return customerPostRepository.save(
 			new CustomerPost().toBuilder()
 				.customerName("jin")
-				.email("jin@test.com")
 				.title("jin's post")
 				.content("my content")
 				.build()
@@ -36,7 +35,6 @@ public class CustomerPostBase extends UserBase {
 		for (int i = 0; i < size; i++) {
 			CustomerPost customerPost = new CustomerPost().toBuilder()
 				.customerName("jin" + i)
-				.email("jin@test.com")
 				.title("jin's post" + i)
 				.content("my content" + i)
 				.createTime(now)
