@@ -42,8 +42,6 @@ create table if not exists `tbFolder` (
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbFolder`;
 show indexes from `tbFolder`;
--- alter table `tbFolder` change column `folderType` `domainType` varchar(10) default '' not null;
--- alter table `tbFolder` change column `domainType` `domainType` varchar(20) default '' not null;
 
 -- drop table if exists `tbDraftFolder`;
 create table if not exists `tbDraftFolder` (
@@ -70,9 +68,6 @@ create table if not exists `tbFile` (
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbFile`;
 show indexes from `tbFile`;
--- alter table `tbFile` add column `size` bigint(20) default 0 not null;
--- alter table `tbFile` modify column `mimeType` varchar(64) not null default '';
--- alter table `tbFile` modify column `name` varchar(256) not null default '';
 
 -- drop table if exists `tbPaymentInfo`;
 create table if not exists `tbPaymentInfo` (
@@ -127,10 +122,6 @@ create table if not exists `tbDraft` (
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbDraft`;
 show indexes from `tbDraft`;
--- alter table `tbDraft` drop foreign key `fk_draft_folder_id`;
--- drop index `uc_folderId` on `tbDraft`;
--- alter table `tbDraft` drop column `folderId`;
--- alter table `tbDraft` modify column `password` varchar(512) not null default '';
 
 -- drop table if exists `tbCategory`;
 create table if not exists `tbCategory` (
@@ -158,9 +149,6 @@ create table if not exists `tbComment` (
   constraint `fk_comment_draft_id` foreign key (`draftId`) references `tbDraft` (`id`),
   constraint `fk_comment_folder_id` foreign key (`folderId`) references `tbFolder` (`id`)
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
--- alter table `tbComment` rename `tbDraftComment`;
--- alter table `tbDraftComment` rename index `fk_comment_draft_id` to `fk_draftComment_draft_id`;
--- alter table `tbDraftComment` rename index `fk_comment_folder_id` to `fk_draftComment_folder_id`;
 show full columns from `tbDraftComment`;
 show indexes from `tbDraftComment`;
 
@@ -178,5 +166,3 @@ select * from `tbPaymentInfo`;
 select * from `tbPaymentHistory`;
 select * from `tbCategory`;
 select * from `tbDraftComment`;
-
--- update `tbCategory` set folderId = null where id = 78;
