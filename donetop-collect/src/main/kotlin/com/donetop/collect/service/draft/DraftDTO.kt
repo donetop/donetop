@@ -70,8 +70,16 @@ data class DraftDTO(
 			.build()
 	}
 
-	fun downloadResourcesAt(path: String): List<Resource> {
-		return fileMap.values
+	fun downloadAll(path: String): List<Resource> {
+		return downloadAt(fileMap.values, path)
+	}
+
+	fun downloadPartial(targetFiles: Set<File>, path: String): List<Resource> {
+		return downloadAt(fileMap.filter { (k, _) -> k in targetFiles }.values, path)
+	}
+
+	private fun downloadAt(urls: Collection<String>, path: String): List<Resource> {
+		return urls
 			.map { downloadFileUsingNIO(it, path) }
 			.map { LocalFileUtil.multipartFileFrom(it) }
 			.map { LocalResource(it) }
