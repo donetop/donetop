@@ -1,0 +1,50 @@
+<app-title [title]="'고객게시판'"></app-title>
+<div class="container">
+  <div class="utils">
+    <div class="search">
+      <select name="searchSelect" id="searchSelect" [(ngModel)]="searchKey">
+        <option [value]="searchCondition.key" *ngFor="let searchCondition of searchConditions">{{ searchCondition.name }}</option>
+      </select>
+      <input type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." autocomplete="off" [(ngModel)]="searchValue">
+      <button type="button" (click)="search()"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon></button>
+    </div>
+    <button class="write" type="button" (click)="write()"><fa-icon [icon]="['fas', 'pencil-alt']"></fa-icon>&nbsp;글쓰기</button>
+  </div>
+  <div class="list" *ngIf="page">
+    <div class="row">
+      <div class="checkbox"><input type="checkbox" name="check" disabled></div>
+      <div class="number">번호</div>
+      <div class="title">제목</div>
+      <div class="sub-row">
+        <div class="customerName">작성자</div>
+        <div class="viewCount">조회수</div>
+        <div class="createTime">등록일</div>
+      </div>
+    </div>
+    <div class="empty" *ngIf="page.empty">데이터가 없습니다.</div>
+    <div class="row" *ngFor="let customerPost of page.content; let i = index">
+      <div class="checkbox"><input type="checkbox" [name]="'checkbox' + i" [id]="customerPost.id" #checkbox (click)="checknthbox(i)"></div>
+      <div class="number">{{ index[i] }}</div>
+      <div class="title">
+        <a (click)="detail(customerPost.id)">{{ customerPost.title }}</a>
+      </div>
+      <div class="sub-row">
+        <div class="customerName">{{ customerPost.customerName }}</div>
+        <div class="viewCount">0</div>
+        <div class="createTime">{{ customerPost.createTime | date: "yyyy-MM-dd" }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="page-buttons" *ngIf="page">
+    <a class="page-button first" *ngIf="!page.first" (click)="goToPage(0)"></a>
+    <a class="page-button prev" *ngIf="hasPrev()" (click)="goToPage(pageNumbers[0] - 1)"></a>
+    <a class="page-button"
+      [class.active]="number == pageNumber"
+      (click)="goToPage(number)"
+      *ngFor="let number of pageNumbers">
+      {{ number + 1 }}
+    </a>
+    <a class="page-button next" *ngIf="hasNext()" (click)="goToPage(pageNumbers[0] + pageCount)"></a>
+    <a class="page-button end" *ngIf="!page.last" (click)="goToPage(page.totalPages - 1)"></a>
+  </div>
+</div>

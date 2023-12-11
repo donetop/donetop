@@ -42,8 +42,8 @@ export class ListComponent {
   index: Array<number> = [];
   pageCount: number = 10;
   @ViewChildren('checkbox') checkboxes!: QueryList<ElementRef>;
-  prevCheckedboxIndex: number = -1;
-  prevCheckedboxStatus: boolean = true;
+  prevCheckedBoxIndex: number = -1;
+  prevCheckedBoxStatus: boolean = true;
   modalProperty: Property = Property.default();
   routeName = RouteName.INSTANCE;
   isAdmin: boolean = false;
@@ -65,8 +65,8 @@ export class ListComponent {
 
   setUp(params: any) {
     this.params = Object.assign({}, params);
-    this.searchConditions.forEach(condidion => {
-      const key = condidion.key;
+    this.searchConditions.forEach(condition => {
+      const key = condition.key;
       if (key in this.params) {
         this.searchKey = key;
         this.searchValue = this.params[key];
@@ -161,15 +161,15 @@ export class ListComponent {
   }
 
   checknthbox(index: number) {
-    if (this.prevCheckedboxIndex != -1 && index === this.prevCheckedboxIndex) {
+    if (this.prevCheckedBoxIndex != -1 && index === this.prevCheckedBoxIndex) {
       const element = this.checkboxes.get(index)?.nativeElement;
-      this.prevCheckedboxStatus = !this.prevCheckedboxStatus;
-      element.checked = this.prevCheckedboxStatus;
+      this.prevCheckedBoxStatus = !this.prevCheckedBoxStatus;
+      element.checked = this.prevCheckedBoxStatus;
       return;
     }
     this.checkboxes.forEach((element, i) => element.nativeElement.checked = i === index);
-    this.prevCheckedboxIndex = index;
-    this.prevCheckedboxStatus = true;
+    this.prevCheckedBoxIndex = index;
+    this.prevCheckedBoxStatus = true;
   }
 
   isNew(draft: Draft) {

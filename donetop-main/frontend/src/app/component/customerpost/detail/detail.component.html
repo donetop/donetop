@@ -1,0 +1,37 @@
+<app-title [title]="'고객게시판'"></app-title>
+<div class="container">
+  <div class="detail" *ngIf="customerPost">
+    <p class="title">
+      {{ customerPost.title }}
+    </p>
+    <div class="info">
+      <div class="customerName">작성자&nbsp;<span>{{ customerPost.customerName }}</span></div>
+      <div class="createTime">등록일&nbsp;{{ customerPost.createTime }}</div>
+    </div>
+    <div class="content">
+      {{ customerPost.content }}
+    </div>
+    <div class="buttons">
+      <button type="button" class="delete" (click)="delete()" *ngIf="isAdmin"><fa-icon [icon]="['fas', 'trash-can']"></fa-icon>&nbsp;삭제</button>
+      <button type="button" class="list" (click)="list()"><fa-icon [icon]="['fas', 'list']"></fa-icon>&nbsp;목록</button>
+    </div>
+    <div class="comments">
+      <h3>댓글</h3>
+      <div *ngIf="customerPostCommentCount() === 0" class="empty">등록된 댓글이 없습니다.</div>
+      <div class="comment" *ngFor="let customerPostComment of this.customerPost?.customerPostComments">
+        <div class="content">{{ customerPostComment.content }}</div>
+        <div class="createTime">
+          <div>{{ customerPostComment.createTime }}</div>
+          <button *ngIf="isAdmin" type="button" (click)="deleteCustomerPostComment(customerPostComment.id)"><fa-icon [icon]="['fas', 'times']"></fa-icon></button>
+        </div>
+      </div>
+      <form *ngIf="customerPostCommentCount() < 10" class="commentBox" #commentCreateForm="ngForm" (ngSubmit)="addCustomerPostComment(commentCreateForm)">
+        <div class="buttons">
+          <h3>댓글 작성</h3>
+          <button type="submit" [disabled]="commentCreateForm.invalid"><fa-icon [icon]="['fas', 'pencil']"></fa-icon>&nbsp;등록</button>
+        </div>
+        <textarea name="commentContent" rows="5" wrap="hard" placeholder="댓글 내용을 입력하세요." ngModel required #commentContent="ngModel"></textarea>
+      </form>
+    </div>
+  </div>
+</div>
