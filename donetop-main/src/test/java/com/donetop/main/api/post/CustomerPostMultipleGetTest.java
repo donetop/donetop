@@ -184,4 +184,30 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.body("data.totalElements", is(totalNumberOfCustomerPosts));
 	}
 
+	@Test
+	void getMultiple_withQueryDSLParams_return200() {
+		// given
+		final RequestSpecification given = RestAssured.given(this.spec);
+		given.filter(
+			document(
+				"customer_post_multiple_get/getMultiple_withQueryDSLParams_return200"
+			)
+		);
+		final String lastCustomerPostTitle = customerPosts.get(totalNumberOfCustomerPosts - 1).getTitle();
+
+		// when
+		final Response response = given.when()
+			.param("title", lastCustomerPostTitle)
+			.get(PLURAL);
+
+		// then
+		response.then()
+			.statusCode(HttpStatus.OK.value())
+			.body("data.content", hasSize(1))
+			.body("data.first", is(true))
+			.body("data.totalPages", is(1))
+			.body("data.totalElements", is(1))
+			.body("data.content[0].title", is(lastCustomerPostTitle));
+	}
+
 }

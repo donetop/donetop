@@ -190,9 +190,9 @@ public class DraftMultipleGetTest extends DraftBase {
 				"draft_multiple_get/getMultiple_withQueryDSLParams_return200"
 			)
 		);
+		final String lastDraftCustomerName = drafts.get(totalNumberOfDrafts - 1).getCustomerName();
 
 		// when
-		final String lastDraftCustomerName = drafts.get(totalNumberOfDrafts - 1).getCustomerName();
 		final Response response = given.when()
 			.param("customerName", lastDraftCustomerName)
 			.get(PLURAL);

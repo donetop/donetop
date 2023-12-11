@@ -5,6 +5,7 @@ import com.donetop.dto.post.CustomerPostDTO;
 import com.donetop.main.api.post.request.CustomerPostCreateRequest;
 import com.donetop.main.service.user.UserService;
 import com.donetop.repository.post.CustomerPostRepository;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -43,8 +44,8 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 	}
 
 	@Override
-	public Page<CustomerPostDTO> getCustomerPost(final PageRequest request) {
-		return customerPostRepository.findAll(request).map(CustomerPost::toDTO);
+	public Page<CustomerPostDTO> getCustomerPost(final Predicate predicate, final PageRequest request) {
+		return customerPostRepository.findAll(predicate, request).map(CustomerPost::toDTO);
 	}
 
 	@Override

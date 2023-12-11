@@ -142,3 +142,9 @@ include::{snippets}/customer_post_multiple_get/getMultiple_withValidParams_retur
 include::{snippets}/customer_post_multiple_get/getMultiple_withoutParams_return200/http-request.adoc[]
 .response
 include::{snippets}/customer_post_multiple_get/getMultiple_withoutParams_return200/http-response.adoc[]
+
+==== getMultiple_withQueryDSLParams_return200
+.request
+include::{snippets}/customer_post_multiple_get/getMultiple_withQueryDSLParams_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_multiple_get/getMultiple_withQueryDSLParams_return200/http-response.adoc[]
