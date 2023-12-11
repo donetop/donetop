@@ -208,7 +208,7 @@ div.container {
       font-size: 15px;
 
       > div.content {
-        white-space: pre;
+        white-space: pre-line;
       }
 
       > div.files {
@@ -291,7 +291,7 @@ div.container {
 
           &:disabled {
             background: #7b7c8b;
-            cursor: default;
+            cursor: not-allowed;
           }
         }
       }
