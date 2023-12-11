@@ -66,7 +66,7 @@ div.container {
 
       > input {
         height: 38px;
-        border: 0;
+        border: 1px solid #FFFFFF;
         width: 70%;
         min-width: 70px;
       }
@@ -237,19 +237,19 @@ div.container {
 
     > a {
       &.first {
-        background: url("/assets/draft/btn_first.gif") no-repeat 50% 50%;
+        background: url("/assets/page/btn_first.gif") no-repeat 50% 50%;
       }
 
       &.prev {
-        background: url("/assets/draft/btn_prev.gif") no-repeat 50% 50%;
+        background: url("/assets/page/btn_prev.gif") no-repeat 50% 50%;
       }
 
       &.next {
-        background: url("/assets/draft/btn_next.gif") no-repeat 50% 50%;
+        background: url("/assets/page/btn_next.gif") no-repeat 50% 50%;
       }
 
       &.end {
-        background: url("/assets/draft/btn_end.gif") no-repeat 50% 50%;
+        background: url("/assets/page/btn_end.gif") no-repeat 50% 50%;
       }
     }
   }

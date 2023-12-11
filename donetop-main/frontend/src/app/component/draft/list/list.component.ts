@@ -16,6 +16,7 @@ import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontaweso
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { environment } from 'src/environments/environment.development';
+import { SearchCondition } from 'src/app/store/model/common';
 
 @Component({
   selector: 'app-list',
@@ -176,12 +177,5 @@ export class ListComponent {
     let currentTime = Math.floor(currentDate.getTime() / 1000);
     let draftCreateTime = Math.floor(new Date(draft.createTime).getTime() / 1000);
     return Math.abs(currentTime - draftCreateTime) <= 1 * 60 * 60;
-  }
-}
-
-class SearchCondition {
-  constructor(public key: string, public name: string) {}
-  static of(key: string, name: string) {
-    return new SearchCondition(key, name);
   }
 }
