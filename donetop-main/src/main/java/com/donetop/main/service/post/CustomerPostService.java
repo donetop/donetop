@@ -7,11 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.User;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface CustomerPostService {
 
 	long createNewCustomerPost(CustomerPostCreateRequest request);
 
-	CustomerPostDTO getCustomerPost(long id);
+	CustomerPostDTO getCustomerPost(long id, HttpServletRequest request);
 
 	Page<CustomerPostDTO> getCustomerPost(Predicate predicate, PageRequest request);
 

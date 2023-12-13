@@ -8,7 +8,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -46,6 +48,15 @@ public class CustomerPost {
 	@OneToMany(mappedBy = "customerPost", cascade = CascadeType.REMOVE)
 	private final List<CustomerPostComment> customerPostComments = new ArrayList<>();
 
+	@Builder.Default
+	@OneToMany(mappedBy = "customerPost", cascade = CascadeType.REMOVE)
+	private final Set<CustomerPostViewHistory> customerPostViewHistories = new HashSet<>();
+
+	public boolean isViewedBy(final String ip) {
+		return customerPostViewHistories
+			.stream().anyMatch(history -> history.getViewerIp().equals(ip));
+	}
+
 	public CustomerPostDTO toDTO() {
 		return CustomerPostDTO.builder()
 			.id(this.id)
@@ -59,6 +70,7 @@ public class CustomerPost {
 					.sorted(comparing(CustomerPostCommentDTO::getCreateTime))
 					.collect(toList())
 			)
+			.viewCount(this.customerPostViewHistories.size())
 			.build();
 	}
 

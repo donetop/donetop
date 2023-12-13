@@ -5,7 +5,10 @@
       {{ customerPost.title }}
     </p>
     <div class="info">
-      <div class="customerName">작성자&nbsp;<span>{{ customerPost.customerName }}</span></div>
+      <div>
+        작성자&nbsp;<span>{{ customerPost.customerName }}</span>&nbsp;&nbsp;
+        조회수&nbsp;<span>{{ customerPost.viewCount }}</span>
+      </div>
       <div class="createTime">등록일&nbsp;{{ customerPost.createTime }}</div>
     </div>
     <div class="content">

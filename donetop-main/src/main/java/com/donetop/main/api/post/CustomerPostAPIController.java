@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static com.donetop.common.api.Message.NO_SESSION;
@@ -45,8 +46,9 @@ public class CustomerPostAPIController {
 	}
 
 	@GetMapping(SINGULAR + "/{id}")
-	public ResponseEntity<OK<CustomerPostDTO>> get(@PathVariable("id") final long id) {
-		return ResponseEntity.ok(OK.of(customerPostService.getCustomerPost(id)));
+	public ResponseEntity<OK<CustomerPostDTO>> get(@PathVariable("id") final long id,
+												   HttpServletRequest httpServletRequest) {
+		return ResponseEntity.ok(OK.of(customerPostService.getCustomerPost(id, httpServletRequest)));
 	}
 
 	@GetMapping(PLURAL)

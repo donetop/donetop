@@ -30,4 +30,6 @@ public class CustomerPostDTO {
 	@Builder.Default
 	private List<CustomerPostCommentDTO> customerPostComments = new ArrayList<>();
 
+	private long viewCount;
+
 }

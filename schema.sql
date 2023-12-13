@@ -176,6 +176,19 @@ create table `tbCustomerPostComment` (
 show full columns from `tbCustomerPostComment`;
 show indexes from `tbCustomerPostComment`;
 
+-- drop table if exists `tbCustomerPostViewHistory`;
+create table `tbCustomerPostViewHistory` (
+  `id` bigint(20) not null auto_increment,
+  `viewerIp` varchar(20) default '' not null,
+  `createTime` datetime not null,
+  `customerPostId` bigint(20),
+  primary key (`id`),
+  unique `uc_viewerIp` (`viewerIp`),
+  constraint `fk_customerPostViewHistory_customerPost_id` foreign key (`customerPostId`) references `tbCustomerPost` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbCustomerPostViewHistory`;
+show indexes from `tbCustomerPostViewHistory`;
+
 -- -----------------------------------------------------
 -- -----------------------------------------------------
 -- -----------------------------------------------------
@@ -192,3 +205,4 @@ select * from `tbCategory`;
 select * from `tbDraftComment`;
 select * from `tbCustomerPost`;
 select * from `tbCustomerPostComment`;
+select * from `tbCustomerPostViewHistory`;

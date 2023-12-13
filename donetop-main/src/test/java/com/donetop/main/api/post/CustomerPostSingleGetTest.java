@@ -54,7 +54,8 @@ public class CustomerPostSingleGetTest extends CustomerPostBase {
 					fieldWithPath("data.title").type(STRING).description("CustomerPost title."),
 					fieldWithPath("data.content").type(STRING).description("CustomerPost content."),
 					fieldWithPath("data.createTime").type(STRING).description("CustomerPost create time."),
-					subsectionWithPath("data.customerPostComments").type(ARRAY).description("CustomerPost comments.")
+					subsectionWithPath("data.customerPostComments").type(ARRAY).description("CustomerPost comments."),
+					fieldWithPath("data.viewCount").type(NUMBER).description("CustomerPost view count.")
 				)
 			)
 		);
@@ -69,7 +70,8 @@ public class CustomerPostSingleGetTest extends CustomerPostBase {
 			.body("data.id", is((int) customerPost.getId()))
 			.body("data.customerName", is(customerPost.getCustomerName()))
 			.body("data.title", is(customerPost.getTitle()))
-			.body("data.content", is(customerPost.getContent()));
+			.body("data.content", is(customerPost.getContent()))
+			.body("data.viewCount", is(1));
 	}
 
 }

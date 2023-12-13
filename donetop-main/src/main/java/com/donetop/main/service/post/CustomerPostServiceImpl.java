@@ -1,10 +1,12 @@
 package com.donetop.main.service.post;
 
 import com.donetop.domain.entity.post.CustomerPost;
+import com.donetop.domain.entity.post.CustomerPostViewHistory;
 import com.donetop.dto.post.CustomerPostDTO;
 import com.donetop.main.api.post.request.CustomerPostCreateRequest;
 import com.donetop.main.service.user.UserService;
 import com.donetop.repository.post.CustomerPostRepository;
+import com.donetop.repository.post.CustomerPostViewHistoryRepository;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 import static com.donetop.common.api.Message.DISALLOWED_REQUEST;
@@ -27,6 +30,8 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 
 	private final CustomerPostRepository customerPostRepository;
 
+	private final CustomerPostViewHistoryRepository customerPostViewHistoryRepository;
+
 	private final UserService userService;
 
 	@Override
@@ -37,10 +42,15 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 	}
 
 	@Override
-	public CustomerPostDTO getCustomerPost(final long id) {
-		return customerPostRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_WITH_ARGUMENTS, id)))
-			.toDTO();
+	public CustomerPostDTO getCustomerPost(final long id, final HttpServletRequest httpServletRequest) {
+		final CustomerPost customerPost = customerPostRepository.findById(id)
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_WITH_ARGUMENTS, id)));
+		final String ip = httpServletRequest.getRemoteAddr();
+		if (!customerPost.isViewedBy(ip)) {
+			log.info("[GET] customerPost(id: {}) has been newly viewed by {}.", customerPost.getId(), ip);
+			customerPostViewHistoryRepository.save(CustomerPostViewHistory.of(ip, customerPost));
+		}
+		return customerPost.toDTO();
 	}
 
 	@Override

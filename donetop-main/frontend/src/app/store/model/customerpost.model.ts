@@ -5,6 +5,7 @@ export interface CustomerPost {
   content: string
   createTime: Date
   customerPostComments: Array<CustomerPostComment>
+  viewCount: number
 }
 
 export interface CustomerPostComment {
