@@ -27,7 +27,8 @@ start() {
 						nohup java -server -Xms128m -Xmx128m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" 1>/dev/null 2>/dev/null &
 				else
 						echo "used options: $OPTIONS"
-						nohup java -server "$OPTIONS" -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" 1>/dev/null 2>/dev/null &
+						# shellcheck disable=SC2086
+						nohup java -server $OPTIONS -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" 1>/dev/null 2>/dev/null &
 				fi
 		fi
 }
