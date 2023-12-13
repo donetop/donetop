@@ -15,13 +15,13 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.FILE_SIZE_EXCEED;
 import static com.donetop.common.api.Response.OK;
 import static com.donetop.enums.folder.DomainType.DRAFT;
 import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
 import static com.donetop.main.api.draft.DraftAPIController.URI.SINGULAR;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -140,7 +140,7 @@ public class DraftSingleCreateTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("5MB"));
+			.body("reason", is(FILE_SIZE_EXCEED));
 	}
 
 	@Test

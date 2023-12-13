@@ -73,14 +73,15 @@ class DraftCollectService(
 			val workFolder = storageService.addNewFolderOrGet(draft, DRAFT_WORK)
 			val diff = files - workFolder.files
 			if (diff.isNotEmpty()) {
-				log.info("[SAVE_OR_UPDATE] There are new files($diff). So they will be added.")
-				storageService.add(draftDTO.downloadResourcesAt(storage.tmp), workFolder)
+				log.info("[PROCESS_FILES][DIFF] There are new files($diff). So they will be added.")
+				log.info("There may be duplicated images, even though their file names are different. Please check manually.")
+				storageService.add(draftDTO.downloadPartial(diff, storage.tmp), workFolder)
 				return true
 			}
 		} else {
 			if (files.isNotEmpty()) {
-				log.info("[SAVE_OR_UPDATE] There are new files($files). So they will be added.")
-				storageService.add(draftDTO.downloadResourcesAt(storage.tmp), storageService.addNewFolderOrGet(draft, DRAFT_WORK))
+				log.info("[PROCESS_FILES][NEW] There are new files($files). So they will be added.")
+				storageService.add(draftDTO.downloadAll(storage.tmp), storageService.addNewFolderOrGet(draft, DRAFT_WORK))
 				return true
 			}
 		}

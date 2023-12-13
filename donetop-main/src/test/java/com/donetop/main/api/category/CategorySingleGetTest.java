@@ -8,6 +8,7 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+import static com.donetop.common.api.Message.UNKNOWN_CATEGORY;
 import static com.donetop.main.api.category.CategoryAPIController.URI.SINGULAR;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -35,7 +36,7 @@ public class CategorySingleGetTest extends CategoryBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("존재하지 않는 카테고리입니다."));
+			.body("reason", containsString(UNKNOWN_CATEGORY));
 	}
 
 	@Test
@@ -68,7 +69,6 @@ public class CategorySingleGetTest extends CategoryBase {
 			.body("data.id", is(Integer.valueOf(String.valueOf(category.getId()))))
 			.body("data.name", is(category.getName()))
 			.body("data.sequence", is(category.getSequence()));
-		categoryRepository.delete(category);
 	}
 
 }

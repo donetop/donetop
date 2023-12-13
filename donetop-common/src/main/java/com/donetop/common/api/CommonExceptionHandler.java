@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.Arrays;
 
+import static com.donetop.common.api.Message.FILE_SIZE_EXCEED;
+
 @Slf4j
 @RestControllerAdvice
 public class CommonExceptionHandler {
@@ -31,7 +33,7 @@ public class CommonExceptionHandler {
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	public ResponseEntity<BadRequest<String>> handleMaxUploadSizeExceededException(final MaxUploadSizeExceededException e) {
 		log.warn("[handleMaxUploadSizeExceededException] Error occurred. message : {}", e.getMessage());
-		return ResponseEntity.badRequest().body(BadRequest.of("파일 크기가 허용 가능한 범위를 초과했습니다. (파일당 최대 5MB)"));
+		return ResponseEntity.badRequest().body(BadRequest.of(FILE_SIZE_EXCEED));
 	}
 
 }

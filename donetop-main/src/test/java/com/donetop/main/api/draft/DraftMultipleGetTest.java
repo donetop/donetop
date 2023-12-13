@@ -1,5 +1,6 @@
 package com.donetop.main.api.draft;
 
+import com.donetop.domain.entity.draft.Draft;
 import com.donetop.main.api.common.DraftBase;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -7,6 +8,8 @@ import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+
+import java.util.List;
 
 import static com.donetop.main.api.draft.DraftAPIController.URI.PLURAL;
 import static org.hamcrest.Matchers.hasSize;
@@ -19,9 +22,12 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 public class DraftMultipleGetTest extends DraftBase {
 
+	final int totalNumberOfDrafts = 100;
+	List<Draft> drafts;
+
 	@BeforeAll
 	void beforeAll() {
-		saveMultipleDraftWithoutFiles();
+		drafts = saveMultipleDraftWithoutFiles(totalNumberOfDrafts);
 	}
 
 	@Test
@@ -150,7 +156,7 @@ public class DraftMultipleGetTest extends DraftBase {
 			.body("data.content", hasSize(5))
 			.body("data.first", is(false))
 			.body("data.totalPages", is(20))
-			.body("data.totalElements", is(100));
+			.body("data.totalElements", is(totalNumberOfDrafts));
 	}
 
 	@Test
@@ -172,7 +178,7 @@ public class DraftMultipleGetTest extends DraftBase {
 				.body("data.content", hasSize(20))
 				.body("data.first", is(true))
 				.body("data.totalPages", is(5))
-				.body("data.totalElements", is(100));
+				.body("data.totalElements", is(totalNumberOfDrafts));
 	}
 
 	@Test
@@ -184,10 +190,11 @@ public class DraftMultipleGetTest extends DraftBase {
 				"draft_multiple_get/getMultiple_withQueryDSLParams_return200"
 			)
 		);
+		final String lastDraftCustomerName = drafts.get(totalNumberOfDrafts - 1).getCustomerName();
 
 		// when
 		final Response response = given.when()
-			.param("customerName", "jin99")
+			.param("customerName", lastDraftCustomerName)
 			.get(PLURAL);
 
 		// then
@@ -196,6 +203,7 @@ public class DraftMultipleGetTest extends DraftBase {
 			.body("data.content", hasSize(1))
 			.body("data.first", is(true))
 			.body("data.totalPages", is(1))
-			.body("data.totalElements", is(1));
+			.body("data.totalElements", is(1))
+			.body("data.content[0].customerName", is(lastDraftCustomerName));
 	}
 }

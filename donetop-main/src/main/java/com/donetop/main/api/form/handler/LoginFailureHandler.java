@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static com.donetop.common.api.Message.WRONG_ID_OR_PASSWORD;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
@@ -26,7 +27,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response,
 										final AuthenticationException exception) throws IOException {
 		log.debug("exception : {}, message : {}", exception.getClass().getName(), exception.getMessage());
-		Response.BadRequest<String> badRequest = Response.BadRequest.of("아이디 또는 비밀번호를 잘못 입력하셨습니다.");
+		Response.BadRequest<String> badRequest = Response.BadRequest.of(WRONG_ID_OR_PASSWORD);
 		response.setStatus(badRequest.getCode());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		response.setContentType(APPLICATION_JSON_VALUE);

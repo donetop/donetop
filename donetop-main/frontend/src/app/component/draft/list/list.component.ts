@@ -16,6 +16,7 @@ import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontaweso
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { environment } from 'src/environments/environment.development';
+import { SearchCondition } from 'src/app/store/model/common';
 
 @Component({
   selector: 'app-list',
@@ -41,11 +42,10 @@ export class ListComponent {
   index: Array<number> = [];
   pageCount: number = 10;
   @ViewChildren('checkbox') checkboxes!: QueryList<ElementRef>;
-  prevCheckedboxIndex: number = -1;
-  prevCheckedboxStatus: boolean = true;
+  prevCheckedBoxIndex: number = -1;
+  prevCheckedBoxStatus: boolean = true;
   modalProperty: Property = Property.default();
   routeName = RouteName.INSTANCE;
-  DRAFT_LIST: string = `/${this.routeName.DRAFT_LIST}`;
   isAdmin: boolean = false;
   params: any;
   searchConditions: Array<SearchCondition> = [SearchCondition.of('customerName', '고객명'), SearchCondition.of('phoneNumber', '전화번호')];
@@ -65,8 +65,8 @@ export class ListComponent {
 
   setUp(params: any) {
     this.params = Object.assign({}, params);
-    this.searchConditions.forEach(condidion => {
-      const key = condidion.key;
+    this.searchConditions.forEach(condition => {
+      const key = condition.key;
       if (key in this.params) {
         this.searchKey = key;
         this.searchValue = this.params[key];
@@ -161,15 +161,15 @@ export class ListComponent {
   }
 
   checknthbox(index: number) {
-    if (this.prevCheckedboxIndex != -1 && index === this.prevCheckedboxIndex) {
+    if (this.prevCheckedBoxIndex != -1 && index === this.prevCheckedBoxIndex) {
       const element = this.checkboxes.get(index)?.nativeElement;
-      this.prevCheckedboxStatus = !this.prevCheckedboxStatus;
-      element.checked = this.prevCheckedboxStatus;
+      this.prevCheckedBoxStatus = !this.prevCheckedBoxStatus;
+      element.checked = this.prevCheckedBoxStatus;
       return;
     }
     this.checkboxes.forEach((element, i) => element.nativeElement.checked = i === index);
-    this.prevCheckedboxIndex = index;
-    this.prevCheckedboxStatus = true;
+    this.prevCheckedBoxIndex = index;
+    this.prevCheckedBoxStatus = true;
   }
 
   isNew(draft: Draft) {
@@ -177,12 +177,5 @@ export class ListComponent {
     let currentTime = Math.floor(currentDate.getTime() / 1000);
     let draftCreateTime = Math.floor(new Date(draft.createTime).getTime() / 1000);
     return Math.abs(currentTime - draftCreateTime) <= 1 * 60 * 60;
-  }
-}
-
-class SearchCondition {
-  constructor(public key: string, public name: string) {}
-  static of(key: string, name: string) {
-    return new SearchCondition(key, name);
   }
 }

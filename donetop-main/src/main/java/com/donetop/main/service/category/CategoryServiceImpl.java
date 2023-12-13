@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.donetop.common.api.Message.UNKNOWN_CATEGORY_WITH_ARGUMENTS;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -31,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	private Category getOrThrow(final long categoryId) {
 		return categoryRepository.findById(categoryId)
-			.orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 카테고리입니다. id: %s", categoryId)));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CATEGORY_WITH_ARGUMENTS, categoryId)));
 	}
 
 }

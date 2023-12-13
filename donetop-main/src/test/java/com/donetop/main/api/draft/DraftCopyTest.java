@@ -18,6 +18,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.UNKNOWN_DRAFT;
 import static com.donetop.enums.folder.DomainType.DRAFT;
 import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
 import static com.donetop.enums.folder.FolderType.DRAFT_WORK;
@@ -74,7 +75,7 @@ public class DraftCopyTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("존재하지 않는 시안입니다."));
+			.body("reason", containsString(UNKNOWN_DRAFT));
 	}
 
 	@Test

@@ -1,0 +1,71 @@
+:doctype:
+:docinfo: shared
+:toc: left
+:toclevels: 3
+
+= CustomerPost Comment API Documentation
+
+== CustomerPost Comment Create
+
+HTTP Method : *POST* +
+URI : */api/customerpost/comment*
+
+=== Request parts description
+include::{snippets}/customer_post_comment_create/create_withValidPartValues_return200/request-parts.adoc[]
+=== Response body fields description
+include::{snippets}/customer_post_comment_create/create_withValidPartValues_return200/response-fields.adoc[]
+
+=== Examples
+==== create_withoutParts_return400
+.request
+include::{snippets}/customer_post_comment_create/create_withoutParts_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_comment_create/create_withoutParts_return400/http-response.adoc[]
+
+==== create_withInvalidPartValues_return400
+.request
+include::{snippets}/customer_post_comment_create/create_withInvalidPartValues_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_comment_create/create_withInvalidPartValues_return400/http-response.adoc[]
+
+==== create_withValidPartValues_return200
+.request
+include::{snippets}/customer_post_comment_create/create_withValidPartValues_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_comment_create/create_withValidPartValues_return200/http-response.adoc[]
+
+== CustomerPost Comment Delete
+
+HTTP Method : *DELETE* +
+URI : /api/customerpost/comment/\{comment_id\}
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/customer_post_comment_delete/delete_byAdminUser_return200/response-fields.adoc[]
+
+=== Examples
+==== delete_withoutSession_return400
+.request
+include::{snippets}/customer_post_comment_delete/delete_withoutSession_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_comment_delete/delete_withoutSession_return400/http-response.adoc[]
+
+==== delete_withUnknownId_return400
+.request
+include::{snippets}/customer_post_comment_delete/delete_withUnknownId_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_comment_delete/delete_withUnknownId_return400/http-response.adoc[]
+
+==== delete_byNormalUser_return400
+.request
+include::{snippets}/customer_post_comment_delete/delete_byNormalUser_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_comment_delete/delete_byNormalUser_return400/http-response.adoc[]
+
+==== delete_byAdminUser_return200
+.request
+include::{snippets}/customer_post_comment_delete/delete_byAdminUser_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_comment_delete/delete_byAdminUser_return200/http-response.adoc[]

@@ -11,7 +11,7 @@ import { RouteName } from '../store/model/routeName.model';
 })
 export class DraftService {
 
-  routeName = RouteName.INSTANCE;
+  private routeName = RouteName.INSTANCE;
   private draftURI: string = '/api/draft';
   private draftCopyURI: string = this.draftURI + '/copy';
   private draftsURI: string = '/api/drafts';

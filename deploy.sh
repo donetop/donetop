@@ -15,6 +15,7 @@ check_running_java_process() {
 start() {
 		# Start process.
 		APPLICATION_NAME="$1"
+		OPTIONS="${*:2}"
 		check_running_java_process "$APPLICATION_NAME"
 		if [ "$RUNNING" == 1 ]; then
 				echo "There is already running $APPLICATION_NAME process($SEARCHED_PROCESS_ID)."
@@ -22,7 +23,13 @@ start() {
 				SRC_LIB_DIR="/donetop/$APPLICATION_NAME/libs"
       	JAR_FULL_PATH=$(find "$SRC_LIB_DIR" -name "*.jar")
         echo "starting $APPLICATION_NAME process."
-        nohup java -server -Xms128m -Xmx128m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" 1>/dev/null 2>/dev/null &
+				if [ -z "$OPTIONS" ]; then
+						nohup java -server -Xms128m -Xmx128m -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" 1>/dev/null 2>/dev/null &
+				else
+						echo "used options: $OPTIONS"
+						# shellcheck disable=SC2086
+						nohup java -server $OPTIONS -Dspring.profiles.active=aws -jar "$JAR_FULL_PATH" 1>/dev/null 2>/dev/null &
+				fi
 		fi
 }
 
@@ -44,7 +51,7 @@ case "$1" in
         if [ -z "$2" ]; then
           	echo "application-name should be supplied."
         else
-          	start "$2"
+          	start "$2" "${*:3}"
         fi
         ;;
   	stop)
@@ -59,7 +66,7 @@ case "$1" in
 						echo "application-name should be supplied."
 				else
 						stop "$2"
-						start "$2"
+						start "$2" "${*:3}"
 				fi
 				;;
   	*)

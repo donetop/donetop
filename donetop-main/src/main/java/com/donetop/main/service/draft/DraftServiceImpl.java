@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.*;
 import static com.donetop.common.service.storage.LocalFileUtil.readResources;
 import static com.donetop.enums.folder.FolderType.*;
 
@@ -39,8 +40,6 @@ public class DraftServiceImpl implements DraftService {
 
 	private final DraftCommentService draftCommentService;
 
-	private final String UNKNOWN_DRAFT_MESSAGE = "존재하지 않는 시안입니다. id: %s";
-
 	@Override
 	public long createNewDraft(final DraftCreateRequest request) {
 		final Draft newDraft = draftRepository.save(request.toEntity());
@@ -54,10 +53,9 @@ public class DraftServiceImpl implements DraftService {
 
 	@Override
 	public DraftDTO getDraft(final long id, final String password, final User user) {
-		final Draft draft = draftRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		final Draft draft = getOrThrow(id);
 		if (user != null && userService.findUserBy(user.getUsername()).isAdmin()) return draft.toDTO(true);
-		if (!draft.getPassword().equals(password)) throw new IllegalStateException("비밀번호가 일치하지 않습니다.");
+		if (!draft.getPassword().equals(password)) throw new IllegalStateException(WRONG_PASSWORD);
 		return draft.toDTO(true);
 	}
 
@@ -68,8 +66,7 @@ public class DraftServiceImpl implements DraftService {
 
 	@Override
 	public long updateDraft(final long id, final DraftUpdateRequest request) {
-		final Draft draft = draftRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		final Draft draft = getOrThrow(id);
 		final List<Resource> resources = request.getResources();
 		if (draft.hasFolder(DRAFT_WORK) || !resources.isEmpty()) {
 			storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(draft, DRAFT_WORK));
@@ -80,10 +77,9 @@ public class DraftServiceImpl implements DraftService {
 
 	@Override
 	public long deleteDraft(final long id, final User user) {
-		final Draft draft = draftRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		final Draft draft = getOrThrow(id);
 		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
-			throw new IllegalStateException("허용되지 않은 요청입니다.");
+			throw new IllegalStateException(DISALLOWED_REQUEST);
 		if (draft.hasFolder()) draft.getDraftFolders().forEach(storageService::delete);
 		if (draft.hasDraftComment()) draft.getDraftComments().forEach(draftCommentService::delete);
 		draftRepository.delete(draft);
@@ -93,8 +89,7 @@ public class DraftServiceImpl implements DraftService {
 
 	@Override
 	public long copyDraft(final long id) {
-		final Draft draft = draftRepository.findById(id)
-			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_MESSAGE, id)));
+		final Draft draft = getOrThrow(id);
 		final Draft copiedDraft = draftRepository.save(draft.copy());
 		if (draft.hasFolder()) {
 			draft.getDraftFolders().forEach(draftFolder -> {
@@ -104,6 +99,11 @@ public class DraftServiceImpl implements DraftService {
 		}
 		log.info("[COPY] draftId: {}", id);
 		return copiedDraft.getId();
+	}
+
+	private Draft getOrThrow(final long id) {
+		return draftRepository.findById(id)
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_DRAFT_WITH_ARGUMENTS, id)));
 	}
 
 }

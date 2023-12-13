@@ -22,6 +22,18 @@ export class RouteName {
 
   public readonly DRAFT_UPDATE = `${this.DRAFT}/${this.DRAFT_CHILDREN.UPDATE}`;
 
+  public readonly CUSTOMERPOST = `${prefix}/customerpost`;
+
+  public readonly CUSTOMERPOST_CHILDREN = {
+    CREATE: `create`, LIST: `list`, DETAIL: `detail`
+  }
+
+  public readonly CUSTOMERPOST_CREATE = `${this.CUSTOMERPOST}/${this.CUSTOMERPOST_CHILDREN.CREATE}`;
+
+  public readonly CUSTOMERPOST_LIST = `${this.CUSTOMERPOST}/${this.CUSTOMERPOST_CHILDREN.LIST}`;
+
+  public readonly CUSTOMERPOST_DETAIL = `${this.CUSTOMERPOST}/${this.CUSTOMERPOST_CHILDREN.DETAIL}`;
+
   public readonly CATEGORY = `${prefix}/category`;
 
   public readonly INTRODUCTION = `${prefix}/introduction`;

@@ -16,11 +16,11 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.FILE_SIZE_EXCEED;
 import static com.donetop.enums.folder.DomainType.DRAFT_COMMENT;
 import static com.donetop.main.api.draft.DraftCommentAPIController.URI.SINGULAR;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -117,7 +117,7 @@ public class DraftCommentCreateTest extends DraftCommentBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString("5MB"));
+			.body("reason", is(FILE_SIZE_EXCEED));
 	}
 
 	@Test

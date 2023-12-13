@@ -15,6 +15,7 @@ export const routes: Routes = [
   { path: INSTANCE.HOME, component: HomeComponent },
   { path: INSTANCE.LOGIN, loadChildren: () => import("src/app/component/login/routes").then(result => result.routes) },
   { path: INSTANCE.DRAFT, loadChildren: () => import("src/app/component/draft/routes").then(result => result.routes) },
+  { path: INSTANCE.CUSTOMERPOST, loadChildren: () => import("src/app/component/customerpost/routes").then(result => result.routes) },
   { path: INSTANCE.CATEGORY, component: CategoryComponent },
   { path: INSTANCE.INTRODUCTION, component: IntroductionComponent },
   { path: INSTANCE.TERMS, component: TermsComponent },

@@ -7,6 +7,7 @@ import com.donetop.domain.entity.draft.DraftComment;
 import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.repository.draft.DraftCommentRepository;
+import org.junit.jupiter.api.AfterAll;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.nio.file.Path;
@@ -19,6 +20,11 @@ public class DraftCommentBase extends DraftBase {
 
 	@Autowired
 	protected StorageService<Folder> folderStorageService;
+
+	@AfterAll
+	void clearDraftCommentBase() {
+		draftCommentRepository.deleteAll();
+	}
 
 	protected DraftComment saveSingleDraftCommentWithoutFiles() {
 		final Draft draft = saveSingleDraftWithoutFiles();

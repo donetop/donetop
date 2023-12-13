@@ -1,0 +1,150 @@
+:doctype:
+:docinfo: shared
+:toc: left
+:toclevels: 3
+
+= CustomerPost API Documentation
+
+== CustomerPost Single Create
+
+HTTP Method : *POST* +
+URI : */api/customerpost*
+
+=== Request parts description
+include::{snippets}/customer_post_single_create/createSingle_withValidPartValues_return200/request-parts.adoc[]
+
+=== Response body fields description
+include::{snippets}/customer_post_single_create/createSingle_withValidPartValues_return200/response-fields.adoc[]
+
+=== Examples
+==== createSingle_withoutParts_return400
+.request
+include::{snippets}/customer_post_single_create/createSingle_withoutParts_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_create/createSingle_withoutParts_return400/http-response.adoc[]
+
+==== createSingle_withInvalidPartValues_return400
+.request
+include::{snippets}/customer_post_single_create/createSingle_withInvalidPartValues_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_create/createSingle_withInvalidPartValues_return400/http-response.adoc[]
+
+==== createSingle_withValidPartValues_return200
+.request
+include::{snippets}/customer_post_single_create/createSingle_withValidPartValues_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_create/createSingle_withValidPartValues_return200/http-response.adoc[]
+
+== CustomerPost Single Get
+
+HTTP Method : *GET* +
+URI : */api/customerpost/\{customerpost_id\}*
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/customer_post_single_get/getSingle_withValidId_return200/response-fields.adoc[]
+
+=== Examples
+==== getSingle_withInvalidId_return400
+.request
+include::{snippets}/customer_post_single_get/getSingle_withInvalidId_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_get/getSingle_withInvalidId_return400/http-response.adoc[]
+
+==== getSingle_withValidId_return200
+.request
+include::{snippets}/customer_post_single_get/getSingle_withValidId_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_get/getSingle_withValidId_return200/http-response.adoc[]
+
+== CustomerPost Single Delete
+
+HTTP Method : *DELETE* +
+URI : */api/customerpost/\{customerpost_id\}*
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/customer_post_single_delete/deleteSingle_byAdminUser_return200/response-fields.adoc[]
+
+=== Examples
+==== deleteSingle_withoutSession_return400
+.request
+include::{snippets}/customer_post_single_delete/deleteSingle_withoutSession_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_delete/deleteSingle_withoutSession_return400/http-response.adoc[]
+
+==== deleteSingle_withUnknownId_return400
+.request
+include::{snippets}/customer_post_single_delete/deleteSingle_withUnknownId_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_delete/deleteSingle_withUnknownId_return400/http-response.adoc[]
+
+==== deleteSingle_byNormalUser_return400
+.request
+include::{snippets}/customer_post_single_delete/deleteSingle_byNormalUser_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_delete/deleteSingle_byNormalUser_return400/http-response.adoc[]
+
+==== deleteSingle_byAdminUser_return200
+.request
+include::{snippets}/customer_post_single_delete/deleteSingle_byAdminUser_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_single_delete/deleteSingle_byAdminUser_return200/http-response.adoc[]
+
+== CustomerPost Multiple Get
+
+HTTP Method : *GET* +
+URI : */api/customerposts?page=\{int\}&size=\{int\}&property=\{customerpost_property\}&direction=\{asc_or_desc\}*
+
+=== Request parameters description
+include::{snippets}/customer_post_multiple_get/getMultiple_withValidParams_return200/request-parameters.adoc[]
+
+=== Response body fields description
+include::{snippets}/customer_post_multiple_get/getMultiple_withValidParams_return200/response-fields.adoc[]
+
+=== Examples
+==== getMultiple_withInvalidPageValue_return400
+.request
+include::{snippets}/customer_post_multiple_get/getMultiple_withInvalidPageValue_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_multiple_get/getMultiple_withInvalidPageValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidSizeValue_return400
+.request
+include::{snippets}/customer_post_multiple_get/getMultiple_withInvalidSizeValue_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_multiple_get/getMultiple_withInvalidSizeValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidDirectionValue_return400
+.request
+include::{snippets}/customer_post_multiple_get/getMultiple_withInvalidDirectionValue_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_multiple_get/getMultiple_withInvalidDirectionValue_return400/http-response.adoc[]
+
+==== getMultiple_withInvalidPropertyValue_return400
+.request
+include::{snippets}/customer_post_multiple_get/getMultiple_withInvalidPropertyValue_return400/http-request.adoc[]
+.response
+include::{snippets}/customer_post_multiple_get/getMultiple_withInvalidPropertyValue_return400/http-response.adoc[]
+
+==== getMultiple_withValidParams_return200
+.request
+include::{snippets}/customer_post_multiple_get/getMultiple_withValidParams_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_multiple_get/getMultiple_withValidParams_return200/http-response.adoc[]
+
+==== getMultiple_withoutParams_return200
+.request
+include::{snippets}/customer_post_multiple_get/getMultiple_withoutParams_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_multiple_get/getMultiple_withoutParams_return200/http-response.adoc[]
+
+==== getMultiple_withQueryDSLParams_return200
+.request
+include::{snippets}/customer_post_multiple_get/getMultiple_withQueryDSLParams_return200/http-request.adoc[]
+.response
+include::{snippets}/customer_post_multiple_get/getMultiple_withQueryDSLParams_return200/http-response.adoc[]

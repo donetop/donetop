@@ -4,6 +4,7 @@ import com.donetop.main.api.common.CategoryBase;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -14,6 +15,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class CategoryMultipleGetTest extends CategoryBase {
+
+	@BeforeAll
+	void beforeAll() {
+		initDefaultCategories();
+	}
 
 	@Test
 	void getMultiple_category_return200() {

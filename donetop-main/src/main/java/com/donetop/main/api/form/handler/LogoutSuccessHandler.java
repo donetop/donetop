@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static com.donetop.common.api.Message.LOGOUT;
+import static com.donetop.common.api.Message.NO_SESSION;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
@@ -27,7 +29,7 @@ public class LogoutSuccessHandler implements org.springframework.security.web.au
 	public void onLogoutSuccess(final HttpServletRequest request, final HttpServletResponse response,
 								final Authentication authentication) throws IOException {
 		log.debug("Logout success. auth : {}", authentication);
-		Response resp = authentication == null ? BadRequest.of("유효한 세션 정보가 없습니다.") : OK.of("로그아웃");
+		Response resp = authentication == null ? BadRequest.of(NO_SESSION) : OK.of(LOGOUT);
 		response.setStatus(resp.getCode());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 		response.setContentType(APPLICATION_JSON_VALUE);

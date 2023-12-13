@@ -56,9 +56,11 @@ public class DraftDTO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime updateTime;
 
+	@Builder.Default
 	private List<DraftFolderDTO> folders = new ArrayList<>();
 
 	private PaymentInfoDTO paymentInfo;
 
+	@Builder.Default
 	private List<DraftCommentDTO> draftComments = new ArrayList<>();
 }
