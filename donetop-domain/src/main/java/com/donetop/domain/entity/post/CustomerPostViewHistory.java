@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Table(
 	name = "tbCustomerPostViewHistory",
-	uniqueConstraints = @UniqueConstraint(columnNames = {"viewerIp"})
+	uniqueConstraints = @UniqueConstraint(columnNames = {"viewerIp", "customerPostId"})
 )
 @Getter
 @Builder(toBuilder = true)

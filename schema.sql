@@ -183,7 +183,7 @@ create table `tbCustomerPostViewHistory` (
   `createTime` datetime not null,
   `customerPostId` bigint(20),
   primary key (`id`),
-  unique `uc_viewerIp` (`viewerIp`),
+  unique `uc_viewerIp` (`viewerIp`, `customerPostId`),
   constraint `fk_customerPostViewHistory_customerPost_id` foreign key (`customerPostId`) references `tbCustomerPost` (`id`)
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 show full columns from `tbCustomerPostViewHistory`;
