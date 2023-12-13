@@ -69,4 +69,4 @@ jobs:
           SOURCE: ./deploy.sh
           SCRIPT_AFTER: |
             chmod 700 ./deploy.sh
-            ./deploy.sh restart donetop-oss
+            ./deploy.sh restart donetop-oss -Xms64m -Xmx64m
