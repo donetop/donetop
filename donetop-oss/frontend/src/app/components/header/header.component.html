@@ -7,12 +7,12 @@
       <a [routerLink]="routeName.HOME" class="nav-link">Home</a>
     </li>
   </ul>
-  <ul *ngIf="ossUser" class="navbar-nav ml-auto">
+  <ul *ngIf="user" class="navbar-nav ml-auto">
     <li class="nav-item">
-      <a class="nav-link" role="button"><i class="fas fa-user"></i> {{ ossUser.name }}님</a>
+      <a class="nav-link" role="button"><i class="fas fa-user"></i> {{ user.name }}님</a>
     </li>
     <li class="nav-item">
-      <a (click)="ossUserService.logout()" class="nav-link" role="button"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+      <a (click)="userService.logout()" class="nav-link" role="button"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
     </li>
   </ul>
 </nav>

@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.donetop.common.api.Message.NO_USER;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -22,6 +24,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO findUserBy(final String email) {
 		return userRepository.findByEmail(email)
-			.orElseThrow(() -> new IllegalStateException("유효한 유저 정보가 없습니다.")).toDTO();
+			.orElseThrow(() -> new IllegalStateException(NO_USER)).toDTO();
 	}
 }

@@ -1,6 +1,6 @@
-package com.donetop.domain.entity.user;
+package com.donetop.domain.entity.ossuser;
 
-import com.donetop.dto.user.OSSUserDTO;
+import com.donetop.dto.ossuser.OSSUserDTO;
 import com.donetop.enums.user.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,18 +39,9 @@ public class OSSUser {
 	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
 	private RoleType roleType = RoleType.NORMAL;
 
+	@Builder.Default
 	@Column(nullable = false)
 	private final LocalDateTime createTime = LocalDateTime.now();
-
-	public OSSUser updateRoleType(final RoleType roleType) {
-		this.roleType = roleType;
-		return this;
-	}
-
-	public OSSUser updatePassword(final String password) {
-		this.password = password;
-		return this;
-	}
 
 	public OSSUserDTO toDTO() {
 		final OSSUserDTO ossUserDTO = new OSSUserDTO();

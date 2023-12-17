@@ -3,7 +3,7 @@ import { provideRouter } from "@angular/router";
 import { routes } from "./app/routes";
 import { importProvidersFrom } from "@angular/core";
 import { StoreModule } from "@ngrx/store";
-import { ossUserReducer } from "./app/store/reducer/oss-user.reducer";
+import { userReducer } from "./app/store/reducer/user.reducer";
 import { AppComponent } from "./app/app.component";
 import { provideHttpClient } from "@angular/common/http";
 import { CryptoService } from "./app/service/crypto.service";
@@ -15,7 +15,7 @@ bootstrapApplication(
     providers: [
       provideRouter(routes),
       provideHttpClient(),
-      importProvidersFrom(StoreModule.forRoot({ ossUser: ossUserReducer })),
+      importProvidersFrom(StoreModule.forRoot({ user: userReducer })),
       { provide: CryptoService, useClass: environment.cryptoService }
     ]
   }

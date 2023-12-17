@@ -1,4 +1,4 @@
-package com.donetop.dto.user;
+package com.donetop.dto.ossuser;
 
 import com.donetop.enums.user.RoleType;
 import com.fasterxml.jackson.annotation.JsonFormat;

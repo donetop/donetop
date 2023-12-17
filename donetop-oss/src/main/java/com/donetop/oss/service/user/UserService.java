@@ -1,8 +1,8 @@
 package com.donetop.oss.service.user;
 
-import com.donetop.dto.user.OSSUserDTO;
+import com.donetop.dto.ossuser.OSSUserDTO;
 
-public interface OSSUserService {
+public interface UserService {
 
 	OSSUserDTO findUserBy(String username);
 }

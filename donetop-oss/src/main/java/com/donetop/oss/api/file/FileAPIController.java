@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class OSSFileAPIController {
+public class FileAPIController {
 
 	public static class URI {
 		public static final String SINGULAR = "/api/file";

@@ -1,6 +1,6 @@
-package com.donetop.repository.user;
+package com.donetop.repository.ossuser;
 
-import com.donetop.domain.entity.user.OSSUser;
+import com.donetop.domain.entity.ossuser.OSSUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

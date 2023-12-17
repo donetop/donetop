@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static com.donetop.common.api.Message.WRONG_PASSWORD;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
@@ -27,7 +28,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 	public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response,
 										final AuthenticationException exception) throws IOException {
 		log.debug("exception : {}, message : {}", exception.getClass().getName(), exception.getMessage());
-		final String message = exception instanceof BadCredentialsException ? "비밀번호가 유효하지 않습니다." : exception.getMessage();
+		final String message = exception instanceof BadCredentialsException ? WRONG_PASSWORD : exception.getMessage();
 		Response.BadRequest<String> badRequest = Response.BadRequest.of(message);
 		response.setStatus(badRequest.getCode());
 		response.setCharacterEncoding(StandardCharsets.UTF_8.toString());

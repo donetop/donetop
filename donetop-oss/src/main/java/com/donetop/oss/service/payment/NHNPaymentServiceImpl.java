@@ -26,6 +26,9 @@ import java.security.PrivateKey;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.DISALLOWED_REQUEST;
+import static com.donetop.common.api.Message.UNKNOWN_PAYMENT_INFO_WITH_ARGUMENTS;
+
 @Slf4j
 @Service
 @Transactional
@@ -40,14 +43,14 @@ public class NHNPaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Page<PaymentInfoDTO> list(final Predicate predicate, final PageRequest request) {
-		throw new UnsupportedOperationException("잘못된 요청입니다.");
+		throw new UnsupportedOperationException(DISALLOWED_REQUEST);
 	}
 
 	@Override
 	public Detail cancel(final PaymentCancelRequest request) {
 		final long paymentInfoId = request.getPaymentInfoId();
 		final PaymentInfo paymentInfo = paymentInfoRepository.findById(paymentInfoId)
-			.orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 결제정보입니다. id: %s", paymentInfoId)));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_PAYMENT_INFO_WITH_ARGUMENTS, paymentInfoId)));
 		final PaymentHistoryDTO lastHistoryDTO = Objects.requireNonNull(paymentInfo.toDTO().getLastHistory());
 		final NHNPaidDetail nhnPaidDetail = (NHNPaidDetail) lastHistoryDTO.getDetail();
 		final String tno = nhnPaidDetail.getTno();

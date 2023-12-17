@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.donetop.oss.api.category.OSSCategoryAPIController.URI.*;
+import static com.donetop.oss.api.category.CategoryAPIController.URI.*;
 
 @Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
-public class OSSCategoryAPIController {
+public class CategoryAPIController {
 
 	public static class URI {
 		public static final String SINGULAR = "/api/category";

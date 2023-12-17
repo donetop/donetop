@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.donetop.oss.api.payment.OSSPaymentAPIController.URI.CANCEL;
-import static com.donetop.oss.api.payment.OSSPaymentAPIController.URI.PLURAL;
+import static com.donetop.oss.api.payment.PaymentAPIController.URI.CANCEL;
+import static com.donetop.oss.api.payment.PaymentAPIController.URI.PLURAL;
 import static org.springframework.data.domain.Sort.Direction.fromString;
 
 @Validated
 @RestController
 @RequiredArgsConstructor
-public class OSSPaymentAPIController {
+public class PaymentAPIController {
 
 	public static class URI {
 		public static final String SINGULAR = "/api/payment";

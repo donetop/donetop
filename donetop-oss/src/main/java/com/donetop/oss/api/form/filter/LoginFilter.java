@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.donetop.oss.api.form.OSSFormAPIController.URI.LOGIN;
+import static com.donetop.common.api.Message.INSUFFICIENT_AUTHENTICATION;
+import static com.donetop.oss.api.form.FormAPIController.URI.LOGIN;
 
 @Slf4j
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
@@ -36,12 +37,12 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 		log.debug("request body : {}", requestBody);
 
 		if (!StringUtils.hasLength(requestBody)) {
-			throw new InsufficientAuthenticationException("유저이름 및 비밀번호를 모두 입력해주세요.");
+			throw new InsufficientAuthenticationException(INSUFFICIENT_AUTHENTICATION);
 		}
 
 		final LoginRequest loginRequest = objectMapper.readValue(requestBody, LoginRequest.class);
 		if (loginRequest.isEmpty()) {
-			throw new InsufficientAuthenticationException("유저이름 및 비밀번호를 모두 입력해주세요.");
+			throw new InsufficientAuthenticationException(INSUFFICIENT_AUTHENTICATION);
 		}
 
 		return this.getAuthenticationManager().authenticate(loginRequest.toUsernamePasswordAuthenticationToken());

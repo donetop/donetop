@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UsernameNotFoundException(WRONG_USERNAME);
 		}
 
-		User user = (username.equals("admin") ? userRepository.findByRoleType(ADMIN) : userRepository.findByEmail(username))
+		User user = (username.equals(ADMIN.name().toLowerCase()) ? userRepository.findByRoleType(ADMIN) : userRepository.findByEmail(username))
 			.orElseThrow(() -> new UsernameNotFoundException(WRONG_USERNAME));
 
 		Set<SimpleGrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoleType().name()));

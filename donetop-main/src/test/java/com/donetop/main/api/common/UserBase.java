@@ -24,7 +24,7 @@ public class UserBase extends IntegrationBase {
 
 	protected User saveUser(final String name, final RoleType roleType) {
 		return userRepository.save(
-			User.builder()
+			new User().toBuilder()
 				.email(name + "@test.com")
 				.name(name)
 				.password("password").build().updateRoleType(roleType)
