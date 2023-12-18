@@ -16,6 +16,8 @@ public class Message {
 	public static final String UNKNOWN_CUSTOMER_POST_WITH_ARGUMENTS = UNKNOWN_CUSTOMER_POST + " id: %s";
 	public static final String UNKNOWN_PAYMENT_INFO = "존재하지 않는 결제 정보입니다.";
 	public static final String UNKNOWN_PAYMENT_INFO_WITH_ARGUMENTS = UNKNOWN_PAYMENT_INFO + " id: %s";
+	public static final String UNKNOWN_NOTICE = "존재하지 않는 공지사항 정보입니다.";
+	public static final String UNKNOWN_NOTICE_WITH_ARGUMENTS = UNKNOWN_NOTICE + " id: %s";
 	public static final String WRONG_ID_OR_PASSWORD = "아이디 또는 비밀번호가 일치하지 않습니다.";
 	public static final String WRONG_USERNAME = "유저 이름이 일치하지 않습니다.";
 	public static final String WRONG_PASSWORD = "비밀번호가 일치하지 않습니다.";

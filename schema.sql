@@ -189,6 +189,18 @@ create table `tbCustomerPostViewHistory` (
 show full columns from `tbCustomerPostViewHistory`;
 show indexes from `tbCustomerPostViewHistory`;
 
+-- drop table if exists `tbNotice`;
+create table `tbNotice` (
+  `id` bigint(20) not null auto_increment,
+  `title` varchar(200) default '' not null,
+  `createTime` datetime not null,
+  `folderId` bigint(20),
+  primary key (`id`),
+  constraint `fk_notice_folder_id` foreign key (`folderId`) references `tbFolder` (`id`)
+) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
+show full columns from `tbNotice`;
+show indexes from `tbNotice`;
+
 -- -----------------------------------------------------
 -- -----------------------------------------------------
 -- -----------------------------------------------------
@@ -206,3 +218,4 @@ select * from `tbDraftComment`;
 select * from `tbCustomerPost`;
 select * from `tbCustomerPostComment`;
 select * from `tbCustomerPostViewHistory`;
+select * from `tbNotice`;

@@ -10,7 +10,8 @@ import java.security.InvalidParameterException;
 public enum DomainType {
 	DRAFT("draft/{id}"),
 	CATEGORY("category/{id}"),
-	DRAFT_COMMENT("draft/comment/{id}")
+	DRAFT_COMMENT("draft/comment/{id}"),
+	NOTICE("notice/{id}")
 	;
 
 	private final String path;
