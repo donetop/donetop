@@ -34,6 +34,14 @@ export class RouteName {
 
   public readonly CUSTOMERPOST_DETAIL = `${this.CUSTOMERPOST}/${this.CUSTOMERPOST_CHILDREN.DETAIL}`;
 
+  public readonly NOTICE = `${prefix}/notice`;
+
+  public readonly NOTICE_CHILDREN = {
+    LIST: `list`
+  };
+
+  public readonly NOTICE_LIST = `${this.NOTICE}/${this.NOTICE_CHILDREN.LIST}`;
+
   public readonly CATEGORY = `${prefix}/category`;
 
   public readonly INTRODUCTION = `${prefix}/introduction`;

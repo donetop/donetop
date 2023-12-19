@@ -1,0 +1,15 @@
+<app-title [title]="'공지사항'"></app-title>
+<div class="container">
+  <ol>
+    <li *ngFor="let notice of notices">
+      <h3 (click)="toggle(div, img)">
+        <span>N</span>
+        {{ notice.title }}
+        <div class="date">{{ notice.createTime | date: "yyyy-MM-dd HH:mm" }}</div>
+      </h3>
+      <div class="content" #div>
+        <img [src]="'api/file/' + notice.folder.files[0].id" alt="이미지가 없습니다." #img>
+      </div>
+    </li>
+  </ol>
+</div>

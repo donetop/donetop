@@ -78,7 +78,7 @@ export class CategoryComponent implements OnInit {
     this.subGroups.filter((element, i) => i === index)[0].nativeElement.classList.toggle('active');
   }
 
-  movePage(url: string, params: object) {
+  movePage(url: string, params: object = {}) {
     this.router.navigate([url], { queryParams: params });
     this.toggleSection();
   }

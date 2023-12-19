@@ -17,7 +17,7 @@
 <nav class="nav">
   <ul>
     <li class="first"></li>
-    <li>FAQ</li>
+    <li><a [routerLink]="routeName.NOTICE_LIST">공지사항</a></li>
     <li><a [routerLink]="routeName.DRAFT_CREATE">주문하기</a></li>
     <li><a [routerLink]="routeName.DRAFT_LIST" [queryParams]="{ page: 0 }">시안확인</a></li>
     <li><a href="https://imagetoday.co.kr/" target="_blank">이미지사이트</a></li>
