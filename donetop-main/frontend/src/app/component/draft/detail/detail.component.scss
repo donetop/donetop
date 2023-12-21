@@ -327,6 +327,14 @@ div.container {
       margin: 0 auto;
     }
   }
+
+  @media (max-width: 500px) {
+    > div {
+      &.info, &.detail, &.buttons, &.comments, &.notice {
+        width: 90%;
+      }
+    }
+  }
 }
 
 app-modal {

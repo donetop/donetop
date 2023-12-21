@@ -254,6 +254,13 @@ div.container {
     }
   }
 
+  @media (max-width: 500px) {
+    > div {
+      &.info, &.utils, &.list, &.page-buttons {
+        width: 90%;
+      }
+    }
+  }
 }
 
 app-modal {
