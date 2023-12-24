@@ -37,6 +37,7 @@
       <div class="checkbox"><input type="checkbox" [name]="'checkbox' + i" [id]="draft.id" #checkbox (click)="checknthbox(i)"></div>
       <div class="number">{{ index[i] }}</div>
       <div class="title">
+        <fa-icon [icon]="['fas', 'lock']"></fa-icon>&nbsp;
         <a (click)="openModal(draft.id, passwordForm)">{{ draft.customerName }}님 시안입니다.</a>
         <img [src]="'/assets/draft/status/' + draft.draftStatus.name + '.gif'">
         <img class="new" src="/assets/draft/icon_new.gif" *ngIf="isNew(draft)">

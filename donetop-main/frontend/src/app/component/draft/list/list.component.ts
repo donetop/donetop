@@ -13,7 +13,7 @@ import { RouteName } from 'src/app/store/model/routeName.model';
 import { User, isAdmin } from 'src/app/store/model/user.model';
 import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import { environment } from 'src/environments/environment.development';
 import { SearchCondition } from 'src/app/store/model/common';
@@ -60,7 +60,7 @@ export class ListComponent {
   ) {
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
-    this.library.addIcons(faMagnifyingGlass, faCopy);
+    this.library.addIcons(faMagnifyingGlass, faCopy, faLock);
   }
 
   setUp(params: any) {

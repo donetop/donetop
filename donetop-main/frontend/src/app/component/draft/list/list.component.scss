@@ -158,6 +158,21 @@ div.container {
           vertical-align: middle;
           margin-left: 4px;
         }
+
+        > fa-icon {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          line-height: 14px;
+          height: 16px;
+          width: 16px;
+          color: #4f818c;
+          background: #cbe3e8;
+          text-align: center;
+          border-radius: 2px;
+          font-size: 12px;
+          border: 1px solid #a2c6ce;
+        }
       }
       &.sub-row {
         display: flex;
