@@ -56,7 +56,7 @@
       </div>
     </div>
     <div class="images" *ngIf="workFolder">
-      <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of workFolder.files">
+      <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of workFolder.files" (click)="openAtBlank('api/file/' + file.id)">
     </div>
   </div>
   <div class="buttons">

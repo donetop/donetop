@@ -242,4 +242,8 @@ export class DetailComponent {
     }
   }
 
+  openAtBlank(url: string) {
+    window.open(url, '_blank');
+  }
+
 }
