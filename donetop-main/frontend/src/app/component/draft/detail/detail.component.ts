@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCopy, faCreditCard } from '@fortawesome/free-regular-svg-icons';
@@ -40,7 +40,7 @@ declare const trade_register: Function;
     FormsModule
   ]
 })
-export class DetailComponent {
+export class DetailComponent implements OnInit {
 
   draft: Draft | undefined;
   params: any;
@@ -80,6 +80,10 @@ export class DetailComponent {
     );
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
+  }
+
+  ngOnInit() {
+    document.getElementById('scrollToTopButton')?.click();
   }
 
   setUp(params: any) {

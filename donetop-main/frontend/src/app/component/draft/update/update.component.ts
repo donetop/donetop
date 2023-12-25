@@ -57,6 +57,7 @@ export class UpdateComponent implements OnInit {
     this.categoryArray = await this.categoryService.categoryArray();
     this.paymentMethodArray = await this.enumService.paymentMethodArray();
     this.draftStatusArray = await this.enumService.draftStatusArray();
+    document.getElementById('scrollToTopButton')?.click();
   }
 
   setUp(params: any) {
