@@ -27,10 +27,10 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 	@NotEmpty(message = "연락처를 입력해주세요.")
 	private String phoneNumber;
 
-	@NotEmpty(message = "주소를 입력해주세요.")
+	@NotNull(message = "주소를 입력해주세요.")
 	private String address;
 
-	@NotEmpty(message = "상세 주소를 입력해주세요.")
+	@NotNull(message = "상세 주소를 입력해주세요.")
 	private String detailAddress;
 
 	@NotNull(message = "메모를 입력해주세요.")

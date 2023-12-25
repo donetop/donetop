@@ -64,7 +64,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(10));
+			.body("reason", hasSize(8));
 	}
 
 	@Test
@@ -151,8 +151,8 @@ public class DraftSingleUpdateTest extends DraftBase {
 					partWithName("email").description("The value shouldn't be empty."),
 					partWithName("categoryName").description("The value shouldn't be empty."),
 					partWithName("phoneNumber").description("The value shouldn't be empty."),
-					partWithName("address").description("The value shouldn't be empty."),
-					partWithName("detailAddress").description("The value shouldn't be empty."),
+					partWithName("address").description("The value can be empty."),
+					partWithName("detailAddress").description("The value can be empty."),
 					partWithName("memo").description("The value can be empty."),
 					partWithName("password").description("The value shouldn't be empty."),
 					partWithName("paymentMethod").description("The value should be one of [CASH, CREDIT_CARD]."),
