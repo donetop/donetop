@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class DraftUpdateRequest extends DraftCreateRequest {
 
-	@Min(value = 1000L, message = "최소 가격은 1,000원입니다.")
+	@Min(value = 0L, message = "최소 가격은 0원입니다.")
 	private long price;
 
 	@NameOfEnum(enumClass = DraftStatus.class, message = "유효하지 않은 상태값입니다.")

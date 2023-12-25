@@ -57,7 +57,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("memo", "")
 			.multiPart("password", "")
 			.multiPart("paymentMethod", "asdsdsadsa")
-			.multiPart("price", 100)
+			.multiPart("price", -1)
 			.multiPart("draftStatus", "fdfdfe")
 			.put(SINGULAR + "/{id}", 1);
 
@@ -157,7 +157,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 					partWithName("password").description("The value shouldn't be empty."),
 					partWithName("paymentMethod").description("The value should be one of [CASH, CREDIT_CARD]."),
 					partWithName("files").description("The value can be empty. Each file's max size is 5MB."),
-					partWithName("price").description("The value should be greater or equal than 1000."),
+					partWithName("price").description("The value should be greater or equal than 0."),
 					partWithName("draftStatus").description("The value should be one of [HOLDING, WORKING, CHECK_REQUEST, PRINT_REQUEST, COMPLETED].")
 				),
 				responseFields(

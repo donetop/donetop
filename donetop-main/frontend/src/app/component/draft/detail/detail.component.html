@@ -17,6 +17,10 @@
         <span>{{ draft.customerName }}</span>
       </div>
       <div class="row">
+        <span>연&nbsp;&nbsp;락&nbsp;&nbsp;처</span>&nbsp;:&nbsp;
+        <span>{{ draft.phoneNumber }}</span>
+      </div>
+      <div class="row">
         <span>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</span>&nbsp;:&nbsp;
         <span>{{ draft.draftStatus.value }}</span>
       </div>
@@ -30,7 +34,9 @@
       </div>
       <div class="row">
         <span>최종금액</span>&nbsp;:&nbsp;
-        <span>{{ draft.price | number:'1.0-0' }}원</span>
+        <span>
+          {{ draft.price | number:'1.0-0' | zeroPricePipe }}<span *ngIf="draft.price > 0">원</span>
+        </span>
       </div>
       <div class="row">
         <span>결제방법</span>&nbsp;:&nbsp;

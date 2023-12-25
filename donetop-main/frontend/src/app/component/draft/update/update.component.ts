@@ -82,26 +82,24 @@ export class UpdateComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (confirm('정말로 수정하시겠습니까?')) {
-      const formData = new FormData();
-      formData.append('password', this.cryptoService.encrypt(form.controls['phone3'].value));
-      formData.append('categoryName', form.controls['categoryName'].value);
-      formData.append('paymentMethod', form.controls['paymentMethod'].value);
-      formData.append('draftStatus', form.controls['draftStatus'].value);
-      formData.append('memo', form.controls['memo'].value);
-      formData.append('companyName', form.controls['companyName'].value);
-      formData.append('customerName', form.controls['customerName'].value);
-      formData.append('email', form.controls['email'].value);
-      formData.append('phoneNumber', `${form.controls['phone1'].value}-${form.controls['phone2'].value}-${form.controls['phone3'].value}`);
-      formData.append('address', form.controls['address'].value);
-      formData.append('detailAddress', form.controls['detailAddress'].value);
-      formData.append('price', form.controls['price'].value);
-      formData.append('inChargeName', form.controls['inChargeName'].value);
-      this.filesComponent.existFiles()
-        .forEach(file => formData.append('files', file));
-      // formData.forEach((v, k) => console.log(`${k}, ${v}`));
-      this.draftService.update(this.id, this.password, formData);
-    }
+    const formData = new FormData();
+    formData.append('password', this.cryptoService.encrypt(form.controls['phone3'].value));
+    formData.append('categoryName', form.controls['categoryName'].value);
+    formData.append('paymentMethod', form.controls['paymentMethod'].value);
+    formData.append('draftStatus', form.controls['draftStatus'].value);
+    formData.append('memo', form.controls['memo'].value);
+    formData.append('companyName', form.controls['companyName'].value);
+    formData.append('customerName', form.controls['customerName'].value);
+    formData.append('email', form.controls['email'].value);
+    formData.append('phoneNumber', `${form.controls['phone1'].value}-${form.controls['phone2'].value}-${form.controls['phone3'].value}`);
+    formData.append('address', form.controls['address'].value);
+    formData.append('detailAddress', form.controls['detailAddress'].value);
+    formData.append('price', form.controls['price'].value);
+    formData.append('inChargeName', form.controls['inChargeName'].value);
+    this.filesComponent.existFiles()
+      .forEach(file => formData.append('files', file));
+    // formData.forEach((v, k) => console.log(`${k}, ${v}`));
+    this.draftService.update(this.id, this.password, formData);
   }
 
 }

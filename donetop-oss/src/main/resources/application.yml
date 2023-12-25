@@ -2,7 +2,7 @@ server:
   port: 8070
   servlet:
     session:
-      timeout: 10m
+      timeout: 1440m
       cookie:
         name: DONETOP_OSS_JSESSIONID
         http-only: true

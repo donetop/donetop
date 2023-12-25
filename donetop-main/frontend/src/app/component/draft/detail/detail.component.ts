@@ -20,6 +20,7 @@ import { FileSizePipe } from 'src/app/pipe/filesize.pipe';
 import { FilesComponent } from '../../files/files.component';
 import { DraftCommentService } from 'src/app/service/draft.comment.service';
 import { FormsModule, NgForm } from '@angular/forms';
+import { ZeroPricePipe } from 'src/app/pipe/zeroprice.pipe';
 
 declare const call_pay_form: Function;
 declare const KCP_Pay_Execute: Function;
@@ -36,6 +37,7 @@ declare const trade_register: Function;
     TitleComponent,
     ModalComponent,
     FileSizePipe,
+    ZeroPricePipe,
     FilesComponent,
     FormsModule
   ]
