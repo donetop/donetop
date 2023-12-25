@@ -91,7 +91,8 @@ export class CreateComponent implements OnInit {
       formData.append('email', form.controls['email'].value);
       formData.append('phoneNumber', `${form.controls['phone1'].value}-${form.controls['phone2'].value}-${form.controls['phone3'].value}`);
       formData.append('address', form.controls['address'].value);
-      formData.append('detailAddress', form.controls['detailAddress'].value);
+      if ('detailAddress' in form.controls) formData.append('detailAddress', form.controls['detailAddress'].value);
+      else formData.append('detailAddress', '');
       this.refs
         .map(ref => ref.nativeElement.files)
         .filter(files => files.length > 0)
