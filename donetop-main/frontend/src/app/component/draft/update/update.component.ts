@@ -88,6 +88,7 @@ export class UpdateComponent implements OnInit {
     formData.append('paymentMethod', form.controls['paymentMethod'].value);
     formData.append('draftStatus', form.controls['draftStatus'].value);
     formData.append('memo', form.controls['memo'].value);
+    formData.append('estimateContent', form.controls['estimateContent'].value);
     formData.append('companyName', form.controls['companyName'].value);
     formData.append('customerName', form.controls['customerName'].value);
     formData.append('email', form.controls['email'].value);

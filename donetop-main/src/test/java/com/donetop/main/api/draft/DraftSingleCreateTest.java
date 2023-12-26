@@ -71,7 +71,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("phoneNumber", "")
 			.multiPart("address", "")
 			.multiPart("detailAddress", "")
-			.multiPart("memo", "")
+			.multiPart("estimateContent", "")
 			.multiPart("password", "")
 			.multiPart("paymentMethod", "asdsdsadsa")
 			.post(SINGULAR);
@@ -101,7 +101,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("detailAddress", "my detail address")
-			.multiPart("memo", "my memo")
+			.multiPart("estimateContent", "my estimate content")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
 			.post(SINGULAR);
@@ -132,7 +132,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("detailAddress", "my detail address")
-			.multiPart("memo", "my memo")
+			.multiPart("estimateContent", "my estimate content")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
 			.post(SINGULAR);
@@ -161,7 +161,7 @@ public class DraftSingleCreateTest extends DraftBase {
 					partWithName("phoneNumber").description("The value shouldn't be empty."),
 					partWithName("address").description("The value can be empty."),
 					partWithName("detailAddress").description("The value can be empty."),
-					partWithName("memo").description("The value can be empty."),
+					partWithName("estimateContent").description("The value can be empty."),
 					partWithName("password").description("The value shouldn't be empty."),
 					partWithName("paymentMethod").description("The value should be one of [CASH, CREDIT_CARD]."),
 					partWithName("files").description("The value can be empty. Each file's max size is 5MB.")
@@ -183,7 +183,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("phoneNumber", "010-0000-0000")
 			.multiPart("address", "my address")
 			.multiPart("detailAddress", "my detail address")
-			.multiPart("memo", "my memo")
+			.multiPart("estimateContent", "my estimate content")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
 			.post(SINGULAR);

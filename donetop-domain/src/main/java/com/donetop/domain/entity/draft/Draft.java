@@ -85,6 +85,10 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 	@Column(nullable = false, columnDefinition = "varchar(3000) default ''")
 	private String memo = "";
 
+	@Builder.Default
+	@Column(nullable = false, columnDefinition = "varchar(3000) default ''")
+	private String estimateContent = "";
+
 	@Column(nullable = false, columnDefinition = "varchar(512) default ''")
 	private String password;
 
@@ -166,6 +170,11 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 		return this;
 	}
 
+	public Draft updateEstimateContent(final String estimateContent) {
+		this.estimateContent = estimateContent;
+		return this;
+	}
+
 	public Draft updatePassword(final String password) {
 		this.password = password;
 		return this;
@@ -222,6 +231,7 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 			.price(this.price)
 			.paymentMethod(this.paymentMethod)
 			.memo(this.memo)
+			.estimateContent(this.estimateContent)
 			.password(this.password)
 			.build();
 	}
@@ -241,6 +251,7 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 			.price(this.price)
 			.paymentMethod(this.paymentMethod.toDTO())
 			.memo(this.memo)
+			.estimateContent(this.estimateContent)
 			.createTime(this.createTime)
 			.updateTime(this.updateTime).build();
 		if (includeSubObjectInfo) {
@@ -267,6 +278,7 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 			", price=" + price +
 			", paymentMethod=" + paymentMethod +
 			", memo='" + memo + '\'' +
+			", estimateContent='" + estimateContent + '\'' +
 			", password='" + password + '\'' +
 			", createTime=" + createTime +
 			", updateTime=" + updateTime +

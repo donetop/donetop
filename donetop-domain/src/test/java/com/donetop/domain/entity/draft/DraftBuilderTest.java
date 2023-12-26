@@ -14,6 +14,7 @@ public class DraftBuilderTest {
 		// then
 		assertThat(draft.getCompanyName()).isEmpty();
 		assertThat(draft.getMemo()).isEmpty();
+		assertThat(draft.getEstimateContent()).isEmpty();
 		assertThat(draft.getDraftStatus()).isNotNull();
 		assertThat(draft.getPaymentMethod()).isNotNull();
 		assertThat(draft.getCreateTime()).isNotNull();
@@ -32,6 +33,7 @@ public class DraftBuilderTest {
 			.address("my address")
 			.detailAddress("my detail address")
 			.memo("simple test")
+			.estimateContent("my content")
 			.password("my password").build();
 
 		// then
@@ -44,6 +46,7 @@ public class DraftBuilderTest {
 		assertThat(draft.getAddress()).isNotEmpty();
 		assertThat(draft.getDetailAddress()).isNotEmpty();
 		assertThat(draft.getMemo()).isNotEmpty();
+		assertThat(draft.getEstimateContent()).isNotEmpty();
 		assertThat(draft.getPassword()).isNotEmpty();
 		assertThat(draft.getDraftStatus()).isNotNull();
 		assertThat(draft.getPaymentMethod()).isNotNull();

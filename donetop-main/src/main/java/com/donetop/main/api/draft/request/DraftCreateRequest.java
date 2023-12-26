@@ -33,8 +33,8 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 	@NotNull(message = "상세 주소를 입력해주세요.")
 	private String detailAddress;
 
-	@NotNull(message = "메모를 입력해주세요.")
-	private String memo;
+	@NotNull(message = "견적내용을 입력해주세요.")
+	private String estimateContent;
 
 	@NotEmpty(message = "비밀번호를 입력해주세요.")
 	private String password;
@@ -51,7 +51,7 @@ public class DraftCreateRequest extends MultipartFilesRequest {
 			.categoryName(this.categoryName)
 			.address(this.address)
 			.detailAddress(this.detailAddress)
-			.memo(this.memo)
+			.estimateContent(this.estimateContent)
 			.password(this.password)
 			.paymentMethod(PaymentMethod.valueOf(this.paymentMethod)).build();
 	}

@@ -23,6 +23,9 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 	@NotNull(message = "담당자 이름을 입력해주세요.")
 	private String inChargeName;
 
+	@NotNull(message = "메모를 입력해주세요.")
+	private String memo;
+
 	public Draft applyTo(final Draft draft) {
 		return draft
 			.updateCustomerName(getCustomerName())
@@ -37,6 +40,7 @@ public class DraftUpdateRequest extends DraftCreateRequest {
 			.updatePrice(getPrice())
 			.updatePaymentMethod(PaymentMethod.valueOf(getPaymentMethod()))
 			.updateMemo(getMemo())
+			.updateEstimateContent(getEstimateContent())
 			.updatePassword(getPassword())
 			.setUpdateTime(LocalDateTime.now());
 	}

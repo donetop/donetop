@@ -47,6 +47,10 @@
         <span>{{ draft.categoryName }}</span>
       </div>
       <div class="row">
+        <span>견적내용</span><br>
+        <textarea id="estimateContent" name="estimateContent" rows="10" disabled>{{ draft.estimateContent }}</textarea>
+      </div>
+      <div class="row" *ngIf="isAdmin">
         <span>메모</span><br>
         <textarea id="memo" name="memo" rows="10" disabled>{{ draft.memo }}</textarea>
       </div>

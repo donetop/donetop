@@ -21,8 +21,9 @@
         </select>
       </div>
       <div class="row">
-        <label for="memo">견적내용</label>
+        <label for="memo">메모</label>
         <textarea id="memo" name="memo" rows="10" [(ngModel)]='draft.memo'></textarea>
+        <input type="hidden" id="estimateContent" name="estimateContent" [(ngModel)]='draft.estimateContent'>
       </div>
       <div class="row">
         <label for="companyName">회사</label>

@@ -17,6 +17,7 @@ export interface Draft {
   price: number
   paymentMethod: Enum
   memo: string
+  estimateContent: string
   createTime: Date
   updateTime: Date
   folders: Array<DraftFolder>
