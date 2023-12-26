@@ -168,8 +168,8 @@ export class DetailComponent implements OnInit {
 
     let x = 20, y = 20, xGap = 40, yGap = 10;
 
-    doc.addImage("assets/header/logo.png", "PNG", x + 1, y, 30, 30);
-    y += (yGap * 5);
+    doc.addImage("assets/header/logo.png", "PNG", x + 1, y, 30, 25);
+    y += (yGap * 4);
 
     doc.setFontSize(18);
     doc.text("영수증", x, y);
