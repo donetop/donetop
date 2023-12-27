@@ -15,6 +15,7 @@ export class DraftService {
   private draftURI: string = '/api/draft';
   private draftCopyURI: string = this.draftURI + '/copy';
   private draftsURI: string = '/api/drafts';
+  private draftStatusURI: string = this.draftURI + "/status";
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
@@ -61,6 +62,10 @@ export class DraftService {
 
   copy(id: number) {
     return this.httpClient.post<Response<number>>(this.draftCopyURI, { id });
+  }
+
+  updateStatus(id: number, draftStatus: string) {
+    return this.httpClient.put<Response<number>>(`${this.draftStatusURI}/${id}`, { draftStatus });
   }
 
 }

@@ -20,7 +20,17 @@
         <span>연&nbsp;&nbsp;락&nbsp;&nbsp;처</span>&nbsp;:&nbsp;
         <span>{{ draft.phoneNumber }}</span>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="isAdmin">
+        <span>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</span>&nbsp;:&nbsp;
+        <select id="draftStatus" name="draftStatus" [(ngModel)]='draftStatusName' disabled #draftStatusSelect>
+          <option *ngFor="let draftStatus of draftStatusArray" [value]="draftStatus.name">{{ draftStatus.value }}</option>
+        </select>&nbsp;
+        <div class="buttons">
+          <button type="button" class="normal" (click)="clickStatusBtn(statusBtn, cancelBtn)" #statusBtn>수정</button>
+          <button type="button" class="danger hidden" (click)="clickCancelBtn(statusBtn, cancelBtn)" #cancelBtn>취소</button>
+        </div>
+      </div>
+      <div class="row" *ngIf="!isAdmin">
         <span>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</span>&nbsp;:&nbsp;
         <span>{{ draft.draftStatus.value }}</span>
       </div>
@@ -76,6 +86,7 @@
       <button class="copy" type="button" (click)="copy()"><fa-icon [icon]="['far', 'copy']"></fa-icon>&nbsp;복사</button>
     </div>
     <div class="public">
+      <button type="button" class="print" *ngIf="draft?.draftStatus?.value === '시안확인요청'" (click)="requestPrint()"><fa-icon [icon]="['fas', 'print']"></fa-icon>&nbsp;인쇄요청</button>
       <button type="button" *ngIf="isPayable()" (click)="pay()"><fa-icon [icon]="['far', 'credit-card']"></fa-icon>&nbsp;카드결제</button>
       <button type="button" *ngIf="isPaid()" (click)="openModal()"><fa-icon [icon]="['fas', 'receipt']"></fa-icon>&nbsp;영수증</button>
     </div>

@@ -71,6 +71,29 @@ div.container {
             width: 100%;
           }
         }
+
+        > div.buttons {
+          display: inline-block;
+
+          > button {
+            line-height: 23px;
+            height: 23px;
+            padding: 0 10px;
+            text-align: center;
+            border-radius: 3px;
+            border: 0;
+            margin-right: 5px;
+            color: #fff;
+
+            &.normal {
+              background: #4c4f6f;
+            }
+
+            &.danger {
+              background: #d13f4a;
+            }
+          }
+        }
       }
 
       > div.files {
@@ -170,6 +193,10 @@ div.container {
 
         &:last-child {
           margin-right: 0;
+        }
+
+        &.print {
+          background: #4c4f6f;
         }
 
         &:disabled {
@@ -336,6 +363,10 @@ div.container {
         width: 90%;
       }
     }
+  }
+
+  .hidden {
+    visibility: hidden;
   }
 }
 

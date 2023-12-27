@@ -6,6 +6,7 @@ import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
+import com.donetop.main.api.draft.request.DraftStatusUpdateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.main.service.user.UserService;
 import com.donetop.repository.draft.DraftRepository;
@@ -72,6 +73,13 @@ public class DraftServiceImpl implements DraftService {
 			storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(draft, DRAFT_WORK));
 		}
 		log.info("[UPDATE] draftId: {}", draft.getId());
+		return request.applyTo(draft).getId();
+	}
+
+	@Override
+	public long updateDraftStatus(final long id, final DraftStatusUpdateRequest request) {
+		final Draft draft = getOrThrow(id);
+		log.info("[UPDATE STATUS] draftId: {}, {} => {}", id, draft.getDraftStatus(), request.getDraftStatus());
 		return request.applyTo(draft).getId();
 	}
 

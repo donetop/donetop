@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCopy, faCreditCard } from '@fortawesome/free-regular-svg-icons';
-import { faDownload, faPenToSquare, faPencil, faReceipt, faTimes, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faPenToSquare, faPencil, faPrint, faReceipt, faTimes, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
 import { TitleComponent } from 'src/app/component/title/title.component';
@@ -21,6 +21,8 @@ import { FilesComponent } from '../../files/files.component';
 import { DraftCommentService } from 'src/app/service/draft.comment.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ZeroPricePipe } from 'src/app/pipe/zeroprice.pipe';
+import { Enum } from 'src/app/store/model/enum.model';
+import { EnumService } from 'src/app/service/enum.service';
 
 declare const call_pay_form: Function;
 declare const KCP_Pay_Execute: Function;
@@ -69,23 +71,28 @@ export class DetailComponent implements OnInit {
   mobile_opt_param1 = `${location.pathname}${location.search}`;
   private routeName = RouteName.INSTANCE;
   @ViewChild('filesComponent') filesComponent!: FilesComponent;
+  draftStatusArray!: Array<Enum>;
+  @ViewChild('draftStatusSelect') draftStatusSelect!: ElementRef;
+  draftStatusName = '';
 
   constructor(
     private route: ActivatedRoute, private draftService: DraftService,
     private store: Store<{ user: User }>, private library: FaIconLibrary,
-    private router: Router, private draftCommentService: DraftCommentService
+    private router: Router, private draftCommentService: DraftCommentService,
+    private enumService: EnumService
   ) {
     this.library.addIcons(
       faTrashCan, faPenToSquare, faCreditCard,
       faReceipt, faCopy, faDownload,
-      faPencil, faTimes
+      faPencil, faTimes, faPrint
     );
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     document.getElementById('scrollToTopButton')?.click();
+    this.draftStatusArray = await this.enumService.draftStatusArray();
   }
 
   setUp(params: any) {
@@ -96,6 +103,7 @@ export class DetailComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.draft = response.data;
+          this.draftStatusName = this.draft.draftStatus.name;
           this.orderFolder = this.draft.folders.find(df => df.folderType === FolderType.DRAFT_ORDER);
           this.workFolder = this.draft.folders.find(df => df.folderType === FolderType.DRAFT_WORK);
           this.paymentHistory = this.draft.paymentInfo?.lastHistory;
@@ -250,6 +258,46 @@ export class DetailComponent implements OnInit {
 
   openAtBlank(url: string) {
     window.open(url, '_blank');
+  }
+
+  requestPrint() {
+    if (confirm(`인쇄 요청은 되돌릴 수 없습니다.\n인쇄 요청 하시겠습니까?`)) {
+      this.draftService.updateStatus(this.draft!!.id, "PRINT_REQUEST")
+      .subscribe({
+        next: (response) => {
+          alert("인쇄 요청 완료")
+          this.setUp(this.params);
+        },
+        error: ({error}) => alert(error.reason)
+      });
+    }
+  }
+
+  clickStatusBtn(statusBtn: HTMLButtonElement, cancelBtn: HTMLButtonElement) {
+    const content = statusBtn.textContent;
+    if (content === '수정') {
+      statusBtn.textContent = '적용';
+      cancelBtn.classList.toggle('hidden');
+      this.draftStatusSelect.nativeElement.disabled = false;
+    } else if (content === '적용') {
+      this.draftService.updateStatus(this.draft!!.id, this.draftStatusSelect.nativeElement.value)
+        .subscribe({
+          next: (response) => {
+            this.setUp(this.params);
+            statusBtn.textContent = '수정';
+            cancelBtn.classList.toggle('hidden');
+            this.draftStatusSelect.nativeElement.disabled = true;
+          },
+          error: ({error}) => alert(error.reason)
+        });
+    }
+  }
+
+  clickCancelBtn(statusBtn: HTMLButtonElement, cancelBtn: HTMLButtonElement) {
+    statusBtn.textContent = '수정';
+    cancelBtn.classList.toggle('hidden');
+    this.draftStatusSelect.nativeElement.disabled = true;
+    this.draftStatusSelect.nativeElement.value = this.draft?.draftStatus.name;
   }
 
 }
