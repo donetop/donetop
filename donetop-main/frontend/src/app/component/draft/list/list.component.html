@@ -18,7 +18,7 @@
       <input type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." autocomplete="off" [(ngModel)]="searchValue">
       <button type="button" (click)="search()"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon></button>
     </div>
-    <button *ngIf="isAdmin" class="copy" type="button" (click)="copy()"><fa-icon [icon]="['far', 'copy']"></fa-icon>&nbsp;선택복사</button>
+    <button *ngIf="isAdmin" class="order" type="button" (click)="goToOrderPage()"><fa-icon [icon]="['fas', 'cart-shopping']"></fa-icon>&nbsp;주문하기</button>
   </div>
   <div class="list" *ngIf="page">
     <div class="row">
