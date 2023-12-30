@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCopy, faCreditCard } from '@fortawesome/free-regular-svg-icons';
@@ -23,6 +23,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ZeroPricePipe } from 'src/app/pipe/zeroprice.pipe';
 import { Enum } from 'src/app/store/model/enum.model';
 import { EnumService } from 'src/app/service/enum.service';
+import { CommentComponent } from './comment/comment.component';
 
 declare const call_pay_form: Function;
 declare const KCP_Pay_Execute: Function;
@@ -41,10 +42,11 @@ declare const trade_register: Function;
     FileSizePipe,
     ZeroPricePipe,
     FilesComponent,
-    FormsModule
+    FormsModule,
+    CommentComponent
   ]
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements AfterViewInit {
 
   draft: Draft | undefined;
   params: any;
@@ -70,7 +72,7 @@ export class DetailComponent implements OnInit {
   isMobile = /iPhone|iPad|iPod|Android/i.test(window.navigator.userAgent);
   mobile_opt_param1 = `${location.pathname}${location.search}`;
   private routeName = RouteName.INSTANCE;
-  @ViewChild('filesComponent') filesComponent!: FilesComponent;
+  @ViewChild('commentComponent') commentComponent!: CommentComponent;
   draftStatusArray!: Array<Enum>;
   @ViewChild('draftStatusSelect') draftStatusSelect!: ElementRef;
   draftStatusName = '';
@@ -90,8 +92,9 @@ export class DetailComponent implements OnInit {
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
   }
 
-  async ngOnInit() {
+  async ngAfterViewInit() {
     document.getElementById('scrollToTopButton')?.click();
+    this.commentComponent.commentEvent.subscribe(() => this.setUp(this.params));
     this.draftStatusArray = await this.enumService.draftStatusArray();
   }
 
@@ -212,44 +215,6 @@ export class DetailComponent implements OnInit {
             console.log(`draft copy success. copied draft id : ${response.data}`);
             alert('복사 성공');
             this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: { page: 0 } });
-          },
-          error: ({error}) => alert(error.reason)
-        });
-    }
-  }
-
-  draftCommentCount() {
-    if (!this.draft) return 0;
-    return this.draft.draftComments.length;
-  }
-
-  addDraftComment(form: NgForm) {
-    if (this.draft && confirm('댓글을 등록하시겠습니까?')) {
-      const formData = new FormData();
-      formData.append("draftId", `${this.draft.id}`);
-      formData.append("content", form.controls['commentContent'].value);
-      this.filesComponent.existFiles()
-        .forEach(file => formData.append('files', file));
-      // formData.forEach((v, k) => console.log(`${k}, ${v}`));
-      this.draftCommentService.create(formData)
-        .subscribe({
-          next: (response) => {
-            console.log(`draft comment create success. draft comment id : ${response.data}`);
-            this.setUp(this.params);
-            form.resetForm();
-            this.filesComponent.reset();
-          },
-          error: ({error}) => alert(error.reason)
-        });
-    }
-  }
-
-  deleteDraftComment(id: number) {
-    if (confirm('댓글을 삭제하시겠습니까?')) {
-      this.draftCommentService.delete(id)
-        .subscribe({
-          next: (response) => {
-            this.setUp(this.params);
           },
           error: ({error}) => alert(error.reason)
         });
