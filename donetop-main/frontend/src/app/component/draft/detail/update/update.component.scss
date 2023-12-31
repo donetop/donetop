@@ -1,0 +1,59 @@
+div.row {
+  margin: 3px 0;
+  display: flex;
+  align-items: center;
+
+  > select, span.value {
+    margin-left: 2px;
+  }
+}
+
+div.column {
+  margin: 3px 0;
+  display: flex;
+  flex-direction: column;
+
+  > textarea {
+    width: 50%;
+    resize: none;
+    margin-top: 3px;
+  }
+
+  @media (max-width: 1000px) {
+    > textarea {
+      width: 100%;
+    }
+  }
+
+  > span {
+    display: flex;
+    align-items: center;
+  }
+}
+
+div.buttons {
+  display: inline-block;
+
+  > button {
+    line-height: 23px;
+    height: 23px;
+    padding: 0 10px;
+    text-align: center;
+    border-radius: 3px;
+    border: 0;
+    margin-right: 5px;
+    color: #fff;
+
+    &.normal {
+      background: #4c4f6f;
+    }
+
+    &.danger {
+      background: #d13f4a;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

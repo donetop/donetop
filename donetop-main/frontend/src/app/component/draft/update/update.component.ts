@@ -100,7 +100,14 @@ export class UpdateComponent implements OnInit {
     this.filesComponent.existFiles()
       .forEach(file => formData.append('files', file));
     // formData.forEach((v, k) => console.log(`${k}, ${v}`));
-    this.draftService.update(this.id, this.password, formData);
+    this.draftService.update(this.id, formData)
+      .subscribe({
+        next: (response) => {
+          console.log(`draft update success. draft id : ${response.data}`);
+          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id: this.id, p: this.password } });
+        },
+        error: ({error}) => alert(error.reason)
+      });
   }
 
 }

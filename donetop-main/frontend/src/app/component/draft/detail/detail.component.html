@@ -14,56 +14,35 @@
     <div class="contents">
       <div class="row">
         <span>고&nbsp;&nbsp;객&nbsp;&nbsp;명</span>&nbsp;:&nbsp;
-        <span>{{ draft.customerName }}</span>
+        <span class="value">{{ draft.customerName }}</span>
       </div>
       <div class="row">
         <span>연&nbsp;&nbsp;락&nbsp;&nbsp;처</span>&nbsp;:&nbsp;
-        <span>{{ draft.phoneNumber }}</span>
-      </div>
-      <div class="row" *ngIf="isAdmin">
-        <span>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</span>&nbsp;:&nbsp;
-        <select id="draftStatus" name="draftStatus" [(ngModel)]='draftStatusName' disabled #draftStatusSelect>
-          <option *ngFor="let draftStatus of draftStatusArray" [value]="draftStatus.name">{{ draftStatus.value }}</option>
-        </select>&nbsp;
-        <div class="buttons">
-          <button type="button" class="normal" (click)="clickStatusBtn(statusBtn, cancelBtn)" #statusBtn>수정</button>
-          <button type="button" class="danger hidden" (click)="clickCancelBtn(statusBtn, cancelBtn)" #cancelBtn>취소</button>
-        </div>
-      </div>
-      <div class="row" *ngIf="!isAdmin">
-        <span>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</span>&nbsp;:&nbsp;
-        <span>{{ draft.draftStatus.value }}</span>
+        <span class="value">{{ draft.phoneNumber }}</span>
       </div>
       <div class="row">
         <span>날&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;짜</span>&nbsp;:&nbsp;
-        <span>{{ draft.createTime }}</span>
+        <span class="value">{{ draft.createTime }}</span>
       </div>
       <div class="row">
         <span>주&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</span>&nbsp;:&nbsp;
-        <span>{{ draft.address + ' ' + draft.detailAddress }}</span>
+        <span class="value">{{ draft.address + ' ' + draft.detailAddress }}</span>
       </div>
       <div class="row">
         <span>최종금액</span>&nbsp;:&nbsp;
-        <span>
+        <span class="value">
           {{ draft.price | number:'1.0-0' | zeroPricePipe }}<span *ngIf="draft.price > 0">원</span>
         </span>
       </div>
       <div class="row">
         <span>결제방법</span>&nbsp;:&nbsp;
-        <span>{{ draft.paymentMethod.value }}</span>
+        <span class="value">{{ draft.paymentMethod.value }}</span>
       </div>
       <div class="row">
         <span>카테고리</span>&nbsp;:&nbsp;
-        <span>{{ draft.categoryName }}</span>
+        <span class="value">{{ draft.categoryName }}</span>
       </div>
-      <div class="row">
-        <span>견적내용</span><br>
-        <textarea id="estimateContent" name="estimateContent" rows="10" disabled>{{ draft.estimateContent }}</textarea>
-      </div>
-      <div class="row" *ngIf="isAdmin">
-        <span>메모</span><br>
-        <textarea id="memo" name="memo" rows="10" disabled>{{ draft.memo }}</textarea>
-      </div>
+      <app-update [draft]="draft" #updateComponent></app-update>
       <div class="files" *ngIf="orderFolder && orderFolder.files.length > 0">
         <h2>고객 첨부파일</h2>
         <ul>

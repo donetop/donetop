@@ -6,7 +6,7 @@ import com.donetop.domain.entity.draft.Draft;
 import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
-import com.donetop.main.api.draft.request.DraftStatusUpdateRequest;
+import com.donetop.main.api.draft.request.DraftPartialUpdateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.main.service.user.UserService;
 import com.donetop.repository.draft.DraftRepository;
@@ -77,9 +77,8 @@ public class DraftServiceImpl implements DraftService {
 	}
 
 	@Override
-	public long updateDraftStatus(final long id, final DraftStatusUpdateRequest request) {
+	public long partialUpdateDraft(final long id, final DraftPartialUpdateRequest request) {
 		final Draft draft = getOrThrow(id);
-		log.info("[UPDATE STATUS] draftId: {}, {} => {}", id, draft.getDraftStatus(), request.getDraftStatus());
 		return request.applyTo(draft).getId();
 	}
 

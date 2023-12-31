@@ -4,7 +4,7 @@ public class Message {
 
 	public static final String UNKNOWN_DRAFT = "존재하지 않는 시안입니다.";
 	public static final String UNKNOWN_DRAFT_WITH_ARGUMENTS = UNKNOWN_DRAFT + " id: %s";
-	public static final String SAME_DRAFT_STATUS = "이전과 동일한 시안 상태로 변경할 수 없습니다.";
+	public static final String SAME_DRAFT_VALUE = "이전과 동일한 값으로 변경할 수 없습니다.";
 	public static final String UNKNOWN_COMMENT = "존재하지 않는 댓글입니다.";
 	public static final String UNKNOWN_COMMENT_WITH_ARGUMENTS = UNKNOWN_COMMENT + " id: %s";
 	public static final String UNKNOWN_CATEGORY = "존재하지 않는 카테고리입니다.";

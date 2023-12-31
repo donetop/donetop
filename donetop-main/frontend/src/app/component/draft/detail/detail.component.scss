@@ -60,6 +60,12 @@ div.container {
 
       > div.row {
         margin: 3px 0;
+        display: flex;
+        align-items: center;
+
+        > span.value {
+          margin-left: 2px;
+        }
 
         > textarea {
           width: 50%;
@@ -166,21 +172,16 @@ div.container {
       border-radius: 3px;
       font-weight: bold;
       border: 0;
-      margin-right: 5px;
       color: #fff;
+      background: #4c4f6f;
     }
 
     > div.admin {
       > button {
-        background: #4c4f6f;
-
-        &:last-child {
-          margin-right: 0;
-        }
+        margin-right: 5px;
 
         &.copy {
           background: #d13f4a;
-          color: #fff;
         }
       }
     }
@@ -188,12 +189,13 @@ div.container {
     > div.public {
       margin-left: auto;
 
-      > app-payment {
-        display: inline-block;
+      > button {
+        margin-left: 5px;
       }
 
-      > button.print {
-        background: #4c4f6f;
+      > app-payment {
+        display: inline-block;
+        margin-left: 5px;
       }
     }
   }

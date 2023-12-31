@@ -7,7 +7,7 @@ import com.donetop.common.api.Response.BadRequest;
 import com.donetop.common.api.Response.OK;
 import com.donetop.main.api.draft.request.DraftCopyRequest;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
-import com.donetop.main.api.draft.request.DraftStatusUpdateRequest;
+import com.donetop.main.api.draft.request.DraftPartialUpdateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
 import com.donetop.main.api.user.session.Session;
 import com.donetop.main.service.draft.DraftService;
@@ -38,7 +38,7 @@ public class DraftAPIController {
 		public static final String PLURAL = "/api/drafts";
 		public static final String SINGULAR = "/api/draft";
 		public static final String COPY = SINGULAR + "/copy";
-		public static final String STATUS = SINGULAR + "/status";
+		public static final String PARTIAL = SINGULAR + "/partial";
 	}
 
 	private final DraftService draftService;
@@ -78,10 +78,10 @@ public class DraftAPIController {
 		return ResponseEntity.ok(OK.of(draftService.updateDraft(id, request)));
 	}
 
-	@PutMapping(STATUS + "/{id}")
-	public ResponseEntity<OK<Long>> updateStatus(@PathVariable("id") final long id,
-												 @Valid @RequestBody final DraftStatusUpdateRequest request) {
-		return ResponseEntity.ok(OK.of(draftService.updateDraftStatus(id, request)));
+	@PutMapping(PARTIAL + "/{id}")
+	public ResponseEntity<OK<Long>> updatePartial(@PathVariable("id") final long id,
+												 @Valid @RequestBody final DraftPartialUpdateRequest request) {
+		return ResponseEntity.ok(OK.of(draftService.partialUpdateDraft(id, request)));
 	}
 
 	@DeleteMapping(SINGULAR + "/{id}")
