@@ -87,8 +87,7 @@
     </div>
     <div class="public">
       <button type="button" class="print" *ngIf="draft?.draftStatus?.value === '시안확인요청'" (click)="requestPrint()"><fa-icon [icon]="['fas', 'print']"></fa-icon>&nbsp;인쇄요청</button>
-      <button type="button" *ngIf="isPayable()" (click)="pay()"><fa-icon [icon]="['far', 'credit-card']"></fa-icon>&nbsp;카드결제</button>
-      <button type="button" *ngIf="isPaid()" (click)="openModal()"><fa-icon [icon]="['fas', 'receipt']"></fa-icon>&nbsp;영수증</button>
+      <app-payment [draft]="draft"></app-payment>
     </div>
   </div>
   <app-comment [draft]="draft" #commentComponent></app-comment>
@@ -96,74 +95,3 @@
     <img src="/assets/draft/notice.jpg" alt="이미지가 없습니다.">
   </div>
 </div>
-<form name="pc_order_form" method="post" action="api/nhn/payment" #pc_order_form *ngIf="orderRequest">
-  <!-- 주문정보 세팅 -->
-  <input type="hidden" name="ordr_idxx" [value]="orderRequest.ordr_idxx">
-  <input type="hidden" name="good_name" [value]="orderRequest.good_name">
-  <input type="hidden" name="good_mny" [value]="orderRequest.good_mny">
-  <input type="hidden" name="buyr_name" [value]="orderRequest.buyr_name">
-  <input type="hidden" name="buyr_mail" [value]="orderRequest.buyr_mail">
-  <!-- 신용카드 -->
-  <input type="hidden" name="pay_method" [value]="orderRequest.pay_method">
-  <!-- 가맹점 정보 설정-->
-  <input type="hidden" name="site_cd" [value]="orderRequest.site_cd">
-  <input type="hidden" name="site_name" [value]="orderRequest.site_name">
-  <!-- 인증데이터 처리-->
-  <input type="hidden" name="res_cd" value=""/>
-  <input type="hidden" name="res_msg" value=""/>
-  <input type="hidden" name="enc_info" value=""/>
-  <input type="hidden" name="enc_data" value=""/>
-  <input type="hidden" name="ret_pay_method" value=""/>
-  <input type="hidden" name="tran_cd" value=""/>
-  <input type="hidden" name="use_pay_method" value=""/>
-  <input type="hidden" name="ordr_chk" value=""/>
-</form>
-<form name="mobile_order_form" method="post" #mobile_order_form *ngIf="orderRequest && tradeRegisterRequest">
-  <input type="hidden" name="ordr_idxx" [value]="tradeRegisterRequest.ordr_idxx">
-  <input type="hidden" name="good_name" [value]="tradeRegisterRequest.good_name">
-  <input type="hidden" name="good_mny" [value]="tradeRegisterRequest.good_mny">
-  <input type="hidden" name="buyr_name" [value]="orderRequest.buyr_name">
-  <input type="hidden" name="buyr_mail" [value]="orderRequest.buyr_mail">
-  <!-- 공통정보 -->
-  <input type="hidden" name="req_tx" value="pay">
-  <input type="hidden" name="shop_name" [value]="orderRequest.site_name">
-  <input type="hidden" name="site_cd" [value]="tradeRegisterRequest.site_cd">
-  <input type="hidden" name="currency" value="410"/>
-  <!-- 인증시 필요한 파라미터(변경불가)-->
-  <input type="hidden" name="escw_used" [value]="tradeRegisterRequest.escw_used">
-  <input type="hidden" name="pay_method" [value]="tradeRegisterRequest.pay_method">
-  <input type="hidden" name="ActionResult" value="card">
-  <!-- 리턴 URL (kcp와 통신후 결제를 요청할 수 있는 암호화 데이터를 전송 받을 가맹점의 주문페이지 URL) -->
-  <input type="hidden" name="Ret_URL" [value]="tradeRegisterRequest.Ret_URL">
-  <!-- 추가 파라미터 ( 가맹점에서 별도의 값전달시 param_opt 를 사용하여 값 전달 ) -->
-  <input type="hidden" name="param_opt_1" [value]="mobile_opt_param1">
-  <input type="hidden" name="param_opt_2" value="">
-  <input type="hidden" name="param_opt_3" value="">
-  <!-- 거래등록 응답값 -->
-  <input type="hidden" name="approval_key" id="approval" value="">
-  <input type="hidden" name="traceNo" value="">
-  <input type="hidden" name="PayUrl" value="">
-  <!-- 인증창 호출 시 한글깨질 경우 encoding 처리 추가 (**인코딩 네임은 대문자) -->
-  <input type="hidden" name="encoding_trans" value="UTF-8" />
-</form>
-<app-modal [(property)]="modalProperty">
-  <h3 class="title">영수증</h3>
-  <div class="contents" *ngIf="paymentHistory">
-    <div class="row">
-      <div class="key"><div>고객명</div></div>
-      <div class="value"><div>{{ draft?.customerName }}</div></div>
-    </div>
-    <div class="row" *ngFor="let entry of modalObject | keyvalue">
-      <div class="key"><div>{{ entry.key }}</div></div>
-      <div class="value"><div>{{ paymentHistory.detail[entry.value] }}</div></div>
-    </div>
-    <div class="row">
-      <div class="key"><div>거래날짜</div></div>
-      <div class="value"><div>{{ paymentHistory.createTime }}</div></div>
-    </div>
-  </div>
-  <div class="buttons">
-    <button type="button" (click)="print()">인쇄</button>
-    <button type="button" (click)="closeModal()">닫기</button>
-  </div>
-</app-modal>
