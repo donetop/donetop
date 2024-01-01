@@ -48,6 +48,8 @@ public class DraftDTO {
 
 	private String memo;
 
+	private String estimateContent;
+
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime createTime;

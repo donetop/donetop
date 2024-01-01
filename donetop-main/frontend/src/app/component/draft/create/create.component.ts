@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faDownload, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { TitleComponent } from 'src/app/component/title/title.component';
@@ -45,7 +45,7 @@ export class CreateComponent implements OnInit {
   constructor(
     private library: FaIconLibrary, private draftService: DraftService,
     private cryptoService: CryptoService, private enumService: EnumService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService, private router: Router
   ) {
     this.library.addIcons(faDownload, faXmark);
   }
@@ -85,19 +85,27 @@ export class CreateComponent implements OnInit {
       formData.append('password', this.cryptoService.encrypt(form.controls['phone3'].value));
       formData.append('categoryName', form.controls['categoryName'].value);
       formData.append('paymentMethod', form.controls['paymentMethod'].value);
-      formData.append('memo', form.controls['memo'].value);
+      formData.append('estimateContent', form.controls['estimateContent'].value);
       formData.append('companyName', form.controls['companyName'].value);
       formData.append('customerName', form.controls['customerName'].value);
       formData.append('email', form.controls['email'].value);
       formData.append('phoneNumber', `${form.controls['phone1'].value}-${form.controls['phone2'].value}-${form.controls['phone3'].value}`);
       formData.append('address', form.controls['address'].value);
-      formData.append('detailAddress', form.controls['detailAddress'].value);
+      if ('detailAddress' in form.controls) formData.append('detailAddress', form.controls['detailAddress'].value);
+      else formData.append('detailAddress', '');
       this.refs
         .map(ref => ref.nativeElement.files)
         .filter(files => files.length > 0)
         .map(files => files[0])
         .forEach(file => formData.append('files', file));
-      this.draftService.create(formData);
+      this.draftService.create(formData)
+        .subscribe({
+          next: (response) => {
+            console.log(`draft create success. draft id : ${response.data}`);
+            this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: { page: 0 } });
+          },
+          error: ({error}) => alert(error.reason)
+        });
     }
   }
 }

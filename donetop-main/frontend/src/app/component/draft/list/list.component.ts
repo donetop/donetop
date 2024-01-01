@@ -13,8 +13,7 @@ import { RouteName } from 'src/app/store/model/routeName.model';
 import { User, isAdmin } from 'src/app/store/model/user.model';
 import { ModalComponent, Property } from 'src/app/component/modal/modal.component';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { faCartShopping, faLock, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { environment } from 'src/environments/environment.development';
 import { SearchCondition } from 'src/app/store/model/common';
 
@@ -60,7 +59,7 @@ export class ListComponent {
   ) {
     this.route.queryParams.subscribe(params => this.setUp(params));
     this.store.select('user').subscribe(user => this.isAdmin = isAdmin(user));
-    this.library.addIcons(faMagnifyingGlass, faCopy);
+    this.library.addIcons(faMagnifyingGlass, faCartShopping, faLock);
   }
 
   setUp(params: any) {
@@ -136,28 +135,32 @@ export class ListComponent {
     this.router.navigate([this.routeName.DRAFT_LIST], { queryParams: newParams });
   }
 
-  copy() {
-    const elements = this.checkboxes.filter(element => element.nativeElement.checked);
-    if (elements.length === 0) {
-      alert('선택복사할 게시물을 선택하세요.');
-      return;
-    }
-    if (confirm('정말 복사하시겠습니까?')) {
-      this.draftService.copy(elements[0].nativeElement.id)
-        .subscribe({
-          next: (response) => {
-            console.log(`draft copy success. copied draft id : ${response.data}`);
-            alert('선택복사 성공');
-            // 0 페이지에서 복사하는 경우가 있으므로 HOME으로 갔다가 돌아옴
-            // router.routereusestrategy.shouldreuseroute를 변경할 수도 있으나 그렇게 하면 이후에 모든 다른 routerlink가 정상 동작 안함.
-            // https://github.com/angular/angular/issues/13831
-            this.router.navigate([this.routeName.HOME]).then(() => {
-              this.goToPage(0);
-            });
-          },
-          error: ({error}) => alert(error.reason)
-        });
-    }
+  // copy() {
+  //   const elements = this.checkboxes.filter(element => element.nativeElement.checked);
+  //   if (elements.length === 0) {
+  //     alert('선택복사할 게시물을 선택하세요.');
+  //     return;
+  //   }
+  //   if (confirm('정말 복사하시겠습니까?')) {
+  //     this.draftService.copy(elements[0].nativeElement.id)
+  //       .subscribe({
+  //         next: (response) => {
+  //           console.log(`draft copy success. copied draft id : ${response.data}`);
+  //           alert('선택복사 성공');
+  //           // 0 페이지에서 복사하는 경우가 있으므로 HOME으로 갔다가 돌아옴
+  //           // router.routereusestrategy.shouldreuseroute를 변경할 수도 있으나 그렇게 하면 이후에 모든 다른 routerlink가 정상 동작 안함.
+  //           // https://github.com/angular/angular/issues/13831
+  //           this.router.navigate([this.routeName.HOME]).then(() => {
+  //             this.goToPage(0);
+  //           });
+  //         },
+  //         error: ({error}) => alert(error.reason)
+  //       });
+  //   }
+  // }
+
+  goToOrderPage() {
+    this.router.navigate([this.routeName.DRAFT_CREATE]);
   }
 
   checknthbox(index: number) {

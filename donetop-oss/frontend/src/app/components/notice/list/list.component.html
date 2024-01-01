@@ -1,0 +1,64 @@
+<div class="content-wrapper px-4 py-2">
+  <div class="content-header">
+    <h5>공지사항 목록</h5>
+  </div>
+  <div class="content px-2">
+    <div class="mt-3 mb-3 d-flex justify-content-end">
+      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#noticeCreateModal">새 공지사항 생성</button>
+    </div>
+    <table id="noticeTable" class="table table-hover table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col" class="text-center">제목</th>
+          <th scope="col" class="text-center">공지사항 이미지</th>
+          <th scope="col" class="text-center">등록일</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="notices.length === 0">
+          <td colspan="5" class="text-center">데이터가 없습니다.</td>
+        </tr>
+        <tr *ngFor="let notice of notices">
+          <td class="text-center">{{ notice.id }}</td>
+          <td class="text-center">{{ notice.title }}</td>
+          <td class="text-center">
+            <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of notice.folder.files">
+          </td>
+          <td class="text-center">{{ notice.createTime | date: "yyyy-MM-dd HH:mm" }}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteNotice(notice.id)"><i class="fas fa-trash-alt"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="noticeCreateModal" tabindex="-1" aria-labelledby="noticeCreateModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">공지사항 추가</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #noticeCreateForm="ngForm" (ngSubmit)="createNotice(noticeCreateForm)" novalidate>
+        <div class="modal-body">
+          <label for="noticeTitle">제목: </label>&nbsp;
+          <input class="col-9" type="text" id="noticeTitle" name="noticeTitle" required ngModel #noticeTitle="ngModel">
+        </div>
+        <div class="modal-body">
+          <label for="imageFile">이미지 선택: </label>&nbsp;
+          <input type="file" id="imageFile" name="imageFile" accept="image/*" #file>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+          <button type="submit" class="btn btn-primary" [disabled]="noticeCreateForm.invalid">생성</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

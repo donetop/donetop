@@ -3,14 +3,14 @@ package com.donetop.oss.config;
 import com.donetop.common.encoder.NoOpPasswordEncoder;
 import com.donetop.common.form.InvalidCookieClearingStrategy;
 import com.donetop.enums.user.RoleType;
-import com.donetop.oss.api.category.OSSCategoryAPIController;
-import com.donetop.oss.api.file.OSSFileAPIController;
-import com.donetop.oss.api.form.OSSFormAPIController;
+import com.donetop.oss.api.category.CategoryAPIController;
+import com.donetop.oss.api.file.FileAPIController;
+import com.donetop.oss.api.form.FormAPIController;
 import com.donetop.oss.api.form.filter.LoginFilter;
 import com.donetop.oss.api.form.handler.LoginFailureHandler;
 import com.donetop.oss.api.form.handler.LoginSuccessHandler;
 import com.donetop.oss.api.form.handler.LogoutSuccessHandler;
-import com.donetop.oss.api.user.OSSUserAPIController;
+import com.donetop.oss.api.user.UserAPIController;
 import com.donetop.oss.properties.ApplicationProperties;
 import com.donetop.oss.view.OSSViewController;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,10 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final String[] PUBLIC = new String[] {
 		OSSViewController.URI.ROOT, OSSViewController.URI.VIEW,
-		OSSFormAPIController.URI.LOGIN, OSSFormAPIController.URI.LOGOUT,
-		OSSUserAPIController.URI.SINGULAR,
-		OSSCategoryAPIController.URI.SINGULAR + "/**", OSSCategoryAPIController.URI.PLURAL + "/**",
-		OSSFileAPIController.URI.SINGULAR + "/**"
+		FormAPIController.URI.LOGIN, FormAPIController.URI.LOGOUT,
+		UserAPIController.URI.SINGULAR,
+		CategoryAPIController.URI.SINGULAR + "/**", CategoryAPIController.URI.PLURAL + "/**",
+		FileAPIController.URI.SINGULAR + "/**"
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {
@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage(OSSViewController.URI.LOGIN)
 			.and()
 				.logout()
-				.logoutUrl(OSSFormAPIController.URI.LOGOUT)
+				.logoutUrl(FormAPIController.URI.LOGOUT)
 				.logoutSuccessHandler(logoutSuccessHandler)
 				.invalidateHttpSession(true)
 				.deleteCookies(applicationProperties.getCookieName())

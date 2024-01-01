@@ -249,3 +249,32 @@ include::{snippets}/draft_copy/copy_noFolderDraft_return200/http-response.adoc[]
 include::{snippets}/draft_copy/copy_hasFolderDraft_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_copy/copy_hasFolderDraft_return200/http-response.adoc[]
+
+== Draft Partial Update
+
+HTTP Method : *PUT* +
+URI : */api/draft/partial/\{draft_id\}*
+
+=== Request body fields description
+include::{snippets}/draft_partial_update/updatePartial_withValidBody_return200/request-fields.adoc[]
+=== Response body fields description
+include::{snippets}/draft_partial_update/updatePartial_withValidBody_return200/response-fields.adoc[]
+
+=== Examples
+==== updatePartial_withSameValuesBody_return400
+.request
+include::{snippets}/draft_partial_update/updatePartial_withSameValuesBody_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_partial_update/updatePartial_withSameValuesBody_return400/http-response.adoc[]
+
+==== updatePartial_withEmptyBody_return200
+.request
+include::{snippets}/draft_partial_update/updatePartial_withEmptyBody_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_partial_update/updatePartial_withEmptyBody_return200/http-response.adoc[]
+
+==== updatePartial_withValidBody_return200
+.request
+include::{snippets}/draft_partial_update/updatePartial_withValidBody_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_partial_update/updatePartial_withValidBody_return200/http-response.adoc[]

@@ -2,6 +2,7 @@ package com.donetop.domain.entity.user;
 
 import com.donetop.dto.user.UserDTO;
 import com.donetop.enums.user.RoleType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,9 @@ import java.time.LocalDateTime;
 	}
 )
 @Getter
+@Builder(toBuilder = true)
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
 	@Id
@@ -34,27 +37,17 @@ public class User {
 	@Column(nullable = false, columnDefinition = "varchar(32) default ''")
 	private String name;
 
+	@Builder.Default
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, columnDefinition = "varchar(10) default ''")
 	private RoleType roleType = RoleType.NORMAL;
 
+	@Builder.Default
 	@Column(nullable = false)
 	private final LocalDateTime createTime = LocalDateTime.now();
 
-	@Builder
-	public User(final String email, final String password, final String name) {
-		this.email = email;
-		this.password = password;
-		this.name = name;
-	}
-
 	public User updateRoleType(final RoleType roleType) {
 		this.roleType = roleType;
-		return this;
-	}
-
-	public User updatePassword(final String password) {
-		this.password = password;
 		return this;
 	}
 

@@ -14,6 +14,7 @@ import com.donetop.main.api.form.handler.LoginFailureHandler;
 import com.donetop.main.api.form.handler.LoginSuccessHandler;
 import com.donetop.main.api.form.handler.LogoutSuccessHandler;
 import com.donetop.common.form.InvalidCookieClearingStrategy;
+import com.donetop.main.api.notice.NoticeAPIController;
 import com.donetop.main.api.post.CustomerPostAPIController;
 import com.donetop.main.api.post.CustomerPostCommentAPIController;
 import com.donetop.main.api.user.UserAPIController;
@@ -51,7 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		CategoryAPIController.URI.PLURAL + "/**", CategoryAPIController.URI.SINGULAR + "/**",
 		com.donetop.main.api.nhn.URI.NHN_API + "/**",
 		CustomerPostAPIController.URI.SINGULAR + "/**", CustomerPostAPIController.URI.PLURAL + "/**",
-		CustomerPostCommentAPIController.URI.SINGULAR + "/**"
+		CustomerPostCommentAPIController.URI.SINGULAR + "/**",
+		NoticeAPIController.URI.PLURAL + "/**"
 	};
 
 	private static final String[] STATIC_RESOURCES = new String[] {

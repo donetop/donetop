@@ -2,10 +2,10 @@ import { AfterViewInit, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { RouteName } from 'src/app/store/model/routeName.model';
-import { OSSUserService } from 'src/app/service/oss-user.service';
+import { UserService } from 'src/app/service/user.service';
 import { Store } from '@ngrx/store';
-import { OSSUserLoadAction } from 'src/app/store/action/oss-user.action';
-import { OSSUser } from 'src/app/store/model/oss-user.model';
+import { UserLoadAction } from 'src/app/store/action/user.action';
+import { User } from 'src/app/store/model/user.model';
 
 @Component({
   selector: 'app-header',
@@ -20,22 +20,22 @@ import { OSSUser } from 'src/app/store/model/oss-user.model';
 export class HeaderComponent implements AfterViewInit {
 
   routeName = RouteName.INSTANCE;
-  ossUser: OSSUser | undefined;
+  user: User | undefined;
 
   constructor(
-    protected ossUserService: OSSUserService, private store: Store, private ossUserStore: Store<{ ossUser: OSSUser }>,
-    private router: Router
+    protected userService: UserService, private store: Store,
+    private userStore: Store<{ user: User }>, private router: Router
   ) {}
 
   ngAfterViewInit() {
-    this.ossUserService.getOSSUserInfo().subscribe({
-      next: response => this.store.dispatch(new OSSUserLoadAction(response.data)),
+    this.userService.getOSSUserInfo().subscribe({
+      next: response => this.store.dispatch(new UserLoadAction(response.data)),
       error: ({error}) => {
         console.log(error.reason);
         this.router.navigateByUrl(this.routeName.LOGIN);
       }
     });
-    this.ossUserStore.select('ossUser').subscribe(ossUser => this.ossUser = ossUser);
+    this.userStore.select('user').subscribe(user => this.user = user);
   }
 
 }

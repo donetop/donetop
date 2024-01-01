@@ -26,6 +26,14 @@ export class RouteName {
 
   public readonly PAYMENT_LIST = `${this.PAYMENT}/${this.PAYMENT_CHILDREN.LIST}`;
 
+  public readonly NOTICE = `${prefix}/notice`;
+
+  public readonly NOTICE_CHILDREN = {
+    LIST: `list`
+  };
+
+  public readonly NOTICE_LIST = `${this.NOTICE}/${this.NOTICE_CHILDREN.LIST}`;
+
   public readonly FALL_BACK = `**`;
 
   private constructor() {}

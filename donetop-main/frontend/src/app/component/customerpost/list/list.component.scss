@@ -220,4 +220,12 @@ div.container {
       }
     }
   }
+
+  @media (max-width: 500px) {
+    > div {
+      &.utils, &.list, &.page-buttons {
+        width: 90%;
+      }
+    }
+  }
 }

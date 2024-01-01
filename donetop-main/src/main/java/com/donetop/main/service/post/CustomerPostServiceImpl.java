@@ -1,5 +1,6 @@
 package com.donetop.main.service.post;
 
+import com.donetop.common.resolver.IpResolver;
 import com.donetop.domain.entity.post.CustomerPost;
 import com.donetop.domain.entity.post.CustomerPostViewHistory;
 import com.donetop.dto.post.CustomerPostDTO;
@@ -45,7 +46,7 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 	public CustomerPostDTO getCustomerPost(final long id, final HttpServletRequest httpServletRequest) {
 		final CustomerPost customerPost = customerPostRepository.findById(id)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CUSTOMER_POST_WITH_ARGUMENTS, id)));
-		final String ip = httpServletRequest.getRemoteAddr();
+		final String ip = IpResolver.getIpFromHeader(httpServletRequest);
 		if (!customerPost.isViewedBy(ip)) {
 			log.info("[GET] customerPost(id: {}) has been newly viewed by {}.", customerPost.getId(), ip);
 			customerPostViewHistoryRepository.save(CustomerPostViewHistory.of(ip, customerPost));

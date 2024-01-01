@@ -11,5 +11,6 @@ export const routes: Routes = [
   { path: INSTANCE.HOME, component: HomeComponent },
   { path: INSTANCE.CATEGORY, loadChildren: () => import('./components/category/routes').then(result => result.routes) },
   { path: INSTANCE.PAYMENT, loadChildren: () => import('./components/payment/routes').then(result => result.routes) },
+  { path: INSTANCE.NOTICE, loadChildren: () => import('./components/notice/routes').then(result => result.routes) },
   { path: INSTANCE.FALL_BACK, redirectTo: INSTANCE.HOME }
 ];

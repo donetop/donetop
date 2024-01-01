@@ -1,0 +1,28 @@
+<div class="comments">
+  <h3>댓글</h3>
+  <div *ngIf="commentCount() === 0" class="empty">등록된 댓글이 없습니다.</div>
+  <div class="comment" *ngFor="let draftComment of this.draft?.draftComments">
+    <div class="content">{{ draftComment.content }}</div>
+    <div class="files" *ngIf="draftComment.folder && draftComment.folder.files.length > 0">
+      <ul>
+        <li *ngFor="let file of draftComment.folder.files">
+          <fa-icon [icon]="['fas', 'download']"></fa-icon>
+          <a [href]="'api/file/' + file.id" [download]="file.name"><strong>{{ file.name }}</strong></a>
+          ({{ file.size | fileSize }})
+        </li>
+      </ul>
+    </div>
+    <div class="createTime">
+      <div>{{ draftComment.createTime }}</div>
+      <button *ngIf="isAdmin" type="button" (click)="deleteComment(draftComment.id)"><fa-icon [icon]="['fas', 'times']"></fa-icon></button>
+    </div>
+  </div>
+  <form *ngIf="commentCount() < 5" class="commentBox" #commentCreateForm="ngForm" (ngSubmit)="addComment(commentCreateForm)">
+    <div class="buttons">
+      <h3>댓글 작성</h3>
+      <button type="submit" [disabled]="commentCreateForm.invalid"><fa-icon [icon]="['fas', 'pencil']"></fa-icon>&nbsp;등록</button>
+    </div>
+    <textarea name="commentContent" rows="5" wrap="hard" placeholder="댓글 내용을 입력하세요." ngModel required #commentContent="ngModel"></textarea>
+    <app-files [maxSize]="3" [files]="[]" #filesComponent></app-files>
+  </form>
+</div>

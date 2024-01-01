@@ -55,16 +55,17 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("address", "")
 			.multiPart("detailAddress", "")
 			.multiPart("memo", "")
+			.multiPart("estimateContent", "")
 			.multiPart("password", "")
 			.multiPart("paymentMethod", "asdsdsadsa")
-			.multiPart("price", 100)
+			.multiPart("price", -1)
 			.multiPart("draftStatus", "fdfdfe")
 			.put(SINGULAR + "/{id}", 1);
 
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", hasSize(10));
+			.body("reason", hasSize(8));
 	}
 
 	@Test
@@ -88,6 +89,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("address", "my address")
 			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
+			.multiPart("estimateContent", "my estimate content")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)
@@ -122,6 +124,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("address", "my address")
 			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
+			.multiPart("estimateContent", "my estimate content")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)
@@ -151,13 +154,14 @@ public class DraftSingleUpdateTest extends DraftBase {
 					partWithName("email").description("The value shouldn't be empty."),
 					partWithName("categoryName").description("The value shouldn't be empty."),
 					partWithName("phoneNumber").description("The value shouldn't be empty."),
-					partWithName("address").description("The value shouldn't be empty."),
-					partWithName("detailAddress").description("The value shouldn't be empty."),
+					partWithName("address").description("The value can be empty."),
+					partWithName("detailAddress").description("The value can be empty."),
 					partWithName("memo").description("The value can be empty."),
+					partWithName("estimateContent").description("The value can be empty."),
 					partWithName("password").description("The value shouldn't be empty."),
 					partWithName("paymentMethod").description("The value should be one of [CASH, CREDIT_CARD]."),
 					partWithName("files").description("The value can be empty. Each file's max size is 5MB."),
-					partWithName("price").description("The value should be greater or equal than 1000."),
+					partWithName("price").description("The value should be greater or equal than 0."),
 					partWithName("draftStatus").description("The value should be one of [HOLDING, WORKING, CHECK_REQUEST, PRINT_REQUEST, COMPLETED].")
 				),
 				responseFields(
@@ -179,6 +183,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("address", "my address")
 			.multiPart("detailAddress", "my detail address")
 			.multiPart("memo", "my memo")
+			.multiPart("estimateContent", "my estimate content")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)

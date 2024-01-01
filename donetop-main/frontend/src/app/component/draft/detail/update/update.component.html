@@ -1,0 +1,42 @@
+<div class="container" *ngIf="_draft">
+  <div class="row" *ngIf="isAdmin">
+    <span>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</span>&nbsp;:&nbsp;
+    <select id="draftStatus" name="draftStatus" [(ngModel)]='_draft.draftStatus.name' disabled #draftStatusSelect>
+      <option *ngFor="let draftStatus of draftStatusArray" [value]="draftStatus.name">{{ draftStatus.value }}</option>
+    </select>&nbsp;
+    <div class="buttons">
+      <button type="button" class="normal" (click)="toggleTarget(draftStatusSelect); toggleButtons(draftStatusUpdateBtn, draftStatusApplyBtn, draftStatusCancelBtn)" #draftStatusUpdateBtn>수정</button>
+      <button type="button" class="normal hidden" (click)="apply({ 'draftStatus': _draft.draftStatus.name }, draftStatusSelect, draftStatusUpdateBtn, draftStatusApplyBtn, draftStatusCancelBtn);" #draftStatusApplyBtn>적용</button>
+      <button type="button" class="danger hidden" (click)="toggleTarget(draftStatusSelect); toggleButtons(draftStatusUpdateBtn, draftStatusApplyBtn, draftStatusCancelBtn)" #draftStatusCancelBtn>취소</button>
+    </div>
+  </div>
+  <div class="row" *ngIf="!isAdmin">
+    <span>상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;태</span>&nbsp;:&nbsp;
+    <span class="value">{{ _draft.draftStatus.value }}</span>
+  </div>
+
+  <div class="column">
+    <span *ngIf="isAdmin">
+      견적내용&nbsp;
+      <div class="buttons">
+        <button type="button" class="normal" (click)="toggleTarget(estimateContentTextArea); toggleButtons(estimateContentUpdateBtn, estimateContentApplyBtn, estimateContentCancelBtn)" #estimateContentUpdateBtn>수정</button>
+        <button type="button" class="normal hidden" (click)="apply({ 'estimateContent': _draft.estimateContent }, estimateContentTextArea, estimateContentUpdateBtn, estimateContentApplyBtn, estimateContentCancelBtn)" #estimateContentApplyBtn>적용</button>
+        <button type="button" class="danger hidden" (click)="toggleTarget(estimateContentTextArea); toggleButtons(estimateContentUpdateBtn, estimateContentApplyBtn, estimateContentCancelBtn)" #estimateContentCancelBtn>취소</button>
+      </div>
+    </span>
+    <span *ngIf="!isAdmin">견적내용</span>
+    <textarea id="estimateContent" name="estimateContent" rows="10" [(ngModel)]="_draft.estimateContent" disabled #estimateContentTextArea></textarea>
+  </div>
+
+  <div class="column" *ngIf="isAdmin">
+    <span>
+      메모&nbsp;
+      <div class="buttons">
+        <button type="button" class="normal" (click)="toggleTarget(memoTextArea); toggleButtons(memoUpdateBtn, memoApplyBtn, memoCancelBtn)" #memoUpdateBtn>수정</button>
+        <button type="button" class="normal hidden" (click)="apply({ 'memo': _draft.memo }, memoTextArea, memoUpdateBtn, memoApplyBtn, memoCancelBtn)" #memoApplyBtn>적용</button>
+        <button type="button" class="danger hidden" (click)="toggleTarget(memoTextArea); toggleButtons(memoUpdateBtn, memoApplyBtn, memoCancelBtn)" #memoCancelBtn>취소</button>
+      </div>
+    </span>
+    <textarea id="memo" name="memo" rows="10" [(ngModel)]="_draft.memo" disabled #memoTextArea></textarea>
+  </div>
+</div>

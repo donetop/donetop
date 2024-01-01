@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.donetop.common.api.Message.*;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
@@ -95,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService {
 		try {
 			storageService.add(request.getResources(), storageService.addNewFolderOrGet(category));
 		} catch (final Exception e) {
-			throw new IllegalStateException("동일한 파일이 이미 존재합니다.");
+			throw new IllegalStateException(DUPLICATED_FILE);
 		}
 		log.info("[ADD_IMAGE] categoryId: {}", id);
 	}
@@ -106,7 +107,7 @@ public class CategoryServiceImpl implements CategoryService {
 		final long fileId = request.getFileId();
 		final File file = Objects.requireNonNull(category.getFolder())
 			.getFiles().stream().filter(f -> f.getId() == fileId).findFirst()
-			.orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 파일입니다. id: %s", fileId)));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_FILE_WITH_ARGUMENTS, fileId)));
 		storageService.delete(file);
 		log.info("[DELETE_IMAGE] categoryId: {}", categoryId);
 		return fileId;
@@ -114,14 +115,14 @@ public class CategoryServiceImpl implements CategoryService {
 
 	private Category getOrThrow(final long categoryId) {
 		return categoryRepository.findById(categoryId)
-			.orElseThrow(() -> new IllegalStateException(String.format("존재하지 않는 카테고리입니다. id: %s", categoryId)));
+			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CATEGORY_WITH_ARGUMENTS, categoryId)));
 	}
 
 	private Category save(final Category newCategory) {
 		try {
 			return categoryRepository.save(newCategory);
 		} catch (final Exception e) {
-			throw new IllegalStateException("동일한 이름의 카테고리가 이미 존재합니다.");
+			throw new IllegalStateException(DUPLICATED_CATEGORY_NAME);
 		}
 	}
 }

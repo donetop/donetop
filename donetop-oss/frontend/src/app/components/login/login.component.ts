@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { OSSUserService } from 'src/app/service/oss-user.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +15,10 @@ import { OSSUserService } from 'src/app/service/oss-user.service';
 })
 export class LoginComponent {
 
-  constructor(private ossUserService: OSSUserService) {}
+  constructor(private userService: UserService) {}
 
   onSubmit(form: NgForm) {
-    this.ossUserService.login(form);
+    this.userService.login(form);
   }
 
 }
