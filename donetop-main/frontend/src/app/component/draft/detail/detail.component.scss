@@ -141,20 +141,24 @@ div.container {
     > div.images {
       margin: 10px 0;
       padding: 10px;
-      display: flex;
-      flex-direction: column;
 
-      > img {
-        max-width: 50%;
+      div {
         margin-bottom: 10px;
+      }
+
+      img {
         cursor: pointer;
       }
 
       @media (max-width: 1000px) {
-        > img {
+        display: flex;
+        flex-direction: column;
+
+        img {
           max-width: 100%;
         }
       }
+
     }
   }
 

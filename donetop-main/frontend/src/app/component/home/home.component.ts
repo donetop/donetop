@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ]
   hyeonsumak_files: Array<File> = [];
   hyeonsumak_fileGroups: Array<FileGroup> = [];
-  hyeonsumak_fileGroup_size = 6;
+  hyeonsumak_fileGroup_size = 4;
   hyeonsumak_image_load_count = 0;
   banner_files: Array<File> = [];
   jeondanji_files: Array<File> = [];
