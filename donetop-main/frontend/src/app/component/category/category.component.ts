@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Category } from 'src/app/store/model/category.model';
 import { Folder } from 'src/app/store/model/folder.model';
 import { CategoryService } from 'src/app/service/category.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RouteName } from 'src/app/store/model/routeName.model';
 
 @Component({
@@ -24,6 +24,7 @@ export class CategoryComponent {
 
   constructor(
     private categoryService: CategoryService, private route: ActivatedRoute,
+    private router: Router
   ) {
     this.route.queryParams.subscribe(params => this.setUp(params));
   }
@@ -31,6 +32,10 @@ export class CategoryComponent {
   async setUp(params: any) {
     this.category = await this.categoryService.get(params['id']);
     this.folder = this.category.folder;
+  }
+
+  showDraftCreatePage() {
+    this.router.navigate([this.routeName.DRAFT_CREATE]);
   }
 
 }
