@@ -52,7 +52,7 @@
     <div class="area">
       <div class="file" *ngFor="let i of indexArray">
         <label [htmlFor]="'file' + i"><fa-icon [icon]="['fas', 'download']"></fa-icon></label>
-        <input type="file" [id]="'file' + i" [name]="'file' + i" accept="application/pdf" #file>
+        <input type="file" [id]="'file' + i" [name]="'file' + i" accept="*/*" #file>
         <label (click)="deleteFile(i)"><fa-icon [icon]="['fas', 'xmark']"></fa-icon></label>
       </div>
     </div>
