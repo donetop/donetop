@@ -9,7 +9,7 @@ import com.donetop.repository.payment.PaymentInfoRepository;
 import com.querydsl.core.types.Predicate;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +33,8 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public Page<PaymentInfoDTO> list(final Predicate predicate, final PageRequest request) {
-		return paymentInfoRepository.findAll(predicate, request).map(PaymentInfo::toDTO);
+	public Page<PaymentInfoDTO> list(final Predicate predicate, final Pageable pageable) {
+		return paymentInfoRepository.findAll(predicate, pageable).map(PaymentInfo::toDTO);
 	}
 
 	@Override

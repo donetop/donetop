@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +42,7 @@ public class NHNPaymentServiceImpl implements PaymentService {
 	private final PaymentHistoryRepository paymentHistoryRepository;
 
 	@Override
-	public Page<PaymentInfoDTO> list(final Predicate predicate, final PageRequest request) {
+	public Page<PaymentInfoDTO> list(final Predicate predicate, final Pageable pageable) {
 		throw new UnsupportedOperationException(DISALLOWED_REQUEST);
 	}
 

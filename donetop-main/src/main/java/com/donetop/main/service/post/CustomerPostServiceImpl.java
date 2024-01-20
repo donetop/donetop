@@ -12,7 +12,7 @@ import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,8 +55,8 @@ public class CustomerPostServiceImpl implements CustomerPostService {
 	}
 
 	@Override
-	public Page<CustomerPostDTO> getCustomerPost(final Predicate predicate, final PageRequest request) {
-		return customerPostRepository.findAll(predicate, request).map(CustomerPost::toDTO);
+	public Page<CustomerPostDTO> getCustomerPost(final Predicate predicate, final Pageable pageable) {
+		return customerPostRepository.findAll(predicate, pageable).map(CustomerPost::toDTO);
 	}
 
 	@Override
