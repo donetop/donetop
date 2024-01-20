@@ -11,7 +11,6 @@ import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
@@ -119,12 +118,4 @@ public class LocalStorageService<T extends Folder> implements StorageService<T> 
 		return result;
 	}
 
-	@Override
-	public InputStreamResource read(final String path) {
-		try {
-			return new InputStreamResource(Files.newInputStream(Path.of(Objects.requireNonNull(path))));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
 }

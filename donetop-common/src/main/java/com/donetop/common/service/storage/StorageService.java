@@ -5,7 +5,6 @@ import com.donetop.domain.entity.folder.Folder;
 import com.donetop.domain.interfaces.MultipleFolderContainer;
 import com.donetop.domain.interfaces.SingleFolderContainer;
 import com.donetop.enums.folder.FolderType;
-import org.springframework.core.io.InputStreamResource;
 
 import java.util.Collection;
 
@@ -25,5 +24,4 @@ public interface StorageService<T extends Folder> {
 
 	boolean delete(T folder);
 
-	InputStreamResource read(String path);
 }
