@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -40,6 +41,8 @@ class ViewControllerTest {
 		private LogoutSuccessHandler logoutSuccessHandler;
 		@MockBean
 		private ApplicationProperties applicationProperties;
+		@MockBean
+		private AuthenticationEntryPoint authenticationEntryPoint;
 	}
 
 	@Test
