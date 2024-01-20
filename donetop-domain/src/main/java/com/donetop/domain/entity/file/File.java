@@ -26,10 +26,10 @@ public class File {
 	@Column(nullable = false, updatable = false)
 	private long id;
 
-	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(200) default ''")
 	private String name;
 
-	@Column(nullable = false, columnDefinition = "varchar(128) default ''")
+	@Column(nullable = false, columnDefinition = "varchar(100) default ''")
 	private String mimeType;
 
 	@Column(nullable = false, columnDefinition = "bigint(20) default 0")

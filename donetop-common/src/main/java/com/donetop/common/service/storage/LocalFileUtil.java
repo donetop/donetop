@@ -2,6 +2,7 @@ package com.donetop.common.service.storage;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -43,5 +44,13 @@ public class LocalFileUtil {
 
 		return new CommonsMultipartFile(fileItem);
 	}
+
+	public static void deleteAll(final Path path) {
+        try {
+            FileSystemUtils.deleteRecursively(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

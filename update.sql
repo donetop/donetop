@@ -20,4 +20,9 @@
 -- alter table `tbDraft` add column `estimateContent` varchar(3000) not null default '';
 -- -------------------------------------------------------------------------------------------------
 
+-- 2024-01-20 --------------------------------------------------------------------------------------
+-- alter table `tbFile` modify column `mimeType` varchar(100) not null default '';
+-- alter table `tbFile` modify column `name` varchar(200) not null default '';
+-- -------------------------------------------------------------------------------------------------
+
 

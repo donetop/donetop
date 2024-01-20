@@ -1,5 +1,10 @@
 package com.donetop.common.api;
 
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
+
 public class Message {
 
 	public static final String UNKNOWN_DRAFT = "존재하지 않는 시안입니다.";
@@ -28,5 +33,17 @@ public class Message {
 	public static final String FILE_SIZE_EXCEED = "파일 크기가 허용 가능한 범위를 초과했습니다. (파일당 최대 5MB)";
 	public static final String INSUFFICIENT_AUTHENTICATION = "유저 이름 및 비밀번호를 모두 입력해주세요.";
 	public static final String LOGOUT = "로그 아웃 성공.";
+	public static final String ASK_ADMIN = "에러가 발생했습니다. 관리자에게 문의해주세요.";
+
+	public static List<String> getFieldValues() {
+		return Stream.of(Message.class.getDeclaredFields()).
+			map(f -> {
+				try {
+					return (String) f.get(Message.class);
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException(e);
+				}
+			}).collect(toList());
+	}
 
 }

@@ -47,15 +47,21 @@ public class LocalStorageService<T extends Folder> implements StorageService<T> 
 
 	@Override
 	public Collection<File> add(final Collection<Resource> resources, final T folder) {
-		Objects.requireNonNull(folder);
-		final List<File> saveSuccessFiles = Objects.requireNonNull(resources).stream()
-			.map(resource -> resource.saveAt(folder))
-			.filter(FileSaveInfo::isSuccess)
-			.map(FileSaveInfo::getFile)
-			.collect(Collectors.toList());
-		fileRepository.saveAll(saveSuccessFiles);
-		log.info("Save success files: {}", saveSuccessFiles);
-		return saveSuccessFiles;
+		try {
+			Objects.requireNonNull(folder);
+			final List<File> saveSuccessFiles = Objects.requireNonNull(resources).stream()
+				.map(resource -> resource.saveAt(folder))
+				.filter(FileSaveInfo::isSuccess)
+				.map(FileSaveInfo::getFile)
+				.collect(Collectors.toList());
+			fileRepository.saveAll(saveSuccessFiles);
+			log.info("Save success files: {}", saveSuccessFiles);
+			return saveSuccessFiles;
+		} catch (final Exception e) {
+			log.warn("Save failed. reason: {}", e.getMessage());
+			LocalFileUtil.deleteAll(Path.of(folder.getPath()));
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

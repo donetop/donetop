@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
+import static com.donetop.common.api.Message.ASK_ADMIN;
 import static com.donetop.main.api.post.CustomerPostAPIController.URI.PLURAL;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -50,7 +51,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.get(PLURAL)
 			.then()
 				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Page index must not be less than zero"));
+				.body("reason", is(ASK_ADMIN));
 	}
 
 	@Test
@@ -70,7 +71,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.get(PLURAL)
 			.then()
 				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Page size must not be less than one"));
+				.body("reason", is(ASK_ADMIN));
 	}
 
 	@Test
@@ -90,7 +91,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.get(PLURAL)
 			.then()
 				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Invalid value 'asce' for orders given; Has to be either 'desc' or 'asc' (case insensitive)"));
+				.body("reason", is(ASK_ADMIN));
 	}
 
 	@Test
@@ -110,7 +111,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.get(PLURAL)
 			.then()
 				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("No property 'createTimeee' found for type 'CustomerPost' Did you mean ''createTime''"));
+				.body("reason", is(ASK_ADMIN));
 	}
 
 	@Test

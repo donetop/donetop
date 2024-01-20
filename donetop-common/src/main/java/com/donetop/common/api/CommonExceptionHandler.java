@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.Arrays;
 
+import static com.donetop.common.api.Message.ASK_ADMIN;
 import static com.donetop.common.api.Message.FILE_SIZE_EXCEED;
 
 @Slf4j
@@ -19,8 +20,10 @@ public class CommonExceptionHandler {
     
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BadRequest<String>> handleException(final Exception e) {
-		log.warn("[handleException] Error occurred. message : {}", e.getMessage());
-        return ResponseEntity.badRequest().body(BadRequest.of(e.getMessage()));
+		final String message = e.getMessage();
+		log.warn("[handleException] Error occurred. message : {}", message);
+		boolean hasMatchedField = Message.getFieldValues().stream().anyMatch(message::startsWith);
+        return ResponseEntity.badRequest().body(BadRequest.of(hasMatchedField ? message : ASK_ADMIN));
     }
 
 	@ExceptionHandler(BindException.class)
