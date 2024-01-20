@@ -1,7 +1,5 @@
 package com.donetop.oss.api.file;
 
-import com.donetop.common.service.storage.StorageService;
-import com.donetop.domain.entity.folder.Folder;
 import com.donetop.dto.file.FileDTO;
 import com.donetop.oss.service.file.FileService;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +20,12 @@ public class FileAPIController {
 
 	private final FileService fileService;
 
-	private final StorageService<Folder> storageService;
-
 	@GetMapping(value = URI.SINGULAR + "/{id}")
 	public ResponseEntity<InputStreamResource> get(@PathVariable("id") final long id) {
 		final FileDTO fileDTO = fileService.getFile(id);
 		return ResponseEntity.ok()
 			.contentType(MediaType.valueOf(fileDTO.getMimeType()))
-			.body(storageService.read(fileDTO.getPath()));
+			.body(fileService.read(fileDTO.getPath()));
 	}
 
 }

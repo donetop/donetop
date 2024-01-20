@@ -11,7 +11,6 @@ import com.donetop.repository.file.FileRepository;
 import com.donetop.repository.folder.FolderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
@@ -47,15 +46,21 @@ public class LocalStorageService<T extends Folder> implements StorageService<T> 
 
 	@Override
 	public Collection<File> add(final Collection<Resource> resources, final T folder) {
-		Objects.requireNonNull(folder);
-		final List<File> saveSuccessFiles = Objects.requireNonNull(resources).stream()
-			.map(resource -> resource.saveAt(folder))
-			.filter(FileSaveInfo::isSuccess)
-			.map(FileSaveInfo::getFile)
-			.collect(Collectors.toList());
-		fileRepository.saveAll(saveSuccessFiles);
-		log.info("Save success files: {}", saveSuccessFiles);
-		return saveSuccessFiles;
+		try {
+			Objects.requireNonNull(folder);
+			final List<File> saveSuccessFiles = Objects.requireNonNull(resources).stream()
+				.map(resource -> resource.saveAt(folder))
+				.filter(FileSaveInfo::isSuccess)
+				.map(FileSaveInfo::getFile)
+				.collect(Collectors.toList());
+			fileRepository.saveAll(saveSuccessFiles);
+			log.info("Save success files: {}", saveSuccessFiles);
+			return saveSuccessFiles;
+		} catch (final Exception e) {
+			log.warn("Save failed. reason: {}", e.getMessage());
+			LocalFileUtil.deleteAll(Path.of(folder.getPath()));
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -113,12 +118,4 @@ public class LocalStorageService<T extends Folder> implements StorageService<T> 
 		return result;
 	}
 
-	@Override
-	public InputStreamResource read(final String path) {
-		try {
-			return new InputStreamResource(Files.newInputStream(Path.of(Objects.requireNonNull(path))));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
 }

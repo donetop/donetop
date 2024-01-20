@@ -49,8 +49,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.param("page", -1)
 				.get(PLURAL)
 			.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Page index must not be less than zero"));
+				.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -69,8 +68,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.param("size", -1)
 				.get(PLURAL)
 			.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Page size must not be less than one"));
+				.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -89,8 +87,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.param("direction", "asce")
 				.get(PLURAL)
 			.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Invalid value 'asce' for orders given; Has to be either 'desc' or 'asc' (case insensitive)"));
+				.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -109,8 +106,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				.param("property", "createTimeee")
 				.get(PLURAL)
 			.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("No property 'createTimeee' found for type 'CustomerPost' Did you mean ''createTime''"));
+				.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -123,8 +119,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 				requestParameters(
 					parameterWithName("page").description("The page to retrieve. Default is 0."),
 					parameterWithName("size").description("The size to retrieve. Default is 20."),
-					parameterWithName("property").description("The property for sorting. Default is \"createTime\"."),
-					parameterWithName("direction").description("The direction of property. Default is \"desc\".")
+					parameterWithName("sort").description("The property for sorting. Default is \"createTime,desc\".")
 				),
 				responseFields(
 					fieldWithPath("status").type(STRING).description("Status value."),
@@ -149,8 +144,7 @@ public class CustomerPostMultipleGetTest extends CustomerPostBase {
 		final Response response = given.when()
 			.param("page", 1)
 			.param("size", 20)
-			.param("direction", "asc")
-			.param("property", "createTime")
+			.param("sort", "id,desc")
 			.get(PLURAL);
 
 		// then

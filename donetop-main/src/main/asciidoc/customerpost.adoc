@@ -98,7 +98,7 @@ include::{snippets}/customer_post_single_delete/deleteSingle_byAdminUser_return2
 == CustomerPost Multiple Get
 
 HTTP Method : *GET* +
-URI : */api/customerposts?page=\{int\}&size=\{int\}&property=\{customerpost_property\}&direction=\{asc_or_desc\}*
+URI : */api/customerposts?page=\{int\}&size=\{int\}&sort=\{customerpost_property\},\{asc_or_desc\}*
 
 === Request parameters description
 include::{snippets}/customer_post_multiple_get/getMultiple_withValidParams_return200/request-parameters.adoc[]

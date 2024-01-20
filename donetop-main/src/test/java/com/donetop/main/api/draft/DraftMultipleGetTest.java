@@ -46,8 +46,7 @@ public class DraftMultipleGetTest extends DraftBase {
 				.param("page", -1)
 				.get(PLURAL)
 			.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Page index must not be less than zero"));
+				.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -66,8 +65,7 @@ public class DraftMultipleGetTest extends DraftBase {
 				.param("size", -1)
 				.get(PLURAL)
 			.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Page size must not be less than one"));
+				.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -86,8 +84,7 @@ public class DraftMultipleGetTest extends DraftBase {
 				.param("direction", "adesc")
 				.get(PLURAL)
 			.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("Invalid value 'adesc' for orders given; Has to be either 'desc' or 'asc' (case insensitive)"));
+				.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -106,8 +103,7 @@ public class DraftMultipleGetTest extends DraftBase {
 				.param("property", "iddd")
 				.get(PLURAL)
 			.then()
-				.statusCode(HttpStatus.BAD_REQUEST.value())
-				.body("reason", is("No property 'iddd' found for type 'Draft' Did you mean ''id''"));
+				.statusCode(HttpStatus.OK.value());
 	}
 
 	@Test
@@ -120,8 +116,7 @@ public class DraftMultipleGetTest extends DraftBase {
 				requestParameters(
 					parameterWithName("page").description("The page to retrieve. Default is 0."),
 					parameterWithName("size").description("The size to retrieve. Default is 20."),
-					parameterWithName("property").description("The property for sorting. Default is \"createTime\"."),
-					parameterWithName("direction").description("The direction of property. Default is \"desc\".")
+					parameterWithName("sort").description("The property for sorting. Default is \"createTime,desc\".")
 				),
 				responseFields(
 					fieldWithPath("status").type(STRING).description("Status value."),
@@ -146,8 +141,7 @@ public class DraftMultipleGetTest extends DraftBase {
 		final Response response = given.when()
 			.param("page", 1)
 			.param("size", 5)
-			.param("direction", "desc")
-			.param("property", "price")
+			.param("sort", "price,desc")
 			.get(PLURAL);
 
 		// then

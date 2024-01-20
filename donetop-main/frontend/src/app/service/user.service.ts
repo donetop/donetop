@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { UserUnloadAction } from '../store/action/user.action';
 import { NgForm } from '@angular/forms';
 import { CryptoService } from './crypto.service';
+import { NavigationHistoryService } from './navigation.history.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class UserService {
 
   constructor(
     private httpClient: HttpClient, private router: Router,
-    private store: Store, private cryptoService: CryptoService
+    private store: Store, private cryptoService: CryptoService,
+    private navigationHistoryService: NavigationHistoryService
   ) {}
 
   login(form: NgForm) {
@@ -45,7 +47,7 @@ export class UserService {
       .subscribe({
         next: (response) => {
           console.log(`login success. user info : ${response.data}`);
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl(this.navigationHistoryService.previousUrl);
         },
         error: ({error}) => alert(error.reason)
       });

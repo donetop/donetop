@@ -163,7 +163,7 @@ include::{snippets}/draft_single_delete/deleteSingle_byAdminUser_return200/http-
 == Draft Multiple Get
 
 HTTP Method : *GET* +
-URI : */api/drafts?page=\{int\}&size=\{int\}&property=\{draft_property\}&direction=\{asc_or_desc\}*
+URI : */api/drafts?page=\{int\}&size=\{int\}&sort=\{draft_property},\{asc_or_desc\}*
 
 === Request parameters description
 include::{snippets}/draft_multiple_get/getMultiple_withValidParams_return200/request-parameters.adoc[]

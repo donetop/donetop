@@ -14,7 +14,7 @@ import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,8 +61,8 @@ public class DraftServiceImpl implements DraftService {
 	}
 
 	@Override
-	public Page<DraftDTO> getDraft(final Predicate predicate, final PageRequest request) {
-		return draftRepository.findAll(predicate, request).map(draft -> draft.toDTO(false));
+	public Page<DraftDTO> getDraft(final Predicate predicate, final Pageable pageable) {
+		return draftRepository.findAll(predicate, pageable).map(draft -> draft.toDTO(false));
 	}
 
 	@Override

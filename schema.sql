@@ -6,6 +6,8 @@ use `donetop`;
 
 show tables;
 
+show table status;
+
 -- drop table if exists `tbUser`;
 create table if not exists `tbUser` (
   `id` bigint(20) not null auto_increment,

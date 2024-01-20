@@ -32,7 +32,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.HttpStatusRequestRejectedHandler;
+import org.springframework.security.web.firewall.RequestRejectedHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import static com.donetop.common.Profile.LOCAL;
@@ -74,6 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final ApplicationProperties applicationProperties;
 
+	private final AuthenticationEntryPoint authenticationEntryPoint;
+
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http
@@ -97,6 +102,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.sessionManagement()
 				.invalidSessionStrategy(new InvalidCookieClearingStrategy(applicationProperties.getCookieName()))
+			.and()
+				.exceptionHandling()
+				.authenticationEntryPoint(authenticationEntryPoint)
 		;
 	}
 
@@ -123,6 +131,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
+	}
+
+	@Bean
+	public RequestRejectedHandler requestRejectedHandler() {
+		return new HttpStatusRequestRejectedHandler();
 	}
 
 	@Override
