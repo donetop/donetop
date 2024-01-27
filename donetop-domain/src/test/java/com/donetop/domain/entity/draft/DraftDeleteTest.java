@@ -9,7 +9,6 @@ import com.donetop.repository.folder.FolderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -19,7 +18,6 @@ import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
-@ActiveProfiles("test")
 public class DraftDeleteTest {
 
 	@Autowired
