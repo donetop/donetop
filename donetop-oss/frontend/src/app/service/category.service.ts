@@ -12,6 +12,7 @@ export class CategoryService {
   private categoryURI: string = '/api/category';
   private categoryImageURI: string = `${this.categoryURI}/image`;
   private categoriesURI: string = '/api/categories';
+  private categoriesSortURI: string = `${this.categoriesURI}/sort`;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -44,7 +45,7 @@ export class CategoryService {
   }
 
   sort(categories: Array<Category>) {
-    return this.httpClient.put<Response<Array<Category>>>(`${this.categoriesURI}/sort`, { categories });
+    return this.httpClient.put<Response<Array<Category>>>(this.categoriesSortURI, { categories });
   }
 
 }

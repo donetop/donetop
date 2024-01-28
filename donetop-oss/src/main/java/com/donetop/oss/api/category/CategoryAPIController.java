@@ -28,6 +28,7 @@ public class CategoryAPIController {
 		public static final String SINGULAR = "/api/category";
 		public static final String PLURAL = "/api/categories";
 		public static final String IMAGE = SINGULAR + "/image";
+		public static final String SORT = PLURAL + "/sort";
 	}
 
 	private final CategoryService categoryService;
@@ -63,7 +64,7 @@ public class CategoryAPIController {
 		return ResponseEntity.ok(OK.of(categoryService.createNewCategory(request)));
 	}
 
-	@PutMapping(value = PLURAL + "/sort")
+	@PutMapping(value = SORT)
 	public ResponseEntity<OK<List<CategoryDTO>>> sort(@Valid @RequestBody final CategorySortRequest request) {
 		return ResponseEntity.ok(OK.of(categoryService.sort(request)));
 	}

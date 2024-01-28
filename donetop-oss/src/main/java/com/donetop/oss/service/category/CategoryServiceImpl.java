@@ -93,11 +93,7 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void addImage(final long id, final CategoryImageAddRequest request) {
 		final Category category = getOrThrow(id);
-		try {
-			storageService.add(request.getResources(), storageService.addNewFolderOrGet(category));
-		} catch (final Exception e) {
-			throw new IllegalStateException(DUPLICATED_FILE);
-		}
+		storageService.add(request.getResources(), storageService.addNewFolderOrGet(category));
 		log.info("[ADD_IMAGE] categoryId: {}", id);
 	}
 
