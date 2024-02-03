@@ -5,6 +5,7 @@
   <div class="content px-2">
     <div class="mt-3 mb-3 d-flex justify-content-end">
       <button type="button" class="btn btn-info" data-toggle="modal" data-target="#imageAddModal">이미지 추가</button>
+      <button type="button" class="btn btn-info ml-2" *ngIf="!isSorted()" (click)="sortAndSave()">순서 정렬 및 저장</button>
     </div>
     <table id="imageTable" class="table table-hover table-bordered">
       <thead class="thead-light">
@@ -12,19 +13,21 @@
           <th scope="col" class="text-center">ID</th>
           <th scope="col" class="text-center">이름</th>
           <th scope="col" class="text-center">이미지</th>
+          <th scope="col" class="text-center">순서</th>
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngIf="folder === undefined || folder.files.length === 0">
+      <tbody class="drag-drop-list" cdkDropList (cdkDropListDropped)="drop($event)">
+        <tr *ngIf="fileArray.length === 0">
           <td colspan="4" class="text-center">데이터가 없습니다.</td>
         </tr>
-        <tr *ngFor="let file of folder?.files">
+        <tr class="drag-drop-row" *ngFor="let file of fileArray" cdkDrag>
           <td class="text-center">{{ file.id }}</td>
           <td class="text-center">{{ file.name | stringAbbreviation: 8 }}</td>
           <td class="text-center">
             <img [src]="'api/file/' + file.id" alt="이미지가 없습니다.">
           </td>
+          <td class="text-center">{{ file.sequence }}</td>
           <td class="text-center">
             <button type="button" class="btn btn-sm btn-danger" (click)="deleteImage(file)"><i class="fas fa-trash-alt"></i></button>
           </td>

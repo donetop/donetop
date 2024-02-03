@@ -2,14 +2,15 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from 'src/app/service/category.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Folder } from 'src/app/store/model/folder.model';
 import { FormsModule } from '@angular/forms';
 import { RouteName } from 'src/app/store/model/routeName.model';
 import { File as DonetopFile } from 'src/app/store/model/file.model';
 import { Category } from 'src/app/store/model/category.model';
 import { StringAbbreviationPipe } from 'src/app/pipe/string-abbreviation.pipe';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { FileService } from 'src/app/service/file.service';
 
-declare const $: any;
+declare const $: Function;
 
 @Component({
   selector: 'app-image',
@@ -17,6 +18,7 @@ declare const $: any;
   imports: [
     CommonModule,
     FormsModule,
+    DragDropModule,
     StringAbbreviationPipe
   ],
   templateUrl: './image.component.html',
@@ -27,12 +29,12 @@ export class ImageComponent implements AfterViewInit {
   routeName = RouteName.INSTANCE;
   params: any;
   category!: Category;
-  folder: Folder | undefined = undefined;
+  fileArray: Array<DonetopFile> = [];
   @ViewChild('file') file!: ElementRef;
 
   constructor(
     private categoryService: CategoryService, private route: ActivatedRoute,
-    private router: Router
+    private router: Router, private fileService: FileService
   ) {
     this.route.queryParams.subscribe(params => this.setUp(params));
   }
@@ -46,8 +48,7 @@ export class ImageComponent implements AfterViewInit {
   async setUp(params: any) {
     this.params = Object.assign({}, params);
     this.category = await this.categoryService.get(this.params['id']);
-    this.folder = this.category.folder;
-    this.folder?.files.sort((f1, f2) => f2.id - f1.id);
+    if (this.category.folder !== undefined) this.fileArray = this.category.folder.files;
   }
 
   addImage() {
@@ -86,6 +87,27 @@ export class ImageComponent implements AfterViewInit {
           error: ({error}) => alert(error.reason)
         });
     }
+  }
+
+  drop(event: CdkDragDrop<Array<DonetopFile>>) {
+    moveItemInArray(this.fileArray, event.previousIndex, event.currentIndex);
+  }
+
+  isSorted() {
+    return this.fileArray.every((curr, i, array) => !i || array[i - 1].sequence < curr.sequence);
+  }
+
+  sortAndSave() {
+    this.fileArray.forEach((file, index) => file.sequence = index + 1);
+
+    this.fileService.sort(this.fileArray)
+      .subscribe({
+        next: (response) => {
+          console.log(`file sort success.`);
+          alert('파일 정렬 성공');
+        },
+        error: ({error}) => alert(error.reason)
+      });
   }
 
 }

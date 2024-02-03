@@ -93,7 +93,10 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void addImage(final long id, final CategoryImageAddRequest request) {
 		final Category category = getOrThrow(id);
-		storageService.add(request.getResources(), storageService.addNewFolderOrGet(category));
+		final Folder folder = storageService.addNewFolderOrGet(category);
+		final LinkedList<File> files = folder.getFiles().stream().sorted().collect(toCollection(LinkedList::new));
+		int sequence = files.isEmpty() ? 1 : files.getLast().getSequence() + 1;
+		storageService.add(request.getResources(), folder).get(0).setSequence(sequence);
 		log.info("[ADD_IMAGE] categoryId: {}", id);
 	}
 
@@ -101,11 +104,19 @@ public class CategoryServiceImpl implements CategoryService {
 	public long deleteImage(final long categoryId, final CategoryImageDeleteRequest request) {
 		final Category category = getOrThrow(categoryId);
 		final long fileId = request.getFileId();
+
+		// delete file
 		final File file = Objects.requireNonNull(category.getFolder())
 			.getFiles().stream().filter(f -> f.getId() == fileId).findFirst()
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_FILE_WITH_ARGUMENTS, fileId)));
 		storageService.delete(file);
-		log.info("[DELETE_IMAGE] categoryId: {}", categoryId);
+		log.info("[DELETE_IMAGE] fileId: {}", fileId);
+
+		// decrease files' sequence
+		final int deletedFileSequence = file.getSequence();
+		Objects.requireNonNull(category.getFolder())
+			.getFiles().stream().filter(f -> f.getSequence() > deletedFileSequence).forEach(File::decreaseSequence);
+
 		return fileId;
 	}
 

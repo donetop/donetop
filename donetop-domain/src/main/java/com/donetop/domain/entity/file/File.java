@@ -19,7 +19,7 @@ import java.util.Objects;
 )
 @Getter
 @NoArgsConstructor
-public class File {
+public class File implements Comparable<File> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,9 @@ public class File {
 
 	@Column(nullable = false, columnDefinition = "bigint(20) default 0")
 	private long size;
+
+	@Column(nullable = false, columnDefinition = "int(11) default 0")
+	private int sequence;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "folderId", nullable = false)
@@ -60,6 +63,15 @@ public class File {
 		return path.endsWith("/") ? path : path + "/";
 	}
 
+	public File setSequence(final int sequence) {
+		this.sequence = sequence;
+		return this;
+	}
+
+	public void decreaseSequence() {
+		if (this.sequence > 1) this.sequence--;
+	}
+
 	public FileDTO toDTO() {
 		final FileDTO fileDTO = new FileDTO();
 		fileDTO.setId(this.id);
@@ -67,7 +79,14 @@ public class File {
 		fileDTO.setMimeType(this.mimeType);
 		fileDTO.setPath(getPath());
 		fileDTO.setSize(this.size);
+		fileDTO.setSequence(this.sequence);
 		return fileDTO;
+	}
+
+	@Override
+	public int compareTo(final File o) {
+		if (this.sequence == o.sequence) return Long.compare(this.id, o.id);
+		return Integer.compare(this.sequence, o.sequence);
 	}
 
 	@Override
@@ -89,6 +108,7 @@ public class File {
 			"name='" + name + '\'' +
 			", mimeType='" + mimeType + '\'' +
 			", size=" + size +
+			", sequence=" + sequence +
 			'}';
 	}
 }

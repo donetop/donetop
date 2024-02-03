@@ -47,7 +47,7 @@ public class LocalStorageService<T extends Folder> implements StorageService<T> 
 	}
 
 	@Override
-	public Collection<File> add(final Collection<Resource> resources, final T folder) {
+	public List<File> add(final Collection<Resource> resources, final T folder) {
 		checkDuplication(resources, folder);
 		final List<File> temp = new ArrayList<>();
         try {

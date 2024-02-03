@@ -20,4 +20,6 @@ public class FileDTO {
 
 	private long size;
 
+	private int sequence;
+
 }
