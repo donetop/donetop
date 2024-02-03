@@ -5,13 +5,15 @@ import { Folder } from 'src/app/store/model/folder.model';
 import { CategoryService } from 'src/app/service/category.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RouteName } from 'src/app/store/model/routeName.model';
+import { ExtensionHidePipe } from 'src/app/pipe/extensionhide.pipe';
 
 @Component({
   selector: 'app-category',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    ExtensionHidePipe
   ],
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
