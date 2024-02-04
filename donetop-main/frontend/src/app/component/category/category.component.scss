@@ -35,16 +35,30 @@ div.container {
     text-align: center;
   }
 
-  div.images {
+  div.files {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
 
-    > img {
+    > div.file {
       max-width: 80%;
-      border: 1px solid #e5e5e5;
       margin: 10px;
-      cursor: pointer;
+
+      > img {
+        border: 1px solid #e5e5e5;
+        max-width: 100%;
+        cursor: pointer;
+      }
+
+      > div.file_name {
+        text-align: center;
+        font-size: 14px;
+        color: #222;
+        font-weight: 500;
+        padding: 5px 0;
+      }
+
     }
   }
 }

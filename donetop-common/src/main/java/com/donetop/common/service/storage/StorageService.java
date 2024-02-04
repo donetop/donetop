@@ -7,12 +7,13 @@ import com.donetop.domain.interfaces.SingleFolderContainer;
 import com.donetop.enums.folder.FolderType;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface StorageService<T extends Folder> {
 
 	void saveOrReplace(Collection<Resource> resources, T folder);
 
-	Collection<File> add(Collection<Resource> resources, T folder);
+	List<File> add(Collection<Resource> resources, T folder);
 
 	T addNewFolderOrGet(SingleFolderContainer<T> folderContainer);
 

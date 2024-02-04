@@ -5,7 +5,10 @@
   </div>
   <div class="sort_buttons"></div>
   <div class="noImages" *ngIf="folder === undefined || folder.files.length === 0">데이터가 없습니다.</div>
-  <div class="images">
-    <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." *ngFor="let file of folder?.files" (click)="showDraftCreatePage()">
+  <div class="files" *ngIf="folder">
+    <div class="file" *ngFor="let file of folder.files">
+      <img [src]="'api/file/' + file.id" alt="이미지가 없습니다." (click)="showDraftCreatePage()">
+      <div class="file_name">{{ file.name | extensionHidePipe }}</div>
+    </div>
   </div>
 </div>

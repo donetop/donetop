@@ -2,7 +2,6 @@ package com.donetop.common.service.storage;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -20,6 +19,13 @@ public class LocalFileUtil {
 		return Stream.of(Objects.requireNonNull(path.toFile().listFiles()))
 			.map(LocalFileUtil::multipartFileFrom)
 			.map(LocalResource::new)
+			.collect(Collectors.toList());
+	}
+
+	public static List<Resource> readMockResources(final Path path) {
+		return Stream.of(Objects.requireNonNull(path.toFile().listFiles()))
+			.map(LocalFileUtil::multipartFileFrom)
+			.map(MockResource::new)
 			.collect(Collectors.toList());
 	}
 
@@ -45,12 +51,12 @@ public class LocalFileUtil {
 		return new CommonsMultipartFile(fileItem);
 	}
 
-	public static void deleteAll(final Path path) {
-        try {
-            FileSystemUtils.deleteRecursively(path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public static boolean delete(final Path path) {
+		return path.toFile().delete();
+	}
+
+	public static int numberOfFiles(final Path path) {
+		return Objects.requireNonNull(path.toFile().listFiles()).length;
+	}
 
 }

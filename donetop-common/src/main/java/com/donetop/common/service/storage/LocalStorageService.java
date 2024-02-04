@@ -18,10 +18,12 @@ import org.springframework.util.FileSystemUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.donetop.common.api.Message.DUPLICATED_FILE;
+import static com.donetop.common.service.storage.LocalFileUtil.readFiles;
+import static java.util.stream.Collectors.toSet;
 
 @Slf4j
 @Service
@@ -45,22 +47,31 @@ public class LocalStorageService<T extends Folder> implements StorageService<T> 
 	}
 
 	@Override
-	public Collection<File> add(final Collection<Resource> resources, final T folder) {
-		try {
+	public List<File> add(final Collection<Resource> resources, final T folder) {
+		checkDuplication(resources, folder);
+		final List<File> temp = new ArrayList<>();
+        try {
 			Objects.requireNonNull(folder);
 			final List<File> saveSuccessFiles = Objects.requireNonNull(resources).stream()
 				.map(resource -> resource.saveAt(folder))
 				.filter(FileSaveInfo::isSuccess)
-				.map(FileSaveInfo::getFile)
-				.collect(Collectors.toList());
+				.map(FileSaveInfo::getFile).collect(Collectors.toList());
+			temp.addAll(saveSuccessFiles);
 			fileRepository.saveAll(saveSuccessFiles);
 			log.info("Save success files: {}", saveSuccessFiles);
 			return saveSuccessFiles;
 		} catch (final Exception e) {
 			log.warn("Save failed. reason: {}", e.getMessage());
-			LocalFileUtil.deleteAll(Path.of(folder.getPath()));
-			throw new RuntimeException(e);
+			temp.forEach(file -> LocalFileUtil.delete(Path.of(file.getPath())));
+			throw e;
 		}
+	}
+
+	private void checkDuplication(final Collection<Resource> resources, final T folder) {
+		final Set<String> fileNameSet = readFiles(Path.of(folder.getPath()))
+			.stream().map(java.io.File::getName).collect(toSet());
+		if (resources.stream().anyMatch(resource -> fileNameSet.contains(resource.getOriginalFilename())))
+			throw new IllegalStateException(DUPLICATED_FILE);
 	}
 
 	@Override

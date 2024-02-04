@@ -1,5 +1,6 @@
 package com.donetop.common.service.storage;
 
+import com.donetop.common.service.storage.Resource.FileSaveInfo;
 import com.donetop.domain.entity.category.Category;
 import com.donetop.domain.entity.folder.Folder;
 import com.donetop.repository.file.FileRepository;
@@ -25,9 +26,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.donetop.common.service.storage.LocalFileUtil.readResources;
+import static com.donetop.common.service.storage.LocalFileUtil.*;
 import static com.donetop.enums.folder.DomainType.CATEGORY;
 import static com.donetop.enums.folder.DomainType.DRAFT;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
@@ -73,7 +75,7 @@ class LocalStorageServiceTest {
 	}
 
 	@Test
-	void saveOrReplace_allFiles_shouldExistAll() {
+	void saveOrReplace_files_shouldExistAll() {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()
@@ -86,13 +88,14 @@ class LocalStorageServiceTest {
 
 		// then
 		assertThat(folder.getFiles().size()).isEqualTo(resources.size());
-		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(resources.size());
+		assertThat(numberOfFiles(Path.of(dst))).isEqualTo(resources.size());
 	}
 
 	@Test
-	void saveOrReplace_allFilesAndPartialFiles_shouldOnlyExistPartialFiles() {
+	void saveOrReplace_allFilesFirstAndThenPartialFiles_shouldOnlyExistPartialFiles() {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
+		final int partialSize = resources.size() / 2;
 		final Folder folder = Folder.builder()
 			.domainType(DRAFT)
 			.path(dst)
@@ -100,11 +103,11 @@ class LocalStorageServiceTest {
 
 		// when
 		localStorageService.saveOrReplace(resources, folder);
-		localStorageService.saveOrReplace(resources.subList(0, resources.size() / 2), folder);
+		localStorageService.saveOrReplace(resources.subList(0, partialSize), folder);
 
 		// then
-		assertThat(folder.getFiles().size()).isEqualTo(resources.size() / 2);
-		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(resources.size() / 2);
+		assertThat(folder.getFiles().size()).isEqualTo(partialSize);
+		assertThat(numberOfFiles(Path.of(dst))).isEqualTo(partialSize);
 	}
 
 	@Test
@@ -121,14 +124,14 @@ class LocalStorageServiceTest {
 
 		// then
 		assertThat(folder.getFiles().size()).isEqualTo(resources.size());
-		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(resources.size());
+		assertThat(numberOfFiles(Path.of(dst))).isEqualTo(resources.size());
 	}
 
 	@Test
-	void add_filesMultipleTimes_shouldExistAll() {
+	void addMultipleTimes_eachFile_shouldExistAll() {
 		// given
 		final List<List<Resource>> resourcesList = readResources(Path.of(src))
-			.stream().map(List::of).collect(Collectors.toList());
+			.stream().map(List::of).collect(toList());
 		final Folder folder = Folder.builder()
 			.domainType(DRAFT)
 			.path(dst)
@@ -139,11 +142,40 @@ class LocalStorageServiceTest {
 
 		// then
 		assertThat(folder.getFiles().size()).isEqualTo(resourcesList.size());
-		assertThat(Objects.requireNonNull(Path.of(dst).toFile().listFiles()).length).isEqualTo(resourcesList.size());
+		assertThat(numberOfFiles(Path.of(dst))).isEqualTo(resourcesList.size());
 	}
 
 	@Test
-	void addNewFolderOrGet_withSingleFolderContainer_shouldExistFolder() {
+	void add_normalFilesAndThenExceptionalFiles_shouldNotExistExceptionFiles() {
+		// given
+		final Folder folder = Folder.builder()
+			.domainType(DRAFT)
+			.path(dst)
+			.build();
+		final List<String> saveSuccessFileNames = localStorageService.add(readResources(Path.of(src)).subList(0, 2), folder)
+			.stream().map(com.donetop.domain.entity.file.File::getName).collect(toList());
+		final List<Resource> mockResources = readMockResources(Path.of(src)).subList(2, 4);
+		final List<com.donetop.domain.entity.file.File> saveSuccessFiles = mockResources.stream()
+			.map(resource -> resource.saveAt(folder))
+			.filter(FileSaveInfo::isSuccess)
+			.map(FileSaveInfo::getFile).collect(Collectors.toList());
+		given(fileRepository.saveAll(saveSuccessFiles)).willThrow(new IllegalStateException("Can't save resources"));
+
+		// when
+		try {
+			localStorageService.add(mockResources, folder);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		// then
+		assertThat(Path.of(folder.getPath()).toFile().exists()).isTrue();
+		readFiles(Path.of(folder.getPath())).forEach(file -> assertThat(saveSuccessFileNames.contains(file.getName())).isTrue());
+		assertThat(numberOfFiles(Path.of(dst))).isEqualTo(saveSuccessFileNames.size());
+	}
+
+	@Test
+	void addNewFolderOrGet_atSingleFolderContainer_shouldExistFolder() {
 		// given
 		final Category category = Category.builder().id(1L).build();
 		given(storage.getRoot()).willReturn(dst);
@@ -159,7 +191,7 @@ class LocalStorageServiceTest {
 	}
 
 	@Test
-	void delete_allFiles_shouldExistFolderAndNotExistFiles() {
+	void deleteAllFiles_inTheFolder_shouldExistFolderButNotExistFiles() {
 		// given
 		final List<Resource> resources = readResources(Path.of(src));
 		final Folder folder = Folder.builder()

@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static java.util.Comparator.comparingLong;
 import static java.util.stream.Collectors.toList;
 
 @Entity
@@ -66,7 +65,7 @@ public class Folder {
 		final FolderDTO folderDTO = new FolderDTO();
 		folderDTO.setId(this.id);
 		folderDTO.setPath(this.path);
-		folderDTO.setFiles(this.files.stream().sorted(comparingLong(File::getId)).map(File::toDTO).collect(toList()));
+		folderDTO.setFiles(this.files.stream().sorted().map(File::toDTO).collect(toList()));
 		return folderDTO;
 	}
 
