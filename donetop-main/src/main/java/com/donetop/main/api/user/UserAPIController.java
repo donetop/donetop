@@ -27,7 +27,6 @@ public class UserAPIController {
 
 	public static class URI {
 		public static final String SINGULAR = "/api/user";
-		public static final String PLURAL = "/api/users";
 	}
 
 	private final UserService userService;
