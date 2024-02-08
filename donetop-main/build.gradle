@@ -68,6 +68,10 @@ tasks.register('copySubmoduleFiles', Copy) {
 		into "frontend/src/environments"
 	}
 	copy {
+		from fileTree("../donetop-secret/$projectName/indexes").include("*")
+		into "frontend/src/indexes"
+	}
+	copy {
 		from fileTree("../donetop-secret/$projectName/resources-$profile").include("*")
 		into "src/main/resources-$profile"
 	}
