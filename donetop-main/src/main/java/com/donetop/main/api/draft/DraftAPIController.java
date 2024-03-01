@@ -38,6 +38,7 @@ public class DraftAPIController {
 		public static final String SINGULAR = "/api/draft";
 		public static final String COPY = SINGULAR + "/copy";
 		public static final String PARTIAL = SINGULAR + "/partial";
+		public static final String COMMENT_CHECK = SINGULAR + "/comment/check";
 	}
 
 	private final DraftService draftService;
@@ -73,8 +74,15 @@ public class DraftAPIController {
 
 	@PutMapping(PARTIAL + "/{id}")
 	public ResponseEntity<OK<Long>> updatePartial(@PathVariable("id") final long id,
-												 @Valid @RequestBody final DraftPartialUpdateRequest request) {
+												  @Valid @RequestBody final DraftPartialUpdateRequest request) {
 		return ResponseEntity.ok(OK.of(draftService.partialUpdateDraft(id, request)));
+	}
+
+	@PutMapping(COMMENT_CHECK + "/{id}")
+	public ResponseEntity<Response> checkComments(@PathVariable("id") final long id,
+										   		  @Session final User user) {
+		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of(NO_SESSION));
+		return ResponseEntity.ok(OK.of(draftService.checkDraftComments(id, user)));
 	}
 
 	@DeleteMapping(SINGULAR + "/{id}")

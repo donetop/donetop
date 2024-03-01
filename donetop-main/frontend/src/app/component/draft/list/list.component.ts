@@ -181,4 +181,15 @@ export class ListComponent {
     let draftCreateTime = Math.floor(new Date(draft.createTime).getTime() / 1000);
     return Math.abs(currentTime - draftCreateTime) <= 1 * 60 * 60;
   }
+
+  async checkComments(id: number) {
+    await this.draftService.checkComments(id);
+    this.draftService.get(id, '')
+      .subscribe({
+        next: (response) => {
+          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, p: '', targetScrollPosition: 'comments' } });
+        },
+        error: ({error}) => alert(error.reason)
+      });
+  }
 }

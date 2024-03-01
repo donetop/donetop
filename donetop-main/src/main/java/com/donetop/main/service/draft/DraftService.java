@@ -24,4 +24,6 @@ public interface DraftService {
 	long deleteDraft(long id, User user);
 
 	long copyDraft(long id);
+
+	long checkDraftComments(long id, User user);
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Response } from '../store/model/response';
 import { Page } from '../store/model/page.model';
 import { Draft } from '../store/model/draft.model';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class DraftService {
   private draftCopyURI: string = this.draftURI + '/copy';
   private draftsURI: string = '/api/drafts';
   private draftPartialURI: string = this.draftURI + "/partial";
+  private draftCommentCheckURI: string = this.draftURI + "/comment/check";
 
   constructor(private httpClient: HttpClient) {}
 
@@ -49,6 +51,10 @@ export class DraftService {
 
   copy(id: number) {
     return this.httpClient.post<Response<number>>(this.draftCopyURI, { id });
+  }
+
+  async checkComments(id: number) {
+    return (await firstValueFrom(this.httpClient.put<Response<number>>(`${this.draftCommentCheckURI}/${id}`, {}))).data;
   }
 
 }

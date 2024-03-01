@@ -169,6 +169,7 @@ public class DraftSingleGetTest extends DraftBase {
 					fieldWithPath("data.paymentMethod.value").type(STRING).description("Draft paymentMethod value."),
 					fieldWithPath("data.memo").type(STRING).description("Draft memo."),
 					fieldWithPath("data.estimateContent").type(STRING).description("Draft estimateContent."),
+					fieldWithPath("data.uncheckedCommentCount").type(NUMBER).description("Draft uncheckedCommentCount."),
 					fieldWithPath("data.createTime").type(STRING).description("Draft create time."),
 					fieldWithPath("data.updateTime").type(STRING).description("Draft update time."),
 					subsectionWithPath("data.folders").type(ARRAY).description("Draft folders."),
@@ -196,6 +197,7 @@ public class DraftSingleGetTest extends DraftBase {
 			.body("data.paymentMethod.name", is(draft.getPaymentMethod().name()))
 			.body("data.memo", is(draft.getMemo()))
 			.body("data.estimateContent", is(draft.getEstimateContent()))
+			.body("data.uncheckedCommentCount", is(0))
 			.body("data.folders", hasSize(2))
 			.body("data.folders[0].files", hasSize(files.size()))
 			.body("data.folders[1].files", hasSize(files.size()));

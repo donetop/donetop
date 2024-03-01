@@ -18,6 +18,7 @@ export interface Draft {
   paymentMethod: Enum
   memo: string
   estimateContent: string
+  uncheckedCommentCount: number
   createTime: Date
   updateTime: Date
   folders: Array<DraftFolder>

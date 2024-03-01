@@ -1,11 +1,13 @@
 package com.donetop.main.api.common;
 
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.domain.entity.draft.DraftComment;
 import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.enums.folder.FolderType;
 import com.donetop.common.service.storage.LocalFileUtil;
 import com.donetop.common.service.storage.Resource;
 import com.donetop.common.service.storage.StorageService;
+import com.donetop.repository.draft.DraftCommentRepository;
 import com.donetop.repository.draft.DraftRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class DraftBase extends UserBase {
 
 	@Autowired
 	protected DraftRepository draftRepository;
+
+	@Autowired
+	protected DraftCommentRepository draftCommentRepository;
 
 	@Autowired
 	protected StorageService<DraftFolder> draftFolderStorageService;
@@ -94,6 +99,15 @@ public class DraftBase extends UserBase {
 		for (final FolderType folderType : folderTypes)
 			draftFolderStorageService.saveOrReplace(resources, draftFolderStorageService.addNewFolderOrGet(draft, folderType));
 		return draftRepository.save(draft);
+	}
+
+	protected Draft saveSingleDraftWithComments(final int commentCount) {
+		final Draft draft = saveSingleDraftWithoutFiles();
+		for (int i = 1; i <= commentCount; i++) {
+			final DraftComment draftComment = DraftComment.of("my content" + i, draft);
+			draftCommentRepository.save(draftComment);
+		}
+		return draft;
 	}
 
 }

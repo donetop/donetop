@@ -50,6 +50,8 @@ public class DraftDTO {
 
 	private String estimateContent;
 
+	private long uncheckedCommentCount;
+
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime createTime;

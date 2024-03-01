@@ -32,6 +32,9 @@ public class DraftComment implements SingleFolderContainer<Folder> {
 	@Column(nullable = false, columnDefinition = "varchar(1024) default ''")
 	private String content;
 
+	@Column(nullable = false, columnDefinition = "tinyint(1) default 0")
+	private boolean checked;
+
 	@Builder.Default
 	@Column(nullable = false)
 	private LocalDateTime createTime = LocalDateTime.now();
@@ -66,6 +69,14 @@ public class DraftComment implements SingleFolderContainer<Folder> {
 	@Override
 	public Folder getFolderOrNew(final String root) {
 		return this.folder == null ? Folder.of(DomainType.DRAFT_COMMENT, root, this.id) : this.folder;
+	}
+
+	public boolean isNotChecked() {
+		return !checked;
+	}
+
+	public void setChecked() {
+		this.checked = true;
 	}
 
 	public DraftCommentDTO toDTO() {
