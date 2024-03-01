@@ -60,7 +60,7 @@ export class DetailComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.targetScrollPosition === 'comments') document.getElementById('comments')?.scrollIntoView();
+    if (this.targetScrollPosition === 'comments') document.getElementsByTagName('app-comment')[0].scrollIntoView();
     else document.getElementById('scrollToTopButton')?.click();
     this.commentComponent.commentEvent.subscribe(() => this.setUp(this.params));
     this.updateComponents.changes.subscribe(next => next.first.updateEvent.subscribe(() => this.setUp(this.params)));
