@@ -187,7 +187,7 @@ export class ListComponent {
     this.draftService.get(id, '')
       .subscribe({
         next: (response) => {
-          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, p: '', targetScrollPosition: 'comments' } });
+          this.router.navigate([this.routeName.DRAFT_DETAIL], { queryParams: { id, p: '', focusOnComment: true } });
         },
         error: ({error}) => alert(error.reason)
       });
