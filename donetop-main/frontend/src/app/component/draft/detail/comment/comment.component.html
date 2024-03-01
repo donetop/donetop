@@ -1,4 +1,4 @@
-<div id="comments" class="comments">
+<div class="comments">
   <h3>댓글</h3>
   <div *ngIf="commentCount() === 0" class="empty">등록된 댓글이 없습니다.</div>
   <div class="comment" *ngFor="let draftComment of this.draft?.draftComments">
