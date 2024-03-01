@@ -44,7 +44,7 @@ export class DetailComponent implements AfterViewInit {
   isAdmin: boolean = false;
   id: number = 0;
   password: string = '';
-  focusOnComment: string | undefined;
+  focusOnComment: boolean | undefined;
   private routeName = RouteName.INSTANCE;
   @ViewChild('commentComponent') commentComponent!: CommentComponent;
   @ViewChildren('updateComponent', { read: UpdateComponent }) updateComponents!: QueryList<UpdateComponent>;
