@@ -60,7 +60,7 @@ export class DetailComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.focusOnComment) setTimeout(() => { document.getElementById('focusOnComment')?.scrollIntoView({ behavior: 'smooth' }); }, 500);
+    if (this.focusOnComment) setTimeout(() => { document.getElementById('app-comment')?.scrollIntoView({ behavior: 'smooth' }); }, 300);
     else document.getElementById('scrollToTopButton')?.click();
     this.commentComponent.commentEvent.subscribe(() => this.setUp(this.params));
     this.updateComponents.changes.subscribe(next => next.first.updateEvent.subscribe(() => this.setUp(this.params)));
