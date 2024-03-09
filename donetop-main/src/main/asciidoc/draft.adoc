@@ -129,7 +129,7 @@ include::{snippets}/draft_single_get/getSingleThatHasFolder_withValidIdAndRightP
 HTTP Method : *DELETE* +
 URI : /api/draft/\{draft_id\}
 
-=== Request parameters description
+=== Request description
 X
 
 === Response body fields description
@@ -278,3 +278,33 @@ include::{snippets}/draft_partial_update/updatePartial_withEmptyBody_return200/h
 include::{snippets}/draft_partial_update/updatePartial_withValidBody_return200/http-request.adoc[]
 .response
 include::{snippets}/draft_partial_update/updatePartial_withValidBody_return200/http-response.adoc[]
+
+== Draft Comment Check
+
+HTTP Method : *PUT* +
+URI : */api/draft/comment/check/\{draft_id\}*
+
+=== Request description
+X
+
+=== Response body fields description
+include::{snippets}/draft_comment_check/checkComment_byAdmin_return200/response-fields.adoc[]
+
+=== Examples
+==== checkComment_withoutSession_return400
+.request
+include::{snippets}/draft_comment_check/checkComment_withoutSession_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_comment_check/checkComment_withoutSession_return400/http-response.adoc[]
+
+==== checkComment_byNormalUser_return400
+.request
+include::{snippets}/draft_comment_check/checkComment_byNormalUser_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_comment_check/checkComment_byNormalUser_return400/http-response.adoc[]
+
+==== checkComment_byAdmin_return200
+.request
+include::{snippets}/draft_comment_check/checkComment_byAdmin_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_comment_check/checkComment_byAdmin_return200/http-response.adoc[]

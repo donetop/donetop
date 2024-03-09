@@ -40,6 +40,7 @@
         <fa-icon [icon]="['fas', 'lock']"></fa-icon>&nbsp;
         <a (click)="openModal(draft.id, passwordForm)">{{ draft.customerName }}님 시안입니다.</a>
         <img [src]="'/assets/draft/status/' + draft.draftStatus.name + '.gif'">
+        <span *ngIf="isAdmin && draft.uncheckedCommentCount > 0" (click)="checkComments(draft.id)">{{ draft.uncheckedCommentCount }}</span>
         <img class="new" src="/assets/draft/icon_new.gif" *ngIf="isNew(draft)">
       </div>
       <div class="sub-row">

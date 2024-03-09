@@ -47,7 +47,7 @@
             "production": {
               "outputPath": "../src/main/resources/static/",
               "index": {
-                "input": "src/index.html",
+                "input": "src/indexes/index.html",
                 "output": "../templates/index.html"
               },
               "fileReplacements": [
@@ -73,7 +73,7 @@
             "development": {
               "outputPath": "dist",
               "index": {
-                "input": "src/index.development.html",
+                "input": "src/indexes/index.development.html",
                 "output": "index.html"
               },
               "buildOptimizer": false,

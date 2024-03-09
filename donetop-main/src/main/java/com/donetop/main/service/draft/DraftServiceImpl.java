@@ -3,6 +3,7 @@ package com.donetop.main.service.draft;
 import com.donetop.common.service.storage.Resource;
 import com.donetop.common.service.storage.StorageService;
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.domain.entity.draft.DraftComment;
 import com.donetop.domain.entity.folder.DraftFolder;
 import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
@@ -26,6 +27,7 @@ import java.util.Objects;
 import static com.donetop.common.api.Message.*;
 import static com.donetop.common.service.storage.LocalFileUtil.readResources;
 import static com.donetop.enums.folder.FolderType.*;
+import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Service
@@ -106,6 +108,18 @@ public class DraftServiceImpl implements DraftService {
 		}
 		log.info("[COPY] draftId: {}", id);
 		return copiedDraft.getId();
+	}
+
+	@Override
+	public long checkDraftComments(final long id, final User user) {
+		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
+			throw new IllegalStateException(DISALLOWED_REQUEST);
+		final Draft draft = getOrThrow(id);
+		final List<DraftComment> uncheckedDraftComments = draft.getDraftComments()
+			.stream().filter(DraftComment::isNotChecked).collect(toList());
+		uncheckedDraftComments.forEach(DraftComment::setChecked);
+		log.info("[CHECK_COMMENT] draftId: {}, checkedCount: {}", id, uncheckedDraftComments.size());
+		return id;
 	}
 
 	private Draft getOrThrow(final long id) {

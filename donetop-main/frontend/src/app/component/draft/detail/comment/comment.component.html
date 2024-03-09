@@ -17,7 +17,7 @@
       <button *ngIf="isAdmin" type="button" (click)="deleteComment(draftComment.id)"><fa-icon [icon]="['fas', 'times']"></fa-icon></button>
     </div>
   </div>
-  <form *ngIf="commentCount() < 5" class="commentBox" #commentCreateForm="ngForm" (ngSubmit)="addComment(commentCreateForm)">
+  <form *ngIf="commentCount() < 10" class="commentBox" #commentCreateForm="ngForm" (ngSubmit)="addComment(commentCreateForm)">
     <div class="buttons">
       <h3>댓글 작성</h3>
       <button type="submit" [disabled]="commentCreateForm.invalid"><fa-icon [icon]="['fas', 'pencil']"></fa-icon>&nbsp;등록</button>

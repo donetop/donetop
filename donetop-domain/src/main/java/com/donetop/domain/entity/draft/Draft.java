@@ -252,6 +252,7 @@ public class Draft implements MultipleFolderContainer<DraftFolder>, Serializable
 			.paymentMethod(this.paymentMethod.toDTO())
 			.memo(this.memo)
 			.estimateContent(this.estimateContent)
+			.uncheckedCommentCount(this.draftComments.stream().filter(DraftComment::isNotChecked).count())
 			.createTime(this.createTime)
 			.updateTime(this.updateTime).build();
 		if (includeSubObjectInfo) {

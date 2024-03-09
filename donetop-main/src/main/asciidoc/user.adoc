@@ -27,3 +27,27 @@ include::{snippets}/user_create/create_withNullAndEmptyValues_return400/http-res
 include::{snippets}/user_create/create_withValidValues_return200/http-request.adoc[]
 .response
 include::{snippets}/user_create/create_withValidValues_return200/http-response.adoc[]
+
+== Get User Info
+
+HTTP Method : *GET* +
+URI : */api/user*
+
+=== Request parameters description
+X
+
+=== Response body fields description
+include::{snippets}/user_info_get/getUserInfo_withSession_return200/response-fields.adoc[]
+
+=== Examples
+==== getUserInfo_withoutSession_return400
+.request
+include::{snippets}/user_info_get/getUserInfo_withoutSession_return400/http-request.adoc[]
+.response
+include::{snippets}/user_info_get/getUserInfo_withoutSession_return400/http-response.adoc[]
+
+==== getUserInfo_withSession_return200
+.request
+include::{snippets}/user_info_get/getUserInfo_withSession_return200/http-request.adoc[]
+.response
+include::{snippets}/user_info_get/getUserInfo_withSession_return200/http-response.adoc[]

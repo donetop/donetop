@@ -44,6 +44,7 @@ export class DetailComponent implements AfterViewInit {
   isAdmin: boolean = false;
   id: number = 0;
   password: string = '';
+  focusOnComment: boolean | undefined;
   private routeName = RouteName.INSTANCE;
   @ViewChild('commentComponent') commentComponent!: CommentComponent;
   @ViewChildren('updateComponent', { read: UpdateComponent }) updateComponents!: QueryList<UpdateComponent>;
@@ -59,7 +60,8 @@ export class DetailComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    document.getElementById('scrollToTopButton')?.click();
+    if (this.focusOnComment) setTimeout(() => { document.getElementById('app-comment')?.scrollIntoView({ behavior: 'smooth' }); }, 300);
+    else document.getElementById('scrollToTopButton')?.click();
     this.commentComponent.commentEvent.subscribe(() => this.setUp(this.params));
     this.updateComponents.changes.subscribe(next => next.first.updateEvent.subscribe(() => this.setUp(this.params)));
   }
@@ -68,6 +70,7 @@ export class DetailComponent implements AfterViewInit {
     this.params = Object.assign({}, params);
     this.id = parseInt(this.params['id']);
     this.password = this.params['p'];
+    this.focusOnComment = this.params['focusOnComment'];
     this.draftService.get(this.id, this.password)
       .subscribe({
         next: (response) => {
