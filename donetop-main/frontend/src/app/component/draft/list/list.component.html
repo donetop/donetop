@@ -15,7 +15,7 @@
         <option [value]="searchConditions[0].key">{{ searchConditions[0].name }}</option>
         <option *ngIf="isAdmin" [value]="searchConditions[1].key">{{ searchConditions[1].name }}</option>
       </select>
-      <input type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." autocomplete="off" [(ngModel)]="searchValue">
+      <input type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." autocomplete="off" [(ngModel)]="searchValue" (keydown.enter)="search()">
       <button type="button" (click)="search()"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon></button>
     </div>
     <button *ngIf="isAdmin" class="order" type="button" (click)="goToOrderPage()"><fa-icon [icon]="['fas', 'cart-shopping']"></fa-icon>&nbsp;주문하기</button>

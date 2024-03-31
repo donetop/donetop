@@ -196,6 +196,10 @@ div.container {
         > div {
           flex-basis: 100%;
 
+          &.phoneNumber {
+            user-select: text;
+          }
+
           @media (max-width: 750px) {
             &.inCharge, &.phoneNumber, &.createTime {
               display: none;
