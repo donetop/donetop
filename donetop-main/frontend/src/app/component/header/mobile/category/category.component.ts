@@ -44,7 +44,8 @@ export class CategoryComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.categories = await this.categoryService.categoryArray();
+    this.categories = (await this.categoryService.categoryArray()).filter(category => category.exposed);
+    this.categories.forEach(category => category.subCategories = category.subCategories.filter(category => category.exposed));
   }
 
   toggleSection() {

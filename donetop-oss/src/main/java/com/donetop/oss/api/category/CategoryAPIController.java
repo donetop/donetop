@@ -29,6 +29,7 @@ public class CategoryAPIController {
 		public static final String PLURAL = "/api/categories";
 		public static final String IMAGE = SINGULAR + "/image";
 		public static final String SORT = PLURAL + "/sort";
+		public static final String EXPOSURE = SINGULAR + "/{id}/exposure";
 	}
 
 	private final CategoryService categoryService;
@@ -67,6 +68,12 @@ public class CategoryAPIController {
 	@PutMapping(value = SORT)
 	public ResponseEntity<OK<List<CategoryDTO>>> sort(@Valid @RequestBody final CategorySortRequest request) {
 		return ResponseEntity.ok(OK.of(categoryService.sort(request)));
+	}
+
+	@PutMapping(value = EXPOSURE)
+	public ResponseEntity<Void> toggleExposure(@PathVariable("id") final long id) {
+		categoryService.toggleExposure(id);
+		return ResponseEntity.ok().build();
 	}
 
 }

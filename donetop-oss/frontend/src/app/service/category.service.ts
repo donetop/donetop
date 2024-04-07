@@ -11,6 +11,7 @@ export class CategoryService {
 
   private categoryURI: string = '/api/category';
   private categoryImageURI: string = `${this.categoryURI}/image`;
+  private categoryExposureURI: string = `${this.categoryURI}/{id}/exposure`;
   private categoriesURI: string = '/api/categories';
   private categoriesSortURI: string = `${this.categoriesURI}/sort`;
 
@@ -46,6 +47,10 @@ export class CategoryService {
 
   sort(categories: Array<Category>) {
     return this.httpClient.put<Response<Array<Category>>>(this.categoriesSortURI, { categories });
+  }
+
+  toggleExposure(id: number) {
+    return this.httpClient.put<Response<void>>(this.categoryExposureURI.replace("{id}", id.toString()), {});
   }
 
 }

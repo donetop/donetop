@@ -33,4 +33,9 @@
 -- alter table `tbDraftComment` add column `checked` tinyint(1) default 0 not null after `content`;
 -- -------------------------------------------------------------------------------------------------
 
+-- 2024-04-07 --------------------------------------------------------------------------------------
+-- alter table `tbCategory` add column `exposed` tinyint(1) default 0 not null after `sequence`;
+-- update `tbCategory` set `exposed` = 1;
+-- -------------------------------------------------------------------------------------------------
+
 

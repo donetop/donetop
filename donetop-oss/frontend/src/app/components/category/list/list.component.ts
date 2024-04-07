@@ -116,4 +116,11 @@ export class ListComponent implements AfterViewInit {
     return category.folder.files.length;
   }
 
+  toggleExposure(categoryId: number) {
+    this.categoryService.toggleExposure(categoryId)
+      .subscribe({
+        error: ({error}) => alert(error.reason)
+      });
+  }
+
 }

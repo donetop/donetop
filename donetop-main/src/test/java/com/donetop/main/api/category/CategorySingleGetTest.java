@@ -53,6 +53,7 @@ public class CategorySingleGetTest extends CategoryBase {
 					fieldWithPath("data.id").type(NUMBER).description("Category id."),
 					fieldWithPath("data.name").type(STRING).description("Category name."),
 					fieldWithPath("data.sequence").type(NUMBER).description("Category sequence."),
+					fieldWithPath("data.exposed").type(BOOLEAN).description("Category exposed."),
 					subsectionWithPath("data.folder").type(OBJECT).description("Category's folder."),
 					subsectionWithPath("data.subCategories").type(ARRAY).description("Sub category list.")
 				)
@@ -68,7 +69,8 @@ public class CategorySingleGetTest extends CategoryBase {
 			.statusCode(HttpStatus.OK.value())
 			.body("data.id", is(Integer.valueOf(String.valueOf(category.getId()))))
 			.body("data.name", is(category.getName()))
-			.body("data.sequence", is(category.getSequence()));
+			.body("data.sequence", is(category.getSequence()))
+			.body("data.exposed", is(false));
 	}
 
 }

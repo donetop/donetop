@@ -21,6 +21,8 @@ public class CategoryDTO {
 
 	private int sequence;
 
+	private boolean exposed;
+
 	private List<CategoryDTO> subCategories;
 
 	private FolderDTO folder;
