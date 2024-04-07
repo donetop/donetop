@@ -41,6 +41,9 @@ public class Category implements SingleFolderContainer<Folder>, Comparable<Categ
 	@Column(nullable = false, columnDefinition = "int(11) default 0")
 	private int sequence;
 
+	@Column(nullable = false, columnDefinition = "tinyint(1) default 0")
+	private boolean exposed;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parentId")
 	private Category parent;
@@ -67,6 +70,10 @@ public class Category implements SingleFolderContainer<Folder>, Comparable<Categ
 	public Category setSequence(final int sequence) {
 		this.sequence = sequence;
 		return this;
+	}
+
+	public void toggleExposed() {
+		this.exposed = !this.exposed;
 	}
 
 	@Override
@@ -97,6 +104,7 @@ public class Category implements SingleFolderContainer<Folder>, Comparable<Categ
 			.id(this.id)
 			.name(this.name)
 			.sequence(this.sequence)
+			.exposed(this.exposed)
 			.subCategories(this.subCategories.stream().sorted().map(Category::toDTO).collect(toList()))
 			.folder(this.folder == null ? null : this.folder.toDTO())
 			.build();

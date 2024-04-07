@@ -24,4 +24,6 @@ public interface CategoryService {
 
 	long deleteImage(long categoryId, CategoryImageDeleteRequest request);
 
+	void toggleExposure(long categoryId);
+
 }

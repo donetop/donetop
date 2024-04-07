@@ -12,6 +12,7 @@
         <tr>
           <th scope="col" class="text-center">ID</th>
           <th scope="col" class="text-center">이름</th>
+          <th scope="col" class="text-center">노출 여부</th>
           <th scope="col" class="text-center">순서</th>
         </tr>
       </thead>
@@ -42,6 +43,9 @@
                 </div>
               </div>
             </div>
+          </td>
+          <td class="text-center">
+            <input type="checkbox" name="exposure" id="exposure" [checked]="category.exposed" (change)="toggleExposure(category.id)">
           </td>
           <td class="text-center">{{ category.sequence }}</td>
         </tr>

@@ -120,6 +120,11 @@ public class CategoryServiceImpl implements CategoryService {
 		return fileId;
 	}
 
+	@Override
+	public void toggleExposure(final long categoryId) {
+		getOrThrow(categoryId).toggleExposed();
+	}
+
 	private Category getOrThrow(final long categoryId) {
 		return categoryRepository.findById(categoryId)
 			.orElseThrow(() -> new IllegalStateException(String.format(UNKNOWN_CATEGORY_WITH_ARGUMENTS, categoryId)));
