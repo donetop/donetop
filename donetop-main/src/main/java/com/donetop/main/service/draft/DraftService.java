@@ -4,6 +4,7 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftPartialUpdateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
+import com.donetop.main.api.draft.request.DraftsDeleteRequest;
 import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,8 @@ public interface DraftService {
 	Page<DraftDTO> getDraft(Predicate predicate, Pageable pageable);
 
 	long deleteDraft(long id, User user);
+
+	long deleteDrafts(DraftsDeleteRequest request, User user);
 
 	long copyDraft(long id);
 

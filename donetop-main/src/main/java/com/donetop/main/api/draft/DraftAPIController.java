@@ -5,10 +5,7 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.common.api.Response;
 import com.donetop.common.api.Response.BadRequest;
 import com.donetop.common.api.Response.OK;
-import com.donetop.main.api.draft.request.DraftCopyRequest;
-import com.donetop.main.api.draft.request.DraftCreateRequest;
-import com.donetop.main.api.draft.request.DraftPartialUpdateRequest;
-import com.donetop.main.api.draft.request.DraftUpdateRequest;
+import com.donetop.main.api.draft.request.*;
 import com.donetop.main.api.user.session.Session;
 import com.donetop.main.service.draft.DraftService;
 import com.querydsl.core.types.Predicate;
@@ -90,6 +87,13 @@ public class DraftAPIController {
 										   @Session final User user) {
 		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of(NO_SESSION));
 		return ResponseEntity.ok(OK.of(draftService.deleteDraft(id, user)));
+	}
+
+	@PutMapping(PLURAL)
+	public ResponseEntity<Response> delete(@Valid @RequestBody final DraftsDeleteRequest request,
+										   @Session final User user) {
+		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of(NO_SESSION));
+		return ResponseEntity.ok(OK.of(draftService.deleteDrafts(request, user)));
 	}
 
 }

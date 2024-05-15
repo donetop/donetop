@@ -18,7 +18,10 @@
       <input type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." autocomplete="off" [(ngModel)]="searchValue" (keydown.enter)="search()">
       <button type="button" (click)="search()"><fa-icon [icon]="['fas', 'magnifying-glass']"></fa-icon></button>
     </div>
-    <button *ngIf="isAdmin" class="order" type="button" (click)="goToOrderPage()"><fa-icon [icon]="['fas', 'cart-shopping']"></fa-icon>&nbsp;주문하기</button>
+    <div class="buttons">
+      <button *ngIf="isAdmin" class="delete" type="button" (click)="delete()"><fa-icon [icon]="['fas', 'trash-can']"></fa-icon>&nbsp;선택삭제</button>
+      <button *ngIf="isAdmin" class="order" type="button" (click)="goToOrderPage()"><fa-icon [icon]="['fas', 'cart-shopping']"></fa-icon>&nbsp;주문하기</button>
+    </div>
   </div>
   <div class="list" *ngIf="page">
     <div class="row">
@@ -34,7 +37,8 @@
     </div>
     <div class="empty" *ngIf="page.empty">데이터가 없습니다.</div>
     <div class="row" *ngFor="let draft of page.content; let i = index">
-      <div class="checkbox"><input type="checkbox" [name]="'checkbox' + i" [id]="draft.id" #checkbox (click)="checknthbox(i)"></div>
+      <!-- <div class="checkbox"><input type="checkbox" [name]="'checkbox' + i" [id]="draft.id" #checkbox (click)="checknthbox(i)"></div> -->
+      <div class="checkbox"><input type="checkbox" [name]="'checkbox' + i" [id]="draft.id" #checkbox></div>
       <div class="number">{{ index[i] }}</div>
       <div class="title">
         <fa-icon [icon]="['fas', 'lock']"></fa-icon>&nbsp;

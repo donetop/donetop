@@ -214,6 +214,42 @@ include::{snippets}/draft_multiple_get/getMultiple_withQueryDSLParams_return200/
 .response
 include::{snippets}/draft_multiple_get/getMultiple_withQueryDSLParams_return200/http-response.adoc[]
 
+== Draft Multiple Delete
+
+HTTP Method : *PUT* +
+URI : */api/drafts*
+
+=== Request body fields description
+include::{snippets}/draft_multiple_delete/deleteMultiple_byAdminUser_return200/request-fields.adoc[]
+
+=== Response body fields description
+include::{snippets}/draft_multiple_delete/deleteMultiple_byAdminUser_return200/response-fields.adoc[]
+
+=== Examples
+==== deleteMultiple_withEmptyCollection_return400
+.request
+include::{snippets}/draft_multiple_delete/deleteMultiple_withEmptyCollection_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_delete/deleteMultiple_withEmptyCollection_return400/http-response.adoc[]
+
+==== deleteMultiple_withoutSession_return400
+.request
+include::{snippets}/draft_multiple_delete/deleteMultiple_withoutSession_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_delete/deleteMultiple_withoutSession_return400/http-response.adoc[]
+
+==== deleteMultiple_byNormalUser_return400
+.request
+include::{snippets}/draft_multiple_delete/deleteMultiple_byNormalUser_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_delete/deleteMultiple_byNormalUser_return400/http-response.adoc[]
+
+==== deleteMultiple_byAdminUser_return200
+.request
+include::{snippets}/draft_multiple_delete/deleteMultiple_byAdminUser_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_multiple_delete/deleteMultiple_byAdminUser_return200/http-response.adoc[]
+
 == Draft Copy
 
 HTTP Method : *POST* +

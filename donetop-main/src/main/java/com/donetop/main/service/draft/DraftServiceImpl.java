@@ -9,6 +9,7 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.main.api.draft.request.DraftCreateRequest;
 import com.donetop.main.api.draft.request.DraftPartialUpdateRequest;
 import com.donetop.main.api.draft.request.DraftUpdateRequest;
+import com.donetop.main.api.draft.request.DraftsDeleteRequest;
 import com.donetop.main.service.user.UserService;
 import com.donetop.repository.draft.DraftRepository;
 import com.querydsl.core.types.Predicate;
@@ -86,14 +87,28 @@ public class DraftServiceImpl implements DraftService {
 
 	@Override
 	public long deleteDraft(final long id, final User user) {
-		final Draft draft = getOrThrow(id);
 		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
 			throw new IllegalStateException(DISALLOWED_REQUEST);
+		final Draft draft = getOrThrow(id);
 		if (draft.hasFolder()) draft.getDraftFolders().forEach(storageService::delete);
 		if (draft.hasDraftComment()) draft.getDraftComments().forEach(draftCommentService::delete);
 		draftRepository.delete(draft);
 		log.info("[DELETE] draftId: {}", id);
 		return id;
+	}
+
+	@Override
+	public long deleteDrafts(final DraftsDeleteRequest request, final User user) {
+		if (!userService.findUserBy(Objects.requireNonNull(user).getUsername()).isAdmin())
+			throw new IllegalStateException(DISALLOWED_REQUEST);
+		final List<Draft> drafts = draftRepository.findAllById(request.getDraftIds());
+		for (final Draft draft : drafts) {
+			if (draft.hasFolder()) draft.getDraftFolders().forEach(storageService::delete);
+			if (draft.hasDraftComment()) draft.getDraftComments().forEach(draftCommentService::delete);
+			draftRepository.delete(draft);
+			log.info("[DELETE] draftIds: {}", drafts.stream().map(Draft::getId).collect(toList()));
+		}
+		return drafts.size();
 	}
 
 	@Override
