@@ -105,6 +105,10 @@ processResources {
 	dependsOn copyNpmBuildFiles
 }
 
+test {
+	dependsOn processResources
+}
+
 asciidoctor {
 	dependsOn test
 	sourceDir 'src/main/asciidoc'
