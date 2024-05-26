@@ -49,6 +49,10 @@ export class DraftService {
     return this.httpClient.delete<Response<number>>(`${this.draftURI}/${id}`);
   }
 
+  deleteMultiple(draftIds: Array<Number>) {
+    return this.httpClient.put<Response<number>>(this.draftsURI, { draftIds });
+  }
+
   copy(id: number) {
     return this.httpClient.post<Response<number>>(this.draftCopyURI, { id });
   }

@@ -70,6 +70,19 @@
               "outputHashing": "all"
             },
             "development": {
+              "outputPath": "../src/main/resources/static/",
+              "index": {
+                "input": "src/index.html",
+                "output": "../templates/index.html"
+              },
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "local": {
               "outputPath": "dist",
               "index": {
                 "input": "src/index.html",
@@ -83,7 +96,7 @@
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "local"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -94,9 +107,13 @@
             "development": {
               "browserTarget": "frontend:build:development",
               "proxyConfig": "src/proxy/development.config.json"
+            },
+            "local": {
+              "browserTarget": "frontend:build:local",
+              "proxyConfig": "src/proxy/development.config.json"
             }
           },
-          "defaultConfiguration": "development",
+          "defaultConfiguration": "local",
           "options": {
             "port": 4300
           }

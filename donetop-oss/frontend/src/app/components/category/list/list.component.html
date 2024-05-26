@@ -18,7 +18,7 @@
       </thead>
       <tbody class="drag-drop-list" cdkDropList (cdkDropListDropped)="drop($event)">
         <tr *ngIf="categoryArray.length === 0">
-          <td colspan="3" class="text-center">데이터가 없습니다.</td>
+          <td colspan="4" class="text-center">데이터가 없습니다.</td>
         </tr>
         <tr class="drag-drop-row" *ngFor="let category of categoryArray" cdkDrag>
           <td class="text-center">{{ category.id }}</td>

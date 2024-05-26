@@ -83,11 +83,11 @@ tasks.register('copySubmoduleFiles', Copy) {
 
 tasks.register('npmBuild', NpmTask) {
 	dependsOn npmInstall
+	dependsOn copySubmoduleFiles
 	args = ["run", "build-$profile"]
 }
 
 processResources {
-	dependsOn copySubmoduleFiles
 	dependsOn npmBuild
 }
 
@@ -99,7 +99,7 @@ asciidoctor {
 	baseDirFollowsSourceDir()
 }
 
-tasks.register('copyAsciidoctorHtmls', Copy) {
+tasks.register('copyAsciidoctorHtmlFiles', Copy) {
 	from ("${asciidoctor.outputDir}") {
 		include "*.html"
 	}
@@ -108,7 +108,7 @@ tasks.register('copyAsciidoctorHtmls', Copy) {
 
 bootJar {
 	dependsOn asciidoctor
-	dependsOn copyAsciidoctorHtmls
+	dependsOn copyAsciidoctorHtmlFiles
 	from ("${asciidoctor.outputDir}") {
 		include "*.html"
 		into '/BOOT-INF/classes/static/asciidoc'

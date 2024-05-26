@@ -72,7 +72,7 @@ public class DraftSingleDeleteTest extends DraftBase {
 
 		// when
 		final Response response = given.when()
-			.cookies(doLoginWith(jin).cookies())
+			.cookies(doLoginWith(admin).cookies())
 			.delete(SINGULAR + "/{id}", -1);
 
 		// then
