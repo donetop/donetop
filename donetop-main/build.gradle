@@ -86,9 +86,23 @@ tasks.register('npmBuild', NpmTask) {
 	args = ["run", "build-$profile"]
 }
 
+tasks.register('copyNpmBuildFiles', Copy) {
+	dependsOn npmBuild
+
+	copy {
+		from fileTree("frontend/dist").exclude("index.html")
+		into "src/main/resources/static"
+	}
+
+	copy {
+		from fileTree("frontend/dist").include("index.html")
+		into "src/main/resources/templates"
+	}
+}
+
 processResources {
 	dependsOn copySubmoduleFiles
-	dependsOn npmBuild
+	dependsOn copyNpmBuildFiles
 }
 
 asciidoctor {

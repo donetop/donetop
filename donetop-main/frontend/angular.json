@@ -45,10 +45,10 @@
           },
           "configurations": {
             "production": {
-              "outputPath": "../src/main/resources/static/",
+              "outputPath": "dist",
               "index": {
                 "input": "src/indexes/index.html",
-                "output": "../templates/index.html"
+                "output": "index.html"
               },
               "fileReplacements": [
                 {
