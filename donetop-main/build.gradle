@@ -87,26 +87,8 @@ tasks.register('npmBuild', NpmTask) {
 	args = ["run", "build-$profile"]
 }
 
-tasks.register('copyNpmBuildFiles', Copy) {
-	dependsOn npmBuild
-
-	copy {
-		from fileTree("frontend/dist").exclude("index.html")
-		into "src/main/resources/static"
-	}
-
-	copy {
-		from fileTree("frontend/dist").include("index.html")
-		into "src/main/resources/templates"
-	}
-}
-
 processResources {
-	dependsOn copyNpmBuildFiles
-}
-
-test {
-	dependsOn processResources
+	dependsOn npmBuild
 }
 
 asciidoctor {
@@ -117,7 +99,7 @@ asciidoctor {
 	baseDirFollowsSourceDir()
 }
 
-tasks.register('copyAsciidoctorHtmls', Copy) {
+tasks.register('copyAsciidoctorHtmlFiles', Copy) {
 	from ("${asciidoctor.outputDir}") {
 		include "*.html"
 	}
@@ -126,7 +108,7 @@ tasks.register('copyAsciidoctorHtmls', Copy) {
 
 bootJar {
 	dependsOn asciidoctor
-	dependsOn copyAsciidoctorHtmls
+	dependsOn copyAsciidoctorHtmlFiles
 	from ("${asciidoctor.outputDir}") {
 		include "*.html"
 		into '/BOOT-INF/classes/static/asciidoc'
