@@ -83,6 +83,7 @@ tasks.register('copySubmoduleFiles', Copy) {
 
 tasks.register('npmBuild', NpmTask) {
 	dependsOn npmInstall
+	dependsOn copySubmoduleFiles
 	args = ["run", "build-$profile"]
 }
 
@@ -101,7 +102,6 @@ tasks.register('copyNpmBuildFiles', Copy) {
 }
 
 processResources {
-	dependsOn copySubmoduleFiles
 	dependsOn copyNpmBuildFiles
 }
 
