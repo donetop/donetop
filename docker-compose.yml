@@ -1,0 +1,49 @@
+name: donetop
+
+networks:
+    backend:
+
+volumes:
+    db-data:
+    storage-data:
+
+services:
+    mariadb:
+        image: mariadb:10.6.16
+        scale: 1
+        restart: always
+        volumes:
+            - ./mariadb/conf.d:/etc/mysql/conf.d
+#            - ./mariadb/initdb.d:/docker-entrypoint-initdb.d
+            - db-data:/var/lib/mysql
+        environment:
+            MARIADB_ROOT_PASSWORD: system
+            TZ: Asia/Seoul
+        ports:
+            - 3307:3306
+        networks:
+            - backend
+    main:
+        image: donetop-main
+        scale: 1
+        restart: on-failure:1
+        depends_on:
+            - mariadb
+        ports:
+            - 8080:8080
+        networks:
+            - backend
+        volumes:
+            - storage-data:/home/donetop/storage
+    oss:
+        image: donetop-oss
+        scale: 1
+        restart: on-failure:1
+        depends_on:
+            - mariadb
+        ports:
+            - 8070:8070
+        networks:
+            - backend
+        volumes:
+            - storage-data:/home/donetop/storage
