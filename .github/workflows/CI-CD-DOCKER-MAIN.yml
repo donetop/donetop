@@ -37,7 +37,8 @@ jobs:
     - name: Run docker meta
       uses: docker/metadata-action@v5
       with:
-        images: name/app
+        images: donetop4529/donetop
+        tags: donetop-main
 
     - name: Login to DockerHub
       uses: docker/login-action@v3
@@ -50,7 +51,7 @@ jobs:
       with:
         context: ./donetop-main/
         push: true
-        tags: donetop4529/donetop:${{ steps.meta.outputs.tags }}
+        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
   
 #  deploy:
