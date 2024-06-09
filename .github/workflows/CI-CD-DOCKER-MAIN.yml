@@ -50,7 +50,7 @@ jobs:
       with:
         context: ./donetop-main/
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: donetop4529/donetop:${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
   
 #  deploy:
