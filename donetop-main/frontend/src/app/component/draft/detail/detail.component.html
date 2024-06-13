@@ -17,6 +17,10 @@
         <span class="value">{{ draft.customerName }}</span>
       </div>
       <div class="row">
+        <span>회&nbsp;&nbsp;사&nbsp;&nbsp;명</span>&nbsp;:&nbsp;
+        <span class="value">{{ draft.companyName | emptyStringPipe }}</span>
+      </div>
+      <div class="row">
         <span>이&nbsp;&nbsp;메&nbsp;&nbsp;일</span>&nbsp;:&nbsp;
         <span class="value">{{ draft.email }}</span>
       </div>
