@@ -70,6 +70,6 @@ jobs:
          REMOTE_HOST: ${{ secrets.CAFE24_REMOTE_HOST }}
          REMOTE_USER: ${{ secrets.CAFE24_REMOTE_USER }}
          SOURCE: ./docker-compose.yml
-         SCRIPT_AFTER: |
-           chmod 700 ./docker-compose.yml
-           docker version
+         # SCRIPT_AFTER: |
+           # chmod 700 ./docker-compose.yml
+           # docker version
