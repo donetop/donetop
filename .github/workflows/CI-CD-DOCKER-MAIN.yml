@@ -63,18 +63,13 @@ jobs:
    steps:
      - name: Checkout project sources
        uses: actions/checkout@v3
-     - name: Send docker comopose file to remote server
-       uses: pierrickdelrieu/scp-action@v0.1.1
+     - name: Send docker comopose file to remote server and run it
+       uses: easingthemes/ssh-deploy@main
        with:
-         host: ${{ secrets.CAFE24_REMOTE_HOST }}
-         ssh_username: ${{ secrets.CAFE24_USERNAME }}
-         ssh_passphrase: ${{ secrets.CAFE24_PASSWORD }}
-         source_dir: ./docker-compose.yml
-         destination_dir: /home/donetop
-     - name: Run docker comopse file
-       uses: appleboy/ssh-action@v1.0.3
-       with:
-         host: ${{ secrets.CAFE24_REMOTE_HOST }}
-         username: ${{ secrets.CAFE24_USERNAME }}
-         password: ${{ secrets.CAFE24_PASSWORD }}
-         script: docker images
+         SSH_PRIVATE_KEY: ${{ secrets.CAFE24_SSH_PRIVATE_KEY }}
+         REMOTE_HOST: ${{ secrets.CAFE24_REMOTE_HOST }}
+         REMOTE_USER: ${{ secrets.CAFE24_REMOTE_USER }}
+         SOURCE: ./docker-compose.yml
+         SCRIPT_AFTER: |
+           chmod 700 ./docker-compose.yml
+           docker version
