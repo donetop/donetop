@@ -56,33 +56,25 @@ jobs:
         tags: ${{ steps.docker_meta.outputs.tags }}
         labels: ${{ steps.docker_meta.outputs.labels }}
   
-#  deploy:
-#    needs: [build]
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout project sources
-#        uses: actions/checkout@v3
-#      - name: Download build libs
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: libs
-#          path: donetop-main/build/libs/
-#      - name: Send libs to remote server
-#        uses: easingthemes/ssh-deploy@main
-#        env:
-#          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-#          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-#          SOURCE: donetop-main/build/libs/
-#          TARGET: /donetop/donetop-main/libs/
-#      - name: Send deploy.sh to remote server and restart donetop-main process
-#        uses: easingthemes/ssh-deploy@main
-#        env:
-#          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-#          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-#          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-#          SOURCE: ./deploy.sh
-#          SCRIPT_AFTER: |
-#            chmod 700 ./deploy.sh
-#            ./deploy.sh restart donetop-main -Xms128m -Xmx128m
+  deploy:
+   needs: [build]
+   runs-on: ubuntu-latest
+
+   steps:
+     - name: Checkout project sources
+       uses: actions/checkout@v3
+     - name: Send docker comopose file to remote server
+       uses: pierrickdelrieu/scp-action@v0.1.0
+       with:
+         host: ${{ secrets.CAFE24_REMOTE_HOST }}
+         ssh_username: ${{ secrets.CAFE24_USERNAME }}
+         ssh_passphrase: ${{ secrets.CAFE24_PASSWORD }}
+         source_dir: ./docker-compose.yml
+         destination_dir: /home/donetop
+     - name: Run docker comopse file
+       uses: appleboy/ssh-action@v1.0.3
+       with:
+         host: ${{ secrets.CAFE24_REMOTE_HOST }}
+         username: ${{ secrets.CAFE24_USERNAME }}
+         password: ${{ secrets.CAFE24_PASSWORD }}
+         script: docker images
