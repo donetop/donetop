@@ -71,6 +71,7 @@ jobs:
          REMOTE_USER: ${{ secrets.CAFE24_REMOTE_USER }}
          SOURCE: ./docker-compose.yml
          SCRIPT_BEFORE: |
+           docker compose down oss
            docker image rm donetop4529/donetop:donetop-oss
            docker pull donetop4529/donetop:donetop-oss
            docker images
