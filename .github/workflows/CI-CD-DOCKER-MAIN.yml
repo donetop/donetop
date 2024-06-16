@@ -71,8 +71,10 @@ jobs:
          REMOTE_USER: ${{ secrets.CAFE24_REMOTE_USER }}
          SOURCE: ./docker-compose.yml
          SCRIPT_BEFORE: |
+           docker image rm donetop4529/donetop:donetop-main
            docker pull donetop4529/donetop:donetop-main
            docker images
          SCRIPT_AFTER: |
            chmod 700 ./docker-compose.yml
            docker compose restart main
+           docker ps
