@@ -7,6 +7,10 @@ volumes:
     db-data:
     storage-data:
 
+secrets:
+    mariadb-root-password:
+        file: ./mariadb/root-password.txt
+
 services:
     mariadb:
         image: mariadb:10.6.16
@@ -16,8 +20,10 @@ services:
             - ./mariadb/conf.d:/etc/mysql/conf.d
 #            - ./mariadb/initdb.d:/docker-entrypoint-initdb.d
             - db-data:/var/lib/mysql
+        secrets:
+            - mariadb-root-password
         environment:
-            MARIADB_ROOT_PASSWORD: system
+            MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb-root-password
             TZ: Asia/Seoul
         ports:
             - 3307:3306
