@@ -17,6 +17,7 @@ import { ZeroPricePipe } from 'src/app/pipe/zeroprice.pipe';
 import { CommentComponent } from './comment/comment.component';
 import { PaymentComponent } from './payment/payment.component';
 import { UpdateComponent } from './update/update.component';
+import { EmptyStringPipe } from 'src/app/pipe/emptystring.pipe';
 
 @Component({
   selector: 'app-detail',
@@ -30,6 +31,7 @@ import { UpdateComponent } from './update/update.component';
     PaymentComponent,
     FileSizePipe,
     ZeroPricePipe,
+    EmptyStringPipe,
     FilesComponent,
     CommentComponent,
     UpdateComponent
