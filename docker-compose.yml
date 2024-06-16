@@ -24,7 +24,7 @@ services:
         networks:
             - backend
     main:
-        image: donetop-main
+        image: donetop4529/donetop:donetop-main
         scale: 1
         restart: on-failure:1
         depends_on:
@@ -36,7 +36,7 @@ services:
         volumes:
             - storage-data:/home/donetop/storage
     oss:
-        image: donetop-oss
+        image: donetop4529/donetop:donetop-oss
         scale: 1
         restart: on-failure:1
         depends_on:

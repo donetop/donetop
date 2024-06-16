@@ -1,4 +1,4 @@
-name: CI-CD-DOCKER-MAIN
+name: CI-CD-DOCKER-OSS
 
 on:
   pull_request:
@@ -32,14 +32,14 @@ jobs:
       run: chmod +x ./gradlew
     
     - name: Run jar build with Gradle Wrapper
-      run: ./gradlew donetop-main:bootJar -Pprofile=cafe24
+      run: ./gradlew donetop-oss:bootJar -Pprofile=cafe24
 
     - name: Run docker meta
       id: docker_meta
       uses: docker/metadata-action@v5
       with:
         images: donetop4529/donetop
-        tags: donetop-main
+        tags: donetop-oss
 
     - name: Login to DockerHub
       uses: docker/login-action@v3
@@ -50,8 +50,8 @@ jobs:
     - name: Run image build and push
       uses: docker/build-push-action@v5
       with:
-        context: ./donetop-main/
-        file: ./donetop-main/Dockerfile
+        context: ./donetop-oss/
+        file: ./donetop-oss/Dockerfile
         push: true
         tags: ${{ steps.docker_meta.outputs.tags }}
         labels: ${{ steps.docker_meta.outputs.labels }}
@@ -63,7 +63,7 @@ jobs:
    steps:
      - name: Checkout project sources
        uses: actions/checkout@v3
-     - name: Send docker compose file to remote server and restart donetop-main
+     - name: Send docker compose file to remote server and restart donetop-oss
        uses: easingthemes/ssh-deploy@main
        with:
          SSH_PRIVATE_KEY: ${{ secrets.CAFE24_SSH_PRIVATE_KEY }}
@@ -71,8 +71,8 @@ jobs:
          REMOTE_USER: ${{ secrets.CAFE24_REMOTE_USER }}
          SOURCE: ./docker-compose.yml
          SCRIPT_BEFORE: |
-           docker pull donetop4529/donetop:donetop-main
+           docker pull donetop4529/donetop:donetop-oss
            docker images
          SCRIPT_AFTER: |
            chmod 700 ./docker-compose.yml
-           docker compose restart main
+           docker compose restart oss
