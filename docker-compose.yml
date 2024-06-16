@@ -8,8 +8,8 @@ volumes:
     storage-data:
 
 secrets:
-    mariadb-root-password:
-        file: ./mariadb/root-password.txt
+    db-password:
+        file: ./mariadb/db-password.txt
 
 services:
     mariadb:
@@ -21,9 +21,9 @@ services:
 #            - ./mariadb/initdb.d:/docker-entrypoint-initdb.d
             - db-data:/var/lib/mysql
         secrets:
-            - mariadb-root-password
+            - db-password
         environment:
-            MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb-root-password
+            MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db-password
             TZ: Asia/Seoul
         ports:
             - 3307:3306
