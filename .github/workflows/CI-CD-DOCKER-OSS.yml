@@ -63,6 +63,13 @@ jobs:
    steps:
      - name: Checkout project sources
        uses: actions/checkout@v3
+
+     - name: Login to DockerHub
+       uses: docker/login-action@v3
+       with:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
      - name: Send docker compose file to remote server and restart donetop-oss
        uses: easingthemes/ssh-deploy@main
        with:
