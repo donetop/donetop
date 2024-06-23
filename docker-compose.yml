@@ -29,23 +29,12 @@ services:
             - 3307:3306
         networks:
             - backend
-    nginx:
-        image: nginx:1.27
-        scale: 1
-        restart: always
-        volumes:
-            - ./nginx/conf.d:/etc/nginx/conf.d
-        ports:
-            - 80:80
-        networks:
-            - backend
     main:
         image: donetop4529/donetop:donetop-main
         scale: 1
         restart: on-failure:1
         depends_on:
             - mariadb
-            - nginx
         ports:
             - 8080:8080
         networks:
