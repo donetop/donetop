@@ -81,4 +81,4 @@ jobs:
            chmod 700 ./docker-compose.yml
            docker compose up -d main
            docker ps
-           docker logout
+           # docker logout
