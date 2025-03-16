@@ -115,12 +115,6 @@ public class DraftServiceImpl implements DraftService {
 	public long copyDraft(final long id) {
 		final Draft draft = getOrThrow(id);
 		final Draft copiedDraft = draftRepository.save(draft.copy());
-		if (draft.hasFolder()) {
-			draft.getDraftFolders().forEach(draftFolder -> {
-				final List<Resource> resources = readResources(Path.of(draftFolder.getPath()));
-				storageService.saveOrReplace(resources, storageService.addNewFolderOrGet(copiedDraft, draftFolder.getFolderType()));
-			});
-		}
 		log.info("[COPY] draftId: {}", id);
 		return copiedDraft.getId();
 	}
