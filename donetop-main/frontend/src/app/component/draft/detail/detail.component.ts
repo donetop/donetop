@@ -32,7 +32,6 @@ import { EmptyStringPipe } from 'src/app/pipe/emptystring.pipe';
     FileSizePipe,
     ZeroPricePipe,
     EmptyStringPipe,
-    FilesComponent,
     CommentComponent,
     UpdateComponent
   ]
