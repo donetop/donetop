@@ -138,7 +138,8 @@ public class DraftCopyTest extends DraftBase {
 		final Path orderPath = Path.of(DRAFT_ORDER.buildPathFrom(DRAFT.buildPathFrom(testStorage.getRoot(), copiedDraftId), copiedDraftId));
 		final Path workPath = Path.of(DRAFT_WORK.buildPathFrom(DRAFT.buildPathFrom(testStorage.getRoot(), copiedDraftId), copiedDraftId));
 		assertThat(orderPath.toFile().exists()).isFalse();
-		assertThat(workPath.toFile().exists()).isFalse();
+		assertThat(workPath.toFile().exists()).isTrue();
+		assertThat(Objects.requireNonNull(workPath.toFile().listFiles()).length).isEqualTo(files.size());
 	}
 
 }
