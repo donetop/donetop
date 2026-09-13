@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM eclipse-temurin:11-jre-jammy
 LABEL authors="Jin (hjm5014@gmail.com)"
 
 ARG PROFILE=docker
