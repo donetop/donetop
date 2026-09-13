@@ -5,6 +5,7 @@ import com.donetop.dto.draft.DraftDTO;
 import com.donetop.common.api.Response;
 import com.donetop.common.api.Response.BadRequest;
 import com.donetop.common.api.Response.OK;
+import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.draft.request.*;
 import com.donetop.main.api.user.session.Session;
 import com.donetop.main.service.draft.DraftService;
@@ -15,12 +16,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.stream.Collectors;
+
+import static com.donetop.common.api.Message.TEMPORARILY_DISALLOWED;
 import static com.donetop.common.api.Message.NO_SESSION;
 import static com.donetop.main.api.draft.DraftAPIController.URI.*;
 import static org.springframework.data.domain.Sort.Direction.*;
@@ -41,12 +46,16 @@ public class DraftAPIController {
 	private final DraftService draftService;
 
 	@PostMapping(value = SINGULAR)
-	public ResponseEntity<OK<Long>> create(@Valid final DraftCreateRequest request) {
+	public ResponseEntity<Response> create(@Valid final DraftCreateRequest request,
+										   @Session final User user) {
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(TEMPORARILY_DISALLOWED));
 		return ResponseEntity.ok(OK.of(draftService.createNewDraft(request)));
 	}
 
 	@PostMapping(value = COPY)
-	public ResponseEntity<OK<Long>> copy(@Valid @RequestBody final DraftCopyRequest request) {
+	public ResponseEntity<Response> copy(@Valid @RequestBody final DraftCopyRequest request,
+										 @Session final User user) {
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(TEMPORARILY_DISALLOWED));
 		return ResponseEntity.ok(OK.of(draftService.copyDraft(request.getId())));
 	}
 
@@ -64,14 +73,18 @@ public class DraftAPIController {
 	}
 
 	@PutMapping(SINGULAR + "/{id}")
-	public ResponseEntity<OK<Long>> update(@PathVariable("id") final long id,
-										   @Valid final DraftUpdateRequest request) {
+	public ResponseEntity<Response> update(@PathVariable("id") final long id,
+										   @Valid final DraftUpdateRequest request,
+										   @Session final User user) {
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(TEMPORARILY_DISALLOWED));
 		return ResponseEntity.ok(OK.of(draftService.updateDraft(id, request)));
 	}
 
 	@PutMapping(PARTIAL + "/{id}")
-	public ResponseEntity<OK<Long>> updatePartial(@PathVariable("id") final long id,
-												  @Valid @RequestBody final DraftPartialUpdateRequest request) {
+	public ResponseEntity<Response> updatePartial(@PathVariable("id") final long id,
+												  @Valid @RequestBody final DraftPartialUpdateRequest request,
+												  @Session final User user) {
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(TEMPORARILY_DISALLOWED));
 		return ResponseEntity.ok(OK.of(draftService.partialUpdateDraft(id, request)));
 	}
 
@@ -94,6 +107,14 @@ public class DraftAPIController {
 										   @Session final User user) {
 		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of(NO_SESSION));
 		return ResponseEntity.ok(OK.of(draftService.deleteDrafts(request, user)));
+	}
+
+	private boolean hasAdminRole(final User user) {
+		if (user == null) return false;
+		return user.getAuthorities().stream()
+			.map(GrantedAuthority::getAuthority)
+			.collect(Collectors.toList())
+			.contains(RoleType.ADMIN.name());
 	}
 
 }

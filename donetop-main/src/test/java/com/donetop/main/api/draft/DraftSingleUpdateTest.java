@@ -1,8 +1,10 @@
 package com.donetop.main.api.draft;
 
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.domain.entity.user.User;
 import com.donetop.enums.draft.DraftStatus;
 import com.donetop.enums.draft.PaymentMethod;
+import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.common.api.Response.OK;
 import com.donetop.common.service.storage.LocalFileUtil;
@@ -10,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -33,6 +36,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class DraftSingleUpdateTest extends DraftBase {
+
+	private User admin;
+
+	@BeforeAll
+	void beforeAll() {
+		admin = saveUser("admin", RoleType.ADMIN);
+	}
 
 	@Test
 	void updateSingle_withInvalidPartValues_return400() {
@@ -69,7 +79,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 	}
 
 	@Test
-	void updateSingle_withValidPartValuesButUnknownId_return400() {
+	void updateSingle_withValidPartValuesButUnknownId_return400() throws Exception {
 	    // given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
@@ -94,6 +104,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)
 			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
+			.cookies(doLoginWith(admin).cookies())
 			.put(SINGULAR + "/{id}", 100);
 
 		// then
@@ -103,7 +114,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 	}
 
 	@Test
-	void updateSingle_withValidPartValuesAndId_return200() {
+	void updateSingle_withValidPartValuesAndId_return200() throws Exception {
 		// given
 		final Draft draft = saveSingleDraftWithoutFiles();
 		final RequestSpecification given = RestAssured.given(this.spec);
@@ -129,6 +140,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)
 			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
+			.cookies(doLoginWith(admin).cookies())
 			.put(SINGULAR + "/{id}", draft.getId());
 
 		// then
@@ -188,6 +200,7 @@ public class DraftSingleUpdateTest extends DraftBase {
 			.multiPart("paymentMethod", PaymentMethod.CREDIT_CARD.toString())
 			.multiPart("price", 3000)
 			.multiPart("draftStatus", DraftStatus.COMPLETED.toString())
+			.cookies(doLoginWith(admin).cookies())
 			.put(SINGULAR + "/{id}", draft.getId());
 
 		// then

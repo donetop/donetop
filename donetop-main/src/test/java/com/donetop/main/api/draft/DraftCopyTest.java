@@ -3,6 +3,8 @@ package com.donetop.main.api.draft;
 import com.donetop.common.api.Response.OK;
 import com.donetop.common.service.storage.LocalFileUtil;
 import com.donetop.domain.entity.draft.Draft;
+import com.donetop.domain.entity.user.User;
+import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.DraftBase;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
@@ -10,6 +12,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -31,6 +34,13 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class DraftCopyTest extends DraftBase {
+
+	private User admin;
+
+	@BeforeAll
+	void beforeAll() {
+		admin = saveUser("admin", RoleType.ADMIN);
+	}
 
 	@Test
 	void copy_withInvalidId_return400() throws Exception {
@@ -70,6 +80,7 @@ public class DraftCopyTest extends DraftBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
+			.cookies(doLoginWith(admin).cookies())
 			.post(COPY);
 
 		// then
@@ -94,6 +105,7 @@ public class DraftCopyTest extends DraftBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
+			.cookies(doLoginWith(admin).cookies())
 			.post(COPY);
 
 		// then
@@ -127,6 +139,7 @@ public class DraftCopyTest extends DraftBase {
 		final Response response = given.when()
 			.contentType(ContentType.JSON)
 			.body(body.toString())
+			.cookies(doLoginWith(admin).cookies())
 			.post(COPY);
 
 		// then

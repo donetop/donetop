@@ -1,12 +1,15 @@
 package com.donetop.main.api.draft;
 
+import com.donetop.domain.entity.user.User;
 import com.donetop.enums.draft.PaymentMethod;
+import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.common.service.storage.LocalFileUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -31,6 +34,13 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.restassured3.RestAssuredRestDocumentation.document;
 
 public class DraftSingleCreateTest extends DraftBase {
+
+	private User admin;
+
+	@BeforeAll
+	void beforeAll() {
+		admin = saveUser("admin", RoleType.ADMIN);
+	}
 
 	@Test
 	void createSingle_withoutParts_return400() {
@@ -83,7 +93,7 @@ public class DraftSingleCreateTest extends DraftBase {
 	}
 
 	@Test
-	void createSingle_withValidPartValues_return200() {
+	void createSingle_withValidPartValues_return200() throws Exception {
 		// given
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
@@ -104,6 +114,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("estimateContent", "my estimate content")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
+			.cookies(doLoginWith(admin).cookies())
 			.post(SINGULAR);
 
 		// then
@@ -186,6 +197,7 @@ public class DraftSingleCreateTest extends DraftBase {
 			.multiPart("estimateContent", "my estimate content")
 			.multiPart("password", "my password")
 			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
+			.cookies(doLoginWith(admin).cookies())
 			.post(SINGULAR);
 
 		// then

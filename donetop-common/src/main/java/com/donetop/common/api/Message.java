@@ -34,6 +34,7 @@ public class Message {
 	public static final String INSUFFICIENT_AUTHENTICATION = "유저 이름 및 비밀번호를 모두 입력해주세요.";
 	public static final String LOGOUT = "로그 아웃 성공.";
 	public static final String ASK_ADMIN = "에러가 발생했습니다. 관리자에게 문의해주세요.";
+	public static final String TEMPORARILY_DISALLOWED = "일시적으로 허용되지 않은 요청입니다. 관리자에게 문의해주세요.";
 
 	public static List<String> getFieldValues() {
 		return Stream.of(Message.class.getDeclaredFields()).
