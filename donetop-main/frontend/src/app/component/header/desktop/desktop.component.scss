@@ -44,20 +44,22 @@
   ul {
     margin: 0 auto;
     width: 1200px;
+    display: flex;
 
     li {
       word-wrap: break-word;
       float: left;
       font-size: 18px;
       line-height: 50px;
-      width: 192.5px;
       text-align: center;
+      flex: 1;
     }
 
     li.first {
       width: 45px;
       height: 50px;
       box-sizing: border-box;
+      flex: none;
     }
   }
 }

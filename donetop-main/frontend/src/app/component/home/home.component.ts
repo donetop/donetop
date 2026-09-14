@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   showDraftCreatePage() {
-    this.router.navigate([this.routeName.DRAFT_CREATE]);
+    // this.router.navigate([this.routeName.DRAFT_CREATE]);
   }
 
 }
