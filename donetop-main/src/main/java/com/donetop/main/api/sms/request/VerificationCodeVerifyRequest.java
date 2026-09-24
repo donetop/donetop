@@ -6,17 +6,19 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import static com.donetop.common.api.Message.*;
+
 @Getter @Setter
 public class VerificationCodeVerifyRequest {
 
-	@NotBlank(message = "전화번호를 입력해주세요.")
+	@NotBlank(message = SMS_NO_PHONE_NUMBER)
 	@Pattern(
 		regexp = "^01[016789]-\\d{3,4}-\\d{4}$",
-		message = "올바른 휴대폰 번호 형식이 아닙니다."
+		message = SMS_INVALID_PHONE_NUMBER_FORMAT
 	)
 	private String phoneNumber;
 
-	@NotBlank(message = "코드를 입력해주세요.")
+	@NotBlank(message = SMS_NO_CODE)
 	private String code;
 
 }

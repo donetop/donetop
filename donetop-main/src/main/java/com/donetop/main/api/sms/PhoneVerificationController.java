@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.donetop.common.api.Message.*;
 import static com.donetop.main.api.sms.PhoneVerificationController.URI.ENDPOINT;
 
 @Slf4j
@@ -32,16 +33,16 @@ public class PhoneVerificationController {
 	@PostMapping("/send")
 	public ResponseEntity<Response> sendVerificationCode(@Valid @RequestBody final VerificationCodeSendRequest request) {
 		verificationService.sendVerificationCode(request.getPhoneNumber());
-		return ResponseEntity.ok(OK.of("인증번호가 발송되었습니다."));
+		return ResponseEntity.ok(OK.of(SMS_SEND_SUCCESS));
 	}
 
 	@PostMapping("/verify")
 	public ResponseEntity<Response> verifyCode(@Valid @RequestBody final VerificationCodeVerifyRequest request) {
 		boolean isValid = verificationService.verifyCode(request.getPhoneNumber(), request.getCode());
 		if (isValid) {
-			return ResponseEntity.ok(OK.of("인증이 완료되었습니다."));
+			return ResponseEntity.ok(OK.of(SMS_VERIFY_SUCCESS));
 		} else {
-			return ResponseEntity.badRequest().body(BadRequest.of("인증번호가 일치하지 않습니다."));
+			return ResponseEntity.badRequest().body(BadRequest.of(SMS_VERIFY_FAIL));
 		}
 	}
 }

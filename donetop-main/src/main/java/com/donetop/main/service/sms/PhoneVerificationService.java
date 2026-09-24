@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 
+import static com.donetop.common.api.Message.*;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -22,18 +24,18 @@ public class PhoneVerificationService {
 		Long currentCount = codeRepository.incrementDailyCount(phoneNumber);
 		if (currentCount > MAX_DAILY_REQUEST_LIMIT) {
 			log.error("Exceeded the maximum allowed daily count for phoneNumber: {}", phoneNumber);
-			throw new SmsVerificationException("오늘 인증번호 요청 횟수(5회)를 초과했습니다. 내일 다시 시도해주세요.");
+			throw new SmsVerificationException(SMS_SEND_LIMIT_EXCEEDED);
 		}
 
 		String code = generateCode();
 		codeRepository.save(phoneNumber, code, VERIFICATION_TTL);
 
 		try {
-			String messageText = String.format("[DONETOP] 휴대폰 인증번호 [%s]를 입력해주세요.", code);
+			String messageText = String.format(SMS_CONTENT_TEMPLATE, code);
 			smsSender.sendSms(phoneNumber, messageText);
 			log.info("Send verification code {} to {}", code, phoneNumber);
 		} catch (Exception e) {
-			throw new SmsVerificationException("SMS 발송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.", e);
+			throw new SmsVerificationException(SMS_SEND_FAIL, e);
 		}
 	}
 

@@ -35,6 +35,15 @@ public class Message {
 	public static final String LOGOUT = "로그 아웃 성공.";
 	public static final String ASK_ADMIN = "에러가 발생했습니다. 관리자에게 문의해주세요.";
 	public static final String TEMPORARILY_DISALLOWED = "일시적으로 허용되지 않은 요청입니다. 관리자에게 문의해주세요.";
+	public static final String SMS_SEND_SUCCESS = "인증번호가 발송되었습니다.";
+	public static final String SMS_VERIFY_SUCCESS = "인증이 완료되었습니다.";
+	public static final String SMS_VERIFY_FAIL = "인증번호가 일치하지 않습니다.";
+	public static final String SMS_SEND_FAIL = "SMS 발송에 실패했습니다.";
+	public static final String SMS_SEND_LIMIT_EXCEEDED = "오늘 인증번호 요청 횟수(5회)를 초과했습니다. 내일 다시 시도해주세요.";
+	public static final String SMS_NO_PHONE_NUMBER = "전화번호를 입력해주세요.";
+	public static final String SMS_INVALID_PHONE_NUMBER_FORMAT = "올바른 휴대폰 번호 형식이 아닙니다.";
+	public static final String SMS_NO_CODE = "인증번호를 입력해주세요.";
+	public static final String SMS_CONTENT_TEMPLATE = "[DONETOP] 휴대폰 인증번호 [%s]를 입력해주세요.";
 
 	public static List<String> getFieldValues() {
 		return Stream.of(Message.class.getDeclaredFields()).
