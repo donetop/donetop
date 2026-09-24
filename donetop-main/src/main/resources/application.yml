@@ -48,6 +48,15 @@ nhn:
   private-key-path: nhn/splPrikeyPKCS8.pem
   private-key-password: changeit
 
+sms:
+  provider: solapi
+  storage: local
+
+solapi:
+  api-key: key
+  api-secret: secret
+  sender-number: "000-000-0000"
+
 logging:
   level:
     com.donetop.main.api.form: DEBUG
