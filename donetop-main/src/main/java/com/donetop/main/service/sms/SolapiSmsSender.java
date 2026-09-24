@@ -44,6 +44,7 @@ public class SolapiSmsSender implements SmsSender {
 		try {
 			this.messageService.send(message);
 		} catch (SolapiMessageNotReceivedException | SolapiEmptyResponseException | SolapiUnknownException e) {
+			log.warn("An error occurred while sending the SMS message: {}", e.getMessage());
 			throw new RuntimeException(e);
 		}
 	}
