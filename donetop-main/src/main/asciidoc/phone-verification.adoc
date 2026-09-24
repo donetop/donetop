@@ -1,0 +1,67 @@
+:doctype:
+:docinfo: shared
+:toc: left
+:toclevels: 3
+
+= Phone Verification API Documentation
+
+== Send Verification Code
+
+HTTP Method : *POST* +
+URI : */api/auth/phone/send*
+
+=== Request body fields description
+include::{snippets}/phone_verification_send/send_withValidPhoneNumber_return200/request-fields.adoc[]
+
+=== Response body fields description
+include::{snippets}/phone_verification_send/send_withValidPhoneNumber_return200/response-fields.adoc[]
+
+=== Examples
+==== send_withInvalidPhoneNumberFormat_return400
+.request
+include::{snippets}/phone_verification_send/send_withInvalidPhoneNumberFormat_return400/http-request.adoc[]
+.response
+include::{snippets}/phone_verification_send/send_withInvalidPhoneNumberFormat_return400/http-response.adoc[]
+
+==== send_exceedDailyLimit_return400
+.request
+include::{snippets}/phone_verification_send/send_exceedDailyLimit_return400/http-request.adoc[]
+.response
+include::{snippets}/phone_verification_send/send_exceedDailyLimit_return400/http-response.adoc[]
+
+==== send_withValidPhoneNumber_return200
+.request
+include::{snippets}/phone_verification_send/send_withValidPhoneNumber_return200/http-request.adoc[]
+.response
+include::{snippets}/phone_verification_send/send_withValidPhoneNumber_return200/http-response.adoc[]
+
+
+== Verify Code
+
+HTTP Method : *POST* +
+URI : */api/auth/phone/verify*
+
+=== Request body fields description
+include::{snippets}/phone_verification_verify/verify_withValidCode_return200/request-fields.adoc[]
+
+=== Response body fields description
+include::{snippets}/phone_verification_verify/verify_withValidCode_return200/response-fields.adoc[]
+
+=== Examples
+==== verify_withInvalidCode_return400
+.request
+include::{snippets}/phone_verification_verify/verify_withInvalidCode_return400/http-request.adoc[]
+.response
+include::{snippets}/phone_verification_verify/verify_withInvalidCode_return400/http-response.adoc[]
+
+==== verify_withNonExistentOrExpiredCode_return400
+.request
+include::{snippets}/phone_verification_verify/verify_withNonExistentOrExpiredCode_return400/http-request.adoc[]
+.response
+include::{snippets}/phone_verification_verify/verify_withNonExistentOrExpiredCode_return400/http-response.adoc[]
+
+==== verify_withValidCode_return200
+.request
+include::{snippets}/phone_verification_verify/verify_withValidCode_return200/http-request.adoc[]
+.response
+include::{snippets}/phone_verification_verify/verify_withValidCode_return200/http-response.adoc[]
