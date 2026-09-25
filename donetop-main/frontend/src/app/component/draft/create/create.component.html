@@ -36,9 +36,30 @@
       </div>
       <div class="row">
         <label for="phone1">휴대폰</label>
-        <input type="tel" class="required" id="phone1" name="phone1" placeholder="번호를 입력해주세요." autocomplete="off" ngModel required #phone1="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="2" [maxlength]="3">&nbsp;-&nbsp;
-        <input type="tel" class="required" id="phone2" name="phone2" placeholder="번호를 입력해주세요." autocomplete="off" ngModel required #phone2="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="4">&nbsp;-&nbsp;
-        <input type="tel" class="required" id="phone3" name="phone3" placeholder="번호를 입력해주세요." autocomplete="off" ngModel required #phone3="ngModel" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="4">
+        <input type="tel" class="required" id="phone1" name="phone1" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone1Val" required (ngModelChange)="onPhoneChange()" (keypress)="onlyNumberKey($event)" [minlength]="2" [maxlength]="3">&nbsp;-&nbsp;
+        <input type="tel" class="required" id="phone2" name="phone2" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone2Val" required (ngModelChange)="onPhoneChange()" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="4">&nbsp;-&nbsp;
+        <input type="tel" class="required" id="phone3" name="phone3" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone3Val" required (ngModelChange)="onPhoneChange()" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="4">
+        <ng-container *ngIf="!isAdmin">
+          <button type="button" class="btn-sms" *ngIf="!isPhoneVerified" (click)="sendSmsCode()"
+            [disabled]="!phone1Val || !phone2Val || !phone3Val">
+            {{ isPhoneVerified ? '인증완료' : (isCodeSent ? '재발송' : '인증요청') }}
+          </button>
+          <span class="verified-badge" *ngIf="isPhoneVerified">
+            <fa-icon [icon]="['fas', 'check-circle']"></fa-icon> 인증됨
+          </span>
+        </ng-container>
+      </div>
+      <div class="row" *ngIf="!isAdmin && isCodeSent && !isPhoneVerified">
+        <label for="verifyCode">인증번호</label>
+        <div class="verify-input-wrapper">
+          <input type="text" id="verifyCode" name="verifyCode" placeholder="인증번호 6자리" autocomplete="off"
+            [(ngModel)]="verificationCode" [maxlength]="6" [disabled]="isTimerExpired">
+          <span class="timer-text" [class.expired]="isTimerExpired">{{ formattedTime }}</span>
+        </div>
+        <button type="button" class="btn-sms confirm" (click)="verifySmsCode()" [disabled]="!verificationCode">
+          확인
+        </button>
+        <span class="expire-msg" *ngIf="isTimerExpired">인증시간이 만료되었습니다. '재발송'을 눌러주세요.</span>
       </div>
       <div class="row">
         <label for="address">주소</label>
