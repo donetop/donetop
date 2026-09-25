@@ -18,6 +18,8 @@ services:
         ports:
             - "6379:6379"
         restart: always
+        networks:
+            - backend
     mariadb:
         image: mariadb:10.6.16
         scale: 1
@@ -41,6 +43,7 @@ services:
         restart: on-failure:1
         depends_on:
             - mariadb
+            - redis
         ports:
             - 8080:8080
         networks:
