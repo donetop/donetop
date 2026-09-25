@@ -12,6 +12,12 @@ secrets:
         file: ./mariadb/db-password.txt
 
 services:
+    redis:
+        image: redis:7-alpine
+        container_name: donetop-redis
+        ports:
+            - "6379:6379"
+        restart: always
     mariadb:
         image: mariadb:10.6.16
         scale: 1

@@ -24,6 +24,15 @@ application:
       root: src/test/resources/storage/dst
       src: src/test/resources/storage/src
 
+sms:
+  provider: solapi
+  storage: local
+
+solapi:
+  api-key: key
+  api-secret: secret
+  sender-number: "000-000-0000"
+
 logging:
   level:
     org.springframework:
