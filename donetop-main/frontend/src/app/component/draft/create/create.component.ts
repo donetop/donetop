@@ -85,10 +85,6 @@ export class CreateComponent implements OnInit {
     this.stopTimer();
   }
 
-  onlyNumberKey(event: any) {
-    return /^([0-9])$/.test(event.key);
-  }
-
   startTimer() {
     this.stopTimer();
     this.timerSeconds = this.DEFAULT_TIMER_SECONDS;
@@ -118,11 +114,18 @@ export class CreateComponent implements OnInit {
     return `${minStr}:${secStr}`;
   }
 
-  onPhoneChange() {
+  onPhoneChange(event: Event, field: 'phone1Val' | 'phone2Val' | 'phone3Val') {
+    const inputElement = event.target as HTMLInputElement;
+    const sanitizedValue = inputElement.value.replace(/[^0-9]/g, '');
+
+    inputElement.value = sanitizedValue;
+    this[field] = sanitizedValue;
+
     if (this.isPhoneVerified || this.isCodeSent) {
       this.isCodeSent = false;
       this.isPhoneVerified = false;
       this.verificationCode = '';
+      this.stopTimer();
     }
   }
 

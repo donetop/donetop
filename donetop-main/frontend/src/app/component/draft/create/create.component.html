@@ -36,9 +36,9 @@
       </div>
       <div class="row">
         <label for="phone1">휴대폰</label>
-        <input type="tel" class="required" id="phone1" name="phone1" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone1Val" required (ngModelChange)="onPhoneChange()" (keypress)="onlyNumberKey($event)" [minlength]="2" [maxlength]="3">&nbsp;-&nbsp;
-        <input type="tel" class="required" id="phone2" name="phone2" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone2Val" required (ngModelChange)="onPhoneChange()" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="4">&nbsp;-&nbsp;
-        <input type="tel" class="required" id="phone3" name="phone3" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone3Val" required (ngModelChange)="onPhoneChange()" (keypress)="onlyNumberKey($event)" [minlength]="3" [maxlength]="4">
+        <input type="tel" class="required" id="phone1" name="phone1" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone1Val" required (input)="onPhoneChange($event, 'phone1Val')" [minlength]="3" [maxlength]="3">&nbsp;-&nbsp;
+        <input type="tel" class="required" id="phone2" name="phone2" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone2Val" required (input)="onPhoneChange($event, 'phone2Val')" [minlength]="4" [maxlength]="4">&nbsp;-&nbsp;
+        <input type="tel" class="required" id="phone3" name="phone3" placeholder="번호를 입력해주세요." autocomplete="off" [(ngModel)]="phone3Val" required (input)="onPhoneChange($event, 'phone3Val')" [minlength]="4" [maxlength]="4">
         <ng-container *ngIf="!isAdmin">
           <button type="button" class="btn-sms" *ngIf="!isPhoneVerified" (click)="sendSmsCode()"
             [disabled]="!phone1Val || !phone2Val || !phone3Val">
