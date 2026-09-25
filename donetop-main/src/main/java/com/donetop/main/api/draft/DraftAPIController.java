@@ -9,6 +9,7 @@ import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.draft.request.*;
 import com.donetop.main.api.user.session.Session;
 import com.donetop.main.service.draft.DraftService;
+import com.donetop.main.service.sms.PhoneVerificationService;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,8 +26,7 @@ import javax.validation.Valid;
 
 import java.util.stream.Collectors;
 
-import static com.donetop.common.api.Message.TEMPORARILY_DISALLOWED;
-import static com.donetop.common.api.Message.NO_SESSION;
+import static com.donetop.common.api.Message.*;
 import static com.donetop.main.api.draft.DraftAPIController.URI.*;
 import static org.springframework.data.domain.Sort.Direction.*;
 
@@ -44,18 +44,24 @@ public class DraftAPIController {
 	}
 
 	private final DraftService draftService;
+	private final PhoneVerificationService phoneVerificationService;
 
 	@PostMapping(value = SINGULAR)
 	public ResponseEntity<Response> create(@Valid final DraftCreateRequest request,
 										   @Session final User user) {
-		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(TEMPORARILY_DISALLOWED));
+		if (!hasAdminRole(user)) {
+			boolean isVerified = phoneVerificationService.checkAndConsumeVerification(request.getPhoneNumber());
+			if (!isVerified) {
+				return ResponseEntity.badRequest().body(BadRequest.of(SMS_NOT_VERIFIED));
+			}
+		}
 		return ResponseEntity.ok(OK.of(draftService.createNewDraft(request)));
 	}
 
 	@PostMapping(value = COPY)
 	public ResponseEntity<Response> copy(@Valid @RequestBody final DraftCopyRequest request,
 										 @Session final User user) {
-		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(TEMPORARILY_DISALLOWED));
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(DISALLOWED_REQUEST));
 		return ResponseEntity.ok(OK.of(draftService.copyDraft(request.getId())));
 	}
 
@@ -76,7 +82,7 @@ public class DraftAPIController {
 	public ResponseEntity<Response> update(@PathVariable("id") final long id,
 										   @Valid final DraftUpdateRequest request,
 										   @Session final User user) {
-		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(TEMPORARILY_DISALLOWED));
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(DISALLOWED_REQUEST));
 		return ResponseEntity.ok(OK.of(draftService.updateDraft(id, request)));
 	}
 
@@ -84,28 +90,28 @@ public class DraftAPIController {
 	public ResponseEntity<Response> updatePartial(@PathVariable("id") final long id,
 												  @Valid @RequestBody final DraftPartialUpdateRequest request,
 												  @Session final User user) {
-		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(TEMPORARILY_DISALLOWED));
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(DISALLOWED_REQUEST));
 		return ResponseEntity.ok(OK.of(draftService.partialUpdateDraft(id, request)));
 	}
 
 	@PutMapping(COMMENT_CHECK + "/{id}")
 	public ResponseEntity<Response> checkComments(@PathVariable("id") final long id,
 										   		  @Session final User user) {
-		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of(NO_SESSION));
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(DISALLOWED_REQUEST));
 		return ResponseEntity.ok(OK.of(draftService.checkDraftComments(id, user)));
 	}
 
 	@DeleteMapping(SINGULAR + "/{id}")
 	public ResponseEntity<Response> delete(@PathVariable("id") final long id,
 										   @Session final User user) {
-		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of(NO_SESSION));
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(DISALLOWED_REQUEST));
 		return ResponseEntity.ok(OK.of(draftService.deleteDraft(id, user)));
 	}
 
 	@PutMapping(PLURAL)
 	public ResponseEntity<Response> delete(@Valid @RequestBody final DraftsDeleteRequest request,
 										   @Session final User user) {
-		if (user == null) return ResponseEntity.badRequest().body(BadRequest.of(NO_SESSION));
+		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(DISALLOWED_REQUEST));
 		return ResponseEntity.ok(OK.of(draftService.deleteDrafts(request, user)));
 	}
 

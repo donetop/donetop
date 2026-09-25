@@ -13,6 +13,7 @@ public class InMemoryVerificationCodeRepository implements VerificationCodeRepos
 
 	private final Map<String, String> code_store = new ConcurrentHashMap<>();
 	private final Map<String, AtomicLong> count_store = new ConcurrentHashMap<>();
+	private final Map<String, Long> verified_flag_store = new ConcurrentHashMap<>();
 
 	@Override
 	public void save(String phoneNumber, String code, long durationInSeconds) {
@@ -33,5 +34,30 @@ public class InMemoryVerificationCodeRepository implements VerificationCodeRepos
 	public Long incrementDailyCount(String phoneNumber) {
 		AtomicLong count = count_store.computeIfAbsent(phoneNumber, k -> new AtomicLong(0));
 		return count.incrementAndGet();
+	}
+
+	@Override
+	public void saveVerifiedFlag(String phoneNumber, long ttlInSeconds) {
+		long expireAt = System.currentTimeMillis() + (ttlInSeconds * 1000);
+		verified_flag_store.put(phoneNumber, expireAt);
+	}
+
+	@Override
+	public boolean existsVerifiedFlag(String phoneNumber) {
+		Long expireAt = verified_flag_store.get(phoneNumber);
+		if (expireAt == null) {
+			return false;
+		}
+		// TTL 만료 여부 확인
+		if (System.currentTimeMillis() > expireAt) {
+			verified_flag_store.remove(phoneNumber);
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void removeVerifiedFlag(String phoneNumber) {
+		verified_flag_store.remove(phoneNumber);
 	}
 }

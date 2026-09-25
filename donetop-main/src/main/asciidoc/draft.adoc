@@ -28,6 +28,18 @@ include::{snippets}/draft_single_create/createSingle_withInvalidPartValues_retur
 .response
 include::{snippets}/draft_single_create/createSingle_withInvalidPartValues_return400/http-response.adoc[]
 
+==== createSingle_nonAdminWithoutVerification_return400
+.request
+include::{snippets}/draft_single_create/createSingle_nonAdminWithoutVerification_return400/http-request.adoc[]
+.response
+include::{snippets}/draft_single_create/createSingle_nonAdminWithoutVerification_return400/http-response.adoc[]
+
+==== createSingle_nonAdminWithVerification_return200
+.request
+include::{snippets}/draft_single_create/createSingle_nonAdminWithVerification_return200/http-request.adoc[]
+.response
+include::{snippets}/draft_single_create/createSingle_nonAdminWithVerification_return200/http-response.adoc[]
+
 ==== createSingle_withValidPartValues_return200
 .request
 include::{snippets}/draft_single_create/createSingle_withValidPartValues_return200/http-request.adoc[]

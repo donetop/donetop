@@ -18,6 +18,7 @@ public class PhoneVerificationService {
 	private final SmsSender smsSender;
 	private final VerificationCodeRepository codeRepository;
 	private static final long VERIFICATION_TTL = 180L;
+	private static final long VERIFIED_FLAG_TTL = 300L;
 	private static final int MAX_DAILY_REQUEST_LIMIT = 5;
 
 	public void sendVerificationCode(String phoneNumber) {
@@ -42,8 +43,23 @@ public class PhoneVerificationService {
 	public boolean verifyCode(String phoneNumber, String inputCode) {
 		String savedCode = codeRepository.get(phoneNumber);
 
-		if (savedCode != null && savedCode.equals(inputCode)) {
+		if (savedCode == null) {
+			throw new SmsVerificationException(SMS_CODE_EXPIRED);
+		}
+
+		if (savedCode.equals(inputCode)) {
 			codeRepository.remove(phoneNumber);
+			codeRepository.saveVerifiedFlag(phoneNumber, VERIFIED_FLAG_TTL);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean checkAndConsumeVerification(String phoneNumber) {
+		if (phoneNumber == null || phoneNumber.trim().isEmpty()) return false;
+
+		if (codeRepository.existsVerifiedFlag(phoneNumber)) {
+			codeRepository.removeVerifiedFlag(phoneNumber);
 			return true;
 		}
 		return false;

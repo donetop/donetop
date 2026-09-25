@@ -5,12 +5,14 @@ import com.donetop.enums.draft.PaymentMethod;
 import com.donetop.enums.user.RoleType;
 import com.donetop.main.api.common.DraftBase;
 import com.donetop.common.service.storage.LocalFileUtil;
+import com.donetop.main.service.sms.repository.VerificationCodeRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.io.File;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.donetop.common.api.Message.FILE_SIZE_EXCEED;
+import static com.donetop.common.api.Message.SMS_NOT_VERIFIED;
 import static com.donetop.common.api.Response.OK;
 import static com.donetop.enums.folder.DomainType.DRAFT;
 import static com.donetop.enums.folder.FolderType.DRAFT_ORDER;
@@ -36,6 +39,9 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 public class DraftSingleCreateTest extends DraftBase {
 
 	private User admin;
+
+	@Autowired
+	private VerificationCodeRepository verificationCodeRepository;
 
 	@BeforeAll
 	void beforeAll() {
@@ -90,6 +96,68 @@ public class DraftSingleCreateTest extends DraftBase {
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
 			.body("reason", hasSize(6));
+	}
+
+	@Test
+	void createSingle_nonAdminWithoutVerification_return400() {
+		// given
+		final RequestSpecification given = RestAssured.given(this.spec);
+		given.filter(
+			document(
+				"draft_single_create/createSingle_nonAdminWithoutVerification_return400"
+			)
+		);
+
+		// when
+		final Response response = given.when()
+			.multiPart("customerName", "jin")
+			.multiPart("companyName", "my company")
+			.multiPart("email", "jin@test.com")
+			.multiPart("categoryName", "배너")
+			.multiPart("phoneNumber", "010-0000-0000")
+			.multiPart("address", "my address")
+			.multiPart("detailAddress", "my detail address")
+			.multiPart("estimateContent", "my estimate content")
+			.multiPart("password", "my password")
+			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
+			.post(SINGULAR);
+
+		// then
+		response.then()
+			.statusCode(HttpStatus.BAD_REQUEST.value())
+			.body("reason", is(SMS_NOT_VERIFIED));
+	}
+
+	@Test
+	void createSingle_nonAdminWithVerification_return200() {
+		// given
+		final String phoneNumber = "010-0000-0000";
+		verificationCodeRepository.saveVerifiedFlag(phoneNumber, 600L);
+
+		final RequestSpecification given = RestAssured.given(this.spec);
+		given.filter(
+			document(
+				"draft_single_create/createSingle_nonAdminWithVerification_return200"
+			)
+		);
+
+		// when
+		final Response response = given.when()
+			.multiPart("customerName", "jin")
+			.multiPart("companyName", "my company")
+			.multiPart("email", "jin@test.com")
+			.multiPart("categoryName", "배너")
+			.multiPart("phoneNumber", phoneNumber)
+			.multiPart("address", "my address")
+			.multiPart("detailAddress", "my detail address")
+			.multiPart("estimateContent", "my estimate content")
+			.multiPart("password", "my password")
+			.multiPart("paymentMethod", PaymentMethod.CASH.toString())
+			.post(SINGULAR);
+
+		// then
+		response.then().statusCode(HttpStatus.OK.value());
+		assertThat(verificationCodeRepository.existsVerifiedFlag(phoneNumber)).isFalse();
 	}
 
 	@Test

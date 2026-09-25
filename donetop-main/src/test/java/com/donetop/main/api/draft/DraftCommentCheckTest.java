@@ -40,7 +40,7 @@ public class DraftCommentCheckTest extends DraftBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", is(NO_SESSION));
+			.body("reason", is(DISALLOWED_REQUEST));
 	}
 
 	@Test

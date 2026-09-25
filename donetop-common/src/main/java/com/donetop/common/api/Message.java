@@ -38,6 +38,8 @@ public class Message {
 	public static final String SMS_SEND_SUCCESS = "인증번호가 발송되었습니다.";
 	public static final String SMS_VERIFY_SUCCESS = "인증이 완료되었습니다.";
 	public static final String SMS_VERIFY_FAIL = "인증번호가 일치하지 않습니다.";
+	public static final String SMS_NOT_VERIFIED = "휴대폰 인증이 완료되지 않았습니다. 인증 완료 후 다시 시도해주세요.";
+	public static final String SMS_CODE_EXPIRED = "인증번호가 만료되었습니다.";
 	public static final String SMS_SEND_FAIL = "SMS 발송에 실패했습니다.";
 	public static final String SMS_SEND_LIMIT_EXCEEDED = "오늘 인증번호 요청 횟수(5회)를 초과했습니다. 내일 다시 시도해주세요.";
 	public static final String SMS_NO_PHONE_NUMBER = "전화번호를 입력해주세요.";

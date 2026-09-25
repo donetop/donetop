@@ -18,6 +18,7 @@ public class RedisVerificationCodeRepository implements VerificationCodeReposito
 	private final StringRedisTemplate redisTemplate;
 	private static final String CODE_PREFIX = "sms:auth:";
 	private static final String COUNT_PREFIX = "sms:count:";
+	private static final String VERIFIED_PREFIX = "sms:verified_phone:";
 
 	@Override
 	public void save(String phoneNumber, String code, long durationInSeconds) {
@@ -51,5 +52,25 @@ public class RedisVerificationCodeRepository implements VerificationCodeReposito
 			redisTemplate.expire(redisKey, duration.getSeconds(), TimeUnit.SECONDS);
 		}
 		return count != null ? count : 0;
+	}
+
+	@Override
+	public void saveVerifiedFlag(String phoneNumber, long ttlInSeconds) {
+		redisTemplate.opsForValue().set(
+			VERIFIED_PREFIX + phoneNumber,
+			"true",
+			ttlInSeconds,
+			TimeUnit.SECONDS
+		);
+	}
+
+	@Override
+	public boolean existsVerifiedFlag(String phoneNumber) {
+		return redisTemplate.hasKey(VERIFIED_PREFIX + phoneNumber);
+	}
+
+	@Override
+	public void removeVerifiedFlag(String phoneNumber) {
+		redisTemplate.delete(VERIFIED_PREFIX + phoneNumber);
 	}
 }

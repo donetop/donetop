@@ -48,17 +48,17 @@ include::{snippets}/phone_verification_verify/verify_withValidCode_return200/req
 include::{snippets}/phone_verification_verify/verify_withValidCode_return200/response-fields.adoc[]
 
 === Examples
+==== verify_withNonExistentCode_return400
+.request
+include::{snippets}/phone_verification_verify/verify_withNonExistentCode_return400/http-request.adoc[]
+.response
+include::{snippets}/phone_verification_verify/verify_withNonExistentCode_return400/http-response.adoc[]
+
 ==== verify_withInvalidCode_return400
 .request
 include::{snippets}/phone_verification_verify/verify_withInvalidCode_return400/http-request.adoc[]
 .response
 include::{snippets}/phone_verification_verify/verify_withInvalidCode_return400/http-response.adoc[]
-
-==== verify_withNonExistentOrExpiredCode_return400
-.request
-include::{snippets}/phone_verification_verify/verify_withNonExistentOrExpiredCode_return400/http-request.adoc[]
-.response
-include::{snippets}/phone_verification_verify/verify_withNonExistentOrExpiredCode_return400/http-response.adoc[]
 
 ==== verify_withValidCode_return200
 .request

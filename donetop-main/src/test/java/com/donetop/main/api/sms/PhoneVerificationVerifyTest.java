@@ -21,19 +21,16 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 public class PhoneVerificationVerifyTest extends PhoneVerificationBase {
 
 	@Test
-	void verify_withInvalidCode_return400() {
+	void verify_withNonExistentCode_return400() {
 		// given
-		final String phoneNumber = "010-1234-5678";
-		verificationCodeRepository.save(phoneNumber, "123456", 180L);
-
 		final VerificationCodeVerifyRequest request = new VerificationCodeVerifyRequest();
-		request.setPhoneNumber(phoneNumber);
-		request.setCode("000000");
+		request.setPhoneNumber("010-0000-0000");
+		request.setCode("123456");
 
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"phone_verification_verify/verify_withInvalidCode_return400"
+				"phone_verification_verify/verify_withNonExistentCode_return400"
 			)
 		);
 
@@ -47,20 +44,22 @@ public class PhoneVerificationVerifyTest extends PhoneVerificationBase {
 		// then
 		response.then()
 			.statusCode(HttpStatus.BAD_REQUEST.value())
-			.body("reason", containsString(Message.SMS_VERIFY_FAIL));
+			.body("reason", containsString(Message.SMS_CODE_EXPIRED));
 	}
 
 	@Test
-	void verify_withNonExistentOrExpiredCode_return400() {
+	void verify_withInvalidCode_return400() {
 		// given
+		final String phoneNumber = "010-1234-5678";
+		verificationCodeRepository.save(phoneNumber, "111111", 180L);
 		final VerificationCodeVerifyRequest request = new VerificationCodeVerifyRequest();
-		request.setPhoneNumber("010-0000-0000");
+		request.setPhoneNumber(phoneNumber);
 		request.setCode("123456");
 
 		final RequestSpecification given = RestAssured.given(this.spec);
 		given.filter(
 			document(
-				"phone_verification_verify/verify_withNonExistentOrExpiredCode_return400"
+				"phone_verification_verify/verify_withInvalidCode_return400"
 			)
 		);
 

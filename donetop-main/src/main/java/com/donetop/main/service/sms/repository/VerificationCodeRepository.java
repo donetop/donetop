@@ -5,4 +5,7 @@ public interface VerificationCodeRepository {
 	String get(String phoneNumber);
 	void remove(String phoneNumber);
 	Long incrementDailyCount(String key);
+	void saveVerifiedFlag(String phoneNumber, long ttlInSeconds);
+	boolean existsVerifiedFlag(String phoneNumber);
+	void removeVerifiedFlag(String phoneNumber);
 }
