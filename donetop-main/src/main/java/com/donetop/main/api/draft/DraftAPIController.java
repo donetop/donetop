@@ -88,9 +88,7 @@ public class DraftAPIController {
 
 	@PutMapping(PARTIAL + "/{id}")
 	public ResponseEntity<Response> updatePartial(@PathVariable("id") final long id,
-												  @Valid @RequestBody final DraftPartialUpdateRequest request,
-												  @Session final User user) {
-		if (!hasAdminRole(user)) return ResponseEntity.badRequest().body(BadRequest.of(DISALLOWED_REQUEST));
+												  @Valid @RequestBody final DraftPartialUpdateRequest request) {
 		return ResponseEntity.ok(OK.of(draftService.partialUpdateDraft(id, request)));
 	}
 
